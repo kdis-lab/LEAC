@@ -14,1090 +14,586 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-	
-/*********************************************************************/
-/*                                                                   */
-/*             Optimized BLAS libraries                              */
-/*                     By Kazushige Goto <kgoto@tacc.utexas.edu>     */
-/*                                                                   */
-/* Copyright 2009, 2010 The University of Texas at Austin.           */
-/* All rights reserved.                                              */
-/*                                                                   */
-/* Redistribution and use in source and binary forms, with or        */
-/* without modification, are permitted provided that the following   */
-/* conditions are met:                                               */
-/*                                                                   */
-/*   1. Redistributions of source code must retain the above         */
-/*      copyright notice, this list of conditions and the following  */
-/*      disclaimer.                                                  */
-/*                                                                   */
-/*   2. Redistributions in binary form must reproduce the above      */
-/*      copyright notice, this list of conditions and the following  */
-/*      disclaimer in the documentation and/or other materials       */
-/*      provided with the distribution.                              */
-/*                                                                   */
-/*    THIS  SOFTWARE IS PROVIDED  BY THE  UNIVERSITY OF  TEXAS AT    */
-/*    AUSTIN  ``AS IS''  AND ANY  EXPRESS OR  IMPLIED WARRANTIES,    */
-/*    INCLUDING, BUT  NOT LIMITED  TO, THE IMPLIED  WARRANTIES OF    */
-/*    MERCHANTABILITY  AND FITNESS FOR  A PARTICULAR  PURPOSE ARE    */
-/*    DISCLAIMED.  IN  NO EVENT SHALL THE UNIVERSITY  OF TEXAS AT    */
-/*    AUSTIN OR CONTRIBUTORS BE  LIABLE FOR ANY DIRECT, INDIRECT,    */
-/*    INCIDENTAL,  SPECIAL, EXEMPLARY,  OR  CONSEQUENTIAL DAMAGES    */
-/*    (INCLUDING, BUT  NOT LIMITED TO,  PROCUREMENT OF SUBSTITUTE    */
-/*    GOODS  OR  SERVICES; LOSS  OF  USE,  DATA,  OR PROFITS;  OR    */
-/*    BUSINESS INTERRUPTION) HOWEVER CAUSED  AND ON ANY THEORY OF    */
-/*    LIABILITY, WHETHER  IN CONTRACT, STRICT  LIABILITY, OR TORT    */
-/*    (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING IN ANY WAY OUT    */
-/*    OF  THE  USE OF  THIS  SOFTWARE,  EVEN  IF ADVISED  OF  THE    */
-/*    POSSIBILITY OF SUCH DAMAGE.                                    */
-/*                                                                   */
-/* The views and conclusions contained in the software and           */
-/* documentation are those of the authors and should not be          */
-/* interpreted as representing official policies, either expressed   */
-/* or implied, of The University of Texas at Austin.                 */
-/*********************************************************************/
-
-#define ASSEMBLER
-#include "common_arc.h"
-
-#ifndef WINDOWS_ABI
-#define M	ARG1
-#define X	ARG4
-#define INCX	ARG5
-#define Y	ARG6
-#define INCY	ARG2
-#else
-#define M	ARG1
-#define X	ARG2
-#define INCX	ARG3
-#define Y	ARG4
-#define INCY	%r10
-#endif
-
-#define	YY	%r11
-#define ALPHA	%xmm15
-	
-#define SIZE    8
-	
-#include "l1param.h"
-
-	.file	"daysxpy_kh.S"
+	.file	"daysxpy_kh.c"
+	.section	.text.unlikely,"ax",@progbits
+.LCOLDB0:
 	.text
+.LHOTB0:
 	.p2align 4,,15
-.globl daysxpy_kh
+	.globl	daysxpy_kh
 	.type	daysxpy_kh, @function
 daysxpy_kh:
-.LFB2:	
-
-
-#ifndef WINDOWS_ABI
-#ifndef XDOUBLE
-	movq	 8(%rsp), INCY
-#else
-	movq	24(%rsp), INCY
-#endif
-	movaps	%xmm0,  ALPHA
-#else
-	movaps	%xmm3,  ALPHA
-
-	movq	40(%rsp), X
-	movq	48(%rsp), INCX
-	movq	56(%rsp), Y
-	movq	64(%rsp), INCY
-#endif
-
-	SAVEREGISTERS
-	
-/*CHANGE SIGNED*/
-	movsd	.LC0(%rip), %xmm1
-	xorpd	%xmm1, ALPHA
-	unpcklpd ALPHA, ALPHA
-
-	leaq	(, INCX, SIZE), INCX
-	leaq	(, INCY, SIZE), INCY
-
-	testq	M, M
-	jle	.L47
-	
-	cmpq	$SIZE, INCX
-	jne	.L40
-	cmpq	$SIZE, INCY
-	jne	.L40
-
-	testq	$SIZE, Y
-	je	.L10
-
-	movsd	(X), %xmm0
-	movsd	(Y), %xmm1
-	subsd   %xmm1, %xmm0
-	mulsd	ALPHA, %xmm0
-	addsd	%xmm1, %xmm0
-	movsd	%xmm0, (Y)
-	addq	$1 * SIZE, X
-	addq	$1 * SIZE, Y
-	decq	M
-	jle	.L19
-	ALIGN_4
-
-.L10:
-	subq	$-16 * SIZE, X
-	subq	$-16 * SIZE, Y
-
-	testq	$SIZE, X
-	jne	.L20
-
-	movq	M,  %rax
-	sarq	$4, %rax
-	jle	.L13
-
-	movaps	-16 * SIZE(X), %xmm0
-	movaps	-14 * SIZE(X), %xmm1
-	movaps	-12 * SIZE(X), %xmm2
-	movaps	-10 * SIZE(X), %xmm3
-
-	decq	%rax
-	jle .L12
-	ALIGN_3
-
-.L11:
-	movaps	 -8 * SIZE(X), %xmm4
-	movaps	 -6 * SIZE(X), %xmm5
-
-#ifdef PREFETCHW
-	PREFETCHW (PREFETCHSIZE +  0) - PREOFFSET(Y)
-#endif
-
-	movaps	-16 * SIZE(Y), %xmm8
-	subpd   %xmm8, %xmm0
-	movaps	-14 * SIZE(Y), %xmm9
-	subpd   %xmm9, %xmm1
-	
-	mulpd	ALPHA, %xmm0
-	mulpd	ALPHA, %xmm1
-	
-	addpd   %xmm8, %xmm0
-	addpd	%xmm9, %xmm1
-	
-	movaps	%xmm0, -16 * SIZE(Y)
-	movaps	%xmm1, -14 * SIZE(Y)
-
-	movaps	 -4 * SIZE(X), %xmm6
-	movaps	 -2 * SIZE(X), %xmm7
-
-#ifdef PREFETCH
-	PREFETCH (PREFETCHSIZE +  0) - PREOFFSET(X)
-#endif
-
-	movaps	-12 * SIZE(Y), %xmm10
-	subpd   %xmm10, %xmm2
-	movaps	-10 * SIZE(Y), %xmm11
-	subpd   %xmm11, %xmm3
-	
-	mulpd	ALPHA, %xmm2
-	mulpd	ALPHA, %xmm3
-
-	addpd   %xmm10, %xmm2
-	addpd	%xmm11, %xmm3
-	
-	movaps	%xmm2, -12 * SIZE(Y)
-	movaps	%xmm3, -10 * SIZE(Y)
-
-	movaps	 0 * SIZE(X), %xmm0
-	movaps	 2 * SIZE(X), %xmm1
-
-#if defined(PREFETCHW) && !defined(FETCH128)
-	PREFETCHW (PREFETCHSIZE +  64) - PREOFFSET(Y)
-#endif
-
-	movaps	 -8 * SIZE(Y), %xmm8
-	subpd   %xmm8, %xmm4
-	movaps	 -6 * SIZE(Y), %xmm9
-	subpd   %xmm9, %xmm5
-
-	mulpd	ALPHA, %xmm4
-	mulpd	ALPHA, %xmm5
-	
-	addpd   %xmm8, %xmm4
-	addpd	%xmm9, %xmm5
-
-	movaps	%xmm4,  -8 * SIZE(Y)
-	movaps	%xmm5,  -6 * SIZE(Y)
-	
-	movaps	 4 * SIZE(X), %xmm2
-	movaps	 6 * SIZE(X), %xmm3
-
-#if defined(PREFETCH) && !defined(FETCH128)
-	PREFETCH (PREFETCHSIZE +  64) - PREOFFSET(X)
-#endif
-
-	movaps	 -4 * SIZE(Y), %xmm10
-	subpd   %xmm10, %xmm6
-	movaps	 -2 * SIZE(Y), %xmm11
-	subpd   %xmm11, %xmm7
-
-	mulpd	ALPHA, %xmm6
-	mulpd	ALPHA, %xmm7
-	
-	addpd   %xmm10, %xmm6
-	addpd	%xmm11, %xmm7
-	movaps	%xmm6,  -4 * SIZE(Y)
-	movaps	%xmm7,  -2 * SIZE(Y)
-
-	subq	$-16 * SIZE, Y
-	subq	$-16 * SIZE, X
-	decq	%rax
-	jg	.L11
-	ALIGN_3
-
-.L12:
-	movaps	 -8 * SIZE(X), %xmm4
-	movaps	 -6 * SIZE(X), %xmm5
-
-	movaps	-16 * SIZE(Y), %xmm8
-	subpd   %xmm8, %xmm0
-	movaps	-14 * SIZE(Y), %xmm9
-	subpd   %xmm9, %xmm1
-	movaps	-12 * SIZE(Y), %xmm10
-	subpd   %xmm10, %xmm2
-	movaps	-10 * SIZE(Y), %xmm11
-	subpd   %xmm11, %xmm3
-	
-	mulpd	ALPHA, %xmm0
-	mulpd	ALPHA, %xmm1
-	mulpd	ALPHA, %xmm2
-	mulpd	ALPHA, %xmm3
-	
-	addpd   %xmm8, %xmm0
-	addpd	%xmm9, %xmm1
-	addpd   %xmm10, %xmm2
-	addpd	%xmm11, %xmm3
-	
-	movaps	%xmm0, -16 * SIZE(Y)
-	movaps	%xmm1, -14 * SIZE(Y)
-	movaps	%xmm2, -12 * SIZE(Y)
-	movaps	%xmm3, -10 * SIZE(Y)
-
-	movaps	 -4 * SIZE(X), %xmm6
-	movaps	 -2 * SIZE(X), %xmm7
-
-	movaps	 -8 * SIZE(Y), %xmm8
-	subpd   %xmm8, %xmm4
-	movaps	 -6 * SIZE(Y), %xmm9
-	subpd   %xmm9, %xmm5
-	movaps	 -4 * SIZE(Y), %xmm10
-	subpd   %xmm10, %xmm6
-	movaps	 -2 * SIZE(Y), %xmm11
-	subpd   %xmm11, %xmm7
-	
-	mulpd	ALPHA, %xmm4
-	mulpd	ALPHA, %xmm5
-	mulpd	ALPHA, %xmm6
-	mulpd	ALPHA, %xmm7
-
-	addpd   %xmm8, %xmm4
-	addpd	%xmm9, %xmm5
-	addpd   %xmm10, %xmm6
-	addpd	%xmm11, %xmm7
-	
-	movaps	%xmm4,  -8 * SIZE(Y)
-	movaps	%xmm5,  -6 * SIZE(Y)
-	movaps	%xmm6,  -4 * SIZE(Y)
-	movaps	%xmm7,  -2 * SIZE(Y)
-
-	subq	$-16 * SIZE, Y
-	subq	$-16 * SIZE, X
-	ALIGN_3
-
-.L13:
-	movq	M,  %rax
-	andq	$8, %rax
-	jle	.L14
-	ALIGN_3
-
-	movaps	-16 * SIZE(X), %xmm0
-	movaps	-14 * SIZE(X), %xmm1
-	movaps	-12 * SIZE(X), %xmm2
-	movaps	-10 * SIZE(X), %xmm3
-
-	movaps	-16 * SIZE(Y), %xmm4
-	movaps	-14 * SIZE(Y), %xmm5
-	movaps	-12 * SIZE(Y), %xmm6
-	movaps	-10 * SIZE(Y), %xmm7
-
-	subpd   %xmm4, %xmm0
-	subpd   %xmm5, %xmm1
-	subpd   %xmm6, %xmm2
-	subpd   %xmm7, %xmm3
-	
-	mulpd	ALPHA, %xmm0
-	mulpd	ALPHA, %xmm1
-	mulpd	ALPHA, %xmm2
-	mulpd	ALPHA, %xmm3
-
-	addpd   %xmm4, %xmm0
-	addpd   %xmm5, %xmm1
-	addpd   %xmm6, %xmm2
-	addpd   %xmm7, %xmm3
-	
-	movaps	%xmm0, -16 * SIZE(Y)
-	movaps	%xmm1, -14 * SIZE(Y)
-	movaps	%xmm2, -12 * SIZE(Y)
-	movaps	%xmm3, -10 * SIZE(Y)
-
-	addq	$8 * SIZE, X
-	addq	$8 * SIZE, Y
-	ALIGN_3
-
+.LFB0:
+	.cfi_startproc
+	cmpq	$1, %r8
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	pushq	%rbx
+	.cfi_def_cfa_offset 24
+	.cfi_offset 3, -24
+	jne	.L14
+	cmpq	$1, 24(%rsp)
+	jne	.L14
+	testq	%rdi, %rdi
+	jle	.L18
+	leaq	16(%r9), %rax
+	leaq	16(%rcx), %rbx
+	cmpq	%rax, %rcx
+	setnb	%dl
+	cmpq	%rbx, %r9
+	setnb	%sil
+	orb	%sil, %dl
+	je	.L12
+	cmpq	$6, %rdi
+	jbe	.L12
+	movq	%r9, %rdx
+	salq	$60, %rdx
+	shrq	$63, %rdx
+	cmpq	%rdi, %rdx
+	cmova	%rdi, %rdx
+	xorl	%r11d, %r11d
+	testq	%rdx, %rdx
+	je	.L7
+	movsd	(%r9), %xmm2
+	movb	$1, %r11b
+	movapd	%xmm2, %xmm1
+	subsd	(%rcx), %xmm1
+	mulsd	%xmm0, %xmm1
+	addsd	%xmm2, %xmm1
+	movsd	%xmm1, (%r9)
+.L7:
+	subq	%rdx, %rdi
+	salq	$3, %rdx
+	movl	$1, %r8d
+	leaq	(%r9,%rdx), %rsi
+	addq	%rcx, %rdx
+	leaq	-2(%rdi), %r10
+	movupd	(%rdx), %xmm5
+	movl	$16, %eax
+	movddup	%xmm0, %xmm8
+	shrq	%r10
+	movapd	(%rsi), %xmm3
+	leaq	1(%r10), %rbx
+	andl	$7, %r10d
+	movapd	%xmm3, %xmm4
+	cmpq	%rbx, %r8
+	leaq	(%rbx,%rbx), %rbp
+	subpd	%xmm5, %xmm4
+	movapd	%xmm4, %xmm6
+	mulpd	%xmm8, %xmm6
+	addpd	%xmm3, %xmm6
+	movaps	%xmm6, (%rsi)
+	jnb	.L137
+	testq	%r10, %r10
+	je	.L8
+	cmpq	$1, %r10
+	je	.L106
+	cmpq	$2, %r10
+	je	.L107
+	cmpq	$3, %r10
+	je	.L108
+	cmpq	$4, %r10
+	je	.L109
+	cmpq	$5, %r10
+	je	.L110
+	cmpq	$6, %r10
+	je	.L111
+	movapd	16(%rsi), %xmm7
+	movl	$2, %r8d
+	movl	$32, %eax
+	movupd	16(%rdx), %xmm9
+	movapd	%xmm7, %xmm10
+	subpd	%xmm9, %xmm10
+	movapd	%xmm10, %xmm11
+	mulpd	%xmm8, %xmm11
+	addpd	%xmm7, %xmm11
+	movaps	%xmm11, 16(%rsi)
+.L111:
+	addq	$1, %r8
+	movapd	(%rsi,%rax), %xmm12
+	movupd	(%rdx,%rax), %xmm13
+	movapd	%xmm12, %xmm14
+	subpd	%xmm13, %xmm14
+	movapd	%xmm14, %xmm15
+	mulpd	%xmm8, %xmm15
+	addpd	%xmm12, %xmm15
+	movaps	%xmm15, (%rsi,%rax)
+	addq	$16, %rax
+.L110:
+	addq	$1, %r8
+	movapd	(%rsi,%rax), %xmm1
+	movupd	(%rdx,%rax), %xmm2
+	movapd	%xmm1, %xmm3
+	subpd	%xmm2, %xmm3
+	movapd	%xmm3, %xmm5
+	mulpd	%xmm8, %xmm5
+	addpd	%xmm1, %xmm5
+	movaps	%xmm5, (%rsi,%rax)
+	addq	$16, %rax
+.L109:
+	addq	$1, %r8
+	movapd	(%rsi,%rax), %xmm4
+	movupd	(%rdx,%rax), %xmm6
+	movapd	%xmm4, %xmm7
+	subpd	%xmm6, %xmm7
+	movapd	%xmm7, %xmm9
+	mulpd	%xmm8, %xmm9
+	addpd	%xmm4, %xmm9
+	movaps	%xmm9, (%rsi,%rax)
+	addq	$16, %rax
+.L108:
+	addq	$1, %r8
+	movapd	(%rsi,%rax), %xmm10
+	movupd	(%rdx,%rax), %xmm11
+	movapd	%xmm10, %xmm12
+	subpd	%xmm11, %xmm12
+	movapd	%xmm12, %xmm13
+	mulpd	%xmm8, %xmm13
+	addpd	%xmm10, %xmm13
+	movaps	%xmm13, (%rsi,%rax)
+	addq	$16, %rax
+.L107:
+	addq	$1, %r8
+	movapd	(%rsi,%rax), %xmm14
+	movupd	(%rdx,%rax), %xmm15
+	movapd	%xmm14, %xmm1
+	subpd	%xmm15, %xmm1
+	movapd	%xmm1, %xmm2
+	mulpd	%xmm8, %xmm2
+	addpd	%xmm14, %xmm2
+	movaps	%xmm2, (%rsi,%rax)
+	addq	$16, %rax
+.L106:
+	addq	$1, %r8
+	movapd	(%rsi,%rax), %xmm3
+	movupd	(%rdx,%rax), %xmm5
+	movapd	%xmm3, %xmm4
+	subpd	%xmm5, %xmm4
+	movapd	%xmm4, %xmm6
+	mulpd	%xmm8, %xmm6
+	addpd	%xmm3, %xmm6
+	movaps	%xmm6, (%rsi,%rax)
+	addq	$16, %rax
+	cmpq	%rbx, %r8
+	jnb	.L137
+.L8:
+	addq	$8, %r8
+	movapd	(%rsi,%rax), %xmm7
+	movupd	(%rdx,%rax), %xmm9
+	movapd	%xmm7, %xmm10
+	movapd	16(%rsi,%rax), %xmm12
+	subpd	%xmm9, %xmm10
+	movapd	%xmm12, %xmm14
+	movapd	32(%rsi,%rax), %xmm1
+	movapd	%xmm1, %xmm3
+	movapd	48(%rsi,%rax), %xmm4
+	movapd	%xmm10, %xmm11
+	movapd	64(%rsi,%rax), %xmm10
+	mulpd	%xmm8, %xmm11
+	addpd	%xmm7, %xmm11
+	movapd	%xmm4, %xmm7
+	movaps	%xmm11, (%rsi,%rax)
+	movupd	16(%rdx,%rax), %xmm13
+	subpd	%xmm13, %xmm14
+	movapd	%xmm14, %xmm15
+	movapd	80(%rsi,%rax), %xmm14
+	mulpd	%xmm8, %xmm15
+	addpd	%xmm12, %xmm15
+	movapd	%xmm10, %xmm12
+	movaps	%xmm15, 16(%rsi,%rax)
+	movupd	32(%rdx,%rax), %xmm2
+	subpd	%xmm2, %xmm3
+	movapd	%xmm3, %xmm5
+	movapd	96(%rsi,%rax), %xmm3
+	mulpd	%xmm8, %xmm5
+	addpd	%xmm1, %xmm5
+	movapd	%xmm14, %xmm1
+	movaps	%xmm5, 32(%rsi,%rax)
+	movupd	48(%rdx,%rax), %xmm6
+	subpd	%xmm6, %xmm7
+	movapd	%xmm7, %xmm9
+	movapd	112(%rsi,%rax), %xmm7
+	mulpd	%xmm8, %xmm9
+	addpd	%xmm4, %xmm9
+	movapd	%xmm3, %xmm4
+	movaps	%xmm9, 48(%rsi,%rax)
+	movupd	64(%rdx,%rax), %xmm11
+	subpd	%xmm11, %xmm12
+	movapd	%xmm12, %xmm13
+	mulpd	%xmm8, %xmm13
+	addpd	%xmm10, %xmm13
+	movapd	%xmm7, %xmm10
+	movaps	%xmm13, 64(%rsi,%rax)
+	movupd	80(%rdx,%rax), %xmm15
+	subpd	%xmm15, %xmm1
+	movapd	%xmm1, %xmm2
+	mulpd	%xmm8, %xmm2
+	addpd	%xmm14, %xmm2
+	movaps	%xmm2, 80(%rsi,%rax)
+	movupd	96(%rdx,%rax), %xmm5
+	subpd	%xmm5, %xmm4
+	movapd	%xmm4, %xmm6
+	mulpd	%xmm8, %xmm6
+	addpd	%xmm3, %xmm6
+	movaps	%xmm6, 96(%rsi,%rax)
+	movupd	112(%rdx,%rax), %xmm9
+	subpd	%xmm9, %xmm10
+	movapd	%xmm10, %xmm11
+	mulpd	%xmm8, %xmm11
+	addpd	%xmm7, %xmm11
+	movaps	%xmm11, 112(%rsi,%rax)
+	subq	$-128, %rax
+	cmpq	%rbx, %r8
+	jb	.L8
+	.p2align 4,,10
+	.p2align 3
+.L137:
+	addq	%rbp, %r11
+	cmpq	%rbp, %rdi
+	je	.L18
+	leaq	(%r9,%r11,8), %rdi
+	movsd	(%rdi), %xmm8
+	movapd	%xmm8, %xmm12
+	subsd	(%rcx,%r11,8), %xmm12
+	mulsd	%xmm12, %xmm0
+	addsd	%xmm8, %xmm0
+	movsd	%xmm0, (%rdi)
+.L18:
+	movl	$1, %eax
+	popq	%rbx
+	.cfi_remember_state
+	.cfi_def_cfa_offset 16
+	popq	%rbp
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
 .L14:
-	movq	M,  %rax
-	andq	$4, %rax
-	jle	.L15
-	ALIGN_3
-
-	movaps	-16 * SIZE(X), %xmm0
-	movaps	-14 * SIZE(X), %xmm1
-
-	movaps	-16 * SIZE(Y), %xmm2
-	movaps	-14 * SIZE(Y), %xmm3
-
-	subpd   %xmm2, %xmm0
-	subpd   %xmm3, %xmm1
-	
-	mulpd	ALPHA, %xmm0
-	mulpd	ALPHA, %xmm1
-
-	addpd	%xmm2, %xmm0
-	addpd   %xmm3, %xmm1
-
-	movaps	%xmm0, -16 * SIZE(Y)
-	movaps	%xmm1, -14 * SIZE(Y)
-
-	addq	$4 * SIZE, X
-	addq	$4 * SIZE, Y
-	ALIGN_3
-
-.L15:
-	movq	M,  %rax
-	andq	$2, %rax
-	jle	.L16
-	ALIGN_3
-
-	movaps	-16 * SIZE(X), %xmm0
-	movaps	-16 * SIZE(Y), %xmm1
-	
-	subpd	%xmm1, %xmm0
-	mulpd	ALPHA, %xmm0
-	addpd	%xmm1, %xmm0
-	movaps	%xmm0, -16 * SIZE(Y)
-
-	addq	$2 * SIZE, X
-	addq	$2 * SIZE, Y
-	ALIGN_3
-
-.L16:
-	movq	M,  %rax
-	andq	$1, %rax
-	jle	.L19
-	ALIGN_3
-
-	movsd	-16 * SIZE(X), %xmm0
-	movsd	-16 * SIZE(Y), %xmm1
-	
-	subsd	%xmm1, %xmm0
-	mulsd	ALPHA, %xmm0
-	addsd	%xmm1, %xmm0
-	
-	movsd	%xmm0, 	-16 * SIZE(Y)
-	ALIGN_3
-
-.L19:
-	xorq	%rax,%rax
-
-	RESTOREREGISTERS
-
-	ret
-	ALIGN_3
-
-.L20:
-#ifdef ALIGNED_ACCESS
-
-	movhps	-16 * SIZE(X), %xmm0
-
-	movq	M,  %rax
-	sarq	$4, %rax
-	jle	.L23
-
-	movaps	-15 * SIZE(X), %xmm1
-	movaps	-13 * SIZE(X), %xmm2
-	movaps	-11 * SIZE(X), %xmm3
-
-	decq	%rax
-	jle .L22
-	ALIGN_4
-
-.L21:
-	movaps	 -9 * SIZE(X), %xmm4
-	movaps	 -7 * SIZE(X), %xmm5
-
-#ifdef PREFETCHW
-	PREFETCHW (PREFETCHSIZE +  0) - PREOFFSET(Y)
-#endif
-
-	SHUFPD_1 %xmm1, %xmm0
-	movaps	-16 * SIZE(Y), %xmm8
-	subpd   %xmm8, %xmm0
-	mulpd	ALPHA, %xmm0
-	addpd   %xmm8, %xmm0
-	movaps	%xmm0, -16 * SIZE(Y)
-
-	SHUFPD_1 %xmm2, %xmm1
-	movaps	-14 * SIZE(Y), %xmm9
-	subpd   %xmm9, %xmm1
-	mulpd	ALPHA, %xmm1
-	addpd   %xmm9, %xmm1
-	movaps	%xmm1, -14 * SIZE(Y)
-
-	movaps	 -5 * SIZE(X), %xmm6
-	movaps	 -3 * SIZE(X), %xmm7
-
-#ifdef PREFETCH
-	PREFETCH (PREFETCHSIZE +  0) - PREOFFSET(X)
-#endif
-
-	SHUFPD_1 %xmm3, %xmm2
-	movaps	-12 * SIZE(Y), %xmm10
-	subpd   %xmm10, %xmm2
-	mulpd	ALPHA, %xmm2
-	addpd   %xmm10, %xmm2
-	movaps	%xmm2, -12 * SIZE(Y)
-
-	SHUFPD_1 %xmm4, %xmm3
-	movaps	-10 * SIZE(Y), %xmm11
-	subpd   %xmm11, %xmm3
-	mulpd	ALPHA, %xmm3
-	addpd   %xmm11, %xmm3
-	movaps	%xmm3, -10 * SIZE(Y)
-
-	movaps	-1 * SIZE(X), %xmm0
-	movaps	 1 * SIZE(X), %xmm1
-
-#if defined(PREFETCHW) && !defined(FETCH128)
-	PREFETCHW (PREFETCHSIZE +  64) - PREOFFSET(Y)
-#endif
-
-	SHUFPD_1 %xmm5, %xmm4
-	movaps	 -8 * SIZE(Y), %xmm8
-	subpd   %xmm8, %xmm4
-	mulpd	ALPHA, %xmm4
-	addpd   %xmm8, %xmm4
-	movaps	%xmm4,  -8 * SIZE(Y)
-
-	SHUFPD_1 %xmm6, %xmm5
-	movaps	 -6 * SIZE(Y), %xmm9
-	subpd   %xmm9, %xmm5
-	mulpd	ALPHA, %xmm5
-	addpd   %xmm9, %xmm5
-	movaps	%xmm5, -6 * SIZE(Y)
-
-	movaps	 3 * SIZE(X), %xmm2
-	movaps	 5 * SIZE(X), %xmm3
-
-#if defined(PREFETCH) && !defined(FETCH128)
-	PREFETCH (PREFETCHSIZE +  64) - PREOFFSET(X)
-#endif
-
-	SHUFPD_1 %xmm7, %xmm6
-	movaps	 -4 * SIZE(Y), %xmm10
-	subpd   %xmm10, %xmm6
-	mulpd	ALPHA, %xmm6
-	addpd   %xmm10, %xmm6
-	movaps	%xmm6, -4 * SIZE(Y)
-
-	SHUFPD_1 %xmm0, %xmm7
-	movaps	-2 * SIZE(Y), %xmm11
-	subpd   %xmm11, %xmm7
-	mulpd	ALPHA, %xmm7
-	addpd   %xmm11, %xmm7
-	movaps	%xmm7, -2 * SIZE(Y)
-
-	subq	$-16 * SIZE, X
-	subq	$-16 * SIZE, Y
-	decq	%rax
-	jg	.L21
-	ALIGN_3
-
-.L22:
-	movaps	 -9 * SIZE(X), %xmm4
-	movaps	 -7 * SIZE(X), %xmm5
-
-	SHUFPD_1 %xmm1, %xmm0
-	movaps	-16 * SIZE(Y), %xmm8
-	subpd   %xmm8, %xmm0
-	mulpd	ALPHA, %xmm0
-	addpd   %xmm8, %xmm0
-	movaps	%xmm0, -16 * SIZE(Y)
-	
-	SHUFPD_1 %xmm2, %xmm1
-	movaps	-14 * SIZE(Y), %xmm9
-	subpd   %xmm9, %xmm1
-	mulpd	ALPHA, %xmm1
-	addpd   %xmm9, %xmm1
-	movaps	%xmm1, -14 * SIZE(Y)
-
-	movaps	 -5 * SIZE(X), %xmm6
-	movaps	 -3 * SIZE(X), %xmm7
-	movaps	 -1 * SIZE(X), %xmm0
-
-	SHUFPD_1 %xmm3, %xmm2
-	movaps	-12 * SIZE(Y), %xmm10
-	subpd   %xmm10, %xmm2
-	mulpd	ALPHA, %xmm2
-	addpd   %xmm10, %xmm2
-	movaps	%xmm2, -12 * SIZE(Y)
-
-	SHUFPD_1 %xmm4, %xmm3
-	movaps	-10 * SIZE(Y), %xmm11
-	subpd   %xmm11, %xmm3
-	mulpd	ALPHA, %xmm3
-	addpd   %xmm11, %xmm3
-	movaps	%xmm3, -10 * SIZE(Y)
-
-	SHUFPD_1 %xmm5, %xmm4
-	movaps	 -8 * SIZE(Y), %xmm8
-	subpd   %xmm8, %xmm4
-	mulpd	ALPHA, %xmm4
-	addpd   %xmm8, %xmm4
-	movaps	%xmm4,  -8 * SIZE(Y)
-
-	SHUFPD_1 %xmm6, %xmm5
-	movaps	 -6 * SIZE(Y), %xmm9
-	subpd   %xmm9, %xmm5
-	mulpd	ALPHA, %xmm5
-	addpd   %xmm9, %xmm5
-	movaps	%xmm5, -6 * SIZE(Y)
-
-	SHUFPD_1 %xmm7, %xmm6
-	movaps	 -4 * SIZE(Y), %xmm10
-	subpd   %xmm10, %xmm6
-	mulpd	ALPHA, %xmm6
-	addpd   %xmm10, %xmm6
-	movaps	%xmm6, -4 * SIZE(Y)
-	
-	SHUFPD_1 %xmm0, %xmm7
-	movaps	 -2 * SIZE(Y), %xmm11
-	subpd   %xmm11, %xmm7
-	mulpd	ALPHA, %xmm7
-	addpd   %xmm11, %xmm7
-	movaps	%xmm7,  -2 * SIZE(Y)
-
-	subq	$-16 * SIZE, X
-	subq	$-16 * SIZE, Y
-	ALIGN_3
-
-.L23:
-	movq	M,  %rax
-	andq	$8, %rax
-	jle	.L24
-	ALIGN_3
-
-	movaps	-15 * SIZE(X), %xmm1
-	movaps	-13 * SIZE(X), %xmm2
-	movaps	-11 * SIZE(X), %xmm3
-	movaps	 -9 * SIZE(X), %xmm4
-
-	movaps	-16 * SIZE(Y), %xmm8
-	movaps	-14 * SIZE(Y), %xmm9
-	movaps	-12 * SIZE(Y), %xmm10
-	movaps	-10 * SIZE(Y), %xmm11
-	
-	SHUFPD_1 %xmm1, %xmm0
-	subpd   %xmm8, %xmm0
-	mulpd	ALPHA, %xmm0
-	addpd   %xmm8, %xmm0
-	movaps	%xmm0, -16 * SIZE(Y)
-
-	SHUFPD_1 %xmm2, %xmm1
-	subpd   %xmm9, %xmm1
-	mulpd	ALPHA, %xmm1
-	addpd   %xmm9, %xmm1
-	movaps	%xmm1, -14 * SIZE(Y)
-
-	SHUFPD_1 %xmm3, %xmm2
-	subpd   %xmm10, %xmm2
-	mulpd	ALPHA, %xmm2
-	addpd   %xmm10, %xmm2
-	movaps	%xmm2, -12 * SIZE(Y)
-
-	SHUFPD_1 %xmm4, %xmm3
-	subpd   %xmm11, %xmm3
-	mulpd	ALPHA, %xmm3
-	addpd   %xmm11, %xmm3
-	movaps	%xmm3, -10 * SIZE(Y)
-
-	movaps	%xmm4, %xmm0
-
-	addq	$8 * SIZE, X
-	addq	$8 * SIZE, Y
-	ALIGN_3
-
-.L24:
-	movq	M,  %rax
-	andq	$4, %rax
-	jle	.L25
-	ALIGN_3
-	
-	movaps	-15 * SIZE(X), %xmm1
-	movaps	-13 * SIZE(X), %xmm2
-	
-	movaps	-16 * SIZE(Y), %xmm8 
-	movaps	-14 * SIZE(Y), %xmm9
-	
-	SHUFPD_1 %xmm1, %xmm0
-	SHUFPD_1 %xmm2, %xmm1
-
-	subpd   %xmm8, %xmm0
-	subpd   %xmm9, %xmm1
-	
-	mulpd	ALPHA, %xmm0
-	mulpd	ALPHA, %xmm1
-	addpd   %xmm8, %xmm0
-	addpd   %xmm9, %xmm1
-	
-	movaps	%xmm0, -16 * SIZE(Y)
-	movaps	%xmm1, -14 * SIZE(Y)
-	
-	movaps	%xmm2, %xmm0
-
-	addq	$4 * SIZE, X
-	addq	$4 * SIZE, Y
-	ALIGN_3
-
-.L25:
-	movq	M,  %rax
-	andq	$2, %rax
-	jle	.L26
-	ALIGN_3
-
-	movaps	-15 * SIZE(X), %xmm1
-	SHUFPD_1 %xmm1, %xmm0
-	movaps	-16 * SIZE(Y), %xmm8
-	subpd   %xmm8, %xmm0
-	mulpd	ALPHA, %xmm0
-	addpd   %xmm8, %xmm0
-	movaps	%xmm0, -16 * SIZE(Y)
-
-	addq	$2 * SIZE, X
-	addq	$2 * SIZE, Y
-	ALIGN_3
-
-.L26:
-	movq	M,  %rax
-	andq	$1, %rax
-	jle	.L29
-	ALIGN_3
-
-	movsd	-16 * SIZE(X), %xmm0
-	movsd	-16 * SIZE(Y), %xmm1
-	
-	subsd	%xmm1, %xmm0
-	mulsd	ALPHA, %xmm0
-	addsd	%xmm1, %xmm0
-	
-	movsd	%xmm0, 	-16 * SIZE(Y)
-	ALIGN_3
-
-.L29:
-	xorq	%rax,%rax
-
-	RESTOREREGISTERS
-
-	ret
-	ALIGN_3
-
-#else
-	movq	M,  %rax
-	sarq	$4, %rax
-	jle	.L23
-
-	movsd	-16 * SIZE(X), %xmm0
-	movhps	-15 * SIZE(X), %xmm0
-	movsd	-14 * SIZE(X), %xmm1
-	movhps	-13 * SIZE(X), %xmm1
-	movsd	-12 * SIZE(X), %xmm2
-	movhps	-11 * SIZE(X), %xmm2
-	movsd	-10 * SIZE(X), %xmm3
-	movhps	 -9 * SIZE(X), %xmm3
-
-	decq	%rax
-	jle .L22
-	ALIGN_3
-
-.L21:
-	movsd	 -8 * SIZE(X), %xmm4
-	movhps	 -7 * SIZE(X), %xmm4
-	movsd	 -6 * SIZE(X), %xmm5
-	movhps	 -5 * SIZE(X), %xmm5
-
-#ifdef PREFETCHW
-	PREFETCHW (PREFETCHSIZE +  0) - PREOFFSET(Y)
-#endif
-
-	mulpd	ALPHA, %xmm0
-	addpd	-16 * SIZE(Y), %xmm0
-	movaps	%xmm0, -16 * SIZE(Y)
-
-	mulpd	ALPHA, %xmm1
-	addpd	-14 * SIZE(Y), %xmm1
-	movaps	%xmm1, -14 * SIZE(Y)
-
-	movsd	 -4 * SIZE(X), %xmm6
-	movhps	 -3 * SIZE(X), %xmm6
-	movsd	 -2 * SIZE(X), %xmm7
-	movhps	 -1 * SIZE(X), %xmm7
-
-#ifdef PREFETCH
-	PREFETCH (PREFETCHSIZE +  0) - PREOFFSET(X)
-#endif
-
-	mulpd	ALPHA, %xmm2
-	addpd	-12 * SIZE(Y), %xmm2
-	movaps	%xmm2, -12 * SIZE(Y)
-
-	mulpd	ALPHA, %xmm3
-	addpd	-10 * SIZE(Y), %xmm3
-	movaps	%xmm3, -10 * SIZE(Y)
-
-	movsd	 0 * SIZE(X), %xmm0
-	movhps	 1 * SIZE(X), %xmm0
-	movsd	 2 * SIZE(X), %xmm1
-	movhps	 3 * SIZE(X), %xmm1
-
-#if defined(PREFETCHW) && !defined(FETCH128)
-	PREFETCHW (PREFETCHSIZE +  64) - PREOFFSET(Y)
-#endif
-
-	mulpd	ALPHA, %xmm4
-	addpd	 -8 * SIZE(Y), %xmm4
-	movaps	%xmm4, -8 * SIZE(Y)
-
-	mulpd	ALPHA, %xmm5
-	addpd	 -6 * SIZE(Y), %xmm5
-	movaps	%xmm5, -6 * SIZE(Y)
-
-	movsd	 4 * SIZE(X), %xmm2
-	movhps	 5 * SIZE(X), %xmm2
-	movsd	 6 * SIZE(X), %xmm3
-	movhps	 7 * SIZE(X), %xmm3
-
-#if defined(PREFETCH) && !defined(FETCH128)
-	PREFETCH (PREFETCHSIZE +  64) - PREOFFSET(X)
-#endif
-
-	mulpd	ALPHA, %xmm6
-	addpd	 -4 * SIZE(Y), %xmm6
-	movaps	%xmm6, -4 * SIZE(Y)
-
-	mulpd	ALPHA, %xmm7
-	addpd	 -2 * SIZE(Y), %xmm7
-	movaps	%xmm7, -2 * SIZE(Y)
-
-	subq	$-16 * SIZE, Y
-	subq	$-16 * SIZE, X
-	decq	%rax
-	jg	.L21
-	ALIGN_3
-
-.L22:
-	movsd	 -8 * SIZE(X), %xmm4
-	movhps	 -7 * SIZE(X), %xmm4
-	movsd	 -6 * SIZE(X), %xmm5
-	movhps	 -5 * SIZE(X), %xmm5
-
-	mulpd	ALPHA, %xmm0
-	addpd	-16 * SIZE(Y), %xmm0
-	movaps	%xmm0, -16 * SIZE(Y)
-
-	mulpd	ALPHA, %xmm1
-	addpd	-14 * SIZE(Y), %xmm1
-	movaps	%xmm1, -14 * SIZE(Y)
-
-	movsd	 -4 * SIZE(X), %xmm6
-	movhps	 -3 * SIZE(X), %xmm6
-	movsd	 -2 * SIZE(X), %xmm7
-	movhps	 -1 * SIZE(X), %xmm7
-
-	mulpd	ALPHA, %xmm2
-	addpd	-12 * SIZE(Y), %xmm2
-	movaps	%xmm2, -12 * SIZE(Y)
-
-	mulpd	ALPHA, %xmm3
-	addpd	-10 * SIZE(Y), %xmm3
-	movaps	%xmm3, -10 * SIZE(Y)
-
-	mulpd	ALPHA, %xmm4
-	addpd	 -8 * SIZE(Y), %xmm4
-	movaps	%xmm4,  -8 * SIZE(Y)
-
-	mulpd	ALPHA, %xmm5
-	addpd	 -6 * SIZE(Y), %xmm5
-	movaps	%xmm5,  -6 * SIZE(Y)
-
-	mulpd	ALPHA, %xmm6
-	addpd	 -4 * SIZE(Y), %xmm6
-	movaps	%xmm6,  -4 * SIZE(Y)
-
-	mulpd	ALPHA, %xmm7
-	addpd	 -2 * SIZE(Y), %xmm7
-	movaps	%xmm7,  -2 * SIZE(Y)
-
-	subq	$-16 * SIZE, Y
-	subq	$-16 * SIZE, X
-	ALIGN_3
-
-.L23:
-	movq	M,  %rax
-	andq	$8, %rax
-	jle	.L24
-	ALIGN_3
-
-	movsd	-16 * SIZE(X), %xmm0
-	movhps	-15 * SIZE(X), %xmm0
-	movsd	-14 * SIZE(X), %xmm1
-	movhps	-13 * SIZE(X), %xmm1
-	movsd	-12 * SIZE(X), %xmm2
-	movhps	-11 * SIZE(X), %xmm2
-	movsd	-10 * SIZE(X), %xmm3
-	movhps	 -9 * SIZE(X), %xmm3
-
-	mulpd	ALPHA, %xmm0
-	addpd	-16 * SIZE(Y), %xmm0
-	mulpd	ALPHA, %xmm1
-	addpd	-14 * SIZE(Y), %xmm1
-	mulpd	ALPHA, %xmm2
-	addpd	-12 * SIZE(Y), %xmm2
-	mulpd	ALPHA, %xmm3
-	addpd	-10 * SIZE(Y), %xmm3
-
-	movaps	%xmm0, -16 * SIZE(Y)
-	movaps	%xmm1, -14 * SIZE(Y)
-	movaps	%xmm2, -12 * SIZE(Y)
-	movaps	%xmm3, -10 * SIZE(Y)
-
-	addq	$8 * SIZE, X
-	addq	$8 * SIZE, Y
-	ALIGN_3
-
-.L24:
-	movq	M,  %rax
-	andq	$4, %rax
-	jle	.L25
-	ALIGN_3
-
-	movsd	-16 * SIZE(X), %xmm0
-	movhps	-15 * SIZE(X), %xmm0
-	movsd	-14 * SIZE(X), %xmm1
-	movhps	-13 * SIZE(X), %xmm1
-
-	mulpd	ALPHA, %xmm0
-	mulpd	ALPHA, %xmm1
-
-	addpd	-16 * SIZE(Y), %xmm0
-	addpd	-14 * SIZE(Y), %xmm1
-
-	movaps	%xmm0, -16 * SIZE(Y)
-	movaps	%xmm1, -14 * SIZE(Y)
-
-	addq	$4 * SIZE, X
-	addq	$4 * SIZE, Y
-	ALIGN_3
-
-.L25:
-	movq	M,  %rax
-	andq	$2, %rax
-	jle	.L26
-	ALIGN_3
-
-	movsd	-16 * SIZE(X), %xmm0
-	movhps	-15 * SIZE(X), %xmm0
-	mulpd	ALPHA, %xmm0
-	addpd	-16 * SIZE(Y), %xmm0
-	movaps	%xmm0, -16 * SIZE(Y)
-
-	addq	$2 * SIZE, X
-	addq	$2 * SIZE, Y
-	ALIGN_3
-
-.L26:
-	movq	M,  %rax
-	andq	$1, %rax
-	jle	.L29
-	ALIGN_3
-
-	movsd	-16 * SIZE(X), %xmm0
-	mulsd	ALPHA, %xmm0
-	addsd	-16 * SIZE(Y), %xmm0
-
-	movsd	%xmm0, 	-16 * SIZE(Y)
-	ALIGN_3
-
-.L29:
-	xorq	%rax,%rax
-
-	RESTOREREGISTERS
-
-	ret
-	ALIGN_3
-#endif
-
-.L40:
-	movq	Y, YY
-	movq	M,  %rax
-	sarq	$3, %rax
-	jle	.L45
-	ALIGN_3
-
-.L41:
-	movsd	0 * SIZE(X), %xmm0
-	addq	INCX, X
-	movhpd	0 * SIZE(X), %xmm0
-	addq	INCX, X
-	movsd	0 * SIZE(YY), %xmm6
-	addq	INCY, YY
-	movhpd	0 * SIZE(YY), %xmm6
-	addq	INCY, YY
-
-	subpd	%xmm6, %xmm0
-	mulpd	ALPHA, %xmm0
-	addpd	%xmm6, %xmm0
-	
-	movsd	0 * SIZE(X), %xmm1
-	addq	INCX, X
-	movhpd	0 * SIZE(X), %xmm1
-	addq	INCX, X
-	movsd	0 * SIZE(YY), %xmm6
-	addq	INCY, YY
-	movhpd	0 * SIZE(YY), %xmm6
-	addq	INCY, YY
-
-	subpd	%xmm6, %xmm1
-	mulpd	ALPHA, %xmm1
-	addpd	%xmm6, %xmm1
-
-	movsd	0 * SIZE(X), %xmm2
-	addq	INCX, X
-	movhpd	0 * SIZE(X), %xmm2
-	addq	INCX, X
-	movsd	0 * SIZE(YY), %xmm6
-	addq	INCY, YY
-	movhpd	0 * SIZE(YY), %xmm6
-	addq	INCY, YY
-
-	subpd	%xmm6, %xmm2
-	mulpd	ALPHA, %xmm2
-	addpd	%xmm6, %xmm2
-
-	movsd	0 * SIZE(X), %xmm3
-	addq	INCX, X
-	movhpd	0 * SIZE(X), %xmm3
-	addq	INCX, X
-	movsd	0 * SIZE(YY), %xmm6
-	addq	INCY, YY
-	movhpd	0 * SIZE(YY), %xmm6
-	addq	INCY, YY
-
-	subpd	%xmm6, %xmm3
-	mulpd	ALPHA, %xmm3
-	addpd	%xmm6, %xmm3
-
-	movsd	%xmm0, 0 * SIZE(Y)
-	addq	INCY, Y
-	movhpd	%xmm0, 0 * SIZE(Y)
-	addq	INCY, Y
-	movsd	%xmm1, 0 * SIZE(Y)
-	addq	INCY, Y
-	movhpd	%xmm1, 0 * SIZE(Y)
-	addq	INCY, Y
-	movsd	%xmm2, 0 * SIZE(Y)
-	addq	INCY, Y
-	movhpd	%xmm2, 0 * SIZE(Y)
-	addq	INCY, Y
-	movsd	%xmm3, 0 * SIZE(Y)
-	addq	INCY, Y
-	movhpd	%xmm3, 0 * SIZE(Y)
-	addq	INCY, Y
-
-	decq	%rax
-	jg	.L41
-	ALIGN_3
-
-.L45:
-	movq	M,  %rax
-	andq	$7, %rax
-	jle	.L47
-	ALIGN_3
-
-.L46:
-	movsd	(X), %xmm0
-	addq	INCX, X
-	movsd	(YY), %xmm1
-	addq	INCY, YY
-	
-	subsd   %xmm1, %xmm0
-	mulsd	ALPHA, %xmm0
-	addsd	%xmm1, %xmm0
-
-	movsd	%xmm0, (Y)
-	addq	INCY, Y
-	
-	decq	%rax
-	jg	.L46
-	ALIGN_3
-
-.L47:
-	xorq	%rax, %rax
-
-	RESTOREREGISTERS
-
-	ret
-
-.LFE2:
+	.cfi_restore_state
+	testq	%rdi, %rdi
+	jle	.L18
+	movsd	(%r9), %xmm15
+	movq	24(%rsp), %r10
+	leaq	-1(%rdi), %rbx
+	salq	$3, %r8
+	movl	$1, %esi
+	movapd	%xmm15, %xmm2
+	andl	$7, %ebx
+	salq	$3, %r10
+	subsd	(%rcx), %xmm2
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm2
+	addsd	%xmm15, %xmm2
+	movsd	%xmm2, (%r9)
+	addq	%r10, %r9
+	cmpq	%rdi, %rsi
+	je	.L18
+	testq	%rbx, %rbx
+	je	.L11
+	cmpq	$1, %rbx
+	je	.L94
+	cmpq	$2, %rbx
+	je	.L95
+	cmpq	$3, %rbx
+	je	.L96
+	cmpq	$4, %rbx
+	je	.L97
+	cmpq	$5, %rbx
+	je	.L98
+	cmpq	$6, %rbx
+	je	.L99
+	movsd	(%r9), %xmm3
+	movl	$2, %esi
+	movapd	%xmm3, %xmm1
+	subsd	(%rcx), %xmm1
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm1
+	addsd	%xmm3, %xmm1
+	movsd	%xmm1, (%r9)
+	addq	%r10, %r9
+.L99:
+	movsd	(%r9), %xmm5
+	addq	$1, %rsi
+	movapd	%xmm5, %xmm4
+	subsd	(%rcx), %xmm4
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm4
+	addsd	%xmm5, %xmm4
+	movsd	%xmm4, (%r9)
+	addq	%r10, %r9
+.L98:
+	movsd	(%r9), %xmm6
+	addq	$1, %rsi
+	movapd	%xmm6, %xmm7
+	subsd	(%rcx), %xmm7
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm7
+	addsd	%xmm6, %xmm7
+	movsd	%xmm7, (%r9)
+	addq	%r10, %r9
+.L97:
+	movsd	(%r9), %xmm9
+	addq	$1, %rsi
+	movapd	%xmm9, %xmm10
+	subsd	(%rcx), %xmm10
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm10
+	addsd	%xmm9, %xmm10
+	movsd	%xmm10, (%r9)
+	addq	%r10, %r9
+.L96:
+	movsd	(%r9), %xmm11
+	addq	$1, %rsi
+	movapd	%xmm11, %xmm8
+	subsd	(%rcx), %xmm8
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm8
+	addsd	%xmm11, %xmm8
+	movsd	%xmm8, (%r9)
+	addq	%r10, %r9
+.L95:
+	movsd	(%r9), %xmm12
+	addq	$1, %rsi
+	movapd	%xmm12, %xmm13
+	subsd	(%rcx), %xmm13
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm13
+	addsd	%xmm12, %xmm13
+	movsd	%xmm13, (%r9)
+	addq	%r10, %r9
+.L94:
+	movsd	(%r9), %xmm14
+	addq	$1, %rsi
+	movapd	%xmm14, %xmm15
+	subsd	(%rcx), %xmm15
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm15
+	addsd	%xmm14, %xmm15
+	movsd	%xmm15, (%r9)
+	addq	%r10, %r9
+	cmpq	%rdi, %rsi
+	je	.L18
+.L11:
+	movsd	(%r9), %xmm2
+	addq	$8, %rsi
+	movapd	%xmm2, %xmm3
+	subsd	(%rcx), %xmm3
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm3
+	addsd	%xmm2, %xmm3
+	movsd	%xmm3, (%r9)
+	addq	%r10, %r9
+	movsd	(%r9), %xmm5
+	movapd	%xmm5, %xmm1
+	subsd	(%rcx), %xmm1
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm1
+	addsd	%xmm5, %xmm1
+	movsd	%xmm1, (%r9)
+	addq	%r10, %r9
+	movsd	(%r9), %xmm4
+	movapd	%xmm4, %xmm6
+	subsd	(%rcx), %xmm6
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm6
+	addsd	%xmm4, %xmm6
+	movsd	%xmm6, (%r9)
+	addq	%r10, %r9
+	movsd	(%r9), %xmm7
+	movapd	%xmm7, %xmm9
+	subsd	(%rcx), %xmm9
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm9
+	addsd	%xmm7, %xmm9
+	movsd	%xmm9, (%r9)
+	addq	%r10, %r9
+	movsd	(%r9), %xmm10
+	movapd	%xmm10, %xmm11
+	subsd	(%rcx), %xmm11
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm11
+	addsd	%xmm10, %xmm11
+	movsd	%xmm11, (%r9)
+	addq	%r10, %r9
+	movsd	(%r9), %xmm8
+	movapd	%xmm8, %xmm12
+	subsd	(%rcx), %xmm12
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm12
+	addsd	%xmm8, %xmm12
+	movsd	%xmm12, (%r9)
+	addq	%r10, %r9
+	movsd	(%r9), %xmm13
+	movapd	%xmm13, %xmm14
+	subsd	(%rcx), %xmm14
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm14
+	addsd	%xmm13, %xmm14
+	movsd	%xmm14, (%r9)
+	addq	%r10, %r9
+	movsd	(%r9), %xmm15
+	movapd	%xmm15, %xmm2
+	subsd	(%rcx), %xmm2
+	addq	%r8, %rcx
+	mulsd	%xmm0, %xmm2
+	addsd	%xmm15, %xmm2
+	movsd	%xmm2, (%r9)
+	addq	%r10, %r9
+	cmpq	%rdi, %rsi
+	jne	.L11
+	jmp	.L18
+	.p2align 4,,10
+	.p2align 3
+.L12:
+	movsd	(%r9), %xmm13
+	leaq	-1(%rdi), %rdx
+	movl	$1, %r10d
+	movapd	%xmm13, %xmm14
+	andl	$7, %edx
+	cmpq	%rdi, %r10
+	subsd	(%rcx), %xmm14
+	mulsd	%xmm0, %xmm14
+	addsd	%xmm13, %xmm14
+	movsd	%xmm14, (%r9)
+	je	.L18
+	testq	%rdx, %rdx
+	je	.L6
+	cmpq	$1, %rdx
+	je	.L100
+	cmpq	$2, %rdx
+	je	.L101
+	cmpq	$3, %rdx
+	je	.L102
+	cmpq	$4, %rdx
+	je	.L103
+	cmpq	$5, %rdx
+	je	.L104
+	cmpq	$6, %rdx
+	je	.L105
+	movsd	8(%r9), %xmm15
+	movl	$2, %r10d
+	movapd	%xmm15, %xmm1
+	subsd	8(%rcx), %xmm1
+	mulsd	%xmm0, %xmm1
+	addsd	%xmm15, %xmm1
+	movsd	%xmm1, 8(%r9)
+.L105:
+	movsd	(%r9,%r10,8), %xmm2
+	movapd	%xmm2, %xmm3
+	subsd	(%rcx,%r10,8), %xmm3
+	mulsd	%xmm0, %xmm3
+	addsd	%xmm2, %xmm3
+	movsd	%xmm3, (%r9,%r10,8)
+	addq	$1, %r10
+.L104:
+	movsd	(%r9,%r10,8), %xmm5
+	movapd	%xmm5, %xmm4
+	subsd	(%rcx,%r10,8), %xmm4
+	mulsd	%xmm0, %xmm4
+	addsd	%xmm5, %xmm4
+	movsd	%xmm4, (%r9,%r10,8)
+	addq	$1, %r10
+.L103:
+	movsd	(%r9,%r10,8), %xmm6
+	movapd	%xmm6, %xmm7
+	subsd	(%rcx,%r10,8), %xmm7
+	mulsd	%xmm0, %xmm7
+	addsd	%xmm6, %xmm7
+	movsd	%xmm7, (%r9,%r10,8)
+	addq	$1, %r10
+.L102:
+	movsd	(%r9,%r10,8), %xmm9
+	movapd	%xmm9, %xmm10
+	subsd	(%rcx,%r10,8), %xmm10
+	mulsd	%xmm0, %xmm10
+	addsd	%xmm9, %xmm10
+	movsd	%xmm10, (%r9,%r10,8)
+	addq	$1, %r10
+.L101:
+	movsd	(%r9,%r10,8), %xmm11
+	movapd	%xmm11, %xmm8
+	subsd	(%rcx,%r10,8), %xmm8
+	mulsd	%xmm0, %xmm8
+	addsd	%xmm11, %xmm8
+	movsd	%xmm8, (%r9,%r10,8)
+	addq	$1, %r10
+.L100:
+	movsd	(%r9,%r10,8), %xmm12
+	movapd	%xmm12, %xmm13
+	subsd	(%rcx,%r10,8), %xmm13
+	mulsd	%xmm0, %xmm13
+	addsd	%xmm12, %xmm13
+	movsd	%xmm13, (%r9,%r10,8)
+	addq	$1, %r10
+	cmpq	%rdi, %r10
+	je	.L18
+.L6:
+	movsd	(%r9,%r10,8), %xmm14
+	leaq	1(%r10), %rbx
+	leaq	2(%r10), %rsi
+	leaq	3(%r10), %r8
+	leaq	4(%r10), %rax
+	leaq	5(%r10), %rbp
+	movapd	%xmm14, %xmm15
+	leaq	6(%r10), %r11
+	leaq	7(%r10), %rdx
+	subsd	(%rcx,%r10,8), %xmm15
+	mulsd	%xmm0, %xmm15
+	addsd	%xmm14, %xmm15
+	movsd	%xmm15, (%r9,%r10,8)
+	addq	$8, %r10
+	cmpq	%rdi, %r10
+	movsd	(%r9,%rbx,8), %xmm2
+	movapd	%xmm2, %xmm1
+	subsd	(%rcx,%rbx,8), %xmm1
+	mulsd	%xmm0, %xmm1
+	addsd	%xmm2, %xmm1
+	movsd	%xmm1, (%r9,%rbx,8)
+	movsd	(%r9,%rsi,8), %xmm3
+	movapd	%xmm3, %xmm5
+	subsd	(%rcx,%rsi,8), %xmm5
+	mulsd	%xmm0, %xmm5
+	addsd	%xmm3, %xmm5
+	movsd	%xmm5, (%r9,%rsi,8)
+	movsd	(%r9,%r8,8), %xmm4
+	movapd	%xmm4, %xmm6
+	subsd	(%rcx,%r8,8), %xmm6
+	mulsd	%xmm0, %xmm6
+	addsd	%xmm4, %xmm6
+	movsd	%xmm6, (%r9,%r8,8)
+	movsd	(%r9,%rax,8), %xmm7
+	movapd	%xmm7, %xmm9
+	subsd	(%rcx,%rax,8), %xmm9
+	mulsd	%xmm0, %xmm9
+	addsd	%xmm7, %xmm9
+	movsd	%xmm9, (%r9,%rax,8)
+	movsd	(%r9,%rbp,8), %xmm10
+	movapd	%xmm10, %xmm11
+	subsd	(%rcx,%rbp,8), %xmm11
+	mulsd	%xmm0, %xmm11
+	addsd	%xmm10, %xmm11
+	movsd	%xmm11, (%r9,%rbp,8)
+	movsd	(%r9,%r11,8), %xmm8
+	movapd	%xmm8, %xmm12
+	subsd	(%rcx,%r11,8), %xmm12
+	mulsd	%xmm0, %xmm12
+	addsd	%xmm8, %xmm12
+	movsd	%xmm12, (%r9,%r11,8)
+	movsd	(%r9,%rdx,8), %xmm13
+	movapd	%xmm13, %xmm14
+	subsd	(%rcx,%rdx,8), %xmm14
+	mulsd	%xmm0, %xmm14
+	addsd	%xmm13, %xmm14
+	movsd	%xmm14, (%r9,%rdx,8)
+	jne	.L6
+	jmp	.L18
+	.cfi_endproc
+.LFE0:
 	.size	daysxpy_kh, .-daysxpy_kh
-	.section	.eh_frame,"a",@progbits
-.LC0:
-	.long	0
-	.long	-2147483648
-	.long	0
-	.long	0
-	.ident	"GCC: (Debian 4.7.2-5) 4.7.2"
+	.section	.text.unlikely
+.LCOLDE0:
+	.text
+.LHOTE0:
+	.ident	"GCC: (Debian 4.9.2-10) 4.9.2"
 	.section	.note.GNU-stack,"",@progbits
-.Lframe1:
-	.long	.LECIE1-.LSCIE1
-.LSCIE1:
-	.long	0x0
-	.byte	0x1
-	.string	"zR"
-	.uleb128 0x1
-	.sleb128 -8
-	.byte	0x10
-	.uleb128 0x1
-	.byte	0x3
-	.byte	0xc
-	.uleb128 0x7
-	.uleb128 0x8
-	.byte	0x90
-	.uleb128 0x1
-	.align 8
-.LECIE1:
-.LSFDE1:
-	.long	.LEFDE1-.LASFDE1
-.LASFDE1:
-	.long	.LASFDE1-.Lframe1
-	.long	.LFB2
-	.long	.LFE2-.LFB2
-	.uleb128 0x0
-	.align 8
-.LEFDE1:
-	.ident	"GCC: (Debian 4.3.2-1.1) 4.3.2"
-	.section	.note.GNU-stack,"",@progbits
-
-

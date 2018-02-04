@@ -1,4 +1,4 @@
-/*! \file daasxpa_kh.S	
+/*! \file saasxpa_kh.S	
  * This file is part of the LEAC.
  *
  * Implementation of the 
@@ -515,95 +515,5 @@ saasxpa_kh:
 .LCOLDE0:
 	.text
 .LHOTE0:
-	.section	.text.unlikely
-.LCOLDB2:
-	.text
-.LHOTB2:
-	.p2align 4,,15
-	.globl	ssum_kh
-	.type	ssum_kh, @function
-ssum_kh:
-.LFB1:
-	.cfi_startproc
-	testq	%rsi, %rsi
-	jle	.L107
-	leaq	-4(,%rsi,4), %rdx
-	leaq	(%rdi,%rsi,4), %rcx
-	leaq	4(%rdi), %rax
-	pxor	%xmm0, %xmm0
-	shrq	$2, %rdx
-	andl	$7, %edx
-	cmpq	%rcx, %rax
-	addss	(%rdi), %xmm0
-	je	.L145
-	testq	%rdx, %rdx
-	je	.L106
-	cmpq	$1, %rdx
-	je	.L132
-	cmpq	$2, %rdx
-	je	.L133
-	cmpq	$3, %rdx
-	je	.L134
-	cmpq	$4, %rdx
-	je	.L135
-	cmpq	$5, %rdx
-	je	.L136
-	cmpq	$6, %rdx
-	je	.L137
-	addss	(%rax), %xmm0
-	leaq	8(%rdi), %rax
-.L137:
-	addss	(%rax), %xmm0
-	addq	$4, %rax
-.L136:
-	addss	(%rax), %xmm0
-	addq	$4, %rax
-.L135:
-	addss	(%rax), %xmm0
-	addq	$4, %rax
-.L134:
-	addss	(%rax), %xmm0
-	addq	$4, %rax
-.L133:
-	addss	(%rax), %xmm0
-	addq	$4, %rax
-.L132:
-	addss	(%rax), %xmm0
-	addq	$4, %rax
-	cmpq	%rcx, %rax
-	je	.L146
-.L106:
-	addss	(%rax), %xmm0
-	addq	$32, %rax
-	addss	-28(%rax), %xmm0
-	addss	-24(%rax), %xmm0
-	addss	-20(%rax), %xmm0
-	addss	-16(%rax), %xmm0
-	addss	-12(%rax), %xmm0
-	addss	-8(%rax), %xmm0
-	addss	-4(%rax), %xmm0
-	cmpq	%rcx, %rax
-	jne	.L106
-	rep ret
-	.p2align 4,,10
-	.p2align 3
-.L146:
-	rep ret
-	.p2align 4,,10
-	.p2align 3
-.L107:
-	pxor	%xmm0, %xmm0
-	ret
-	.p2align 4,,10
-	.p2align 3
-.L145:
-	rep ret
-	.cfi_endproc
-.LFE1:
-	.size	ssum_kh, .-ssum_kh
-	.section	.text.unlikely
-.LCOLDE2:
-	.text
-.LHOTE2:
 	.ident	"GCC: (Debian 4.9.2-10) 4.9.2"
 	.section	.note.GNU-stack,"",@progbits
