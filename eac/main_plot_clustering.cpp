@@ -87,16 +87,10 @@ int main(int argc, char **argv)
 
   int li_numPtCluster      = 16;
   int liarray_ptCluster[]  = {1,2,3,7,9,11,13,15,17,18,20,24,28,49,50,52};
-  //,19,20,21,22,23,24,25,26,27,28,29,30,33,34,35,36,37,38,39,40,41,42,43,44,45,46,49,50,51,52,53,54,55,56,57,58,59,60,61,62};
-  //const int li_numPtCluster      = 5;
-  //const int liarray_ptCluster[]  = {1,2,3,5,7};
   int li_idxPtClusterCurrent     = 0;
   int li_idxColorClusterCurrent  = 0;
-  //const int li_numPtClass        = 5;
-  //const int liarray_ptClass[]    = {4,6,8,10,12};
   int li_numPtClass  = 16;
   int liarray_ptClass[] = {4,6,8,10,12,14,33,34,36,40,64,65,66,67,68,69};
-  //19,21,23,25,30,32,34,36,38,43};
   int li_idxPtClassCurrent       = 0;
   int li_idxColorClassCurrent    = 1;
   const int li_numColor          = 6;
