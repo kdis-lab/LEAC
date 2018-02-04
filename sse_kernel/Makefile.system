@@ -10,8 +10,8 @@ TOPDIR = .
 endif
 
 # Default C compiler
-#CC = gcc
-CC = gcc-mp-5
+CC = gcc
+
 
 ifndef MAKEFILE_RULE
 include $(TOPDIR)/Makefile.rule
