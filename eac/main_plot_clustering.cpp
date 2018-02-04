@@ -85,17 +85,44 @@ int main(int argc, char **argv)
   using namespace std;
   istringstream   liss_stringstream;
 
-  const int li_numPtCluster      = 51;
-  const int liarray_ptCluster[]  = {1,2,3,5,7,9,11,13,15,17,18,19,20,21,22,23,24,25,26,27,28,29,30,33,34,35,36,37,38,39,40,41,42,43,44,45,46,49,50,51,52,53,54,55,56,57,58,59,60,61,62};
+  int li_numPtCluster      = 16;
+  int liarray_ptCluster[]  = {1,2,3,7,9,11,13,15,17,18,20,24,28,49,50,52};
+  //,19,20,21,22,23,24,25,26,27,28,29,30,33,34,35,36,37,38,39,40,41,42,43,44,45,46,49,50,51,52,53,54,55,56,57,58,59,60,61,62};
+  //const int li_numPtCluster      = 5;
+  //const int liarray_ptCluster[]  = {1,2,3,5,7};
   int li_idxPtClusterCurrent     = 0;
-  const int li_numPtClass        = 7;
-  const int liarray_ptClass[]    = {64,66,68,67,16,32,48};
+  int li_idxColorClusterCurrent  = 0;
+  //const int li_numPtClass        = 5;
+  //const int liarray_ptClass[]    = {4,6,8,10,12};
+  int li_numPtClass  = 16;
+  int liarray_ptClass[] = {4,6,8,10,12,14,33,34,36,40,64,65,66,67,68,69};
+  //19,21,23,25,30,32,34,36,38,43};
   int li_idxPtClassCurrent       = 0;
+  int li_idxColorClassCurrent    = 1;
+  const int li_numColor          = 6;
+  const char *lpt_pointColor[] = {"red", "pink", "green", "purple", "orange", "blue"}; 
   const char*  lptc_pointColorCentroid = "black";
   const char*  lptc_pointColorCentroid2 = "black";
   const int    li_pointLabelSize = 12;
 
+  if ( lipplotclustering_inParam.getOutFileGraphics() == NULL ) {
+    li_numPtCluster      = 5;
+    li_numPtClass        = 5;
+    liarray_ptCluster[0]  = 1;
+    liarray_ptCluster[1]  = 2;
+    liarray_ptCluster[2]  = 3;
+    liarray_ptCluster[3]  = 5;
+    liarray_ptCluster[4]  = 7;
+    liarray_ptClass[0] = 4;
+    liarray_ptClass[1] = 6;
+    liarray_ptClass[2] = 8;
+    liarray_ptClass[3] = 10;
+    liarray_ptClass[4] = 12;
+    if ( lipplotclustering_inParam.getPointTypeCentroids() == 65 )
+      lipplotclustering_inParam.setPointTypeCentroids(6);
+  }
 
+  
   /*BEGIN READ: INSTANCES
    */
   std::vector<data::Instance<DATATYPE_FEATURE>* >  lvectorptinst_instances;
@@ -416,7 +443,11 @@ int main(int argc, char **argv)
 	    }
 	    lss_cmdPlot
 	      << " pt " << liarray_ptCluster[li_idxPtClusterCurrent];
-	    lss_cmdPlot << "  ps 1";
+	    if ( lipplotclustering_inParam.getOutFileGraphics() == NULL ) {
+	      lss_cmdPlot
+		<< " lc " << "'" << lpt_pointColor[li_idxColorClusterCurrent] << "'";
+	    }
+	    lss_cmdPlot << "  ps " << lipplotclustering_inParam.getPointSizeMemberCluster();
 	    lss_cmdPlot
 	      << " title \'" << lipplotclustering_inParam.getLabelMemberCluster()
 	      << (lmcidxt_clusterKLast + lipplotclustering_inParam.getIDincrement())
@@ -434,6 +465,7 @@ int main(int argc, char **argv)
 
 	    h1->nplots++;
 	    li_idxPtClusterCurrent = (li_idxPtClusterCurrent+1) % li_numPtCluster;
+	    li_idxColorClusterCurrent = (li_idxColorClusterCurrent+1) % li_numColor;
 	    lmcidxt_clusterKLast = lvectorpair_idxInstCluster.at(luintidx_i).second;
 	    lpc_tmpFileName = gnuplot_tmpfile(h1);
 	    lfile_tmpCoord  = fopen(lpc_tmpFileName, "w");
@@ -495,6 +527,10 @@ int main(int argc, char **argv)
 	  else
 	    lss_cmdPlot << " using 1:2 with points ";
 	}
+	if ( lipplotclustering_inParam.getOutFileGraphics() == NULL ) {
+	      lss_cmdPlot
+		<< " lc " << "'" << lpt_pointColor[li_idxColorClusterCurrent] << "'";
+        }
 	lss_cmdPlot
 	  << " pt " << liarray_ptCluster[li_idxPtClusterCurrent]
 	  << " ps " << lipplotclustering_inParam.getPointSizeMemberCluster();
@@ -622,6 +658,10 @@ int main(int argc, char **argv)
 	      lss_cmdPlot << " using 1:2 with points ";
 	  }
 	  lss_cmdPlot << " pt " <<  liarray_ptClass[li_idxPtClassCurrent];
+	  if ( lipplotclustering_inParam.getOutFileGraphics() == NULL ) {
+	      lss_cmdPlot
+		<< " lc " << "'" << lpt_pointColor[li_idxColorClassCurrent] << "'";
+	  }
 	  lss_cmdPlot << " ps " <<  lipplotclustering_inParam.getSizeInstance();
 	  lss_cmdPlot << " title "
 		      << '\"' << (lstcvector_classLabel.at(lmcidx_k)->getLabel()).c_str() << '\"';
@@ -636,7 +676,7 @@ int main(int argc, char **argv)
 
 	  h1->nplots++;
 	  li_idxPtClassCurrent = (li_idxPtClassCurrent+1) % li_numPtClass;
-
+          li_idxColorClassCurrent = (li_idxColorClassCurrent+1) % li_numColor;
 	}
 
 #ifdef __VERBOSE_YES
