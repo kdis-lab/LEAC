@@ -1,4 +1,4 @@
-/*! \file dsum_kh.S	
+/*! \file ssum_kh.S	
  * This file is part of the LEAC.
  *
  * Implementation of the 
@@ -12,92 +12,179 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- */
-	
+ */	
 	.file	"ssum_kh.S"
 	.section	.text.unlikely,"ax",@progbits
 .LCOLDB1:
 	.text
 .LHOTB1:
-	.p2align 4,,15
+	.p2align 5,,31
 	.globl	ssum_kh
 	.type	ssum_kh, @function
 ssum_kh:
 .LFB0:
 	.cfi_startproc
-	testq	%rsi, %rsi
-	jle	.L4
-	leaq	-4(,%rsi,4), %rdx
-	leaq	(%rdi,%rsi,4), %rcx
-	leaq	4(%rdi), %rax
-	pxor	%xmm0, %xmm0
-	shrq	$2, %rdx
-	andl	$7, %edx
-	cmpq	%rcx, %rax
-	addss	(%rdi), %xmm0
-	je	.L43
-	testq	%rdx, %rdx
-	je	.L3
 	cmpq	$1, %rdx
-	je	.L29
-	cmpq	$2, %rdx
-	je	.L30
-	cmpq	$3, %rdx
-	je	.L31
-	cmpq	$4, %rdx
-	je	.L32
-	cmpq	$5, %rdx
-	je	.L33
-	cmpq	$6, %rdx
-	je	.L34
-	addss	(%rax), %xmm0
-	leaq	8(%rdi), %rax
-.L34:
-	addss	(%rax), %xmm0
-	addq	$4, %rax
-.L33:
-	addss	(%rax), %xmm0
-	addq	$4, %rax
-.L32:
-	addss	(%rax), %xmm0
-	addq	$4, %rax
-.L31:
-	addss	(%rax), %xmm0
-	addq	$4, %rax
-.L30:
-	addss	(%rax), %xmm0
-	addq	$4, %rax
-.L29:
-	addss	(%rax), %xmm0
-	addq	$4, %rax
-	cmpq	%rcx, %rax
-	je	.L44
-.L3:
-	addss	(%rax), %xmm0
-	addq	$32, %rax
-	addss	-28(%rax), %xmm0
-	addss	-24(%rax), %xmm0
-	addss	-20(%rax), %xmm0
-	addss	-16(%rax), %xmm0
-	addss	-12(%rax), %xmm0
-	addss	-8(%rax), %xmm0
-	addss	-4(%rax), %xmm0
-	cmpq	%rcx, %rax
-	jne	.L3
-	rep ret
+	je	.L2
+	testq	%rdi, %rdi
+	jle	.L7
+	salq	$2, %rdx
+	pxor	%xmm0, %xmm0
+	movl	$1, %eax
+	leaq	-1(%rdi), %rcx
+	addss	(%rsi), %xmm0
+	addq	%rdx, %rsi
+	andl	$7, %ecx
+	cmpq	$1, %rdi
+	je	.L83
+	testq	%rcx, %rcx
+	je	.L6
+	cmpq	$1, %rcx
+	je	.L62
+	cmpq	$2, %rcx
+	je	.L63
+	cmpq	$3, %rcx
+	je	.L64
+	cmpq	$4, %rcx
+	je	.L65
+	cmpq	$5, %rcx
+	je	.L66
+	cmpq	$6, %rcx
+	je	.L67
+	addss	(%rsi), %xmm0
+	movl	$2, %eax
+	addq	%rdx, %rsi
+.L67:
+	addss	(%rsi), %xmm0
+	addq	$1, %rax
+	addq	%rdx, %rsi
+.L66:
+	addss	(%rsi), %xmm0
+	addq	$1, %rax
+	addq	%rdx, %rsi
+.L65:
+	addss	(%rsi), %xmm0
+	addq	$1, %rax
+	addq	%rdx, %rsi
+.L64:
+	addss	(%rsi), %xmm0
+	addq	$1, %rax
+	addq	%rdx, %rsi
+.L63:
+	addss	(%rsi), %xmm0
+	addq	$1, %rax
+	addq	%rdx, %rsi
+.L62:
+	addq	$1, %rax
+	addss	(%rsi), %xmm0
+	addq	%rdx, %rsi
+	cmpq	%rax, %rdi
+	je	.L84
+.L6:
+	addss	(%rsi), %xmm0
+	addq	%rdx, %rsi
+	addq	$8, %rax
+	addss	(%rsi), %xmm0
+	addq	%rdx, %rsi
+	addss	(%rsi), %xmm0
+	addq	%rdx, %rsi
+	addss	(%rsi), %xmm0
+	addq	%rdx, %rsi
+	addss	(%rsi), %xmm0
+	addq	%rdx, %rsi
+	addss	(%rsi), %xmm0
+	addq	%rdx, %rsi
+	addss	(%rsi), %xmm0
+	addq	%rdx, %rsi
+	addss	(%rsi), %xmm0
+	addq	%rdx, %rsi
+	cmpq	%rax, %rdi
+	jne	.L6
+	ret
 	.p2align 4,,10
 	.p2align 3
-.L44:
-	rep ret
+.L2:
+	testq	%rdi, %rdi
+	jle	.L7
+	leaq	(%rsi,%rdi,4), %rdx
+	pxor	%xmm0, %xmm0
+	addss	(%rsi), %xmm0
+	addq	$4, %rsi
+	leaq	-4(,%rdi,4), %rdi
+	shrq	$2, %rdi
+	andl	$7, %edi
+	cmpq	%rsi, %rdx
+	je	.L85
+	testq	%rdi, %rdi
+	je	.L5
+	cmpq	$1, %rdi
+	je	.L56
+	cmpq	$2, %rdi
+	je	.L57
+	cmpq	$3, %rdi
+	je	.L58
+	cmpq	$4, %rdi
+	je	.L59
+	cmpq	$5, %rdi
+	je	.L60
+	cmpq	$6, %rdi
+	je	.L61
+	addss	(%rsi), %xmm0
+	addq	$4, %rsi
+.L61:
+	addss	(%rsi), %xmm0
+	addq	$4, %rsi
+.L60:
+	addss	(%rsi), %xmm0
+	addq	$4, %rsi
+.L59:
+	addss	(%rsi), %xmm0
+	addq	$4, %rsi
+.L58:
+	addss	(%rsi), %xmm0
+	addq	$4, %rsi
+.L57:
+	addss	(%rsi), %xmm0
+	addq	$4, %rsi
+.L56:
+	addss	(%rsi), %xmm0
+	addq	$4, %rsi
+	cmpq	%rsi, %rdx
+	je	.L86
+.L5:
+	addss	(%rsi), %xmm0
+	addq	$32, %rsi
+	addss	-28(%rsi), %xmm0
+	addss	-24(%rsi), %xmm0
+	addss	-20(%rsi), %xmm0
+	addss	-16(%rsi), %xmm0
+	addss	-12(%rsi), %xmm0
+	addss	-8(%rsi), %xmm0
+	addss	-4(%rsi), %xmm0
+	cmpq	%rsi, %rdx
+	jne	.L5
+	ret
 	.p2align 4,,10
 	.p2align 3
-.L4:
+.L84:
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L7:
 	pxor	%xmm0, %xmm0
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L43:
-	rep ret
+.L83:
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L86:
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L85:
+	ret
 	.cfi_endproc
 .LFE0:
 	.size	ssum_kh, .-ssum_kh
@@ -105,5 +192,5 @@ ssum_kh:
 .LCOLDE1:
 	.text
 .LHOTE1:
-	.ident	"GCC: (Debian 4.9.2-10) 4.9.2"
+	.ident	"GCC: (GNU) 5.5.0"
 	.section	.note.GNU-stack,"",@progbits
