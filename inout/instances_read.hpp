@@ -4,7 +4,7 @@
  *
  * \version 1.0
  * \date 2015-2017
- * \authors Hermes Robles <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>
+ * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 #ifndef INSTANCES_READ_HPP
@@ -21,7 +21,7 @@
 #include <functional>
 #include <iterator>
 #include <cstring>
-#include <utility>      // std::pair, std::make_pair
+#include <utility> // std::pair, std::make_pair
 #include <stddef.h>
 #include <string.h>
 #ifdef __INSTANCES_WITH_FREQUENCY
@@ -187,36 +187,21 @@ instancesReadDimName
 	 == inout::INPARAM_FORMATINSTANCEFILE_KEEL ) {
       std::string lstr_inputs("@inputs");
       
-      //lls_lineSplit.setSeparator(aiipri_inParamReadInst.getSeparateAttributes());
-      //lls_lineSplit.getSelectColumns(aiipri_inParamReadInst.getSelectAttributes());
       while ( std::getline(lfp_file, lstr_linedata) )  {
 	size_t lstidx_findInput;
-	//std::cout << "instancesReadDimName: " << lstr_linedata << std::endl;
+	
 	if ( (lstidx_findInput = lstr_linedata.find(lstr_inputs)) != std::string::npos ) {
 	  std::string lstr_header 
 	    (lstr_linedata,
 	     lstidx_findInput+lstr_inputs.size()+1,
 	     lstr_linedata.size()
 	     );
-	  //std::cout << "instancesReadDimName found: " << lstr_header << std::endl;
+	 
 	  lls_lineSplit.setSeparator(aiipri_inParamReadInst.getSeparateAttributes());
 	  lls_lineSplit.split( lstr_header );
 	  lls_lineSplit.getVectorString(lovectorstr_dimensionsName);
 	  break;
         }
-	/*if ( lstr_linedata.size() > 0 ) && lls_lineSplit.split( lstr_linedata ) > 0 ) {
-	  std::cout << "instancesReadDimName: " << lstr_linedata << std::endl;
-	  //lls_lineSplit.getVectorString(lovectorstr_dimensionsName);
-	  if ( lstr_inputs.compare(lls_lineSplit.getItem((uintidx) 1)) == 0 ) {
-	    for (uintidx list_l = 2; 
-		 list_l < lls_lineSplit.getNumSelectColumns(); 
-		 list_l++) 
-	      {  
-		lovectorstr_dimensionsName.push_back(lls_lineSplit.getItem(list_l)); 
-	      }
-	    break;
-	  }
-	  }*/
       } /*end while*/     
     }
     else if (aiipri_inParamReadInst.getFormatInstanceFile() == inout::INPARAM_FORMATINSTANCEFILE_UCI) {
@@ -225,7 +210,7 @@ instancesReadDimName
 	if ( (lstr_linedata.size() > 0) && !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#') )
 	  break;
       }
-      // SI TIENE ENCABEZADO LEER ENCABEZADO 
+      // IF HAVE HEADER READ
       if ( aiipri_inParamReadInst.getHaveHeaderFileInstance() ) {  
 	lls_lineSplit.setSeparator(aiipri_inParamReadInst.getSeparateAttributes());
 	lls_lineSplit.getSelectColumns(aiipri_inParamReadInst.getSelectAttributes());
@@ -234,32 +219,19 @@ instancesReadDimName
 	}
       }
       else {
-	//char  ls_nameDimension[20];
 	for (uintidx list_l = 0; 
 	     list_l < lls_lineSplit.getNumSelectColumns(); 
 	     list_l++) 
 	  {
 	     std::ostringstream lostrstream_nameDimension;
 	     lostrstream_nameDimension << 'x' << list_l;
-	     //sprintf(ls_nameDimension,"x%zu",list_l);
-	    //ls_columnName.assign(ls_linedata);
-	     lovectorstr_dimensionsName.push_back(lostrstream_nameDimension.str()); //std::string(ls_nameDimension)); 
+	     lovectorstr_dimensionsName.push_back(lostrstream_nameDimension.str()); 
 	  }
       }
     }
 
     lfp_file.close();
         
-    /*}
-  catch (std::ios_base::failure &fail) {
-    std::string 
-      lstr_error
-      ("instancesReadDimName: no file input data ");
-    lstr_error += aistr_fileInstance;
-    //lstr_error += aiipri_inParamReadInst.getFileNameInstance();
-    throw  std::invalid_argument(lstr_error);
-    }*/
-
 #ifdef __VERBOSE_YES 
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << "instancesReadDimName OUT"
@@ -275,98 +247,6 @@ instancesReadDimName
 
   return lovectorstr_dimensionsName;  
 }
-
-
-/*std::vector<std::string>  
-instancesReadHeader
-(InParamReadInst &aiipri_inParamReadInst) 
-{
-  std::vector<std::string> lovectorstr_dimensionsName;
-  std::ifstream            lfp_file;
- 
-  LineSplit
-    lls_lineSplit
-    (aiipri_inParamReadInst.getSeparateAttributes(),
-     aiipri_inParamReadInst.getSelectAttributes()
-     );
-
-#ifdef __VERBOSE_YES 
-  ++geiinparam_verbose;
-  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << "instancesReadHeader  IN"
-	      << '(' << geiinparam_verbose << ")\n"
-	      << "\t input  InParamReadInst: &aiipri_inParamReadInst[" 
-	      << &aiipri_inParamReadInst << "]\n"
-	      << "\t)\n";
-  }
-#endif //__VERBOSE_YES
-
-  try {
-    lfp_file.open(aiipri_inParamReadInst.getFileNameInstance().c_str());
-    std::string lstr_linedata;
-    //JUMPING FILE COMMENTS
-    while ( std::getline(lfp_file, lstr_linedata) )  {
-      if ( (lstr_linedata.size() > 0) && (lstr_linedata.at(0) == '@') )
-	break;
-    }
-    // SI TIENE ENCABEZADO LEER ENCABEZADO 
-    if ( aiipri_inParamReadInst.getHaveHeaderFileInstance() ) {  
-      if ( lls_lineSplit.split( lstr_linedata ) > 0 ) {
-	if ( aiipri_inParamReadInst.getIDInstanceColumn() ) { //IF BEGIN ID
-	  lovectorstr_dimensionsName.push_back
-	    (lls_lineSplit.getItem(aiipri_inParamReadInst.getIDInstanceColumn()));
-	}
-	lls_lineSplit.getVectorString(lovectorstr_dimensionsName);
-	if ( aiipri_inParamReadInst.getClassInstanceColumn() ) {  // IF BEGIN CLASS LABEL
-	  lovectorstr_dimensionsName.push_back
-	    (lls_lineSplit.getItem(aiipri_inParamReadInst.getClassInstanceColumn()));
-	}
-	if (aiipri_inParamReadInst.getInstanceFrequencyColumn()) { //IF BEGIN INSTANCES FREQUENCY
-	  lovectorstr_dimensionsName.push_back
-	    (lls_lineSplit.getItem(aiipri_inParamReadInst.getInstanceFrequencyColumn()));
-	}
-      }
-    }
-    else {
-      if ( aiipri_inParamReadInst.getIDInstanceColumn() ) { //IF BEGIN ID
-	lovectorstr_dimensionsName.push_back(std::string("id")); 
-      }
-      char  ls_nameDimension[20];
-      for (uintidx list_l = 0; list_l < lls_lineSplit.getNumSelectColumns(); list_l++) {  
-	sprintf(ls_nameDimension,"x%zu",list_l);
-	lovectorstr_dimensionsName.push_back(std::string(ls_nameDimension)); 
-      }
-      if ( aiipri_inParamReadInst.getClassInstanceColumn() ) { //IF BEGIN ID
-	lovectorstr_dimensionsName.push_back(std::string("class")); 
-      }
-      if (aiipri_inParamReadInst.getInstanceFrequencyColumn()) { //IF BEGIN INSTANCES FREQUENCY
-	lovectorstr_dimensionsName.push_back(std::string("frequency")); 
-       }
-    }
- 
-    lfp_file.close();
-        
-  }
-  catch (std::ios_base::failure &fail) {
-    std::string lstr_error("instancesReadHeader: no file input data ");
-    lstr_error += aiipri_inParamReadInst.getFileNameInstance();
-    throw  std::invalid_argument(lstr_error);
-  }
-
-#ifdef __VERBOSE_YES 
-  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << "instancesReadHeader OUT"
-	      << '(' << geiinparam_verbose << ")\n"
-	      << "output std::vector<std::string>: [" 
-	      << &lovectorstr_dimensionsName << ']';
-    std::cout << std::endl;
-  }
-  --geiinparam_verbose;
-#endif //__VERBOSE_YES
-
-  return lovectorstr_dimensionsName;  
-  }*/
-
 
  
 /*instancesRead
@@ -398,18 +278,6 @@ instancesRead
     throw  std::invalid_argument(lstr_error);
   }
   std::vector<data::Instance<T_FEATURE>* >  lovectorptinst_instances;
-  //std::vector<Instance<T_FEATURE,T_INSTANCE_FREQUENCY>* >  lovectorptinst_instances;
-
-  //std::ifstream            lfp_file;
-  //lfp_file.exceptions(std::ios::failbit);
-  //using namespace std;
-  //istringstream   liss_stringstream;
-  //FILE            *lfp_file;
-  //char            ls_linedata[INSTANCESREAD_TEXTLENG];
-  //uintidx          luintidx_numInstance;
-  //uintidx          luintidx_numDimensions;
-  //std::string     ls_columnName;
-
 
   LineSplit
     lls_lineSplit
@@ -422,7 +290,8 @@ instancesRead
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << "instancesRead  IN"
 	      << '(' << geiinparam_verbose << ')'
-	      << "\n\t(output vector<Instance<> >: [" << &lovectorptinst_instances << "]\n"
+	      << "\n\t(output vector<Instance<> >: ["
+	      << &lovectorptinst_instances << "]\n"
 	      << "n\t input  const std::string &aistr_fileInstance = " 
 	      << lstr_fileInstance
 	      << "\t input  inout::InParamReadInst: &aiipri_inParamReadInst[" 
@@ -431,20 +300,14 @@ instancesRead
   }
 #endif /*__VERBOSE_YES*/
     
-  //uintidx luintidx_numInstance =
   std::pair<uintidx,uintidx> lpair_dimInstance =
     readNumInstances
-    (//aiipri_inParamReadInst.getCurrentFileInstance(),
-     aiipri_inParamReadInst,
+    (aiipri_inParamReadInst,
      aib_fileTest
      );
   lovectorptinst_instances.reserve(lpair_dimInstance.first); 
   data::Instance<T_FEATURE>::setNumDimensions(lpair_dimInstance.second);
   
-  //try {
-  // lfp_file.open(aistr_fileInstance.c_str());
-    //lfp_file.open(aiptstr_fileInstance);
-    //lfp_file.open(aiipri_inParamReadInst.getFileNameInstance().c_str());
     std::string lstr_linedata;
     //JUMPING FILE COMMENTS
     while ( std::getline(lfp_file, lstr_linedata) )  {
@@ -455,32 +318,18 @@ instancesRead
     if ( aiipri_inParamReadInst.getHaveHeaderFileInstance() ) {
       std::getline(lfp_file, lstr_linedata);
     }
-  
-    /*READ INSTANCES */
-    /*Instance
-      <T_FEATURE,
-       T_INSTANCE_FREQUENCY>
-       ::setNumDimensions(0);*/
     
     do {
-      //std::cout << "begin Procesa :" << lstr_linedata << std::endl;
+     
       if ( (lstr_linedata.size() > 0) && !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#')) {// BEGIN IF LINE COMMENTS
 	if ( lls_lineSplit.split( lstr_linedata ) > 0 ) {
 	  /*GET INSTANCE*/
-	  //if ( Instance<T_FEATURE,T_INSTANCE_FREQUENCY>::getNumDimensions() == (uintidx) 0 )
-	  /*if ( Instance<T_FEATURE>::getNumDimensions() == (uintidx) 0 )
-	    Instance<T_FEATURE>::setNumDimensions
-	      (lls_lineSplit.getNumSelectColumns());
-	  */
-	  //std::cout << " NumDimensions = " << Instance<T_FEATURE>::getNumDimensions() << std::endl;
 #ifdef __INSTANCES_WITH_FREQUENCY
-	  //std::cout << "read InstanceFreqOne  se creo\n";
 	  data::InstanceFreq<T_FEATURE,T_INSTANCE_FREQUENCY> 
 	    *lptinst_new = 
 	    new data::InstanceFreq
 	    <T_FEATURE,T_INSTANCE_FREQUENCY>();
 #else
-	  //std::cout << "read Instance  se creo\n";
 	  data::Instance
 	    <T_FEATURE> 
 	    *lptinst_new = 
@@ -496,20 +345,11 @@ instancesRead
 	  lovectorptinst_instances.push_back(lptinst_new);
 	}
       }
-      //std::cout << "end Procesa :" << lstr_linedata << std::endl;
+     
     } while ( std::getline(lfp_file, lstr_linedata) );  
  
     lfp_file.close();
         
-    /*}
-  catch (std::ios_base::failure &fail) {
-    std::string lstr_error("instancesRead: no file input data ");
-    lstr_error += aistr_fileInstance;
-    //lstr_error += aiipri_inParamReadInst.getFileNameInstance();
-    throw  std::invalid_argument(lstr_error);
-  }
-    */
-
 #ifdef __VERBOSE_YES 
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << "instancesRead OUT"
@@ -520,11 +360,9 @@ instancesRead
     if ( geiinparam_verbose <= geiinparam_verboseMax ) {
       for ( auto  literinst_instance: lovectorptinst_instances ) 
 	std::cout << *literinst_instance << '\n';
-	//std::cout << literinst_instance->getToString() << '\n';
     }
     --geiinparam_verbose;
     std::cout << std::endl;
-    //this->print();
   }
   --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
@@ -580,7 +418,8 @@ instancesReadWithClass
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << "instancesReadWithClass  IN"
 	      << '(' << geiinparam_verbose << ')'
-	      << "\n\t(output vector<InstanceClass<> >: [" << &lovectorptinst_instances << ']'
+	      << "\n\t(output vector<InstanceClass<> >: ["
+	      << &lovectorptinst_instances << ']'
 	      << "\n\t input  const std::string &aistr_fileInstance = " 
 	      << lstr_fileInstance
 	      << "\n\t input  inout::InParamReadInst: &aiipri_inParamReadInst[" 
@@ -654,7 +493,8 @@ instancesReadWithClass
 	      (lls_lineSplit.getItem( aiipri_inParamReadInst.getIDInstanceColumn() ));
 	  } /*IF END READ ID*/
 
-	  if ( aiipri_inParamReadInst.getClassInstanceColumn() ) { /*IF BEGIN CLASS LABEL*/
+	  if ( aiipri_inParamReadInst.getClassInstanceColumn() ) {
+	    /*IF BEGIN CLASS LABEL*/
 	   
 	    std::string lstr_keyMapClass;
 
