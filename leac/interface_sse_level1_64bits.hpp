@@ -5,7 +5,7 @@
  * \details  This file is part of the LEAC.\n\n
  * \version 1.0
  * \date 2015-2017
- * \authors Hermes Robles <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>
+ * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
@@ -671,9 +671,16 @@ sum
  const uintidx aiui_lengthArray
 )
 {
-  int64_t lit_n((int64_t) aiui_lengthArray);
+  int64_t lit_n;
+  int64_t lit_incy;
+  float lt_out;
+
+  lit_n    = (int64_t) aiui_lengthArray;
+  lit_incy = (int64_t) 1;
   
-  return ssum_kh(aiarrayfloat_y, lit_n);
+  lt_out = ssum_kh(lit_n, aiarrayfloat_y, lit_incy, NULL, 0);
+
+  return lt_out;
 }
 
 /*! \fn  double sum(const double *aiarraydouble_y, const uintidx aiui_lengthArray)
@@ -728,10 +735,11 @@ aasxpa
  const float    *aiarrayfloat_x
  )
 {
+  const int64_t m = (int64_t)  aiui_numColumns;
+  const int64_t n = (int64_t) aiui_numRows;
+  const int64_t lda = m;
 
-  int64_t lint64_numRows  = (int64_t) aiui_numRows;
-  int64_t lint64_numColumns = (int64_t) aiui_numColumns;
-  saasxpa_kh(aif_alpha, aimatrixrowfloat_a,lint64_numRows,lint64_numColumns,aiarrayfloat_x);
+  saasxpa_kh(m, n, 0, aif_alpha, aimatrixrowfloat_a, lda, aiarrayfloat_x, 0, NULL, 0);
 }
 
 /*! \fn void aasxpa(const double aid_alpha, double *aimatrixrowdouble_a, const uintidx aiui_numRows, const uintidx aiui_numColumns, const double *aoarrayt_x)
