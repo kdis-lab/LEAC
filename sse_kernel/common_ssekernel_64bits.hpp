@@ -81,17 +81,20 @@ extern "C" {
 
   /* sum <-- x
    */
-  float ssum_kh(const float   *aiarrayfloat_y,const int64_t  aiint64_t_n);
+  /*float ssum_kh(const float   *aiarrayfloat_y,const int64_t  aiint64_t_n);*/
+
+  float ssum_kh(const int64_t n, const float  *x, const int64_t incx, const float*, const int64_t);
   
-  double dsum_kh(const int64_t n, const double  *x, const int64_t incx, const int*, const int64_t);
+  double dsum_kh(const int64_t n, const double  *x, const int64_t incx, const double*, const int64_t);
 
   long int isum_kh(const int64_t n, const int *x, const int64_t incx, const int*, const int64_t);
 
   /*a_ij = a_ij + alpha(a_ij - xj)
    */
-  int daasxpa_kh(const int64_t m, const int64_t n, const int64_t, const double alpha, const double *a, const int64_t lda, const double *x, int64_t, double*, int64_t);
+  int daasxpa_kh(const int64_t m, const int64_t n, const int64_t, const double alpha, double *a, const int64_t, const double *x, int64_t, double*, int64_t);
 
-  void saasxpa_kh(const float aif_alpha, float *aimatrixrowfloat_a, const int64_t  aiint64_numRows, const int64_t  aiint64_numColumns, const float    *aiarrayfloat_x);
+  int saasxpa_kh(const int64_t m, const int64_t n, const int64_t, const float alpha, float *a, const int64_t, const float  *x, int64_t, float*, int64_t);
+  // void saasxpa_kh(const float aif_alpha, float *aimatrixrowfloat_a, const int64_t  aiint64_numRows, const int64_t  aiint64_numColumns, const float    *aiarrayfloat_x);
   
 #ifdef __cplusplus
 }
