@@ -43,7 +43,8 @@ proposals in this area:
   </tr>
   <tr>
     <td>GA</td>
-    <td>[gaclustering_fklabel](http://doi.acm.org/10.1145/331499.331504)</td>
+    <td>  <a href="http://doi.acm.org/10.1145/331499.331504">gaclustering_fklabel</a>
+    [gaclustering_fklabel](http://doi.acm.org/10.1145/331499.331504) </td>
     <td>\cite Murthy:Chowdhury:GAclustering:GA:1996</td>
   </tr>
   <tr>
