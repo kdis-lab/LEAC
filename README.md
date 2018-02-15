@@ -21,11 +21,12 @@ data structures and algorithms, for example,
 Numerics library of Pseudo-random number generation which is 
 fundamental in the genetic and evolutionary algorithms.
 An additional feature that LEAC has is a low-level software layer
-based on Streaming SIMD Extensions (SSE)\cite progguide:intel10
-and in the 
-[OpenBLAS](http://www.openblas.net) library.
-\href{http://www.openblas.net}{OpenBLAS} 
-library,in order to increase performance.
+based on Streaming SIMD Extensions (SSE) and in the 
+[OpenBLAS](http://www.openblas.net) library ,in order to
+increase performance. For now only for Linux x86_64, for future
+versions it is intended to port to other architectures and
+increase the number of genetic operators implemented with
+these software layers
 
 LEAC demonstrates its ease of implementation of algorithms, 
 by including a collection of genetic and evolutionary programs (EAC), 
