@@ -46,12 +46,12 @@ proposals in this area:
 	 FGKA 	fgka_fklabebl 	\cite Lu:etal:GAclusteringLabel:FGKA:2004
     </td>
     <td> <a href="http://dx.doi.org/10.1016/j.eswa.2012.02.149">GGA</a> gga_vklabeldbindex and gga_vklabelsilhouette,
-         <a href="http://iospress.metapress.com/content/adhnkma5h48f1l0q/">CGA</a> cga_vklabel, 
-	 EAC eac_vklabel	\cite Hruschka:etal:GAClusteringLabelKVar:EAC:2006
-	 EAC I			eaci_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
-	 EAC II			eacii_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
-	 EAC III		eaciii_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
-	 FEAC			feac_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
+         <a href="http://dl.acm.org/citation.cfm?id=1293920.1293922">CGA</a> cga_vklabel,
+	 <a href="http://dx.doi.org/10.1016/j.ins.2005.07.015">EAC</a> eac_vklabel,
+         <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">EAC I</a> eaci_vklabel,
+	 <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">EAC II</a> eacii_vklabel,
+	 <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">EAC III</a> eaciii_vklabel,
+	 <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">FEAC</a> feac_vklabel
     </td>
    </tr>
    <tr>
