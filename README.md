@@ -33,137 +33,52 @@ partitional clustering which are based on state-of-art of evolutionary
 proposals in this area:
 
 <table>
-  <tr>
-    <th>Fixed-K</th>
-  </tr>
    <tr>
-    <th>Algorithms</th>
-    <th>Program</th>
-    <th>Based on</th>
-  </tr>
-  <tr>
-    <td>GA</td>
-    <td>  <a href="http://doi.acm.org/10.1145/331499.331504">gaclustering_fklabel</a>
-    [gaclustering_fklabel](http://doi.acm.org/10.1145/331499.331504) </td>
-    <td>\cite Murthy:Chowdhury:GAclustering:GA:1996</td>
-  </tr>
-  <tr>
-    <td>GKA</td>
-    <td>gka_fklabel</td>
-    <td>\cite Krishna:Murty:GAClustering:GKA:1999</td>
-  </tr>
-  <tr>
-    <td>IGKA</td>
-    <td>igka_fklabel</td>
-    <td>\cite Lu:etal:GAclusteringLabel:IGKA:2004</td>
-  </tr>
-  <tr>
-    <td>FGKA</td>
-    <td>fgka_fklabebl</td>
-    <td>\cite Lu:etal:GAclusteringLabel:FGKA:2004</td>
-  </tr>
-  <tr>
-    <td>GA</td>
-    <td>gaclustering_fkcrispmatrix</td>
-    <td>\cite Bezdek:etal:GAclustering:GA:1994</td>
-  </tr>
-  <tr>
-    <td>GAS</td>
-    <td>gas_fkcentroid</td>
-    <td>\cite Maulik:Bandyopadhyay:GAclustering:GAS:2000</td>
-  </tr>
-  <tr>
-    <td>KGA</td>
-    <td>kga_fkcentroid</td>
-    <td>\cite Bandyopadhyay:Maulik:GAclustering:KGA:2002</td>
-  </tr>
-  <tr>
-    <td>GAGR</td>
-    <td>gagr_fkcentroid</td>
-    <td>\cite Chang:etal:GAclustering:GAGR:2009</td>
-  </tr>
-  <tr>
-    <td>CBGA</td>
-    <td>cbga_fkcentroid_int and cbga_fkcentroid</td>
-    <td>\cite Franti:etal:GAclustering:gafranti:1997</td> 
-  </tr>
-  <tr>
-    <td>GA-Prototypes</td>
-    <td>gaprototypes_fkmedoid</td>
-    <td>\cite Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997</td>
-  </tr>
-  <tr>
-    <td>HKA</td>
-    <td>hka_fkmedoid</td>
-    <td>\cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004</td>
-  </tr>
-  <tr>
-    <td>GCA</td>
-    <td>gca_fkmedoid</td>
-    <td>\cite Lucasius:etal:GAclusteringMedoid:GCA:1993</td>
-  </tr>
-  <tr>
+    <th>Encode</th>
+    <th>Fixed-K</th>
     <th>Variable-K</th>
   </tr>
   <tr>
-    <th>Algorithms</th>
-    <th>Program</th>
-    <th>Based on</th>
-  </tr>
-  <tr>
-    <td>GGA</td>
-    <td>gga_vklabeldbindex and gga_vklabelsilhouette</td>
-    <td>\cite Agustin:etal:GAclusteringVarK:GGA:2012</td>
-  </tr>
-   <tr>
-    <td>CGA</td>
-    <td>cga_vklabel</td>
-    <td>\cite Hruschka:etal:GAclusteringLabelKVar:CGAII:2004 \cite Hruschka:etal:GAClusteringLabelKVar:EAC:2006</td>
-  </tr>
-  <tr>
-    <td>EAC</td>
-    <td>eac_vklabel</td>
-    <td>\cite Hruschka:etal:GAClusteringLabelKVar:EAC:2006</td>
-  </tr>
-  <tr>
-    <td>EAC I</td>
-    <td>eaci_vklabel</td>
-    <td>\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006</td>
-  </tr>
-  <tr>
-    <td>EAC II</td>
-    <td>eacii_vklabel</td>
-    <td>\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006</td>
-  </tr>
-  <tr>
-    <td>EAC III</td>
-    <td>eaciii_vklabel</td>
-    <td>\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006</td>
-  </tr>
-  <tr>
-    <td>FEAC</td>
-    <td>feac_vklabel</td>
-    <td>\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006</td>
-  </tr>
-  <tr>
-    <td>GCUK</td>
-    <td>gcuk_vkcentroid</td>
-    <td>\cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002</td>
-  </tr>
-  <tr>
-    <td>TGCA</td>
-    <td>tgca_vkcentroid</td>
-    <td>\cite He:Tan:GAclusteringVarK:TGCA:2012</td>
-  </tr>
-  <tr>
-    <td>CLUSTERING</td>
-    <td>clustering_vksubclusterbinary</td>
-    <td>\cite Tseng:Yang:GAclusteringVarK:CLUSTERING:2001</td>
-  </tr>
-  <tr>
-    <td>GA</td>
-    <td>gaclustering_vktreebinary</td>
-    <td>\cite Casillas:etal:GAclusteringVarK:GA:2003</td>
-  </tr>
+    <td>Label</td>
+    <td> GA [gaclustering_fklabel](http://dx.doi.org/10.1016/0167-8655(96)00043-8),
+         GKA	gka_fklabel	\cite Krishna:Murty:GAClustering:GKA:1999
+	 IGKA 	igka_fklabel 	\cite Lu:etal:GAclusteringLabel:IGKA:2004
+	 FGKA 	fgka_fklabebl 	\cite Lu:etal:GAclusteringLabel:FGKA:2004
+    </td>
+    <td> GGA [gga_vklabeldbindex](http://dx.doi.org/10.1016/j.eswa.2012.02.149),
+             [gga_vklabelsilhouette](http://dx.doi.org/10.1016/j.eswa.2012.02.149),
+         CGA [cga_vklabel](http://iospress.metapress.com/content/adhnkma5h48f1l0q/)
+	 EAC eac_vklabel	\cite Hruschka:etal:GAClusteringLabelKVar:EAC:2006
+	 EAC I			eaci_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
+	 EAC II			eacii_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
+	 EAC III		eaciii_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
+	 FEAC			feac_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
+    </td>
+    <td>Crisp-matrix</td>
+     <td> GA	gaclustering_fkcrispmatrix	\cite Bezdek:etal:GAclustering:GA:1994
+     </td>
+     <td></td>
+    <td>Centroid</td>
+    <td> GAS	gas_fkcentroid	\cite Maulik:Bandyopadhyay:GAclustering:GAS:2000
+         KGA	kga_fkcentroid	\cite Bandyopadhyay:Maulik:GAclustering:KGA:2002
+	 GAGR	gagr_fkcentroid	\cite Chang:etal:GAclustering:GAGR:2009
+	 CBGA	cbga_fkcentroid_int and cbga_fkcentroid	\cite Franti:etal:GAclustering:gafranti:1997
+    </td>
+    <td> GCUK	gcuk_vkcentroid	\cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002,
+         TGCA	tgca_vkcentroid	\cite He:Tan:GAclusteringVarK:TGCA:2012
+    </td>
+    <td>Medoid</td>
+     <td> GA-Prototypes	gaprototypes_fkmedoid	\cite Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997
+          HKA	hka_fkmedoid	\cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004
+          GCA	gca_fkmedoid	\cite Lucasius:etal:GAclusteringMedoid:GCA:1993
+     </td>
+     <td></td>
+     <td>Tree</td>
+     <td></td>
+     <td>GA	gaclustering_vktreebinary	\cite Casillas:etal:GAclusteringVarK:GA:2003
+     <td>Sub-cluster</td>
+     <td></td>
+     <td> GA	gaclustering_vktreebinary	\cite Casillas:etal:GAclusteringVarK:GA:2003</td>
+     </tr>
 </table>
 
