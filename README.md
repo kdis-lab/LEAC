@@ -13,8 +13,7 @@ including *data mining*, *document retrieval*, *image segmentation*,
 and *pattern classification*
 \cite Jain:Murty:Flynn:ClusteringSurvey:1999
 
-<img src="../leac_cluster.svg" alt="Clustering">
-
+![](../master/doc/leac_cluster.svg)
 
 LEAC is built in C ++ with the current standards of C++11, C++14.
 Take advantage of the STL library, through the use of 
