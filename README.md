@@ -28,9 +28,9 @@ versions it is intended to port to other architectures and
 increase the number of genetic operators implemented with
 these software layers
 
-LEAC demonstrates its ease of implementation of algorithms, 
-by including a collection of genetic and evolutionary programs (EAC), 
-which can be used to perform cluster analysis of a data set.
+LEAC also includes several implementations of evolutionary algorithms for
+partitional clustering which are based on state-of-art of evolutionary
+proposals in this area:
 
 <table>
   <tr>
@@ -43,7 +43,7 @@ which can be used to perform cluster analysis of a data set.
   </tr>
   <tr>
     <td>GA</td>
-    <td>gaclustering_fklabel</td>
+    <td>[gaclustering_fklabel](http://doi.acm.org/10.1145/331499.331504)</td>
     <td>\cite Murthy:Chowdhury:GAclustering:GA:1996</td>
   </tr>
   <tr>
