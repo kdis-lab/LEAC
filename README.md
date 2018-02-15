@@ -40,13 +40,13 @@ proposals in this area:
   </tr>
   <tr>
     <td>Label</td>
-    <td> <a href="http://dx.doi.org/10.1016/0167-8655(96)00043-8">GA gaclustering_fklabel</a>
+    <td> <a href="http://dx.doi.org/10.1016/0167-8655(96)00043-8">GA</a> gaclustering_fklabel, 
          GKA	gka_fklabel	\cite Krishna:Murty:GAClustering:GKA:1999
 	 IGKA 	igka_fklabel 	\cite Lu:etal:GAclusteringLabel:IGKA:2004
 	 FGKA 	fgka_fklabebl 	\cite Lu:etal:GAclusteringLabel:FGKA:2004
     </td>
-    <td> <a href="http://dx.doi.org/10.1016/j.eswa.2012.02.149">GGA gga_vklabeldbindex gga_vklabelsilhouette</a>,
-         CGA [cga_vklabel](http://iospress.metapress.com/content/adhnkma5h48f1l0q/)
+    <td> <a href="http://dx.doi.org/10.1016/j.eswa.2012.02.149">GGA</a> gga_vklabeldbindex and gga_vklabelsilhouette,
+         <a href="http://iospress.metapress.com/content/adhnkma5h48f1l0q/">CGA</a> cga_vklabel, 
 	 EAC eac_vklabel	\cite Hruschka:etal:GAClusteringLabelKVar:EAC:2006
 	 EAC I			eaci_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
 	 EAC II			eacii_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
