@@ -40,13 +40,12 @@ proposals in this area:
   </tr>
   <tr>
     <td>Label</td>
-    <td> GA [gaclustering_fklabel](http://dx.doi.org/10.1016/0167-8655(96)00043-8),
+    <td> <a href="http://dx.doi.org/10.1016/0167-8655(96)00043-8">GA gaclustering_fklabel</a>
          GKA	gka_fklabel	\cite Krishna:Murty:GAClustering:GKA:1999
 	 IGKA 	igka_fklabel 	\cite Lu:etal:GAclusteringLabel:IGKA:2004
 	 FGKA 	fgka_fklabebl 	\cite Lu:etal:GAclusteringLabel:FGKA:2004
     </td>
-    <td> GGA [gga_vklabeldbindex](http://dx.doi.org/10.1016/j.eswa.2012.02.149),
-             [gga_vklabelsilhouette](http://dx.doi.org/10.1016/j.eswa.2012.02.149),
+    <td> <a href="http://dx.doi.org/10.1016/j.eswa.2012.02.149">GGA gga_vklabeldbindex gga_vklabelsilhouette</a>,
          CGA [cga_vklabel](http://iospress.metapress.com/content/adhnkma5h48f1l0q/)
 	 EAC eac_vklabel	\cite Hruschka:etal:GAClusteringLabelKVar:EAC:2006
 	 EAC I			eaci_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
@@ -54,10 +53,14 @@ proposals in this area:
 	 EAC III		eaciii_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
 	 FEAC			feac_vklabel	\cite Alves:etal:GAclusteringLabelKVar:FEAC:2006
     </td>
+   </tr>
+   <tr>
     <td>Crisp-matrix</td>
      <td> GA	gaclustering_fkcrispmatrix	\cite Bezdek:etal:GAclustering:GA:1994
      </td>
      <td></td>
+   </tr>
+  <tr>
     <td>Centroid</td>
     <td> GAS	gas_fkcentroid	\cite Maulik:Bandyopadhyay:GAclustering:GAS:2000
          KGA	kga_fkcentroid	\cite Bandyopadhyay:Maulik:GAclustering:KGA:2002
@@ -67,18 +70,25 @@ proposals in this area:
     <td> GCUK	gcuk_vkcentroid	\cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002,
          TGCA	tgca_vkcentroid	\cite He:Tan:GAclusteringVarK:TGCA:2012
     </td>
+    </tr>
+    <tr>
     <td>Medoid</td>
      <td> GA-Prototypes	gaprototypes_fkmedoid	\cite Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997
           HKA	hka_fkmedoid	\cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004
           GCA	gca_fkmedoid	\cite Lucasius:etal:GAclusteringMedoid:GCA:1993
      </td>
      <td></td>
+     </tr>
+     <tr>
      <td>Tree</td>
      <td></td>
      <td>GA	gaclustering_vktreebinary	\cite Casillas:etal:GAclusteringVarK:GA:2003
+     </tr>
+     <tr>
      <td>Sub-cluster</td>
      <td></td>
      <td> GA	gaclustering_vktreebinary	\cite Casillas:etal:GAclusteringVarK:GA:2003</td>
      </tr>
+     <tr>
 </table>
 
