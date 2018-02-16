@@ -62,32 +62,32 @@ proposals in this area:
    </tr>
   <tr>
     <td>Centroid</td>
-    <td> GAS	gas_fkcentroid	\cite Maulik:Bandyopadhyay:GAclustering:GAS:2000
-         KGA	kga_fkcentroid	\cite Bandyopadhyay:Maulik:GAclustering:KGA:2002
-	 GAGR	gagr_fkcentroid	\cite Chang:etal:GAclustering:GAGR:2009
-	 CBGA	cbga_fkcentroid_int and cbga_fkcentroid	\cite Franti:etal:GAclustering:gafranti:1997
+    <td> <a href="http://dx.doi.org/10.1016/S0031-3203(99)00137-5">gas_fkcentroid</a>
+         <a href="http://dx.doi.org/10.1016/S0020-0255(02)00208-6">kga_fkcentroid</a>
+	 <a href="http://dx.doi.org/10.1016/j.patcog.2008.11.006">gagr_fkcentroid</a>
+	 <a href="http://dx.doi.org/10.1093/comjnl/40.9.547">CBGA</a>
     </td>
-    <td> GCUK	gcuk_vkcentroid	\cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002,
-         TGCA	tgca_vkcentroid	\cite He:Tan:GAclusteringVarK:TGCA:2012
+    <td> <a href=""></a> GCUK	gcuk_vkcentroid	\cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002,
+         <a href=""></a> TGCA	tgca_vkcentroid	\cite He:Tan:GAclusteringVarK:TGCA:2012
     </td>
     </tr>
     <tr>
     <td>Medoid</td>
-     <td> GA-Prototypes	gaprototypes_fkmedoid	\cite Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997
-          HKA	hka_fkmedoid	\cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004
-          GCA	gca_fkmedoid	\cite Lucasius:etal:GAclusteringMedoid:GCA:1993
+     <td> <a href=""></a> GA-Prototypes	gaprototypes_fkmedoid	\cite Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997
+          <a href=""></a> HKA	hka_fkmedoid	\cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004
+          <a href=""></a> GCA	gca_fkmedoid	\cite Lucasius:etal:GAclusteringMedoid:GCA:1993
      </td>
      <td></td>
      </tr>
      <tr>
      <td>Tree</td>
      <td></td>
-     <td>GA	gaclustering_vktreebinary	\cite Casillas:etal:GAclusteringVarK:GA:2003
+     <td>  <a href=""></a> GA	gaclustering_vktreebinary	\cite Casillas:etal:GAclusteringVarK:GA:2003
      </tr>
      <tr>
      <td>Sub-cluster</td>
      <td></td>
-     <td> GA	gaclustering_vktreebinary	\cite Casillas:etal:GAclusteringVarK:GA:2003</td>
+     <td> <a href=""></a> GA	gaclustering_vktreebinary	\cite Casillas:etal:GAclusteringVarK:GA:2003</td>
      </tr>
      <tr>
 </table>
