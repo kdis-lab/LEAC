@@ -65,7 +65,7 @@ proposals in this area:
     <td> <a href="http://dx.doi.org/10.1016/S0031-3203(99)00137-5">gas_fkcentroid</a>
          <a href="http://dx.doi.org/10.1016/S0020-0255(02)00208-6">kga_fkcentroid</a>
 	 <a href="http://dx.doi.org/10.1016/j.patcog.2008.11.006">gagr_fkcentroid</a>
-	 <a href="http://dx.doi.org/10.1093/comjnl/40.9.547">CBGA</a>
+	 <a href="http://dx.doi.org/10.1093/comjnl/40.9.547">cbga_fkcentroid</a>
     </td>
     <td> <a href=""></a> GCUK	gcuk_vkcentroid	\cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002,
          <a href=""></a> TGCA	tgca_vkcentroid	\cite He:Tan:GAclusteringVarK:TGCA:2012
