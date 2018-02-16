@@ -46,7 +46,7 @@ proposals in this area:
 	 <a href="http://doi.acm.org/10.1145/967900.968029">fgka_fklabel</a>
     </td>
     <td> <a href="http://dx.doi.org/10.1016/j.eswa.2012.02.149">gga_vklabeldbindex and gga_vklabelsilhouette</a>,
-         <a href="http://dl.acm.org/citation.cfm?id=1293920.1293922">cga_vklabel</a> ,
+         <a href="http://dl.acm.org/citation.cfm?id=1293920.1293922">cga_vklabel</a>,
 	 <a href="http://dx.doi.org/10.1016/j.ins.2005.07.015">eac_vklabel</a>,
          <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">eaci_vklabel</a>,
 	 <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">eacii_vklabel</a>,
@@ -56,7 +56,7 @@ proposals in this area:
    </tr>
    <tr>
     <td>Crisp-matrix</td>
-     <td> GA	gaclustering_fkcrispmatrix	\cite Bezdek:etal:GAclustering:GA:1994
+     <td> <a href="http://dx.doi.org/10.1109/ICEC.1994.350046">gaclustering_fkcrispmatrix</a>
      </td>
      <td></td>
    </tr>
