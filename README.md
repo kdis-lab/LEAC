@@ -41,7 +41,7 @@ proposals in this area:
   <tr>
     <td>Label</td>
     <td> <a href="http://dx.doi.org/10.1016/0167-8655(96)00043-8">gaclustering_fklabel</a>,
-         <a href="http://dblp.uni-trier.de">gka_fklabel</a>,
+         <a href="http://dx.doi.org/10.1109/3477.764879">gka_fklabel</a>,
 	 <a href="http://dx.doi.org/10.1186/1471-2105-5-172">igka_fklabel</a>,
 	 <a href="http://doi.acm.org/10.1145/967900.968029">fgka_fklabel</a>
     </td>
