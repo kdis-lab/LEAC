@@ -40,18 +40,18 @@ proposals in this area:
   </tr>
   <tr>
     <td>Label</td>
-    <td> <a href="http://dx.doi.org/10.1016/0167-8655(96)00043-8">GA</a> gaclustering_fklabel, 
-         GKA	gka_fklabel	\cite Krishna:Murty:GAClustering:GKA:1999
-	 IGKA 	igka_fklabel 	\cite Lu:etal:GAclusteringLabel:IGKA:2004
-	 FGKA 	fgka_fklabebl 	\cite Lu:etal:GAclusteringLabel:FGKA:2004
+    <td> <a href="http://dx.doi.org/10.1016/0167-8655(96)00043-8">gaclustering_fklabel</a>,
+         <a href="http://dblp.uni-trier.de">gka_fklabel</a>,
+	 <a href="http://dx.doi.org/10.1186/1471-2105-5-172">igka_fklabel</a>,
+	 <a href="http://doi.acm.org/10.1145/967900.968029">fgka_fklabel</a>
     </td>
-    <td> <a href="http://dx.doi.org/10.1016/j.eswa.2012.02.149">GGA</a> gga_vklabeldbindex and gga_vklabelsilhouette,
-         <a href="http://dl.acm.org/citation.cfm?id=1293920.1293922">CGA</a> cga_vklabel,
-	 <a href="http://dx.doi.org/10.1016/j.ins.2005.07.015">EAC</a> eac_vklabel,
-         <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">EAC I</a> eaci_vklabel,
-	 <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">EAC II</a> eacii_vklabel,
-	 <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">EAC III</a> eaciii_vklabel,
-	 <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">FEAC</a> feac_vklabel
+    <td> <a href="http://dx.doi.org/10.1016/j.eswa.2012.02.149">gga_vklabeldbindex and gga_vklabelsilhouette</a>,
+         <a href="http://dl.acm.org/citation.cfm?id=1293920.1293922">cga_vklabel</a> ,
+	 <a href="http://dx.doi.org/10.1016/j.ins.2005.07.015">eac_vklabel</a>,
+         <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">eaci_vklabel</a>,
+	 <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">eacii_vklabel</a>,
+	 <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">eaciii_vklabel</a>,
+	 <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">feac_vklabel</a>
     </td>
    </tr>
    <tr>
