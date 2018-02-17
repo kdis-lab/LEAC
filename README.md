@@ -5,13 +5,12 @@ of evolutionary and genetic algorithms to solve the problem of *partition cluste
 The tools is free and open source, under the GNU General Public
 [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html) 
 [\[License file\]](../../LICENSE),
-for Windows&reg;, GNU/Linux&reg; and OS X&reg;.
+for Windows&reg;, GNU/Linux&reg; and Mac OS X&reg;.
 
 Clustering is useful in several exploratory *pattern-analysis*,
 *grouping*, *decision-making*, and *machine-learning situations*,
 including *data mining*, *document retrieval*, *image segmentation*,
-and *pattern classification*
-\cite Jain:Murty:Flynn:ClusteringSurvey:1999
+and *pattern classification* <a href="http://doi.acm.org/10.1145/331499.331504">Jain et al</a>.
 
 ![](../master/doc/leac_cluster.svg)
 
