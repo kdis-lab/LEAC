@@ -72,10 +72,9 @@ proposals in this area:
     </td>
     </tr>
     <tr>
-    <td>Medoid</td>
-     <td> <a href=""></a> GA-Prototypes	gaprototypes_fkmedoid	\cite Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997
-          <a href=""></a> HKA	hka_fkmedoid	\cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004
-          <a href=""></a> GCA	gca_fkmedoid	\cite Lucasius:etal:GAclusteringMedoid:GCA:1993
+    <td>Medoid</td> gaprototypes_fkmedoid,
+          <a href="http://dx.doi.org/10.1109/CEC.2004.1330840">hka_fkmedoid</a>,
+          <a href="https://doi.org/10.1016/0003-2670(93)80130-D">gca_fkmedoid</a>
      </td>
      <td></td>
      </tr>
