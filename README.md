@@ -82,12 +82,12 @@ proposals in this area:
 	<tr>
 	  <td>Tree</td>
 	  <td></td>
-	  <td>  <a href=""></a> GA	gaclustering_vktreebinary	\cite Casillas:etal:GAclusteringVarK:GA:2003
+	  <td>  <a href="http://dx.doi.org/10.1007/978-3-540-39398-6_7">gaclustering_vktreebinary</a> 
 	</tr>
 	<tr>
 	  <td>Sub-cluster</td>
 	  <td></td>
-	  <td> <a href=""></a> GA	gaclustering_vktreebinary	\cite Casillas:etal:GAclusteringVarK:GA:2003</td>
+	  <td> <a href="http://dx.doi.org/10.1016/S0031-3203(00)00005-4">clustering_vksubclusterbinary</a> 
 	</tr>
     </table>
 
