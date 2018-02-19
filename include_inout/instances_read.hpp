@@ -49,12 +49,17 @@
 
 namespace  inout {
     
-/*readNumInstances:  
- */ 
+
+/*! \fn std::pair<uintidx,uintidx> readNumInstances(inout::InParamReadInst  &aiipri_inParamReadInst, const bool aib_fileTest = false) 
+    \brief Read the number of instances or objects 
+    \details 
+    \param aiipri_inParamReadInst a inout::InParamReadInst with the necessary parameters to read a data set file
+    \param aib_fileTest a bool to specify if the data set is a test
+ */
 std::pair<uintidx,uintidx>
 readNumInstances
 (inout::InParamReadInst  &aiipri_inParamReadInst,
- const    bool             aib_fileTest = false
+ const    bool           aib_fileTest = false
  ) 
 {
   const std::string lstr_fileInstance
@@ -149,10 +154,16 @@ readNumInstances
 }
 
 
+/*! \fn std::vector<std::string>  instancesReadDimName (inout::InParamReadInst &aiipri_inParamReadInst, const bool aib_fileTest = false) 
+    \brief Read the name of the dimensions of instances or objects 
+    \details 
+    \param aiipri_inParamReadInst a inout::InParamReadInst with the necessary parameters to read a data set file
+    \param aib_fileTest a bool to specify if the data set is a test
+ */
 std::vector<std::string>  
 instancesReadDimName
 (inout::InParamReadInst &aiipri_inParamReadInst,
- const    bool             aib_fileTest = false        
+ const    bool          aib_fileTest = false        
  ) 
 {
   const std::string lstr_fileInstance
@@ -248,11 +259,13 @@ instancesReadDimName
   return lovectorstr_dimensionsName;  
 }
 
- 
-/*instancesRead
-  return std::vector<Instance<T_FEATURE>* > 
-*/
 
+/*! \fn std::vector<data::Instance<T_FEATURE>* > instancesRead (inout::InParamReadInst &aiipri_inParamReadInst, const bool aib_fileTest = false)  
+    \brief Read the instances or objects 
+    \details 
+    \param aiipri_inParamReadInst a inout::InParamReadInst with the necessary parameters to read a data set file
+    \param aib_fileTest a bool to specify if the data set is a test
+ */
 #ifdef __INSTANCES_WITH_FREQUENCY
 template < typename T_FEATURE,
 	   typename T_INSTANCE_FREQUENCY
@@ -372,8 +385,12 @@ instancesRead
 } /* instancesRead */
 
 
-/*instancesRead: instances with class
- */
+/*! \fn std::vector<data::Instance<T_FEATURE>* > instancesReadWithClass(inout::InParamReadInst   &aiipri_inParamReadInst, const boolaib_fileTest = false)  
+    \brief Read the instances or objects with class
+    \details 
+    \param aiipri_inParamReadInst a inout::InParamReadInst with the necessary parameters to read a data set file
+    \param aib_fileTest a bool to specify if the data set is a test
+ */  
 #ifdef __INSTANCES_WITH_FREQUENCY
 template < typename T_FEATURE,
 	   typename T_INSTANCE_FREQUENCY,
