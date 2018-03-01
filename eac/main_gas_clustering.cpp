@@ -5,15 +5,15 @@
  * \details This file is part of the LEAC.\n\n
  * \version 1.0
  * \date 2015-2017
- * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
+ * \authors Hermes Robles <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 #include <iostream>
+
 #include <leac.hpp>
 #include "inparamclustering_getparameter.hpp"
 #include "instances_read.hpp"
 #include "instances_classfrequency_read.hpp"
-
 #include "bar_progress.h"
 
 
@@ -75,7 +75,7 @@
 #endif /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
 
 
-/* Fixed-K --- Encode medoid
+/*Fixed-K --- Encode medoid
  */
 #ifdef  ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993
 #include "datatype_instance_real.hpp"
@@ -161,11 +161,9 @@ int main(int argc, char **argv)
   geverbosepc_labelstep = lpc_labeMain;
 #endif /*__VERBOSE_YES*/
   
-  /*\cite{Murthy:Chowdhury:GAclustering:GA:1996}    
-    IN:
-  */
 #ifdef ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996   
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringProbCProbMFixedK
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -193,10 +191,10 @@ int main(int argc, char **argv)
   
 #endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996*/
 
-  /*\cite{Franti:etal:GAclustering:gafranti:1997}
-   */
+
 #ifdef  ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamCBGA
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -210,10 +208,12 @@ int main(int argc, char **argv)
      inout::CENTROIDS,
      INPARAMCLUSTERING_DISTANCE_EUCLIDEAN_SQ,
      INPARAMCLUSTERING_CBGA_SELECMETH_ELITIST1,
-     (int) 0 //Number of GLA iterations
+     (int) 0 /*NUMBER OF GLA ITERATIONS*/
      ); 
-  linparam_ClusteringGA.setNumMaxGenerations(256); /*NUMBER MAXIMUM NUMBER OF GENERATION*/ 
-  linparam_ClusteringGA.setSizePopulation(8);      /*SIZE POPULATION*/
+  /*NUMBER MAXIMUM NUMBER OF GENERATION*/ 
+  linparam_ClusteringGA.setNumMaxGenerations(256); 
+  /*SIZE POPULATION*/
+  linparam_ClusteringGA.setSizePopulation(8);      
   linparam_ClusteringGA.setProbMutation(0.01);
 
   inout::OutParamGAClustering
@@ -223,10 +223,10 @@ int main(int argc, char **argv)
     
 #endif /*ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997*/
 
-  /*\cite{Krishna:Murty:GAClustering:GKA:1999}
-   */
+
 #ifdef ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringGKA
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -251,11 +251,10 @@ int main(int argc, char **argv)
 
 #endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999*/
 
-  /*\cite{Lu:etal:GAclusteringLabel:FGKA:2004}
-    \cite{Lu:etal:GAclusteringLabel:IGKA:2004}
-  */
+
 #ifdef ALG_IGKA_FKLABEL_LU_ETAL2004 
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringGKA
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -279,7 +278,8 @@ int main(int argc, char **argv)
 #endif /*ALG_IGKA_FKLABEL_LU_ETAL2004*/
 
 #ifdef ALG_FGKA_FKLABEL_LU_ETAL2004 
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringGKA
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -303,10 +303,10 @@ int main(int argc, char **argv)
     lopcga_outParamClusteringGA(inout::TWCV);
 #endif /*ALG_FGKA_FKLABEL_LU_ETAL2004*/
 
-  /*\cite{Maulik:Bandyopadhyay:GAclustering:GAS:2000}
-   */ 
+
 #ifdef  ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringProbCProbMFixedK
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -334,10 +334,9 @@ int main(int argc, char **argv)
     
 #endif /*ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000*/
 
-  /*\cite{Bandyopadhyay:Maulik:GAclustering:KGA:2002}
-   */
 #ifdef  ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringProbCProbMFixedK
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -366,10 +365,10 @@ int main(int argc, char **argv)
     
 #endif /*ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002*/
 
-  /*\cite{Bandyopadhyay:Maulik:GACVarK:GCUK:2002}
-   */
+
 #ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringProbCProbMRangeK
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -399,11 +398,10 @@ int main(int argc, char **argv)
      DATATYPE_CLUSTERIDX>      lopcga_outParamClusteringGA(inout::DBindex);
 #endif /*ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002*/
   
-  /*\cite{Casillas:etal:GAclusteringVarK:GA:2003}
-   */
-#ifdef ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003
-  /*INPUT: PARAMETER*/
 
+#ifdef ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003
+  /*INPUT: PARAMETER
+   */
 #ifdef _INITIATES_KMIN_KMAX_POPULATION_
   inout::InParamGAClusteringVKTreeBinary
     <DATATYPE_BITSIZE,
@@ -433,11 +431,15 @@ int main(int argc, char **argv)
   linparam_ClusteringGA.setNumClusterKMaximum(INPARAMCLUSTERING_DEFAULT_CLUSTERK_UNDEFINED);
   
 #endif //_INITIATES_RANDOM_POPULATION_
-  
-  linparam_ClusteringGA.setNumMaxGenerations(0);  /*NUMBER MAXIMUM NUMBER OF ITERATION*/ 
-  linparam_ClusteringGA.setSizePopulation(0);     /*SIZE POPULATION*/
-  linparam_ClusteringGA.setProbCrossover(0.8);    /*PROBABILITY CROSSOVER*/
-  linparam_ClusteringGA.setProbMutation(0.008);   /*PROBABILITY MUTATION*/
+
+  /*NUMBER MAXIMUM NUMBER OF ITERATION*/ 
+  linparam_ClusteringGA.setNumMaxGenerations(0); 
+  /*SIZE POPULATION*/
+  linparam_ClusteringGA.setSizePopulation(0);
+  /*PROBABILITY CROSSOVER*/
+  linparam_ClusteringGA.setProbCrossover(0.8);
+  /*PROBABILITY MUTATION*/  
+  linparam_ClusteringGA.setProbMutation(0.008);
   linparam_ClusteringGA.setNumNotChangeStop(3);     
   /*OUT
    */
@@ -447,13 +449,14 @@ int main(int argc, char **argv)
  
 #endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
 
-  /*\cite{Tseng:Yang:GAclusteringVarK:CLUSTERING:2001}
-   */
+
 #ifdef ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamClusteringVKSubClusterBinary
     <DATATYPE_REAL,
      DATATYPE_BITSIZE,
+     DATATYPE_CLUSTERIDX,
      DATATYPE_FEATURE,
      DATATYPE_FEATURE_SUM,
      DATATYPE_INSTANCES_CLUSTER_K> 
@@ -473,10 +476,13 @@ int main(int argc, char **argv)
   linparam_ClusteringGA.setW1(1.0);   
   linparam_ClusteringGA.setW2(3.0);
   /*NUMBER MAXIMUM NUMBER OF ITERATION*/ 
-  linparam_ClusteringGA.setNumMaxGenerations(100);  
-  linparam_ClusteringGA.setSizePopulation(50);       /*SIZE POPULATION*/
-  linparam_ClusteringGA.setProbCrossover(0.8);       /*PROBABILITY CROSSOVER*/
-  linparam_ClusteringGA.setProbMutation(0.05);      /*PROBABILITY MUTATION*/
+  linparam_ClusteringGA.setNumMaxGenerations(100);
+  /*SIZE POPULATION*/
+  linparam_ClusteringGA.setSizePopulation(50);       
+  /*PROBABILITY CROSSOVER*/
+  linparam_ClusteringGA.setProbCrossover(0.8); 
+  /*PROBABILITY MUTATION*/
+  linparam_ClusteringGA.setProbMutation(0.05); 
   
   /*OUT
    */
@@ -487,10 +493,6 @@ int main(int argc, char **argv)
 
 #endif /*ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001*/
 
-  /*\cite{Hruschka:Ebecken:GAClusteringLabelKVar:CGA:2003}
-    \cite{Hruschka:Campello:Castro:GAclusteringLabelKVar:CGAII:2004}
-    \cite{Hruschka:Campello:Castro:GAClusteringLabelKVar:EAC:2006}
-  */
 #ifdef ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003   
   /*INPUT: PARAMETER*/
   inout::InParamGAClusteringProbCProbMRangeK
@@ -511,16 +513,11 @@ int main(int argc, char **argv)
   
   linparam_ClusteringGA.setNumMaxGenerations(10000);
   
-  /*we decided to use populations formed by 20 genotypes in the experiments involving the
-    yeast dataset. This choice could be considered rather arbitrary. However, the
-    population size and the number of generations required for convergence are
-    somewhat related.
-  */
+  /*Populations formed by 20 genotypes
+   */
   linparam_ClusteringGA.setSizePopulation(20);
   linparam_ClusteringGA.setProbCrossover(0.5);
   linparam_ClusteringGA.setProbMutation(0.25);
-  //maximum number of clusters is equal to N/2
-  //minimum number of clusters is 2
   
   /*OUT:
    */
@@ -530,11 +527,9 @@ int main(int argc, char **argv)
     lopcga_outParamClusteringGA(inout::Silhouette); 
 #endif /*ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003*/
   
-  /*\cite{Hruschka:Campello:Castro:GAClusteringLabelKVar:EAC:2006}
-   */
 #ifdef ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006
-
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringFEAC
     <DATATYPE_FEATURE,
      DATATYPE_REAL,
@@ -548,10 +543,10 @@ int main(int argc, char **argv)
      inout::LABEL,
      INPARAMCLUSTERING_DISTANCE_EUCLIDEAN
      ); 
-
-  linparam_ClusteringGA.setNumMaxGenerations(500); /*NUMBER MAXIMUM NUMBER OF GENERATION*/
- 
-  linparam_ClusteringGA.setSizePopulation(20);    /*SIZE POPULATION*/
+  /*NUMBER MAXIMUM NUMBER OF GENERATION*/
+  linparam_ClusteringGA.setNumMaxGenerations(500); 
+  /*SIZE POPULATION*/
+  linparam_ClusteringGA.setSizePopulation(20);    
   
   /*OUT
    */
@@ -559,16 +554,12 @@ int main(int argc, char **argv)
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
     lopcga_outParamClusteringGA(inout::SSilhouette);
-  //DATATYPE_INSTANCES_CLUSTER_K> 
-    
 #endif /*ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006*/
 
-  /*\cite{Alves:etal:GAclusteringLabelKVar:FEAC:2006}
-    EAC-I
-  */
-#ifdef ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006
 
-  /*INPUT: PARAMETER*/
+#ifdef ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringFEAC
     <DATATYPE_FEATURE,
      DATATYPE_REAL,
@@ -582,9 +573,10 @@ int main(int argc, char **argv)
      INPARAMCLUSTERING_DISTANCE_EUCLIDEAN
      ); 
 
-  linparam_ClusteringGA.setNumMaxGenerations(500); /*NUMBER MAXIMUM NUMBER OF GENERATION*/
- 
-  linparam_ClusteringGA.setSizePopulation(20);    /*SIZE POPULATION*/
+  /*NUMBER MAXIMUM NUMBER OF GENERATION*/
+  linparam_ClusteringGA.setNumMaxGenerations(500); 
+  /*SIZE POPULATION*/
+  linparam_ClusteringGA.setSizePopulation(20);    
   
   /*OUT
    */
@@ -592,18 +584,12 @@ int main(int argc, char **argv)
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
     lopcga_outParamClusteringGA(inout::SSilhouette);
-  //   DATATYPE_INSTANCES_CLUSTER_K> 
-    
-
 #endif /*ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006*/
 
 
-  /*\cite{Alves:etal:GAclusteringLabelKVar:FEAC:2006}
-    EAC-II
-  */
 #ifdef ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006
-
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringFEAC
     <DATATYPE_FEATURE,
      DATATYPE_REAL,
@@ -628,17 +614,12 @@ int main(int argc, char **argv)
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
     lopcga_outParamClusteringGA(inout::SSilhouette);
-  // DATATYPE_INSTANCES_CLUSTER_K> 
-    
-
 #endif /*ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006*/
 
-  /*\cite{Alves:etal:GAclusteringLabelKVar:FEAC:2006}
-    EAC-III
-  */
-#ifdef ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006
 
-  /*INPUT: PARAMETER*/
+#ifdef ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringFEAC
     <DATATYPE_FEATURE,
      DATATYPE_REAL,
@@ -663,17 +644,12 @@ int main(int argc, char **argv)
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
     lopcga_outParamClusteringGA(inout::SSilhouette);
-  // DATATYPE_INSTANCES_CLUSTER_K> 
-    
-
 #endif /*ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006*/
 
 
-  /*\cite{Alves:etal:GAclusteringLabelKVar:FEAC:2006}
-   */
 #ifdef  ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006
-
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringFEAC
     <DATATYPE_FEATURE,
      DATATYPE_REAL,
@@ -687,9 +663,10 @@ int main(int argc, char **argv)
      inout::LABEL,
      INPARAMCLUSTERING_DISTANCE_EUCLIDEAN
      ); 
-  linparam_ClusteringGA.setNumMaxGenerations(500); /*NUMBER MAXIMUM NUMBER OF GENERATION*/
- 
-  linparam_ClusteringGA.setSizePopulation(20);    /*SIZE POPULATION*/
+  /*NUMBER MAXIMUM NUMBER OF GENERATION*/ 
+  linparam_ClusteringGA.setNumMaxGenerations(500);
+  /*SIZE POPULATION*/
+  linparam_ClusteringGA.setSizePopulation(20);    
 
   /*OUT
    */
@@ -697,14 +674,11 @@ int main(int argc, char **argv)
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
     lopcga_outParamClusteringGA(inout::SSilhouette);
-    
 #endif /*ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006*/
 
-
-  /*\cite{He:Tan:GAclusteringVarK:TGCA:2012}*/
 #ifdef ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
-  /*INPUT: PARAMETER*/
-
+  /*INPUT: PARAMETER
+   */
 #ifdef __INITIALIZATION_RANDOM_SAMPLING__
   inout::InParamGAClusteringTGCA
     <DATATYPE_CLUSTERIDX,
@@ -753,7 +727,6 @@ int main(int argc, char **argv)
   */
   linparam_ClusteringGA.setProbMutation             
     (UNKNOWN_CLUSTER_REAL);      
-
   /*if k is unknown, its value can be
     in the set K, where K=[kmin,kmax], 
     kmin=2 and kmax = roundo(sqrt(M)).
@@ -766,14 +739,11 @@ int main(int argc, char **argv)
      DATATYPE_CLUSTERIDX
      >
     lopcga_outParamClusteringGA(inout::VRC);
-  
-
 #endif /*ALG_TGCA_VKCENTROID_HE_AND_TAN_2012*/
 
-  /*\cite{Agustin:etal:GAclusteringVarK:GGA:2012} 
-   */  
 #ifdef  ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012
-
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringGGA
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -798,7 +768,8 @@ int main(int argc, char **argv)
 #endif /*ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012*/
 
 #ifdef ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012
-
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringGGA
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL, 
@@ -821,13 +792,11 @@ int main(int argc, char **argv)
      DATATYPE_CLUSTERIDX
      >
     lopcga_outParamClusteringGA(inout::Silhouette);
-  
 #endif /*ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012*/
   
-
-  /*\cite{Chang:etal:GAclustering:GAGR:2009}*/
 #ifdef  ALG_GAGR_FKCENTROID_CHANG_ETAL_2009
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAClusteringProbAdaptive
     <DATATYPE_CLUSTERIDX,
      DATATYPE_FEATURE,         
@@ -840,9 +809,10 @@ int main(int argc, char **argv)
      inout::CENTROIDS,
      INPARAMCLUSTERING_DISTANCE_EUCLIDEAN_SQ
      ); 
-  linparam_ClusteringGA.setNumMaxGenerations(50); /*NUMBER MAXIMUM NUMBER OF GENERATION*/ 
-  linparam_ClusteringGA.setSizePopulation(50);    /*SIZE POPULATION*/
-
+  /*NUMBER MAXIMUM NUMBER OF GENERATION*/ 
+  linparam_ClusteringGA.setNumMaxGenerations(50); 
+  /*SIZE POPULATION*/
+  linparam_ClusteringGA.setSizePopulation(50);    
   /*OUT
    */
   inout::OutParamGAClustering
@@ -852,9 +822,9 @@ int main(int argc, char **argv)
 #endif /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
 
 
-  /*\cite{Lucasius:etal:GAclusteringMedoid:GCA:1993}*/
 #ifdef ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993 
-  /*INPUT: PARAMETER*/
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAMedoidClusteringGCA
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -887,7 +857,8 @@ int main(int argc, char **argv)
 #endif /*ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993*/
 
 #ifdef ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997
-  
+   /*INPUT: PARAMETER
+   */
   inout::InParamGAPrototypes
     <DATATYPE_BITSIZE,
      DATATYPE_CLUSTERIDX,
@@ -908,21 +879,18 @@ int main(int argc, char **argv)
   linparam_ClusteringGA.setProbMutation(0.015);     
   linparam_ClusteringGA.setPini(-1.0);
   linparam_ClusteringGA.setAlpha(10.0);
-
   /*OUT
    */
   inout::OutParamGAClustering
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
     lopcga_outParamClusteringGA(inout::J1);
-  
 #endif /*ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997*/
   
-  /*\cite{Sheng:Xiaohui:GAclusteringMedoid:HKA:2004}
-   */
-#ifdef ALG_HKA_FKMEDOID_SHENG_LUI2004
 
-  /*INPUT: PARAMETER*/
+#ifdef ALG_HKA_FKMEDOID_SHENG_LUI2004
+  /*INPUT: PARAMETER
+   */
   inout::InParamGAMedoidClusteringHKA
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -957,7 +925,8 @@ int main(int argc, char **argv)
 #endif /*ALG_HKA_FKMEDOID_SHENG_LUI2004*/
 
 #ifdef ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
-
+  /*\cite{Sheng:Xiaohui:GAclusteringMedoid:HKA:2004}
+   */
   inout::InParamGAClusteringWithoutProbCProbM
     <DATATYPE_CLUSTERIDX,
      DATATYPE_BITSIZE,
@@ -982,12 +951,10 @@ int main(int argc, char **argv)
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX> 
     lopcga_outParamClusteringGA(inout::J1);
-
 #endif /*ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994*/
   
   /*READ PARAMETER*/
-  inparamclustering_getParameter
-    (linparam_ClusteringGA, argc, argv);
+  inparamclustering_getParameter(linparam_ClusteringGA, argc, argv);
 
 #ifdef __VERBOSE_YES
   std::cout << std::boolalpha;
@@ -1033,11 +1000,6 @@ int main(int argc, char **argv)
 
       lvectorptinst_instances = 
 	inout::instancesReadWithFreqClass
-	<DATATYPE_FEATURE,
-	 DATATYPE_INSTANCE_FREQUENCY,
-	 DATATYPE_INSTANCES_CLUSTER_K,
-	 DATATYPE_CLUSTERIDX
-	 >
 	(linparam_ClusteringGA,
 	 false
 	 );
@@ -1046,11 +1008,6 @@ int main(int argc, char **argv)
 
 	lvectorptinst_instances = 
 	  inout::instancesReadWithFreqClass
-	  <DATATYPE_FEATURE,
-	   DATATYPE_INSTANCE_FREQUENCY,
-	   DATATYPE_INSTANCES_CLUSTER_K,
-	   DATATYPE_CLUSTERIDX
-	   >
 	  (linparam_ClusteringGA,
 	   true
 	   );
@@ -1064,10 +1021,6 @@ int main(int argc, char **argv)
 
       lvectorptinst_instances = 
 	inout::instancesReadWithClass
-	<DATATYPE_FEATURE,
-	 DATATYPE_INSTANCE_FREQUENCY,
-	 DATATYPE_INSTANCES_CLUSTER_K,
-	 DATATYPE_CLUSTERIDX>
 	(linparam_ClusteringGA,
 	 false
 	 );
@@ -1076,10 +1029,6 @@ int main(int argc, char **argv)
 
 	lvectorptinst_instancesTest = 
 	  inout::instancesReadWithClass
-	  <DATATYPE_FEATURE,
-	   DATATYPE_INSTANCE_FREQUENCY,
-	   DATATYPE_INSTANCES_CLUSTER_K,
-	   DATATYPE_CLUSTERIDX>
 	  (linparam_ClusteringGA,
 	   true
 	   );
@@ -1091,9 +1040,6 @@ int main(int argc, char **argv)
 
       lvectorptinst_instances = 
 	inout::instancesReadWithFreq
-	<DATATYPE_FEATURE,
-	 DATATYPE_INSTANCE_FREQUENCY
-	 >
 	(linparam_ClusteringGA,
 	 false
 	 );
@@ -1102,9 +1048,6 @@ int main(int argc, char **argv)
 
 	lvectorptinst_instancesTest = 
 	  inout::instancesReadWithFreq
-	  <DATATYPE_FEATURE,
-	   DATATYPE_INSTANCE_FREQUENCY
-	   >
 	  (linparam_ClusteringGA,
 	   true
 	   );
@@ -1114,9 +1057,6 @@ int main(int argc, char **argv)
 
       lvectorptinst_instances = 
 	inout::instancesRead
-	<DATATYPE_FEATURE,
-	 DATATYPE_INSTANCE_FREQUENCY
-	 >
 	(linparam_ClusteringGA,
 	 false
 	 );
@@ -1125,9 +1065,6 @@ int main(int argc, char **argv)
       
 	lvectorptinst_instancesTest = 
 	  inout::instancesRead
-	  <DATATYPE_FEATURE,
-	   DATATYPE_INSTANCE_FREQUENCY
-	   >
 	  (linparam_ClusteringGA,
 	   true
 	   );
@@ -1140,9 +1077,6 @@ int main(int argc, char **argv)
 
       lvectorptinst_instances = 
 	inout::instancesReadWithClass
-	<DATATYPE_FEATURE,
-	 DATATYPE_INSTANCES_CLUSTER_K,
-	 DATATYPE_CLUSTERIDX>
 	(linparam_ClusteringGA,
 	 false
 	 );
@@ -1151,9 +1085,6 @@ int main(int argc, char **argv)
       
 	lvectorptinst_instancesTest = 
 	  inout::instancesReadWithClass
-	  <DATATYPE_FEATURE,
-	   DATATYPE_INSTANCES_CLUSTER_K,
-	   DATATYPE_CLUSTERIDX>
 	  (linparam_ClusteringGA,
 	   true
 	   );
@@ -1164,7 +1095,6 @@ int main(int argc, char **argv)
 
       lvectorptinst_instances = 
 	inout::instancesRead
-	<DATATYPE_FEATURE>
 	(linparam_ClusteringGA,
 	 false
 	 );
@@ -1173,7 +1103,6 @@ int main(int argc, char **argv)
 
 	lvectorptinst_instancesTest = 
 	  inout::instancesRead
-	  <DATATYPE_FEATURE>
 	  (linparam_ClusteringGA,
 	   true
 	   );	
@@ -1182,7 +1111,6 @@ int main(int argc, char **argv)
     }
 #endif /*__INSTANCES_WITH_FREQUENCY*/
 
- 
     std::vector<std::string> 
       lvectorstr_instanceDimName = 
       inout::instancesReadDimName
@@ -1265,10 +1193,8 @@ int main(int argc, char **argv)
     
     }
 #else /*BEGIN STATISTICS OF INSTANCES__INSTANCES_WITHOUT_FREQUENCY
-       */
-    
+       */    
     {
-      
       DATATYPE_FEATURE_SUM* larray_sumFeatureTmp =
 	new DATATYPE_FEATURE_SUM[data::Instance<DATATYPE_FEATURE>::getNumDimensions()];
 

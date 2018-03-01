@@ -16,7 +16,7 @@
  * and also  <a href="http://www.openblas.net/">OpenBLAS</a> to have a better performance.\n
  * \version 1.0
  * \date 2015-2017
- * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
+ * \authors Hermes Robles <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> \endlink license
  */
 
@@ -82,6 +82,7 @@ clustering_genetic
  inout::InParamClusteringVKSubClusterBinary
  <T_REAL,
  T_BITSIZE,
+ T_CLUSTERIDX,
  T_FEATURE,
  T_FEATURE_SUM,
  T_INSTANCES_CLUSTER_K>                        &aiinpcgaprob_inParamGA,
@@ -1121,6 +1122,7 @@ clustering_vksubclusterbinary
  inout::InParamClusteringVKSubClusterBinary
  <T_REAL,
  T_BITSIZE,
+ T_CLUSTERIDX,
  T_FEATURE,
  T_FEATURE_SUM,
  T_INSTANCES_CLUSTER_K>                         &aiinpcgaprob_inParamGA,
