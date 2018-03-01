@@ -216,18 +216,26 @@ inparamclustering_usage
 #endif /* ALG_PCATRANSMATRIX_PEARSON_1901 */
 
 #ifdef  ALG_STDVAR_MILLIGAN_COOPER1988
+template < typename T_FEATURE,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_CLUSTERIDX
+	   >
   void
   inparamclustering_usage
   (char            *argv0, 
-   InParamStdVar   &aoipc_inParamClustering
+   InParamStdVar<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>   &aoipc_inParamClustering
    )
 #endif /* ALG_STDVAR_MILLIGAN_COOPER1988 */
   
 #ifdef  ALG_PLOT_CLUSTERING 
+template < typename T_FEATURE,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_CLUSTERIDX
+	  > 
   void
   inparamclustering_usage
 (char                    *argv0, 
- InParamPlotClustering   &aoipc_inParamClustering
+ InParamPlotClustering<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>   &aoipc_inParamClustering
  )
 #endif /* ALG_PLOT_CLUSTERING */
 
@@ -1525,9 +1533,13 @@ template<typename T_CLUSTERIDX,
 
 
 #ifdef  ALG_STDVAR_MILLIGAN_COOPER1988 
+template < typename T_FEATURE,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_CLUSTERIDX
+	   >
 void 
 inparamclustering_getParameter
-(InParamStdVar       &aoipc_inParamClustering,
+(InParamStdVar<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX> &aoipc_inParamClustering,
  int                 argc, 
  char                **argv
  )
@@ -1562,12 +1574,16 @@ inparamclustering_getParameter
   
   
 #ifdef  ALG_PLOT_CLUSTERING  
-  void 
-  inparamclustering_getParameter
-  (InParamPlotClustering &aoipc_inParamClustering,
-   int                   argc, 
-   char                  **argv
-   )
+template < typename T_FEATURE,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_CLUSTERIDX
+	  > 
+void 
+inparamclustering_getParameter
+(InParamPlotClustering<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX> &aoipc_inParamClustering,
+ int                   argc, 
+ char                  **argv
+)
 #endif /* ALG_PLOT_CLUSTERING */
 
 

@@ -13,6 +13,7 @@
 
 #include "inparam.hpp"
 #include "standardize_variable.hpp"
+#include "inparam_readinst.hpp"
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -29,7 +30,13 @@ namespace  inout {
 /*! \class InParamStdVar
   \brief Input parameter for standardization of variables Algorithmo 
 */
-class InParamStdVar: public InParamAlgorithmo
+template < typename T_FEATURE,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_CLUSTERIDX
+	   >
+class InParamStdVar
+  : public InParamAlgorithmo
+  , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public: 
   InParamStdVar
@@ -37,6 +44,7 @@ public:
    std::string        ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut)
     : InParamAlgorithmo(ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut)
+    , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
     , _i_standardizationVar(STD_VAR_Z0)
   {}
 
@@ -57,6 +65,7 @@ public:
     const char  *las_optStandardizationVar[] = STD_VAR_NAME;
     
     InParamAlgorithmo::print(aipf_outFile,aic_separator);
+    InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
       aipf_outFile
 	<< aic_separator
 	<< "_standardization of variables" 

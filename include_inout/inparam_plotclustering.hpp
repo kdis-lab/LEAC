@@ -12,6 +12,7 @@
 #define IN_PARAM_PLOT_CLUSTERING_HPP
 
 #include "inparam.hpp"
+#include "inparam_readinst.hpp"
 
 #define INPARAMCLUSTERING_PLOTPLOJECTION_PCA       0
 #define INPARAMCLUSTERING_PLOTPLOJECTION_IDENTITY  1
@@ -34,23 +35,27 @@ namespace  inout {
 /*! \class InParamPlotClustering
   \brief Input parameter for plot clustering 
 */
-
-class InParamPlotClustering: public InParamAlgorithmo
+template < typename T_FEATURE,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_CLUSTERIDX
+	  > 
+class InParamPlotClustering 
+  : public InParamAlgorithmo
+  , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public: 
   InParamPlotClustering
   (std::string        ais_algorithmoName,
    std::string        ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut)
-    :  InParamAlgorithmo(ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut)
+    : InParamAlgorithmo(ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut)
+    , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
     , _i_opProjection(0)
-       //, _ps_inFileTransMatrix(NULL)
     , _ps_inFileCentroids(NULL)
     , _str_titleCentroids("Centroids")
     , _b_withIDCentroids(true)
     , _i_pointTypeCentroid(65) /*Point type Cicle=65,Diamond=69, */
     , _d_pointSizeCentroid(2.0)  /*Point size */
-     
     , _ps_inFileCentroids2(NULL)
     , _b_withIDCentroids2(true)
     , _i_pointTypeCentroid2(69) /*Point type Cicle=65,Diamond=69, */
@@ -88,17 +93,6 @@ public:
     return this->_i_opProjection;
   }
   
-  /*inline void setInFileTransMatrix(char* aips_fileName) 
-  {
-    this->_ps_inFileTransMatrix = aips_fileName;
-  }
-
-  inline char* getInFileTransMatrix() 
-  {
-    return this->_ps_inFileTransMatrix;
-  }
-  */
-
   inline void setInFileCentroids(char* aips_fileName) 
   {
     this->_ps_inFileCentroids = aips_fileName;
@@ -129,8 +123,6 @@ public:
     return this->_i_IDincrement;
   }
 
-   
-  
   inline void setPointTypeCentroids(int aii_pointTypeCentroid) 
   {
     this->_i_pointTypeCentroid = aii_pointTypeCentroid;
@@ -222,7 +214,6 @@ public:
   {
     return this->_str_titleCentroids2;
   }
-  //--
   
   inline void setInFileMemberCluster(char* aips_fileName) 
   {
@@ -379,12 +370,12 @@ public:
   virtual void print(std::ostream& aipf_outFile=std::cout, const char aic_separator=',') const
   {   
     InParamAlgorithmo::print(aipf_outFile,aic_separator);
+    InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
   }
 
 protected:
 
   int         _i_opProjection;
-  //ochar   *_ps_inFileTransMatrix;
   char        *_ps_inFileCentroids;
   std::string _str_titleCentroids;
   bool        _b_withIDCentroids;
