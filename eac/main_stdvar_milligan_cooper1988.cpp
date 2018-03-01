@@ -42,6 +42,10 @@ int main(int argc, char **argv)
 #endif /*__VERBOSE_YES*/
                     
   inout::InParamStdVar
+    <DATATYPE_FEATURE,
+     DATATYPE_INSTANCES_CLUSTER_K,
+     DATATYPE_CLUSTERIDX
+     >
     listdvar_inParam
     ("STDVAR",
      "Milligan and Cooper 1988",
@@ -81,9 +85,6 @@ int main(int argc, char **argv)
 
     lvectorptinst_instances =
       inout::instancesReadWithClass
-      <DATATYPE_FEATURE,
-       DATATYPE_INSTANCES_CLUSTER_K,
-       DATATYPE_CLUSTERIDX>
       (listdvar_inParam,
        false
        );  
@@ -92,7 +93,6 @@ int main(int argc, char **argv)
 
     lvectorptinst_instances =
       inout::instancesRead
-      <DATATYPE_FEATURE>
       (listdvar_inParam,
        false
        );

@@ -59,6 +59,10 @@ int main(int argc, char **argv)
 #endif /*__VERBOSE_YES*/
 
   inout::InParamPlotClustering
+    <DATATYPE_FEATURE,
+     DATATYPE_INSTANCES_CLUSTER_K,
+     DATATYPE_CLUSTERIDX
+     >
     lipplotclustering_inParam
     ("GPC","GNU Plot Clustering",inout::OTHER);
 
