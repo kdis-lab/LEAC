@@ -4,7 +4,7 @@
  *
  * \version 1.0
  * \date 2015-2017
- * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
+ * \authors Hermes Robles <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
@@ -14,7 +14,7 @@
 
 #include "inparam_fixedk.hpp"
 #include "inparam_gaclustering_pm.hpp"
-#include "inparam_definedatatypes.hpp"
+#include "inparam_readinst.hpp"
 
 
 /*! \namespace inout
@@ -48,7 +48,7 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 class InParamCBGA
   : public InParamGAClusteringProbM<T_REAL>
   , public InParamFixedK<T_CLUSTERIDX>
-  , public InParamDefineFeatFeatSumInstK<T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+  , public InParamReadInstFreq<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX,T_INSTANCE_FREQUENCY>
 {
 public:
   InParamCBGA
@@ -62,7 +62,7 @@ public:
     InParamGAClusteringProbM<T_REAL>
     (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm)
     , InParamFixedK<T_CLUSTERIDX>()
-    , InParamDefineFeatFeatSumInstK<T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>()
+    , InParamReadInstFreq<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX,T_INSTANCE_FREQUENCY>()
     , i_opSelectMethod(aii_opSelectMethod)
     , i_numGLAIterations(aii_numGLAIterations) 
   {}
@@ -95,6 +95,7 @@ public:
 
     InParamGAClusteringProbM<T_REAL>::print(aipf_outFile,aic_separator);
     InParamFixedK<T_CLUSTERIDX>::print(aipf_outFile,aic_separator); 
+    InParamReadInstFreq<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX,T_INSTANCE_FREQUENCY>::print(aipf_outFile,aic_separator);
       aipf_outFile << aic_separator << "_selection method"            
 		   << aic_separator << las_opSelectMethod[this->i_opSelectMethod]; 
       aipf_outFile << aic_separator << "_number of GLA iterations"

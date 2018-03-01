@@ -4,7 +4,7 @@
  *
  * \version 1.0
  * \date 2015-2017
- * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
+ * \authors Hermes Robles <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
  
@@ -13,7 +13,6 @@
 
 #include <cstddef>
 #include <time.h>
-#include "inparam_readinst.hpp"
 #include "outfilename.hpp"
 
 
@@ -30,18 +29,18 @@ namespace  inout {
   
 typedef enum {LABEL, CENTROIDS, CRISPPARTITION, MEDOIDS, DENSITY_BASED,HIERARCHICAL,OTHER} InParam_algTypeOut;
 
+#define INPARAM_SIZE_STRING_ID_TIME 50
 
 /*! \class InParamAlgorithmo
   \brief Input parameter for define propertys of the algorithmos
 */
-class InParamAlgorithmo: public InParamReadInst {
+  class InParamAlgorithmo { 
 public:
   InParamAlgorithmo
   (std::string        ais_algorithmoName, 
    std::string        ais_algorithmoAuthor, 
    InParam_algTypeOut aiato_algTypeOut
    ):
-    InParamReadInst(),
     s_algorithmoName(ais_algorithmoName), 
     s_algorithmoAuthor(ais_algorithmoAuthor), 
     ato_algTypeOut(aiato_algTypeOut),
@@ -137,29 +136,12 @@ public:
   }
 
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
-  {
-    const char  *larray_opFormatFile[] = INPARAMCLUSTERING_FORMATINSTANCEFILE;
-  
+  {  
     aipf_outFile << "_algorithmo" 
 		 << aic_separator << this->s_algorithmoName;
     aipf_outFile << aic_separator << "_author" 
 		 << aic_separator << this->s_algorithmoAuthor;
-    aipf_outFile << aic_separator << "_dataset" 
-		 << aic_separator << this->getCurrentFileInstance();
-    aipf_outFile << aic_separator << "_n" 
-		 << aic_separator << this->getNumInstances();
-    aipf_outFile << aic_separator << "_d" 
-		 << aic_separator << this->getNumDimensionsInstances();
-    
-    if ( this->_vectorstr_filesInstanceTest.size() > 0 ) {
-      aipf_outFile << aic_separator << ":dataset test" 
-		   << aic_separator << this->getCurrentFileInstanceTest();
-      aipf_outFile << aic_separator << ":n" 
-		   << aic_separator << this->getNumInstancesTest();
-    }
-    aipf_outFile << aic_separator << "_format file" 
-		 << aic_separator << larray_opFormatFile[this->_enum_formatInstanceFile];
-    
+ 
     aipf_outFile << aic_separator << "_times run" 
 		 << aic_separator << this->i_timesRunAlgorithm
 		 << aic_separator << "_runnig date"

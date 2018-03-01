@@ -4,7 +4,7 @@
  *
  * \version 1.0
  * \date 2015-2017
- * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
+ * \authors Hermes Robles <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
@@ -13,7 +13,7 @@
 
 #include "inparam_gaclustering_pcpm.hpp"
 #include "inparam_rangek.hpp"
-#include "inparam_definedatatypes.hpp"
+#include "inparam_readinst.hpp"
 
 
 /*! \namespace inout
@@ -39,7 +39,7 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 class InParamGAClusteringProbCProbMRangeK
   : public InParamGAClusteringProbCProbM<T_REAL>
   , public InParamRangeK<T_CLUSTERIDX>
-  , public InParamDefineFeatFeatSumInstK<T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+  , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
   InParamGAClusteringProbCProbMRangeK
@@ -51,7 +51,7 @@ public:
     : InParamGAClusteringProbCProbM<T_REAL>
       (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm) 
     , InParamRangeK<T_CLUSTERIDX>()
-    , InParamDefineFeatFeatSumInstK<T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>()
+    , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
   {}
 
   ~InParamGAClusteringProbCProbMRangeK() {}
@@ -60,6 +60,7 @@ public:
   {
     InParamGAClusteringProbCProbM<T_REAL>::print(aipf_outFile,aic_separator);
     InParamRangeK<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
+    InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
   }  
 };
 

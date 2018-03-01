@@ -4,7 +4,7 @@
  *
  * \version 1.0
  * \date 2015-2017
- * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
+ * \authors Hermes Robles <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 #ifndef INSTANCES_CLASSFREQUENCY_READ_HPP
@@ -42,15 +42,21 @@
 
 namespace  inout {
     
-/*instancesReadWithFreq: instances with frequency
+/*! \fn std::vector<data::Instance<T_FEATURE>* > instancesReadWithFreq (inout::InParamReadInstFreq<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX,T_INSTANCE_FREQUENCY> &aiipri_inParamReadInst, const bool aib_fileTest)
+    \brief Read the instances or objects with frequency
+    \details 
+    \param aiipri_inParamReadInst a inout::InParamReadInstFreq with the necessary parameters to read a data set file
+    \param aib_fileTest a bool to specify if the data set is a test
  */
-template < typename T_FEATURE,
-	   typename T_INSTANCE_FREQUENCY
-	   >
+template <typename T_FEATURE,         
+	  typename T_INSTANCES_CLUSTER_K,
+	  typename T_CLUSTERIDX,
+	  typename T_INSTANCE_FREQUENCY
+	  > 
 std::vector<data::Instance<T_FEATURE>* > 
 instancesReadWithFreq
-(inout::InParamReadInst   &aiipri_inParamReadInst,
- const    bool            aib_fileTest         
+(inout::InParamReadInstFreq<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX,T_INSTANCE_FREQUENCY> &aiipri_inParamReadInst,
+ const    bool            aib_fileTest = false
  ) 
 {
   const std::string lstr_fileInstance
@@ -168,21 +174,25 @@ instancesReadWithFreq
 
   return lovectorptinst_instances;
 
-} /*instancesRead: instances with frequency*/
+} /*END instancesReadWithFreq
+   */
 
 
-
-/*instancesReadWithFreqClass: instances with frequency and class
+/*! \fn std::vector<data::Instance<T_FEATURE>* > instancesReadWithFreqClass (inout::InParamReadInstFreq<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX,T_INSTANCE_FREQUENCY> &aiipri_inParamReadInst, const bool aib_fileTest)
+    \brief Read the instances or objects with frequency
+    \details 
+    \param aiipri_inParamReadInst a inout::InParamReadInstFreq with the necessary parameters to read a data set file
+    \param aib_fileTest a bool to specify if the data set is a test
  */
-template < typename T_FEATURE,
-	   typename T_INSTANCE_FREQUENCY,
-	   typename T_INSTANCES_CLUSTER_K,
-	   typename T_CLUSTERIDX
-	   >
+template <typename T_FEATURE,         
+	  typename T_INSTANCES_CLUSTER_K,
+	  typename T_CLUSTERIDX,
+	  typename T_INSTANCE_FREQUENCY
+	  > 
 std::vector<data::Instance<T_FEATURE>* > 
 instancesReadWithFreqClass
-(inout::InParamReadInst   &aiipri_inParamReadInst,
- const    bool            aib_fileTest         
+(inout::InParamReadInstFreq<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX,T_INSTANCE_FREQUENCY> &aiipri_inParamReadInst,
+ const    bool            aib_fileTest=false        
  ) 
 {
   const std::string lstr_fileInstance
@@ -208,8 +218,7 @@ instancesReadWithFreqClass
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << "instancesReadWithFreqClass  IN"
 	      << '(' << geiinparam_verbose << ')'
-	      << "\n\t(output vector<InstanceClassFreq<>* >: ["
-	      << &lovectorptinst_instances << ']'
+	      << "\n\t(output vector<InstanceClassFreq<>* >: [" << &lovectorptinst_instances << ']'
 	      << "\n\t input  const std::string &aistr_fileInstance = " 
 	      << lstr_fileInstance
 	      << "\n\t input  inout::InParamReadInst: &aiipri_inParamReadInst[" 
@@ -325,7 +334,7 @@ instancesReadWithFreqClass
 
   return lovectorptinst_instances;
 
-} /*instancesReadWithFreqClass: instances with frequency and  class*/
+} /*END instancesReadWithFreqClass*/
 
 
 } /*END namespace data 

@@ -4,7 +4,7 @@
  *
  * \version 1.0
  * \date 2015-2017
- * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
+ * \authors Hermes Robles <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
@@ -28,8 +28,6 @@
 namespace  inout {
 
 #define INPARAM_FILE_SEPARATOR_LENGTH  20
-#define INPARAM_SIZE_STRING_ID_TIME 50
-
 #define INPARAM_FILE_SEPARATOR_DEFAULT  ","
 
 typedef enum { INPARAM_FORMATINSTANCEFILE_UCI=0, 
@@ -43,6 +41,10 @@ typedef enum { INPARAM_FORMATINSTANCEFILE_UCI=0,
 /*! \class InParamReadInst
   \brief Input parameter for read instances
 */
+template <typename T_FEATURE,         
+	  typename T_INSTANCES_CLUSTER_K,
+	  typename T_CLUSTERIDX 
+	  > 
 class InParamReadInst {
 public:
   InParamReadInst():
@@ -293,6 +295,30 @@ public:
     return _ui_numDimensionsInstances;
   }
 
+  virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
+  {
+    const char  *larray_opFormatFile[] = INPARAMCLUSTERING_FORMATINSTANCEFILE;
+
+    aipf_outFile << aic_separator << "_format file" 
+		 << aic_separator << larray_opFormatFile[this->_enum_formatInstanceFile];
+
+    aipf_outFile << aic_separator << "_dataset" 
+		 << aic_separator << this->getCurrentFileInstance();
+    aipf_outFile << aic_separator << "_n" 
+		 << aic_separator << this->getNumInstances();
+    aipf_outFile << aic_separator << "_d" 
+		 << aic_separator << this->getNumDimensionsInstances();
+    
+    if ( this->_vectorstr_filesInstanceTest.size() > 0 ) {
+      aipf_outFile << aic_separator << ":dataset test" 
+		   << aic_separator << this->getCurrentFileInstanceTest();
+      aipf_outFile << aic_separator << ":n" 
+		   << aic_separator << this->getNumInstancesTest();
+    }
+
+  }
+
+  
 protected:
 
   uintidx                  _ui_idxCurrentFileInstance;
@@ -315,6 +341,36 @@ protected:
 
 }; /*InParamReadInst*/
 
+/*! \class InParamReadInstFreq
+  \brief Input parameter for read instances with frequency
+*/
+template <typename T_FEATURE,         
+	  typename T_INSTANCES_CLUSTER_K,
+	  typename T_CLUSTERIDX,
+	  typename T_INSTANCE_FREQUENCY
+	  > 
+class InParamReadInstFreq 
+  : public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX> {
+public:
+  InParamReadInstFreq()
+    : InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
+  {}
+  InParamReadInstFreq
+  (const char *aips_fileNameInstance,
+   EnumFormatInstanceFile aienum_formatInstanceFile,
+   const char *ais_separatorAttributes,
+   const char *aips_selectAttributes,
+   bool aib_haveHeaderFile = false
+   ):
+    InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
+    (aips_fileNameInstance,
+     aienum_formatInstanceFile,
+     ais_separatorAttributes,
+     aips_selectAttributes,
+     aib_haveHeaderFile
+     )
+  {}
+};
 
 } /*END namespace inout 
    */

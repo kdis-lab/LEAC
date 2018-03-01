@@ -4,7 +4,7 @@
  *
  * \version 1.0
  * \date 2015-2017
- * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
+ * \authors Hermes Robles <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
@@ -13,7 +13,7 @@
 
 #include "inparam_fixedk.hpp"
 #include "inparam_gaclustering.hpp"
-#include "inparam_definedatatypes.hpp"
+#include "inparam_readinst.hpp"
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -38,7 +38,7 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 class InParamGAClusteringWithoutProbCProbM
   : public InParamGAClustering
   , public InParamFixedK<T_CLUSTERIDX>
-  , public InParamDefineBitSizeFeatFeatSumInstK<T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+  , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
   InParamGAClusteringWithoutProbCProbM
@@ -49,7 +49,7 @@ public:
     :  InParamGAClustering
          (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm) 
     ,  InParamFixedK<T_CLUSTERIDX>()
-    ,  InParamDefineBitSizeFeatFeatSumInstK<T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>()
+    ,  InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
   {}
   
   inline void setSizeMatingPool(uintidx aist_sizeMatingPool) {
@@ -65,7 +65,8 @@ public:
   {
     InParamGAClustering
       ::print(aipf_outFile,aic_separator);
-    InParamFixedK<T_CLUSTERIDX>::print(aipf_outFile,aic_separator); 
+    InParamFixedK<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
+    InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "_size mating pool" 
 		 << aic_separator << this->st_sizeMatingPool;
   }

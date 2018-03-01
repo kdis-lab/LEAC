@@ -4,7 +4,7 @@
  *
  * \version 1.0
  * \date 2015-2017
- * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
+ * \authors Hermes Robles <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
@@ -20,6 +20,7 @@
 #include "getsubopt.h"
 #include "vector_utils.hpp"
 #include "file_utils.hpp"
+
 
 #ifdef  ALG_KMEANS_FORGY_MACQUEEN_1967
 #include "inparam_clustering_clasic.hpp"
@@ -436,6 +437,7 @@ template<typename T_CLUSTERIDX,
 #ifdef ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001
   template<typename T_REAL,
            typename T_BITSIZE,
+           typename T_CLUSTERIDX,
            typename T_FEATURE,         
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
@@ -446,6 +448,7 @@ template<typename T_CLUSTERIDX,
    InParamClusteringVKSubClusterBinary
    <T_REAL,
    T_BITSIZE,
+   T_CLUSTERIDX,
    T_FEATURE,
    T_FEATURE_SUM,
    T_INSTANCES_CLUSTER_K>            &aoipc_inParamClustering
@@ -1967,6 +1970,7 @@ void
 
   template<typename T_REAL,
 	   typename T_BITSIZE,
+           typename T_CLUSTERIDX,
            typename T_FEATURE,         
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
@@ -1976,6 +1980,7 @@ void
   (InParamClusteringVKSubClusterBinary
    <T_REAL,
    T_BITSIZE,
+   T_CLUSTERIDX,
    T_FEATURE,
    T_FEATURE_SUM,
    T_INSTANCES_CLUSTER_K>       &aoipc_inParamClustering,
