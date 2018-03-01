@@ -247,10 +247,10 @@ instancesReadDimName
     std::cout << "instancesReadDimName OUT"
 	      << '(' << geiinparam_verbose << ")\n"
 	      << "output std::vector<std::string>: [" 
-	      << &lovectorstr_dimensionsName << ']'
-	      << '\n'
-	      << lovectorstr_dimensionsName
-	      << std::endl;
+	      << &lovectorstr_dimensionsName << ']';
+    for (const std::string &listr :lovectorstr_dimensionsName)
+      std::cout << ',' << listr;
+    std::cout << std::endl;
   }
   --geiinparam_verbose;
 #endif //__VERBOSE_YES
