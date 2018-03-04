@@ -27,8 +27,8 @@
 #include <vector>
 
 #include <leac.hpp>
-#include "inparam_gaclustering_padaptive.hpp"
-#include "outparam_gaclustering.hpp"
+#include "inparam_adaptiveprobcprobm.hpp"
+#include "outparam_eaclustering.hpp"
 
 #include "plot_runtime_function.hpp"
 
@@ -43,7 +43,7 @@
 
 namespace eac {
   
-/*! \fn gaencode::ChromFixedLength<T_FEATURE,T_REAL> gagr_fkcentroid(inout::OutParamGAClustering <T_REAL,T_CLUSTERIDX> &aoopcga_outParamClusteringGA, const inout::InParamGAClusteringProbAdaptive<T_CLUSTERIDX,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiipcgap_inParamGAGR, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn gaencode::ChromFixedLength<T_FEATURE,T_REAL> gagr_fkcentroid(inout::OutParamEAClustering <T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, const inout::InParamAdaptivePcPm<T_CLUSTERIDX,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamProbAdaptive, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief GAGR \cite Chang:etal:GAclustering:GAGR:2009  
   \details Implementation of GAGR algorithm based on \cite Chang:etal:GAclustering:GAGR:2009. 
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid. Base to following equation:
@@ -52,8 +52,8 @@ namespace eac {
   \| x_i - \mu_k \|,\; j=1,2,..k,
   \f]
   where \f$m_j\f$, represents the medoid of cluster \f$C_j\f$
-  \param aoopcga_outParamClusteringGA a inout::OutParamGAClustering with the output parameters of the algorithm
-  \param aiipcgap_inParamGAGR a inout::InParamGAClusteringProbAdaptive parameters required by the algorithm
+  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aiinp_inParamProbAdaptive a inout::InParamAdaptivePcPm parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
@@ -67,15 +67,15 @@ template < typename T_FEATURE, //DATA TYPE OF A GENE,
 	   >
 gaencode::ChromFixedLength<T_FEATURE,T_REAL>  
 gagr_fkcentroid
-(inout::OutParamGAClustering
+(inout::OutParamEAClustering
  <T_REAL,
- T_CLUSTERIDX>                     &aoopcga_outParamClusteringGA,
- const inout::InParamGAClusteringProbAdaptive
+ T_CLUSTERIDX>                     &aoop_outParamEAC,
+ const inout::InParamAdaptivePcPm
  <T_CLUSTERIDX,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>             &aiipcgap_inParamGAGR,
- const INPUT_ITERATOR              aiiterator_instfirst,
+ T_INSTANCES_CLUSTER_K>             &aiinp_inParamProbAdaptive,
+ const INPUT_ITERATOR               aiiterator_instfirst,
  const INPUT_ITERATOR               aiiterator_instlast,
  const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist
  )
@@ -94,18 +94,18 @@ gagr_fkcentroid
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelAlgGA
 	      << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "\t(output inout::OutParamGAClustering&: aoopcga_outParamClusteringGA[" 
-	      << &aoopcga_outParamClusteringGA << "]\n"
-	      << "\t input  InParamClusteringGAProbAdap&: aiipcgap_inParamGAGR[" 
-	      << &aiipcgap_inParamGAGR << "]\n"
+	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
+	      << &aoop_outParamEAC << "]\n"
+	      << "\t input  InParamClusteringGAProbAdap&: aiinp_inParamProbAdaptive[" 
+	      << &aiinp_inParamProbAdaptive << "]\n"
 	      << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
 	      << "\t input aiiterator_instlast[" <<  &aiiterator_instlast << "]\n"
 	      << "\t input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\n\t\tPopulation size = " 
-	      << aiipcgap_inParamGAGR.getSizePopulation()
+	      << aiinp_inParamProbAdaptive.getSizePopulation()
 	      << "\n\t\trandom-seed = "
-	      << aiipcgap_inParamGAGR.getRandomSeed()
+	      << aiinp_inParamProbAdaptive.getRandomSeed()
 	      << "\n\t)"
 	      << std::endl;
   }
@@ -113,7 +113,7 @@ gagr_fkcentroid
   
   runtime::ListRuntimeFunction<COMMON_IDOMAIN>  
     llfh_listFuntionHist
-    (aiipcgap_inParamGAGR.getNumMaxGenerations(), "Iterations", "Clustering metrics");
+    (aiinp_inParamProbAdaptive.getNumMaxGenerations(), "Iterations", "Clustering metrics");
 
   /*DECLARATION OF VARIABLES: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM*/
 #ifndef __WITHOUT_PLOT_STAT 
@@ -122,15 +122,15 @@ gagr_fkcentroid
   runtime::RuntimeFunctionStat<T_REAL>   *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL>        lvectorT_statfuncObjetiveFunc;
 
-  if ( aiipcgap_inParamGAGR.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamProbAdaptive.getWithPlotStatObjetiveFunc() ) {  
     
     lvectorT_statfuncObjetiveFunc.reserve
-      (aiipcgap_inParamGAGR.getSizePopulation());
+      (aiinp_inParamProbAdaptive.getSizePopulation());
     //DEFINE FUNCTION
     lofh_SSE  = 
       new runtime::RuntimeFunctionValue<T_REAL>
       ("SSE", 
-       aiipcgap_inParamGAGR.getAlgorithmoName(),
+       aiinp_inParamProbAdaptive.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -140,20 +140,20 @@ gagr_fkcentroid
       lofhs_statObjectiveFunc[li_i] = new runtime::RuntimeFunctionStat
 	<T_REAL>
 	( (char) li_i,
-	  aiipcgap_inParamGAGR.getAlgorithmoName(),
+	  aiinp_inParamProbAdaptive.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoopcga_outParamClusteringGA.setFileNameOutPlotStatObjetiveFunc
-      (aiipcgap_inParamGAGR.getFileNamePlotStatObjetiveFunc(),
-       aiipcgap_inParamGAGR.getTimesRunAlgorithm()
+    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+      (aiinp_inParamProbAdaptive.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamProbAdaptive.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoopcga_outParamClusteringGA.getFileNameOutPlotStatObjetiveFunc().c_str(),  
+      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),  
        std::ios::out | std::ios::app
        );
     lfileout_plotStatObjetiveFunc.precision(COMMON_COUT_PRECISION);
@@ -169,7 +169,7 @@ gagr_fkcentroid
 
   auto lfuncobjgagr_functionObjetive =
     gafuncobj::makeGAFuncObjSSE
-    (aiipcgap_inParamGAGR.getNumClusterK(),
+    (aiinp_inParamProbAdaptive.getNumClusterK(),
      aiiterator_instfirst,
      aiiterator_instlast,
      aifunc2p_dist
@@ -177,11 +177,11 @@ gagr_fkcentroid
 
   /*VARIABLE NEED FOR POPULATION AND MATINGPOOL GENETIC
    */
-  const uintidx lconstui_numClusterFixedK =
-    (uintidx) aiipcgap_inParamGAGR.getNumClusterK();
+  const uintidx lconstui_numClusterFk =
+    (uintidx) aiinp_inParamProbAdaptive.getNumClusterK();
   
   gaencode::ChromFixedLength<T_FEATURE,T_REAL>::setStringSize
-    ( lconstui_numClusterFixedK * data::Instance<T_FEATURE>::getNumDimensions() );
+    ( lconstui_numClusterFk * data::Instance<T_FEATURE>::getNumDimensions() );
 
   gaencode::ChromFixedLength<T_FEATURE,T_REAL> lochromfixleng_best;
   lochromfixleng_best.setObjetiveFunc(std::numeric_limits<T_REAL>::max());
@@ -196,7 +196,7 @@ gagr_fkcentroid
   std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
   
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING*/
-  aoopcga_outParamClusteringGA.setTotalInvalidOffspring(0);
+  aoop_outParamEAC.setTotalInvalidOffspring(0);
 
   runtime::ExecutionTime let_executionTime = runtime::start();
 
@@ -226,10 +226,10 @@ gagr_fkcentroid
   /*POPULATION CREATE------------------------------------------------------------
    */
   lvectorchromfixleng_population.reserve
-    ( aiipcgap_inParamGAGR.getSizePopulation() );
+    ( aiinp_inParamProbAdaptive.getSizePopulation() );
 
   for (uintidx lui_i = 0; 
-       lui_i < aiipcgap_inParamGAGR.getSizePopulation(); 
+       lui_i < aiinp_inParamProbAdaptive.getSizePopulation(); 
        lui_i++) 
     {
       lvectorchromfixleng_population.push_back
@@ -239,10 +239,10 @@ gagr_fkcentroid
   /*CREATE SPACE FOR STORE MATINGPOOL--------------------------------------------
    */
   lvectorchromfixleng_matingPool.reserve
-    (aiipcgap_inParamGAGR.getSizePopulation());
+    (aiinp_inParamProbAdaptive.getSizePopulation());
   
   for (uintidx lui_i = 0; 
-       lui_i < aiipcgap_inParamGAGR.getSizePopulation(); 
+       lui_i < aiinp_inParamProbAdaptive.getSizePopulation(); 
        lui_i++) 
     {
       lvectorchromfixleng_matingPool.push_back
@@ -273,7 +273,7 @@ gagr_fkcentroid
       /*DECODE CHROMOSOME*/
       mat::MatrixRow<T_FEATURE> 
 	lmatrixrowt_centroidsChrom
-	(lconstui_numClusterFixedK,
+	(lconstui_numClusterFk,
 	 data::Instance<T_FEATURE>::getNumDimensions(),
 	 lchromfixleng_iter->getString()
 	 );
@@ -320,21 +320,21 @@ gagr_fkcentroid
       //DECODE CHROMOSOME
       mat::MatrixRow<T_FEATURE> 
 	lmatrixrowt_centroidsChrom
-	(lconstui_numClusterFixedK,
+	(lconstui_numClusterFk,
 	 data::Instance<T_FEATURE>::getNumDimensions(),
 	 lchromfixleng_iter->getString()
 	 );
  
       mat::MatrixRow<T_FEATURE_SUM>       
 	llmatrixrowt_sumInstancesCluster
-	(lconstui_numClusterFixedK,
+	(lconstui_numClusterFk,
 	 data::Instance<T_FEATURE>::getNumDimensions(),
 	 T_FEATURE_SUM(0)
 	 );
 	    
       std::vector<T_INSTANCES_CLUSTER_K> 
 	lvectort_numInstancesInClusterK
-	(lconstui_numClusterFixedK,
+	(lconstui_numClusterFk,
 	 T_INSTANCES_CLUSTER_K(0)
 	 );
 		    
@@ -434,7 +434,7 @@ gagr_fkcentroid
 
     } //END std::for_each ObjetiveFunc
        
-    aoopcga_outParamClusteringGA.sumTotalInvalidOffspring
+    aoop_outParamEAC.sumTotalInvalidOffspring
       (ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -478,9 +478,9 @@ gagr_fkcentroid
       /*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
       lochromfixleng_best  = *lchromfixleng_iterMax;
       
-      aoopcga_outParamClusteringGA.setIterationGetsBest
+      aoop_outParamEAC.setIterationGetsBest
 	(llfh_listFuntionHist.getDomainUpperBound());
-      aoopcga_outParamClusteringGA.setRunTimeGetsBest
+      aoop_outParamEAC.setRunTimeGetsBest
 	(runtime::elapsedTime(let_executionTime));
 
 #ifdef __VERBOSE_YES
@@ -490,7 +490,7 @@ gagr_fkcentroid
 	/*DECODE CHROMOSOME*/
 	mat::MatrixRow<T_FEATURE> 
 	  lmatrixrowt_centroidsChromBest
-	  (lconstui_numClusterFixedK,
+	  (lconstui_numClusterFk,
 	   data::Instance<T_FEATURE>::getNumDimensions(),
 	   lochromfixleng_best.getString()
 	   );
@@ -539,7 +539,7 @@ gagr_fkcentroid
     /*MEASUREMENT BEST: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
      */
 #ifndef __WITHOUT_PLOT_STAT
-    if ( aiipcgap_inParamGAGR.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamProbAdaptive.getWithPlotStatObjetiveFunc() ) {  
       lofh_SSE->setValue(lochromfixleng_best.getObjetiveFunc());
       functionhiststat_evaluateAll
 	(lofhs_statObjectiveFunc,
@@ -558,7 +558,7 @@ gagr_fkcentroid
     */
   
   while ( llfh_listFuntionHist.getDomainUpperBound() 
-	  < aiipcgap_inParamGAGR.getNumMaxGenerations() ) {
+	  < aiinp_inParamProbAdaptive.getNumMaxGenerations() ) {
 
     /*4. Select individuals from the population for crossover and muta-
       tion.
@@ -749,7 +749,7 @@ gagr_fkcentroid
 	} /*END  While
 	   */
       
-      aoopcga_outParamClusteringGA.sumTotalInvalidOffspring(ll_invalidOffspring);
+      aoop_outParamEAC.sumTotalInvalidOffspring(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
       if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -999,9 +999,9 @@ gagr_fkcentroid
       if (lochromfixleng_best.getFitness() < lchrom_maxFitness->getFitness() ) {
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
 	lochromfixleng_best = *lchrom_maxFitness;
-	aoopcga_outParamClusteringGA.setIterationGetsBest
+	aoop_outParamEAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoopcga_outParamClusteringGA.setRunTimeGetsBest
+	aoop_outParamEAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
 
 #ifdef __VERBOSE_YES
@@ -1010,7 +1010,7 @@ gagr_fkcentroid
 	  /*DECODE CHROMOSOME*/
 	  mat::MatrixRow<T_FEATURE> 
 	    lmatrixrowt_centroidsChromBest
-	    (lconstui_numClusterFixedK,
+	    (lconstui_numClusterFk,
 	     data::Instance<T_FEATURE>::getNumDimensions(),
 	     lochromfixleng_best.getString()
 	     );
@@ -1076,7 +1076,7 @@ gagr_fkcentroid
       /*DECODE CHROMOSOME*/
       mat::MatrixRow<T_FEATURE> 
 	lmatrixrowt_centroidsBestChrom
-	(lconstui_numClusterFixedK,
+	(lconstui_numClusterFk,
 	 data::Instance<T_FEATURE>::getNumDimensions(),
 	 lochromfixleng_best.getString()
 	 );
@@ -1105,7 +1105,7 @@ gagr_fkcentroid
 
       /*MEASUREMENT BEST: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM*/
 #ifndef __WITHOUT_PLOT_STAT  
-    if ( aiipcgap_inParamGAGR.getWithPlotStatObjetiveFunc() ) {
+    if ( aiinp_inParamProbAdaptive.getWithPlotStatObjetiveFunc() ) {
 
       for ( auto lchromfixleng_iter: lvectorchromfixleng_population ) {
 	lvectorT_statfuncObjetiveFunc.push_back(lchromfixleng_iter->getObjetiveFunc());
@@ -1204,16 +1204,16 @@ gagr_fkcentroid
   } /*END FREE MEMORY OF STRINGPOOL*/
   
   runtime::stop(let_executionTime);
-  aoopcga_outParamClusteringGA.setNumClusterK
-    (aiipcgap_inParamGAGR.getNumClusterK());
-  aoopcga_outParamClusteringGA.setMetricFuncRun
+  aoop_outParamEAC.setNumClusterK
+    (aiinp_inParamProbAdaptive.getNumClusterK());
+  aoop_outParamEAC.setMetricFuncRun
     (lochromfixleng_best.getObjetiveFunc());
-  aoopcga_outParamClusteringGA.setAlgorithmRunTime
+  aoop_outParamEAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
 
-  aoopcga_outParamClusteringGA.setFitness
+  aoop_outParamEAC.setFitness
     (lochromfixleng_best.getFitness());
-  aoopcga_outParamClusteringGA.setNumTotalGenerations
+  aoop_outParamEAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
  
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
@@ -1221,11 +1221,11 @@ gagr_fkcentroid
 
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiipcgap_inParamGAGR.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamProbAdaptive.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiipcgap_inParamGAGR,
-       aoopcga_outParamClusteringGA
+       aiinp_inParamProbAdaptive,
+       aoop_outParamEAC
        );  
   }
 
@@ -1243,7 +1243,7 @@ gagr_fkcentroid
     /*DECODE CHROMOSOME*/
     mat::MatrixRow<T_FEATURE> 
       lmatrixrowt_centroidsChromBest
-      (lconstui_numClusterFixedK,
+      (lconstui_numClusterFk,
        data::Instance<T_FEATURE>::getNumDimensions(),
        lochromfixleng_best.getString()
        );

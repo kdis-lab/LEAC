@@ -29,8 +29,8 @@
 #include <algorithm>    // std::sort
 
 #include <leac.hpp>
-#include "inparam_gamedoidclustering_hka.hpp"
-#include "outparam_gaclustering.hpp"
+#include "inparam_hka.hpp"
+#include "outparam_eaclustering.hpp"
 
 #include "plot_runtime_function.hpp"
 
@@ -45,12 +45,12 @@
 
 namespace eac {
   
-/*! \fn gaencode::ChromFixedLength<uintidx,T_REAL> hka_fkmedoid (inout::OutParamGAClustering<T_REAL,T_CLUSTERIDX> &aoopcga_outParamClusteringGA, inout::InParamGAMedoidClusteringHKA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiipcgapc_inParamHKA, mat::MatrixTriang<T_REAL> &aimatrixtriagrt_dissimilarity)
+/*! \fn gaencode::ChromFixedLength<uintidx,T_REAL> hka_fkmedoid (inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamHKA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamHKA, mat::MatrixTriang<T_REAL> &aimatrixtriagrt_dissimilarity)
   \brief HKA \cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004
   \details Implementation of the HKA algorithm based on \cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004, Find a partition based on the most representative instances, also called prototypes 
   \returns A chromosome with k genes, where each gene is the index of the most representative instance of each cluster
-  \param aoopcga_outParamClusteringGA a inout::OutParamGAClustering with the output parameters of the algorithm
-  \param aiipcgapc_inParamHKA a inout::InParamGAMedoidClusteringHKA parameters required by the algorithm
+  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aiinp_inParamHKA a inout::InParamHKA parameters required by the algorithm
   \param aimatrixtriagrt_dissimilarity a triangular matrix with the distances between the instances
 */
 template <typename T_CLUSTERIDX,
@@ -61,21 +61,21 @@ template <typename T_CLUSTERIDX,
 	  >
 gaencode::ChromFixedLength<uintidx,T_REAL> 
 hka_fkmedoid
-(inout::OutParamGAClustering
+(inout::OutParamEAClustering
  <T_REAL,
- T_CLUSTERIDX>                          &aoopcga_outParamClusteringGA,
- inout::InParamGAMedoidClusteringHKA
+ T_CLUSTERIDX>                          &aoop_outParamEAC,
+ inout::InParamHKA
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>                 &aiipcgapc_inParamHKA,
+ T_INSTANCES_CLUSTER_K>                 &aiinp_inParamHKA,
  mat::MatrixTriang<T_REAL>              &aimatrixtriagrt_dissimilarity
  )
 {  
   /*VARIABLE NEED FOR POPULATION AND MATINGPOOL GENETIC*/
   gaencode::ChromFixedLength<uintidx,T_REAL>::setStringSize
-    ( (uintidx) aiipcgapc_inParamHKA.getNumClusterK() );
+    ( (uintidx) aiinp_inParamHKA.getNumClusterK() );
 
   gaencode::ChromFixedLength<uintidx,T_REAL> lochromfixleng_best;
 
@@ -85,7 +85,7 @@ hka_fkmedoid
   /*SPACE FOR STORE MATINGPOOL*/  
   std::vector<gaencode::ChromFixedLength<uintidx,T_REAL>* >
     lvectorchromfixleng_matingPool;
-  lvectorchromfixleng_matingPool.reserve(aiipcgapc_inParamHKA.getSizePopulation()/2);
+  lvectorchromfixleng_matingPool.reserve(aiinp_inParamHKA.getSizePopulation()/2);
 
   std::vector<gaencode::ChromFixedLength<uintidx,T_REAL>* >
     lvectorchromfixleng_newoffspring; 
@@ -103,20 +103,20 @@ hka_fkmedoid
 	      << ":  IN(" << geiinparam_verbose << ")\n"
        	      << "\t(output Chromosome: lochromfixleng_best[" 
 	      << &lochromfixleng_best << "]\n"
-	      << "\t output inout::OutParamGAClustering&: aoopcga_outParamClusteringGA[" 
-	      << &aoopcga_outParamClusteringGA << "]\n"
-	      << "\t input  InParamGAMedoidClusteringHKA&: aiipcgapc_inParamHKA[" 
-	      << &aiipcgapc_inParamHKA << ']'
+	      << "\t output inout::OutParamEAClustering&: aoop_outParamEAC[" 
+	      << &aoop_outParamEAC << "]\n"
+	      << "\t input  InParamHKA&: aiinp_inParamHKA[" 
+	      << &aiinp_inParamHKA << ']'
 	      << "\n\t\tNumClusterK = " 
-	      << aiipcgapc_inParamHKA.getNumClusterK()
+	      << aiinp_inParamHKA.getNumClusterK()
 	      << "\n\t\tPopulation size = " 
-	      << aiipcgapc_inParamHKA.getSizePopulation()
+	      << aiinp_inParamHKA.getSizePopulation()
 	      << "\n\t\tProbRecombination p_r = " 
-	      << aiipcgapc_inParamHKA.getProbCrossover() 
+	      << aiinp_inParamHKA.getProbCrossover() 
 	      << "\n\t\tProb_m.point  = " 
-	      << aiipcgapc_inParamHKA.getProbMutation()
+	      << aiinp_inParamHKA.getProbMutation()
 	      << "\n\t\tProbMixMutation  = " 
-	      << aiipcgapc_inParamHKA.getProbMixMutation()
+	      << aiinp_inParamHKA.getProbMixMutation()
 	      << "\n\t input  mat::MatrixTriang<T_REAL>: &aimatrixtriagrt_dissimilarity[" 
 	      <<  &aimatrixtriagrt_dissimilarity << ']'
 	      << "\n\t)"
@@ -126,7 +126,7 @@ hka_fkmedoid
  
   runtime::ListRuntimeFunction<COMMON_IDOMAIN> 
     llfh_listFuntionHist
-    (aiipcgapc_inParamHKA.getNumMaxGenerations(), "Iterations", "Clustering metrics"); 
+    (aiinp_inParamHKA.getNumMaxGenerations(), "Iterations", "Clustering metrics"); 
 
   /*DECLARATION OF VARIABLES: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM*/
 #ifndef __WITHOUT_PLOT_STAT
@@ -136,14 +136,14 @@ hka_fkmedoid
   runtime::RuntimeFunctionStat<T_REAL>  *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL>       lvectorT_statfuncObjetiveFunc;
   
-  if ( aiipcgapc_inParamHKA.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamHKA.getWithPlotStatObjetiveFunc() ) {  
 
     lvectorT_statfuncObjetiveFunc.reserve
-      (aiipcgapc_inParamHKA.getSizePopulation());  
+      (aiinp_inParamHKA.getSizePopulation());  
     //DEFINE FUNCTION
     lofh_SSE  = new runtime::RuntimeFunctionValue<T_REAL>
       ("SSE", 
-       aiipcgapc_inParamHKA.getAlgorithmoName(),
+       aiinp_inParamHKA.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -154,20 +154,20 @@ hka_fkmedoid
       lofhs_statObjectiveFunc[li_i] = 
 	new runtime::RuntimeFunctionStat<T_REAL>
 	( (char) li_i,
-	  aiipcgapc_inParamHKA.getAlgorithmoName(),
+	  aiinp_inParamHKA.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
     }
   
     //OPEN FILE STRORE FUNCTION 
-    aoopcga_outParamClusteringGA.setFileNameOutPlotStatObjetiveFunc
-      (aiipcgapc_inParamHKA.getFileNamePlotStatObjetiveFunc(),
-       aiipcgapc_inParamHKA.getTimesRunAlgorithm()
+    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+      (aiinp_inParamHKA.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamHKA.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open   
-      (aoopcga_outParamClusteringGA.getFileNameOutPlotStatObjetiveFunc().c_str(), 
+      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(), 
        std::ios::out | std::ios::app
        );
     lfileout_plotStatObjetiveFunc.precision(COMMON_COUT_PRECISION);
@@ -191,9 +191,9 @@ hka_fkmedoid
   /*POPULATION CREATE------------------------------------------------------------
    */
   lvectorchromfixleng_population.reserve
-    (aiipcgapc_inParamHKA.getSizePopulation()+1);
+    (aiinp_inParamHKA.getSizePopulation()+1);
   for (uintidx luintidx_i = 0; 
-       luintidx_i < aiipcgapc_inParamHKA.getSizePopulation(); 
+       luintidx_i < aiinp_inParamHKA.getSizePopulation(); 
        luintidx_i++) 
     {
       lvectorchromfixleng_population.push_back
@@ -203,10 +203,10 @@ hka_fkmedoid
   /*CREATE SPACE FOR STORE MATINGPOOL--------------------------------------------
    */
   lvectorchromfixleng_newoffspring.reserve
-    ( aiipcgapc_inParamHKA.getSizePopulation()/2 + 1 );
+    ( aiinp_inParamHKA.getSizePopulation()/2 + 1 );
   
   for (uintidx luintidx_i = 0; 
-       luintidx_i < aiipcgapc_inParamHKA.getSizePopulation()/2; 
+       luintidx_i < aiinp_inParamHKA.getSizePopulation()/2; 
        luintidx_i++) 
     {
       lvectorchromfixleng_newoffspring.push_back
@@ -232,7 +232,7 @@ hka_fkmedoid
 #endif /*__VERBOSE_YES*/
 
     const uintidx  luintidx_numClusterK =
-      (uintidx) aiipcgapc_inParamHKA.getNumClusterK();
+      (uintidx) aiinp_inParamHKA.getNumClusterK();
     
     for (auto ichrom_population :lvectorchromfixleng_population) {
        
@@ -291,7 +291,7 @@ hka_fkmedoid
       T_REAL lT_objetiveFunc = 
 	um::SSEMedoid
 	(ichrom_population->getString(),
-	 aiipcgapc_inParamHKA.getNumClusterK(),
+	 aiinp_inParamHKA.getNumClusterK(),
 	 aimatrixtriagrt_dissimilarity
 	 );
       ichrom_population->setObjetiveFunc(lT_objetiveFunc);
@@ -342,9 +342,9 @@ hka_fkmedoid
     if ( lochromfixleng_best.getFitness() <  lchrom_maxFitness->getFitness() ) {
       /*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
       lochromfixleng_best = *lchrom_maxFitness;	
-      aoopcga_outParamClusteringGA.setIterationGetsBest
+      aoop_outParamEAC.setIterationGetsBest
 	(llfh_listFuntionHist.getDomainUpperBound());
-      aoopcga_outParamClusteringGA.setRunTimeGetsBest
+      aoop_outParamEAC.setRunTimeGetsBest
 	(runtime::elapsedTime(let_executionTime));
     }
 
@@ -362,7 +362,7 @@ hka_fkmedoid
     /*MEASUREMENT NEW GENERATION: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
      */
 #ifndef __WITHOUT_PLOT_STAT  
-  if ( aiipcgapc_inParamHKA.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamHKA.getWithPlotStatObjetiveFunc() ) {  
     lofh_SSE->setValue(lochromfixleng_best.getObjetiveFunc());
     functionhiststat_evaluateAll
       (lofhs_statObjectiveFunc,
@@ -406,7 +406,7 @@ hka_fkmedoid
 	  *(gaselect::tournament
 	    (lvectorchromfixleng_population.begin(),
 	     lvectorchromfixleng_population.end(),
-	     aiipcgapc_inParamHKA.getOrderTournament(),
+	     aiinp_inParamHKA.getOrderTournament(),
 	     [&](const gaencode::ChromFixedLength<uintidx,T_REAL>* iter_chrom)
 	     {
 	        return iter_chrom->getFitness();
@@ -465,15 +465,15 @@ hka_fkmedoid
 	 {
 	 
 	   if ( uniformdis_real01(gmt19937_eng) <
-		aiipcgapc_inParamHKA.getProbCrossover()  ) {
+		aiinp_inParamHKA.getProbCrossover()  ) {
 	      
 	     gaintegerop::recombinationD_MX
 	       (*aochrom_child1,
 		*aochrom_child2,
 		*aichrom_parent1,
 		*aichrom_parent2,
-		aiipcgapc_inParamHKA.getNumInstances(),
-		aiipcgapc_inParamHKA.getProbMixMutation()
+		aiinp_inParamHKA.getNumInstances(),
+		aiinp_inParamHKA.getProbMixMutation()
 		);
 
 	   } //if  Crossover
@@ -517,7 +517,7 @@ hka_fkmedoid
       for ( auto ichrom_newoffspring: lvectorchromfixleng_newoffspring ) {
 	
 	if ( uniformdis_real01(gmt19937_eng) 
-	     < aiipcgapc_inParamHKA.getProbMutation() ) 
+	     < aiinp_inParamHKA.getProbMutation() ) 
 	  {
 
 	    std::unordered_set<uintidx>
@@ -576,12 +576,12 @@ hka_fkmedoid
       for ( auto ichrom_newoffspring: lvectorchromfixleng_newoffspring ) {
 	
 	if ( uniformdis_real01(gmt19937_eng)  
-	     < aiipcgapc_inParamHKA.getProbSearchHeuristic()  ) {
+	     < aiinp_inParamHKA.getProbSearchHeuristic()  ) {
 
 	  clusteringop::updateMedoids
 	    (ichrom_newoffspring->getString(),
-	     aiipcgapc_inParamHKA.getNumClusterK(),
-	     aiipcgapc_inParamHKA.getNearestNeighbors(),
+	     aiinp_inParamHKA.getNumClusterK(),
+	     aiinp_inParamHKA.getNearestNeighbors(),
 	     aimatrixtriagrt_dissimilarity
 	     );
 	} 
@@ -621,7 +621,7 @@ hka_fkmedoid
 	T_REAL lT_objetiveFunc = 
 	  um::SSEMedoid
 	  (ichrom_newoffspring->getString(),
-	   aiipcgapc_inParamHKA.getNumClusterK(),
+	   aiinp_inParamHKA.getNumClusterK(),
 	   aimatrixtriagrt_dissimilarity
 	   );
 	ichrom_newoffspring->setObjetiveFunc(lT_objetiveFunc);
@@ -664,7 +664,7 @@ hka_fkmedoid
       
       std::vector<gaencode::ChromFixedLength<uintidx,T_REAL>* >
 	lvectorchromfixleng_select;
-      lvectorchromfixleng_select.reserve( aiipcgapc_inParamHKA.getSizePopulation() );
+      lvectorchromfixleng_select.reserve( aiinp_inParamHKA.getSizePopulation() );
 
       std::sort
 	( lvectorchromfixleng_population.begin(),
@@ -697,7 +697,7 @@ hka_fkmedoid
       uintidx luintidx_r = 0;
 
       for (uintidx lui_i = 0;
-	   lui_i < aiipcgapc_inParamHKA.getSizePopulation();
+	   lui_i < aiinp_inParamHKA.getSizePopulation();
 	   lui_i++)
 	{
 
@@ -810,9 +810,9 @@ hka_fkmedoid
 	  /*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
 	  lochromfixleng_best = *lvectorchromfixleng_population[0];
 	 
-	  aoopcga_outParamClusteringGA.setIterationGetsBest
+	  aoop_outParamEAC.setIterationGetsBest
 	    (llfh_listFuntionHist.getDomainUpperBound());
-	  aoopcga_outParamClusteringGA.setRunTimeGetsBest
+	  aoop_outParamEAC.setRunTimeGetsBest
 	    (runtime::elapsedTime(let_executionTime));
 	}
 
@@ -832,7 +832,7 @@ hka_fkmedoid
     /*MEASUREMENT NEW GENERATION: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
      */
 #ifndef __WITHOUT_PLOT_STAT  
-    if ( aiipcgapc_inParamHKA.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamHKA.getWithPlotStatObjetiveFunc() ) {  
       lofh_SSE->setValue(lochromfixleng_best.getObjetiveFunc());
       functionhiststat_evaluateAll
 	(lofhs_statObjectiveFunc,
@@ -862,7 +862,7 @@ hka_fkmedoid
 #endif /*__VERBOSE_YES*/
     
   } while ( llfh_listFuntionHist.getDomainUpperBound() <
-	    aiipcgapc_inParamHKA.getNumMaxGenerations() );  
+	    aiinp_inParamHKA.getNumMaxGenerations() );  
   /* END  REPEAT */
 
   
@@ -921,15 +921,15 @@ hka_fkmedoid
   }/*END FREE MEMORY OF STRINGPOOL*/
   
   runtime::stop(let_executionTime);
-  aoopcga_outParamClusteringGA.setNumClusterK
-    (aiipcgapc_inParamHKA.getNumClusterK());
-  aoopcga_outParamClusteringGA.setMetricFuncRun
+  aoop_outParamEAC.setNumClusterK
+    (aiinp_inParamHKA.getNumClusterK());
+  aoop_outParamEAC.setMetricFuncRun
     (lochromfixleng_best.getObjetiveFunc());
-  aoopcga_outParamClusteringGA.setFitness
+  aoop_outParamEAC.setFitness
     (lochromfixleng_best.getFitness());
-  aoopcga_outParamClusteringGA.setAlgorithmRunTime
+  aoop_outParamEAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoopcga_outParamClusteringGA.setNumTotalGenerations
+  aoop_outParamEAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
  
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
@@ -937,11 +937,11 @@ hka_fkmedoid
  
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiipcgapc_inParamHKA.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamHKA.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiipcgapc_inParamHKA,
-       aoopcga_outParamClusteringGA
+       aiinp_inParamHKA,
+       aoop_outParamEAC
        );  
   }
 

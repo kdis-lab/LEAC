@@ -34,8 +34,8 @@
 #include <utility>      // std::move
 
 #include <leac.hpp>
-#include "inparam_gaclustering_gga.hpp"
-#include "outparam_gaclustering.hpp"
+#include "inparam_gga.hpp"
+#include "outparam_eaclustering.hpp"
 
 #include "plot_runtime_function.hpp"
 
@@ -51,12 +51,12 @@
 namespace eac {
 
   
-/*! \fn gaencode::ChromosomeGGA<T_CLUSTERIDX,T_REAL> gga_vklabel(inout::OutParamGAClustering<T_REAL,T_CLUSTERIDX> &aoopcga_outParamClusteringGA,inout::InParamGAClusteringGGA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinparam_GAProbAdapRangeK, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn gaencode::ChromosomeGGA<T_CLUSTERIDX,T_REAL> gga_vklabel(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC,inout::InParamGGA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamGGA, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief GGA \cite Agustin:etal:GAclusteringVarK:GGA:2012
   \details Implementation of the GGA algorithm based on \cite Agustin:etal:GAclusteringVarK:GGA:2012. Which automatically finds K cluster using the Silhouette and  Davies–Bouldin index.
   \returns A partition of a data set, encoded on a chromosome where each gene is the index of a cluster to which the instance belongs.
-  \param aoopcga_outParamClusteringGA a inout::OutParamGAClustering with the output parameters of the algorithm
-  \param aiinparam_GAProbAdapRangeK a inout::InParamGAClusteringGGA parameters required by the algorithm
+  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aiinp_inParamGGA a inout::InParamGGA parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
@@ -70,15 +70,15 @@ template < typename T_CLUSTERIDX, //DATATYPE OF CHROMOSOME
 	   >
 gaencode::ChromosomeGGA<T_CLUSTERIDX,T_REAL> 
 gga_vklabel
-(inout::OutParamGAClustering
+(inout::OutParamEAClustering
  <T_REAL,
- T_CLUSTERIDX>                        &aoopcga_outParamClusteringGA,
- inout::InParamGAClusteringGGA
+ T_CLUSTERIDX>                        &aoop_outParamEAC,
+ inout::InParamGGA
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>               &aiinparam_GAProbAdapRangeK,
+ T_INSTANCES_CLUSTER_K>               &aiinp_inParamGGA,
  const INPUT_ITERATOR                 aiiterator_instfirst,
  const INPUT_ITERATOR                 aiiterator_instlast,
  const dist::Dist<T_REAL,T_FEATURE>   &aifunc2p_dist
@@ -87,9 +87,9 @@ gga_vklabel
   const uintidx  lui_numInstances =
     uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
   
-  if ( aiinparam_GAProbAdapRangeK.getNumClusterKMaximum() == 
+  if ( aiinp_inParamGGA.getNumClusterKMaximum() == 
        INPARAMCLUSTERING_DEFAULT_CLUSTERK_UNDEFINED )
-    aiinparam_GAProbAdapRangeK.setNumClusterKMaximum
+    aiinp_inParamGGA.setNumClusterKMaximum
       (std::round(std::sqrt((double)lui_numInstances)));
 
   gaencode::ChromosomeGGA<T_CLUSTERIDX,T_REAL>
@@ -97,23 +97,23 @@ gga_vklabel
 
   gaencode::ChromosomeGGA<T_CLUSTERIDX,T_REAL> lochrom_best
     ( uintidx
-      ((aiinparam_GAProbAdapRangeK.getNumClusterKMaximum() +
-	aiinparam_GAProbAdapRangeK.getNumClusterKMinimum() )/ 2
+      ((aiinp_inParamGGA.getNumClusterKMaximum() +
+	aiinp_inParamGGA.getNumClusterKMinimum() )/ 2
        )
       );
 
   std::uniform_int_distribution<uintidx>
     uniformdis_uiMinMaxK
-    ((uintidx) aiinparam_GAProbAdapRangeK.getNumClusterKMinimum(), 
-     (uintidx) aiinparam_GAProbAdapRangeK.getNumClusterKMaximum()
+    ((uintidx) aiinp_inParamGGA.getNumClusterKMinimum(), 
+     (uintidx) aiinp_inParamGGA.getNumClusterKMaximum()
      );
   std::uniform_real_distribution<T_REAL> uniformdis_real01(0,1);
 
   std::uniform_int_distribution<uintidx> uniformdis_ui0SubPopSize
-    (0, aiinparam_GAProbAdapRangeK.getSubPopulationSize()-1);
+    (0, aiinp_inParamGGA.getSubPopulationSize()-1);
 
   std::uniform_int_distribution<uintidx> uniformdis_ui0NumIsland
-    (0, aiinparam_GAProbAdapRangeK.getNumIsland()-1 );
+    (0, aiinp_inParamGGA.getNumIsland()-1 );
 
   
 #ifdef  ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012	      
@@ -132,15 +132,15 @@ gga_vklabel
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelAlgGA
 	      << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "\t(output inout::OutParamGAClustering&: aoopcga_outParamClusteringGA[" 
-	      << &aoopcga_outParamClusteringGA << "]\n"
+	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
+	      << &aoop_outParamEAC << "]\n"
               << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
 	      << "\t input aiiterator_instlast[" <<  *aiiterator_instlast << "]\n"
 	      << "\t input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << "]\n"
-	      << "\t input  InParamClusteringGaProbFixedK&: aiinparam_GAProbAdapRangeK[" 
-	      << &aiinparam_GAProbAdapRangeK << "]\n";
-    aiinparam_GAProbAdapRangeK.print();
+	      << "\t input  InParamClusteringGaProbFk&: aiinp_inParamGGA[" 
+	      << &aiinp_inParamGGA << "]\n";
+    aiinp_inParamGGA.print();
     std::cout << "\n\t)"
 	      << std::endl;
   }
@@ -149,7 +149,7 @@ gga_vklabel
 
   runtime::ListRuntimeFunction<COMMON_IDOMAIN> 
     llfh_listFuntionHist
-    (aiinparam_GAProbAdapRangeK.getNumMaxGenerations(), "Iterations", "Clustering metrics");
+    (aiinp_inParamGGA.getNumMaxGenerations(), "Iterations", "Clustering metrics");
 
   /*DECLARATION OF VARIABLES: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
    */
@@ -159,14 +159,14 @@ gga_vklabel
   runtime::RuntimeFunctionStat<T_REAL>  *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL>       lvectort_statfuncObjetiveFunc;
   
-  if ( aiinparam_GAProbAdapRangeK.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamGGA.getWithPlotStatObjetiveFunc() ) {  
     
     lvectort_statfuncObjetiveFunc.reserve
-      ( aiinparam_GAProbAdapRangeK.getSubPopulationSize());
+      ( aiinp_inParamGGA.getSubPopulationSize());
     //DEFINE FUNCTION
     lofh_objetiveFunc  = new runtime::RuntimeFunctionValue<T_REAL>
       ("DB", 
-       aiinparam_GAProbAdapRangeK.getAlgorithmoName(),
+       aiinp_inParamGGA.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -178,20 +178,20 @@ gga_vklabel
 	new runtime::RuntimeFunctionStat
 	<T_REAL>
 	( (char) li_i,
-	  aiinparam_GAProbAdapRangeK.getAlgorithmoName(),
+	  aiinp_inParamGGA.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoopcga_outParamClusteringGA.setFileNameOutPlotStatObjetiveFunc
-      (aiinparam_GAProbAdapRangeK.getFileNamePlotStatObjetiveFunc(),
-       aiinparam_GAProbAdapRangeK.getTimesRunAlgorithm()
+    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+      (aiinp_inParamGGA.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamGGA.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoopcga_outParamClusteringGA.getFileNameOutPlotStatObjetiveFunc().c_str(),
+      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
        std::ios::out | std::ios::app
        );
 
@@ -209,7 +209,7 @@ gga_vklabel
  
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING
    */
-  aoopcga_outParamClusteringGA.setTotalInvalidOffspring(0);
+  aoop_outParamEAC.setTotalInvalidOffspring(0);
 
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
 
@@ -221,7 +221,7 @@ gga_vklabel
    */
   std::vector<std::vector<gaencode::ChromosomeGGA<T_CLUSTERIDX,T_REAL>* >* >
     lvectorvector_subPopulation;
-  lvectorvector_subPopulation.reserve(aiinparam_GAProbAdapRangeK.getNumIsland());
+  lvectorvector_subPopulation.reserve(aiinp_inParamGGA.getNumIsland());
   
   std::vector<gaencode::ChromosomeGGA<T_CLUSTERIDX,T_REAL>* >  lvectorchrom_bestIsland;
 
@@ -250,16 +250,16 @@ gga_vklabel
       std::cout << geverbosepc_labelstep  
 		<< ": IN(" << geiinparam_verbose << ')'
 		<< ',' << "number_island = "
-		<< aiinparam_GAProbAdapRangeK.getNumIsland() 
+		<< aiinp_inParamGGA.getNumIsland() 
 		<< std::endl;
     }
 #endif /*__VERBOSE_YES*/
     
     uintidx  lui_numKMean =
-      uintidx((aiinparam_GAProbAdapRangeK.getNumClusterKMaximum() +
-	       aiinparam_GAProbAdapRangeK.getNumClusterKMinimum() )/ 2);
+      uintidx((aiinp_inParamGGA.getNumClusterKMaximum() +
+	       aiinp_inParamGGA.getNumClusterKMinimum() )/ 2);
 
-    for (uintidx lui_l = 0; lui_l < aiinparam_GAProbAdapRangeK.getNumIsland(); lui_l++) {
+    for (uintidx lui_l = 0; lui_l < aiinp_inParamGGA.getNumIsland(); lui_l++) {
       lvectorchrom_bestIsland.push_back
 	(new gaencode::ChromosomeGGA<T_CLUSTERIDX,T_REAL>(lui_numKMean));
       gaencode::ChromosomeGGA<T_CLUSTERIDX,T_REAL> *lchom_bestIslandIter =
@@ -316,9 +316,9 @@ gga_vklabel
       std::cout << geverbosepc_labelstep  
 		<< ": IN(" << geiinparam_verbose << ')'
 		<< ',' << "number_island = "
-		<< aiinparam_GAProbAdapRangeK.getNumIsland()
+		<< aiinp_inParamGGA.getNumIsland()
 		<< ',' << "sub_population_size = "
-		<< aiinparam_GAProbAdapRangeK.getSubPopulationSize() 
+		<< aiinp_inParamGGA.getSubPopulationSize() 
 		<< std::endl;
     }
 #endif /*__VERBOSE_YES*/
@@ -326,7 +326,7 @@ gga_vklabel
     /*CREATE SPACE FOR STORE POPULATION
      */    
     for (uintidx lui_l = 0;
-	 lui_l < aiinparam_GAProbAdapRangeK.getNumIsland();
+	 lui_l < aiinp_inParamGGA.getNumIsland();
 	 lui_l++)
       {
 	std::vector<gaencode::ChromosomeGGA<T_CLUSTERIDX,T_REAL>* >*
@@ -334,7 +334,7 @@ gga_vklabel
 	  new std::vector<gaencode::ChromosomeGGA<T_CLUSTERIDX,T_REAL>* >();
 	
 	lvectorchrom_subpopulation->reserve
-	  ( aiinparam_GAProbAdapRangeK.getSubPopulationSize() );
+	  ( aiinp_inParamGGA.getSubPopulationSize() );
 
 	lvectorvector_subPopulation.push_back(lvectorchrom_subpopulation);
 	
@@ -353,7 +353,7 @@ gga_vklabel
 #endif /*__VERBOSE_YES*/
    
 	for (uintidx lui_i = 0; 
-	     lui_i < aiinparam_GAProbAdapRangeK.getSubPopulationSize(); 
+	     lui_i < aiinp_inParamGGA.getSubPopulationSize(); 
 	     lui_i++) 
 	  {
 	    /*Generate a number Ki in range Kmin to Kmax
@@ -516,7 +516,7 @@ gga_vklabel
 	    liter_iChrom->setObjetiveFunc(measuare_undefDBindex(T_REAL));
 	    liter_iChrom->setFitness(-measuare_undefDBindex(T_REAL)); 
 	    liter_iChrom->setValidString(false);
-	    aoopcga_outParamClusteringGA.incTotalInvalidOffspring();
+	    aoop_outParamEAC.incTotalInvalidOffspring();
 	  }
 	  
 #endif //ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012
@@ -547,7 +547,7 @@ gga_vklabel
 	    liter_iChrom->setObjetiveFunc(measuare_lowerValueSilhouette(T_REAL));
 	    liter_iChrom->setFitness(measuare_lowerValueSilhouette(T_REAL));
 	    liter_iChrom->setValidString(false);
-	    aoopcga_outParamClusteringGA.incTotalInvalidOffspring();
+	    aoop_outParamEAC.incTotalInvalidOffspring();
 	  }
 	  else {
 
@@ -666,9 +666,9 @@ gga_vklabel
 	     */
 	    lochrom_best = *lit_chromMax;
 	 
-	    aoopcga_outParamClusteringGA.setIterationGetsBest
+	    aoop_outParamEAC.setIterationGetsBest
 	      (llfh_listFuntionHist.getDomainUpperBound());
-	    aoopcga_outParamClusteringGA.setRunTimeGetsBest
+	    aoop_outParamEAC.setRunTimeGetsBest
 	      (runtime::elapsedTime(let_executionTime));
 
 #ifdef __VERBOSE_YES
@@ -742,7 +742,7 @@ gga_vklabel
     /*MEASUREMENT BEST: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
      */    
 #ifndef __WITHOUT_PLOT_STAT
-    if ( aiinparam_GAProbAdapRangeK.getWithPlotStatObjetiveFunc() ) {
+    if ( aiinp_inParamGGA.getWithPlotStatObjetiveFunc() ) {
       for (uintidx lui_l = 0; lui_l < lvectorvector_subPopulation.size(); lui_l++) {
 	std::vector<gaencode::ChromosomeGGA<T_CLUSTERIDX,T_REAL>* >*
 	  lvectorchrom_subpopulation = lvectorvector_subPopulation.at(lui_l);//.get();
@@ -791,9 +791,9 @@ gga_vklabel
 
     
       if ( (llfh_listFuntionHist.getDomainUpperBound() >=
-	    aiinparam_GAProbAdapRangeK.getNumMaxGenerations() ) ||
+	    aiinp_inParamGGA.getNumMaxGenerations() ) ||
 	   (runtime::elapsedTime(let_executionTime) >
-	    aiinparam_GAProbAdapRangeK.getMaxExecutiontime())
+	    aiinp_inParamGGA.getMaxExecutiontime())
 	   )
 	break;
       llfh_listFuntionHist.increaseDomainUpperBound();
@@ -809,10 +809,10 @@ gga_vklabel
     { /*BEGIN LOCAL SEARCH*/
       
       T_REAL lrt_pbj =
-	aiinparam_GAProbAdapRangeK.getPbi() +
+	aiinp_inParamGGA.getPbi() +
 	((T_REAL) llfh_listFuntionHist.getDomainUpperBound() /
-	 (T_REAL) aiinparam_GAProbAdapRangeK.getNumMaxGenerations())
-	* ( aiinparam_GAProbAdapRangeK.getPbf() - aiinparam_GAProbAdapRangeK.getPbi() );
+	 (T_REAL) aiinp_inParamGGA.getNumMaxGenerations())
+	* ( aiinp_inParamGGA.getPbf() - aiinp_inParamGGA.getPbi() );
      	
 #ifdef __VERBOSE_YES
       geverbosepc_labelstep = "LOCAL SEARCH";
@@ -1166,7 +1166,7 @@ gga_vklabel
 	
       for (uintidx lui_l = 0; lui_l < lvectorchrom_bestIsland.size(); lui_l++) {
 	
-	if ( uniformdis_real01(gmt19937_eng) < aiinparam_GAProbAdapRangeK.getPe() ) {
+	if ( uniformdis_real01(gmt19937_eng) < aiinp_inParamGGA.getPe() ) {
 	  /*2. Randomly choose the island toward each individual 
 	    will migrate.
 	  */
@@ -1400,10 +1400,10 @@ gga_vklabel
       { /*BEGIN CROSSOVER*/
 
 	T_REAL lrt_pcj =
-	  aiinparam_GAProbAdapRangeK.getPci() +
+	  aiinp_inParamGGA.getPci() +
 	  ((T_REAL) llfh_listFuntionHist.getDomainUpperBound() /
-	   (T_REAL) aiinparam_GAProbAdapRangeK.getNumMaxGenerations())
-	  * ( aiinparam_GAProbAdapRangeK.getPcf() - aiinparam_GAProbAdapRangeK.getPci() );
+	   (T_REAL) aiinp_inParamGGA.getNumMaxGenerations())
+	  * ( aiinp_inParamGGA.getPcf() - aiinp_inParamGGA.getPci() );
 	
 
 #ifdef __VERBOSE_YES
@@ -1492,10 +1492,10 @@ gga_vklabel
       {/*BEGIN MUTATION*/
 
 	T_REAL lrt_pmj =
-	  aiinparam_GAProbAdapRangeK.getPmi() +
+	  aiinp_inParamGGA.getPmi() +
 	  ((T_REAL) llfh_listFuntionHist.getDomainUpperBound() /
-	   (T_REAL) aiinparam_GAProbAdapRangeK.getNumMaxGenerations())
-	  * ( aiinparam_GAProbAdapRangeK.getPmf() - aiinparam_GAProbAdapRangeK.getPmi() );
+	   (T_REAL) aiinp_inParamGGA.getNumMaxGenerations())
+	  * ( aiinp_inParamGGA.getPmf() - aiinp_inParamGGA.getPmi() );
 
 		
 #ifdef __VERBOSE_YES
@@ -1621,15 +1621,15 @@ gga_vklabel
   } /*END FREE MEMORY OF STRINGPOOL*/
   
   runtime::stop(let_executionTime);
-  aoopcga_outParamClusteringGA.setNumClusterK
+  aoop_outParamEAC.setNumClusterK
     (lochrom_best.getNumClusterK());
-  aoopcga_outParamClusteringGA.setMetricFuncRun
+  aoop_outParamEAC.setMetricFuncRun
     (lochrom_best.getObjetiveFunc());
-  aoopcga_outParamClusteringGA.setFitness
+  aoop_outParamEAC.setFitness
     (lochrom_best.getFitness());
-  aoopcga_outParamClusteringGA.setAlgorithmRunTime
+  aoop_outParamEAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoopcga_outParamClusteringGA.setNumTotalGenerations
+  aoop_outParamEAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
   
@@ -1637,11 +1637,11 @@ gga_vklabel
    */ 
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiinparam_GAProbAdapRangeK.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamGGA.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiinparam_GAProbAdapRangeK,
-       aoopcga_outParamClusteringGA
+       aiinp_inParamGGA,
+       aoop_outParamEAC
        );  
   }
 

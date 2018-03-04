@@ -37,8 +37,8 @@
 #include <cmath>
 
 #include <leac.hpp>
-#include "inparam_gaclustering_feac.hpp"
-#include "outparam_gaclustering.hpp"
+#include "inparam_feac.hpp"
+#include "outparam_eaclustering.hpp"
 
 #include "plot_runtime_function.hpp"
 
@@ -53,12 +53,12 @@
 
 namespace eac {
 
-/*! \fn gaencode::ChromosomeFEAC <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> feca_vklabel (inout::OutParamGAClustering<T_REAL, T_CLUSTERIDX>  &aoopcga_outParamClusteringGA, inout::InParamGAClusteringFEAC<T_FEATURE,T_REAL,T_CLUSTERIDX,T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinpcga_inParamFEAC, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn gaencode::ChromosomeFEAC <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> feca_vklabel (inout::OutParamEAClustering<T_REAL, T_CLUSTERIDX>  &aoop_outParamEAC, inout::InParamFEAC<T_FEATURE,T_REAL,T_CLUSTERIDX,T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinp_inParamFEAC, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief EAC, EAC I, EAC II, EAC III, EAC IV and FEAC
   \details Implementation of the EAC, EAC I, EAC II, EAC III, EAC IV and FEAC  algorithm based on \cite Hruschka:etal:GAClusteringLabelKVar:EAC:2006 and \cite Alves:etal:GAclusteringLabelKVar:FEAC:2006.  
   \returns A partition of a data set, encoded on a chromosome with the membership labels of each instance and the centroids of the clusters.
-  \param aoopcga_outParamClusteringGA a inout::OutParamGAClustering with the output parameters of the algorithm
-  \param aiinpcga_inParamFEAC a inout::InParamGAClusteringFEAC parameters required by the algorithm
+  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aiinp_inParamFEAC a inout::InParamFEAC parameters required by the algorithm
   \param aiiterator_instfirst an input iterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an input iterator to the final positions of the sequence of instances
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
@@ -78,15 +78,15 @@ gaencode::ChromosomeFEAC
  T_INSTANCES_CLUSTER_K
  > 
 feca_vklabel
-(inout::OutParamGAClustering
+(inout::OutParamEAClustering
  <T_REAL,
- T_CLUSTERIDX>                          &aoopcga_outParamClusteringGA,
- inout::InParamGAClusteringFEAC
+ T_CLUSTERIDX>                          &aoop_outParamEAC,
+ inout::InParamFEAC
  <T_FEATURE,
  T_REAL,
  T_CLUSTERIDX,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>                 &aiinpcga_inParamFEAC,
+ T_INSTANCES_CLUSTER_K>                 &aiinp_inParamFEAC,
  const INPUT_ITERATOR                   aiiterator_instfirst,
  const INPUT_ITERATOR                   aiiterator_instlast,
  dist::Dist<T_REAL,T_FEATURE>           &aifunc2p_dist
@@ -96,9 +96,9 @@ feca_vklabel
    */
   const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
   
-  if ( aiinpcga_inParamFEAC.getNumClusterKMaximum() == 
+  if ( aiinp_inParamFEAC.getNumClusterKMaximum() == 
        INPARAMCLUSTERING_DEFAULT_CLUSTERK_UNDEFINED )
-    aiinpcga_inParamFEAC.setNumClusterKMaximum
+    aiinp_inParamFEAC.setNumClusterKMaximum
       (std::round(std::sqrt((double)lui_numInstances)));
   
 #ifdef __VERBOSE_YES
@@ -122,26 +122,26 @@ feca_vklabel
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelAlgGA
 	      << ": IN(" << geiinparam_verbose << ")\n"
-	      << "\t(output inout::OutParamGAClustering&: aoopcga_outParamClusteringGA[" 
-	      << &aoopcga_outParamClusteringGA << "]\n"
-	      << "\t input  inout::InParamGAClusteringFEAC&: aiinpcga_inParamFEAC[" 
-	      << &aiinpcga_inParamFEAC << "]\n"
+	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
+	      << &aoop_outParamEAC << "]\n"
+	      << "\t input  inout::InParamFEAC&: aiinp_inParamFEAC[" 
+	      << &aiinp_inParamFEAC << "]\n"
 	      << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
 	      << "\t input aiiterator_instlast[" <<  *aiiterator_instlast << "]\n"
 	      << "\t input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\n\t\tPopulation size = " 
-	      << aiinpcga_inParamFEAC.getSizePopulation()
+	      << aiinp_inParamFEAC.getSizePopulation()
 	      << "\n\t\tk-minimum  = " 
-	      << aiinpcga_inParamFEAC.getNumClusterKMinimum()
+	      << aiinp_inParamFEAC.getNumClusterKMinimum()
 	      << "\n\t\tk-maximum  = " 
-	      << aiinpcga_inParamFEAC.getNumClusterKMaximum()
+	      << aiinp_inParamFEAC.getNumClusterKMaximum()
 	      << "\n\t\tKmeansNumMaxIter = " 
-	      << aiinpcga_inParamFEAC.getKmeansNumMaxIter() 
+	      << aiinp_inParamFEAC.getKmeansNumMaxIter() 
 	      << "\n\t\tKmeansMaxDiffCent  = " 
-	      << aiinpcga_inParamFEAC.getKmeansMaxDiffCent()
+	      << aiinp_inParamFEAC.getKmeansMaxDiffCent()
 	      << "\n\t\trandom-seed = "
-	      << aiinpcga_inParamFEAC.getRandomSeed()
+	      << aiinp_inParamFEAC.getRandomSeed()
 	      << "\n\t)"
 	      << std::endl;
   }
@@ -164,8 +164,8 @@ feca_vklabel
 
   std::uniform_int_distribution<uintidx>
     uniformdis_uiMinMaxK
-    ((uintidx) aiinpcga_inParamFEAC.getNumClusterKMinimum(), 
-     (uintidx) aiinpcga_inParamFEAC.getNumClusterKMaximum()
+    ((uintidx) aiinp_inParamFEAC.getNumClusterKMinimum(), 
+     (uintidx) aiinp_inParamFEAC.getNumClusterKMaximum()
      );
   std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
 
@@ -176,7 +176,7 @@ feca_vklabel
 
   runtime::ListRuntimeFunction<COMMON_IDOMAIN> 
     llfh_listFuntionHist
-    (aiinpcga_inParamFEAC.getNumMaxGenerations(), "Iterations", "Clustering metrics");
+    (aiinp_inParamFEAC.getNumMaxGenerations(), "Iterations", "Clustering metrics");
 
   /*DECLARATION OF VARIABLES: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
    */
@@ -186,14 +186,14 @@ feca_vklabel
   runtime::RuntimeFunctionStat<T_REAL>  *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL>       lvectorT_statfuncObjetiveFunc;
   
-  if ( aiinpcga_inParamFEAC.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamFEAC.getWithPlotStatObjetiveFunc() ) {  
     
     lvectorT_statfuncObjetiveFunc.reserve
-      ( aiinpcga_inParamFEAC.getSizePopulation());
+      ( aiinp_inParamFEAC.getSizePopulation());
     //DEFINE FUNCTION
     lofh_objectiveFunc  = new runtime::RuntimeFunctionValue<T_REAL>
       ("SS", 
-       aiinpcga_inParamFEAC.getAlgorithmoName(),
+       aiinp_inParamFEAC.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -205,20 +205,20 @@ feca_vklabel
 	new runtime::RuntimeFunctionStat
 	<T_REAL>
 	( (char) li_i,
-	  aiinpcga_inParamFEAC.getAlgorithmoName(),
+	  aiinp_inParamFEAC.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoopcga_outParamClusteringGA.setFileNameOutPlotStatObjetiveFunc
-      (aiinpcga_inParamFEAC.getFileNamePlotStatObjetiveFunc(),
-       aiinpcga_inParamFEAC.getTimesRunAlgorithm()
+    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+      (aiinp_inParamFEAC.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamFEAC.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoopcga_outParamClusteringGA.getFileNameOutPlotStatObjetiveFunc().c_str(),
+      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
        std::ios::out | std::ios::app
        );
 
@@ -236,7 +236,7 @@ feca_vklabel
  
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING
    */
-  aoopcga_outParamClusteringGA.setTotalInvalidOffspring(0);
+  aoop_outParamEAC.setTotalInvalidOffspring(0);
 
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
 
@@ -270,13 +270,13 @@ feca_vklabel
     /*CREATE SPACE FOR STORE POPULATION-----------------------------------------
      */
     lvectorchrom_population.reserve
-      (aiinpcga_inParamFEAC.getSizePopulation());
+      (aiinp_inParamFEAC.getSizePopulation());
     
     std::uniform_int_distribution<uintidx> uniformdis_idxInstances
       (0,lui_numInstances-1);
     
     for (uintidx luintidx_i = 0; 
-	 luintidx_i < aiinpcga_inParamFEAC.getSizePopulation(); 
+	 luintidx_i < aiinp_inParamFEAC.getSizePopulation(); 
 	 luintidx_i++) 
       {
 	/*Generate a number Ki in range Kmin to Kmax
@@ -361,8 +361,8 @@ feca_vklabel
 	  (liter_iChrom,
 	   aiiterator_instfirst,
 	   aiiterator_instlast,
-	   aiinpcga_inParamFEAC.getKmeansNumMaxIter(),
-	   aiinpcga_inParamFEAC.getKmeansMaxDiffCent(),
+	   aiinp_inParamFEAC.getKmeansNumMaxIter(),
+	   aiinp_inParamFEAC.getKmeansMaxDiffCent(),
 	   aifunc2p_dist
 	   );
 	
@@ -565,9 +565,9 @@ feca_vklabel
 	lochrom_best = *lit_chromMax;
 
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
-	aoopcga_outParamClusteringGA.setIterationGetsBest
+	aoop_outParamEAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoopcga_outParamClusteringGA.setRunTimeGetsBest
+	aoop_outParamEAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
       } /*END IF*/
       
@@ -586,7 +586,7 @@ feca_vklabel
     /*MEASUREMENT BEST: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
      */
 #ifndef __WITHOUT_PLOT_STAT
-    if ( aiinpcga_inParamFEAC.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamFEAC.getWithPlotStatObjetiveFunc() ) {  
       lofh_objectiveFunc->setValue(lochrom_best.getObjetiveFunc());
       functionhiststat_evaluateAll
 	(lofhs_statObjectiveFunc,
@@ -602,12 +602,12 @@ feca_vklabel
       papers do not consider this option
     */
 
-    if ( (aiinpcga_inParamFEAC.getDesiableObjetiveFunc()
+    if ( (aiinp_inParamFEAC.getDesiableObjetiveFunc()
 	  <  (lochrom_best.getObjetiveFunc() )) || 
 	 (llfh_listFuntionHist.getDomainUpperBound() >=
-	  aiinpcga_inParamFEAC.getNumMaxGenerations()) ||
+	  aiinp_inParamFEAC.getNumMaxGenerations()) ||
 	 (runtime::elapsedTime(let_executionTime) >
-	  aiinpcga_inParamFEAC.getMaxExecutiontime() )
+	  aiinp_inParamFEAC.getMaxExecutiontime() )
 	 )
       break;
 
@@ -616,7 +616,7 @@ feca_vklabel
        <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> >
       lvectorchrom_stringPool;
     lvectorchrom_stringPool.reserve
-      (aiinpcga_inParamFEAC.getSizePopulation());
+      (aiinp_inParamFEAC.getSizePopulation());
 	
        
     { /*BEGIN 5. SELECT GENOTYPES:*/
@@ -655,7 +655,7 @@ feca_vklabel
 	 );
 
       for (uintidx luintidx_i = 1; 
-	   luintidx_i < aiinpcga_inParamFEAC.getSizePopulation(); 
+	   luintidx_i < aiinp_inParamFEAC.getSizePopulation(); 
 	   luintidx_i++) 
 	{
 	  uintidx luintidx_chrom = 
@@ -830,26 +830,26 @@ feca_vklabel
   }  /*END LOOP EVOLUTIONARY*/
 
   runtime::stop(let_executionTime);
-  aoopcga_outParamClusteringGA.setNumClusterK
+  aoop_outParamEAC.setNumClusterK
     (lochrom_best.getNumClusterK());
-  aoopcga_outParamClusteringGA.setMetricFuncRun
+  aoop_outParamEAC.setMetricFuncRun
     (lochrom_best.getObjetiveFunc());
-  aoopcga_outParamClusteringGA.setFitness
+  aoop_outParamEAC.setFitness
     (lochrom_best.getFitness());
-  aoopcga_outParamClusteringGA.setAlgorithmRunTime
+  aoop_outParamEAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoopcga_outParamClusteringGA.setNumTotalGenerations
+  aoop_outParamEAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
    */ 
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiinpcga_inParamFEAC.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamFEAC.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiinpcga_inParamFEAC,
-       aoopcga_outParamClusteringGA
+       aiinp_inParamFEAC,
+       aoop_outParamEAC
        );  
   }
 

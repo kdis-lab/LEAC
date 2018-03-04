@@ -29,8 +29,8 @@
 #include <algorithm>
 
 #include <leac.hpp>
-#include "inparam_gaclustering_pcpm_rangek.hpp"
-#include "outparam_gaclustering.hpp"
+#include "inparam_probcprobm_rangek.hpp"
+#include "outparam_eaclustering.hpp"
 
 #include "plot_runtime_function.hpp"
 
@@ -45,7 +45,7 @@
 
 namespace eac {
   
-/*! \fn mat::MatrixRow<T_FEATURE> gcuk_vkcentroid(inout::OutParamGAClustering<T_REAL,T_CLUSTERIDX> &aoopcga_outParamClusteringGA, inout::InParamGAClusteringProbCProbMRangeK<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinpcgaprobrangek_inParamGCUK, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist) 
+/*! \fn mat::MatrixRow<T_FEATURE> gcuk_vkcentroid(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamPcPmRk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamPcPmRk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist) 
   \brief GCUK \cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002
   \details Implementation of the GCUK algorithm based on \cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002. Which automatically finds K cluster using the Davies–Bouldin index.
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid. Base to following equation:
@@ -54,8 +54,8 @@ namespace eac {
   \| x_i - \mu_k \|,\; j=1,2,..k,
   \f]
   where \f$mu_j\f$, represents the centroid of cluster \f$C_j\f$
-  \param aoopcga_outParamClusteringGA a inout::OutParamGAClustering with the output parameters of the algorithm
-  \param aiinpcgaprobrangek_inParamGCUK a inout::InParamGAClusteringProbCProbMRangeK parameters required by the algorithm
+  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aiinp_inParamPcPmRk a inout::InParamPcPmRk parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
@@ -69,15 +69,15 @@ template < typename T_FEATURE,      //T_STRING,
 	   >
 mat::MatrixRow<T_FEATURE>
 gcuk_vkcentroid
-(inout::OutParamGAClustering
+(inout::OutParamEAClustering
  <T_REAL,
- T_CLUSTERIDX>                                &aoopcga_outParamClusteringGA,
- inout::InParamGAClusteringProbCProbMRangeK
+ T_CLUSTERIDX>                                &aoop_outParamEAC,
+ inout::InParamPcPmRk
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>                       &aiinpcgaprobrangek_inParamGCUK,
+ T_INSTANCES_CLUSTER_K>                       &aiinp_inParamPcPmRk,
  const INPUT_ITERATOR                         aiiterator_instfirst,
  const INPUT_ITERATOR                         aiiterator_instlast,
  dist::Dist<T_REAL,T_FEATURE>                 &aifunc2p_dist
@@ -96,8 +96,8 @@ gcuk_vkcentroid
    
   std::uniform_int_distribution<uintidx>
     uniformdis_uiMinMaxK
-    ((uintidx) aiinpcgaprobrangek_inParamGCUK.getNumClusterKMinimum(), 
-     (uintidx) aiinpcgaprobrangek_inParamGCUK.getNumClusterKMaximum()
+    ((uintidx) aiinp_inParamPcPmRk.getNumClusterKMinimum(), 
+     (uintidx) aiinp_inParamPcPmRk.getNumClusterKMaximum()
      );
     
   std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
@@ -108,24 +108,24 @@ gcuk_vkcentroid
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelAlgGA
 	      << "  IN(" << geiinparam_verbose << ")\n"
-	      << "\t(output inout::OutParamGAClustering&: aoopcga_outParamClusteringGA[" 
-	      << &aoopcga_outParamClusteringGA << "]\n"
-	      << "\t input  InParamClusteringGaProbFixedK&: aiinpcgaprobrangek_inParamGCUK[" 
-	      << &aiinpcgaprobrangek_inParamGCUK << "]\n"
+	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
+	      << &aoop_outParamEAC << "]\n"
+	      << "\t input  InParamClusteringGaProbFk&: aiinp_inParamPcPmRk[" 
+	      << &aiinp_inParamPcPmRk << "]\n"
 	      << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
 	      << "\t input aiiterator_instlast[" <<  &aiiterator_instlast << "]\n"
 	      << "\t input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\n\t\tPopulation size = " 
-	      << aiinpcgaprobrangek_inParamGCUK.getSizePopulation()
+	      << aiinp_inParamPcPmRk.getSizePopulation()
 	      << "\n\t\tProbCrossover = " 
-	      << aiinpcgaprobrangek_inParamGCUK.getProbCrossover() 
+	      << aiinp_inParamPcPmRk.getProbCrossover() 
 	      << "\n\t\tProbMutation  = " 
-	      << aiinpcgaprobrangek_inParamGCUK.getProbMutation()
+	      << aiinp_inParamPcPmRk.getProbMutation()
 	      << "\n\t\tk-minimum  = " 
-	      << aiinpcgaprobrangek_inParamGCUK.getNumClusterKMinimum()
+	      << aiinp_inParamPcPmRk.getNumClusterKMinimum()
 	      << "\n\t\tk-maximum  = " 
-	      << aiinpcgaprobrangek_inParamGCUK.getNumClusterKMaximum()
+	      << aiinp_inParamPcPmRk.getNumClusterKMaximum()
 	      << "\n\t)"
 	      << std::endl;
   }
@@ -134,7 +134,7 @@ gcuk_vkcentroid
 
   runtime::ListRuntimeFunction<COMMON_IDOMAIN> 
     llfh_listFuntionHist
-    (aiinpcgaprobrangek_inParamGCUK.getNumMaxGenerations(),
+    (aiinp_inParamPcPmRk.getNumMaxGenerations(),
      "Iterations",
      "Clustering metrics"
      );
@@ -147,14 +147,14 @@ gcuk_vkcentroid
   runtime::RuntimeFunctionStat<T_REAL>  *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL> lvectort_statfuncObjetiveFunc;
   
-  if ( aiinpcgaprobrangek_inParamGCUK.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamPcPmRk.getWithPlotStatObjetiveFunc() ) {  
     
     lvectort_statfuncObjetiveFunc.reserve
-      ( aiinpcgaprobrangek_inParamGCUK.getSizePopulation());
+      ( aiinp_inParamPcPmRk.getSizePopulation());
     //DEFINE FUNCTION
     lofh_DBindex  = new runtime::RuntimeFunctionValue<T_REAL>
       ("DB", 
-       aiinpcgaprobrangek_inParamGCUK.getAlgorithmoName(),
+       aiinp_inParamPcPmRk.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -166,20 +166,20 @@ gcuk_vkcentroid
 	new runtime::RuntimeFunctionStat
 	<T_REAL>
 	( (char) li_i,
-	  aiinpcgaprobrangek_inParamGCUK.getAlgorithmoName(),
+	  aiinp_inParamPcPmRk.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoopcga_outParamClusteringGA.setFileNameOutPlotStatObjetiveFunc
-      (aiinpcgaprobrangek_inParamGCUK.getFileNamePlotStatObjetiveFunc(),
-       aiinpcgaprobrangek_inParamGCUK.getTimesRunAlgorithm()
+    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+      (aiinp_inParamPcPmRk.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamPcPmRk.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoopcga_outParamClusteringGA.getFileNameOutPlotStatObjetiveFunc().c_str(),
+      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
        std::ios::out | std::ios::app
        );
 
@@ -197,7 +197,7 @@ gcuk_vkcentroid
  
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING
    */
-  aoopcga_outParamClusteringGA.setTotalInvalidOffspring(0);
+  aoop_outParamEAC.setTotalInvalidOffspring(0);
 
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
 
@@ -219,10 +219,10 @@ gcuk_vkcentroid
      */
 
     lvectorchrom_population.reserve
-      (aiinpcgaprobrangek_inParamGCUK.getSizePopulation());
+      (aiinp_inParamPcPmRk.getSizePopulation());
   
     for (uintidx luintidx_i = 0; 
-	 luintidx_i < aiinpcgaprobrangek_inParamGCUK.getSizePopulation(); 
+	 luintidx_i < aiinp_inParamPcPmRk.getSizePopulation(); 
 	 luintidx_i++) 
       {
 	/*Generate a number Ki in range Kmin to Kmax
@@ -230,7 +230,7 @@ gcuk_vkcentroid
 	lvectorchrom_population.push_back
 	  (gaencode::ChromosomeMatrixWithRowNull<T_FEATURE,T_REAL>
 	   (uniformdis_uiMinMaxK(gmt19937_eng),
-	    (uintidx) aiinpcgaprobrangek_inParamGCUK.getNumClusterKMaximum(),
+	    (uintidx) aiinp_inParamPcPmRk.getNumClusterKMaximum(),
 	    data::Instance<T_FEATURE>::getNumDimensions())
 	   );
       }
@@ -388,7 +388,7 @@ gcuk_vkcentroid
 		liter_iChrom.setValidString(true);
 	      }
 	      else {
-		aoopcga_outParamClusteringGA.incTotalInvalidOffspring();
+		aoop_outParamEAC.incTotalInvalidOffspring();
 		liter_iChrom.setValidString(false);
 	      }
 		 
@@ -402,7 +402,7 @@ gcuk_vkcentroid
 	      T_REAL lrt_dbindex =  measuare_undefDBindex(T_REAL);
 	      liter_iChrom.setObjetiveFunc(lrt_dbindex); 
 	      liter_iChrom.setFitness(1.0 / lrt_dbindex);
-	      aoopcga_outParamClusteringGA.incTotalInvalidOffspring();
+	      aoop_outParamEAC.incTotalInvalidOffspring();
 	      liter_iChrom.setValidString(false); 
 	    }
 	  }
@@ -411,7 +411,7 @@ gcuk_vkcentroid
 	    T_REAL lrt_dbindex = std::numeric_limits<T_REAL>::max();
 	    liter_iChrom.setObjetiveFunc(lrt_dbindex); 
 	    liter_iChrom.setFitness(1.0 / lrt_dbindex);
-	    aoopcga_outParamClusteringGA.incTotalInvalidOffspring();
+	    aoop_outParamEAC.incTotalInvalidOffspring();
 	    liter_iChrom.setValidString(false); 
 	  }
 	}
@@ -454,9 +454,9 @@ gcuk_vkcentroid
 	lochrom_best = *lit_chromMax;
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION
 	 */
-	aoopcga_outParamClusteringGA.setIterationGetsBest
+	aoop_outParamEAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoopcga_outParamClusteringGA.setRunTimeGetsBest
+	aoop_outParamEAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
 
 #ifdef __VERBOSE_YES
@@ -508,7 +508,7 @@ gcuk_vkcentroid
     /*MEASUREMENT BEST: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
      */
 #ifndef __WITHOUT_PLOT_STAT
-    if ( aiinpcgaprobrangek_inParamGCUK.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamPcPmRk.getWithPlotStatObjetiveFunc() ) {  
       lofh_DBindex->setValue(lochrom_best.getObjetiveFunc());
       functionhiststat_evaluateAll
 	(lofhs_statObjectiveFunc,
@@ -552,7 +552,7 @@ gcuk_vkcentroid
 	/*COPY POPULATION TO MATING POOL FOR ROULETTE WHEEL--------------------------
 	 */ 
 	lvectorchrom_matingPool.reserve
-	  (aiinpcgaprobrangek_inParamGCUK.getSizePopulation());
+	  (aiinp_inParamPcPmRk.getSizePopulation());
 
 	/*ELITISMO
 	 */
@@ -560,7 +560,7 @@ gcuk_vkcentroid
 	  (gaencode::ChromosomeMatrixWithRowNull<T_FEATURE,T_REAL>(lochrom_best));
 
 	for (uintidx luintidx_i = 1; 
-	     luintidx_i < aiinpcgaprobrangek_inParamGCUK.getSizePopulation(); 
+	     luintidx_i < aiinp_inParamPcPmRk.getSizePopulation(); 
 	     luintidx_i++) 
 	  {      
 	    uintidx luintidx_chrom = 
@@ -618,7 +618,7 @@ gcuk_vkcentroid
 	  ++jchrom_matingPool;
 	  
 	  if ( uniformdis_real01(gmt19937_eng)
-	       < aiinpcgaprobrangek_inParamGCUK.getProbCrossover() ) {
+	       < aiinp_inParamPcPmRk.getProbCrossover() ) {
 
 	    gaclusteringop::onePointCrossover
 	      ( *lchrom_parent1,
@@ -658,7 +658,7 @@ gcuk_vkcentroid
     
 	for ( auto&& liter_iChrom : lvectorchrom_matingPool ) {
 	  if ( uniformdis_real01(gmt19937_eng) 
-	       < aiinpcgaprobrangek_inParamGCUK.getProbMutation() ) {
+	       < aiinp_inParamPcPmRk.getProbMutation() ) {
 	    //IF BEGIN  MUTATION
 	    gaclusteringop::randomMutation
 	      (liter_iChrom);	   
@@ -705,7 +705,7 @@ gcuk_vkcentroid
 #endif /*__VERBOSE_YES*/
     
       if ( !(llfh_listFuntionHist.getDomainUpperBound() 
-	     < aiinpcgaprobrangek_inParamGCUK.getNumMaxGenerations() ) 
+	     < aiinp_inParamPcPmRk.getNumMaxGenerations() ) 
 	   )
 	break;
       llfh_listFuntionHist.increaseDomainUpperBound();
@@ -719,26 +719,26 @@ gcuk_vkcentroid
     lochrom_best.getMatrix();
   
   runtime::stop(let_executionTime);
-  aoopcga_outParamClusteringGA.setNumClusterK
+  aoop_outParamEAC.setNumClusterK
     ((T_CLUSTERIDX)lochrom_best.getNumRows());
-  aoopcga_outParamClusteringGA.setMetricFuncRun
+  aoop_outParamEAC.setMetricFuncRun
     (lochrom_best.getObjetiveFunc());
-  aoopcga_outParamClusteringGA.setFitness
+  aoop_outParamEAC.setFitness
     (lochrom_best.getFitness());
-  aoopcga_outParamClusteringGA.setAlgorithmRunTime
+  aoop_outParamEAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoopcga_outParamClusteringGA.setNumTotalGenerations
+  aoop_outParamEAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
    */ 
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiinpcgaprobrangek_inParamGCUK.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamPcPmRk.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiinpcgaprobrangek_inParamGCUK,
-       aoopcga_outParamClusteringGA
+       aiinp_inParamPcPmRk,
+       aoop_outParamEAC
        );  
   }
 

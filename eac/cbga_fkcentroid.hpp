@@ -33,7 +33,7 @@
 
 #include <leac.hpp>
 #include "inparam_cbga.hpp"
-#include "outparam_gaclustering.hpp"
+#include "outparam_eaclustering.hpp"
 
 #include "plot_runtime_function.hpp"
 
@@ -447,12 +447,12 @@ iterateGLAAux
 }
 
 
-/*! \fn gaencode::ChromosomeCBGA <T_FEATURE, T_CLUSTERIDX, T_INSTANCE_FREQUENCY, _INSTANCES_CLUSTER_K, T_FEATURE_SUM, T_REAL>  cbga_fkcentroid (inout::OutParamGAClustering<T_REAL,T_CLUSTERIDX> &aoopcga_outParamClusteringGA, const inout::InParamCBGA<T_CLUSTERIDX,T_REAL,T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K, T_INSTANCE_FREQUENCY> &aiinParam_CBGA, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn gaencode::ChromosomeCBGA <T_FEATURE, T_CLUSTERIDX, T_INSTANCE_FREQUENCY, _INSTANCES_CLUSTER_K, T_FEATURE_SUM, T_REAL>  cbga_fkcentroid (inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, const inout::InParamCBGA<T_CLUSTERIDX,T_REAL,T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K, T_INSTANCE_FREQUENCY> &aiinParam_CBGA, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief CBGA \cite Franti:etal:GAclustering:gafranti:1997
   \details Implementation of the CBGA algorithm based on \cite Franti:etal:GAclustering:gafranti:1997.  
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid or a codebook.
-  \param aoopcga_outParamClusteringGA a inout::OutParamGAClustering with the output parameters of the algorithm
-  \param aiinParam_CBGA a inout::InParamGAClusteringProbCProbMFixedK parameters required by the algorithm
+  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aiinParam_CBGA a inout::InParamGAClusteringPcPmFk parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aifunc2p_dist an object of type dist::Dist to calculate distances  
@@ -474,9 +474,9 @@ gaencode::ChromosomeCBGA
  T_REAL
  >
 cbga_fkcentroid
-(inout::OutParamGAClustering
+(inout::OutParamEAClustering
  <T_REAL,
- T_CLUSTERIDX>                      &aoopcga_outParamClusteringGA,
+ T_CLUSTERIDX>                      &aoop_outParamEAC,
  const inout::InParamCBGA
  <T_CLUSTERIDX,
  T_REAL,
@@ -490,7 +490,7 @@ cbga_fkcentroid
  )
 { /* BEGIN cbga_fkcentroid */
 
-  const uintidx lconstui_numClusterFixedK =
+  const uintidx lconstui_numClusterFk =
     (uintidx) aiinParam_CBGA.getNumClusterK();
 
   const uintidx lconstui_numInstances =
@@ -561,8 +561,8 @@ cbga_fkcentroid
 	      << ":  IN(" << geiinparam_verbose << ")\n"
               << "\t(output gaencode::ChromosomeCBGA: lochromcbga_best[" 
 	      << &lochromcbga_best << "]\n"
-	      << "\t output inout::OutParamGAClustering&: aoopcga_outParamClusteringGA[" 
-	      << &aoopcga_outParamClusteringGA << "]\n"
+	      << "\t output inout::OutParamEAClustering&: aoop_outParamEAC[" 
+	      << &aoop_outParamEAC << "]\n"
 	      << "\t input  InParamCBGA&: aiinParam_CBGA[" 
 	      << &aiinParam_CBGA << "]\n"
               << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
@@ -618,13 +618,13 @@ cbga_fkcentroid
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoopcga_outParamClusteringGA.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
       (aiinParam_CBGA.getFileNamePlotStatObjetiveFunc(),
        aiinParam_CBGA.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoopcga_outParamClusteringGA.getFileNameOutPlotStatObjetiveFunc().c_str(),
+      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
        std::ios::out | std::ios::app
        );
     lfileout_plotStatObjetiveFunc.precision(COMMON_COUT_PRECISION);
@@ -638,7 +638,7 @@ cbga_fkcentroid
 #endif /*__WITHOUT_PLOT_STAT*/
    
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING*/
-  aoopcga_outParamClusteringGA.setTotalInvalidOffspring(0);
+  aoop_outParamEAC.setTotalInvalidOffspring(0);
 
   runtime::ExecutionTime let_executionTime = runtime::start();
 
@@ -674,8 +674,8 @@ cbga_fkcentroid
 	   T_INSTANCES_CLUSTER_K,    
 	   T_FEATURE_SUM,
 	   T_REAL> 
-	   (lconstui_numClusterFixedK,
-	    2 * lconstui_numClusterFixedK,
+	   (lconstui_numClusterFk,
+	    2 * lconstui_numClusterFk,
 	    data::Instance<T_FEATURE>::getNumDimensions(),
 	    lconstui_numInstances
 	    )
@@ -699,8 +699,8 @@ cbga_fkcentroid
 	   T_INSTANCES_CLUSTER_K,    
 	   T_FEATURE_SUM,
 	   T_REAL>
-	   (lconstui_numClusterFixedK,
-	    lconstui_numClusterFixedK,
+	   (lconstui_numClusterFk,
+	    lconstui_numClusterFk,
 	    data::Instance<T_FEATURE>::getNumDimensions(),
 	    lconstui_numInstances
 	    )
@@ -743,7 +743,7 @@ cbga_fkcentroid
     }    
     /*METRIC INVALID SOLUTION
      */
-    aoopcga_outParamClusteringGA.sumTotalInvalidOffspring
+    aoop_outParamEAC.sumTotalInvalidOffspring
       (ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -854,9 +854,9 @@ cbga_fkcentroid
 
   /*ONLY FOR MEASURE NOT IS PART ALGORITHM*/
   auto lT_bestObjeticeFunc = lvectorchromcbga_populationNew.at(0)->getObjetiveFunc();
-  aoopcga_outParamClusteringGA.setIterationGetsBest
+  aoop_outParamEAC.setIterationGetsBest
     (llfh_listFuntionHist.getDomainUpperBound());
-  aoopcga_outParamClusteringGA.setRunTimeGetsBest
+  aoop_outParamEAC.setRunTimeGetsBest
     (runtime::elapsedTime(let_executionTime));
 
   /*MEASUREMENT NEW GENERATION: COMPUTING STATISTICAL AND METRIC OF THE--------- 
@@ -1102,7 +1102,7 @@ cbga_fkcentroid
 	}
 
       /*METRIC INVALID SOLUTION*/
-      aoopcga_outParamClusteringGA.sumTotalInvalidOffspring
+      aoop_outParamEAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -1207,9 +1207,9 @@ cbga_fkcentroid
     /*ONLY FOR MEASURE NOT IS PART ALGORITHM*/
     if ( lvectorchromcbga_populationNew.at(0)->getObjetiveFunc() < lT_bestObjeticeFunc) {
       lT_bestObjeticeFunc =  lvectorchromcbga_populationNew.at(0)->getObjetiveFunc();
-      aoopcga_outParamClusteringGA.setIterationGetsBest
+      aoop_outParamEAC.setIterationGetsBest
 	(llfh_listFuntionHist.getDomainUpperBound());
-      aoopcga_outParamClusteringGA.setRunTimeGetsBest
+      aoop_outParamEAC.setRunTimeGetsBest
 	(runtime::elapsedTime(let_executionTime));
     }
 
@@ -1331,16 +1331,16 @@ cbga_fkcentroid
     delete literchrom_cbga;
          		
   runtime::stop(let_executionTime);
-  aoopcga_outParamClusteringGA.setNumClusterK
+  aoop_outParamEAC.setNumClusterK
     (aiinParam_CBGA.getNumClusterK());
-  aoopcga_outParamClusteringGA.setAlgorithmRunTime
+  aoop_outParamEAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoopcga_outParamClusteringGA.setMetricFuncRun
+  aoop_outParamEAC.setMetricFuncRun
     (lochromcbga_best.getObjetiveFunc());
 
-  aoopcga_outParamClusteringGA.setFitness
+  aoop_outParamEAC.setFitness
     (OUTPARAMCLUSTERING_FITNESS_NaN);
-  aoopcga_outParamClusteringGA.setNumTotalGenerations
+  aoop_outParamEAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
@@ -1352,7 +1352,7 @@ cbga_fkcentroid
     plot_funtionHist
       (llfh_listFuntionHist,
        aiinParam_CBGA,
-       aoopcga_outParamClusteringGA
+       aoop_outParamEAC
        );  
   }
 

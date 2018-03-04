@@ -35,8 +35,8 @@
 #include <limits>       // std::numeric_limits
 
 #include <leac.hpp>
-#include "outparam_gaclustering.hpp"
-#include "inparam_gaclustering_gka.hpp"
+#include "outparam_eaclustering.hpp"
+#include "inparam_probm_fixedk.hpp"
 
 #include "plot_runtime_function.hpp"
 
@@ -51,11 +51,11 @@
 */
 namespace eac {
 
-/*! \fn  gaencode::ChromosomeIGKA <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> igka_fklabel(inout::OutParamGAClustering<T_REAL,T_CLUSTERIDX> &aoopcga_outParamClusteringGA, inout::InParamGAClusteringGKA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinpkgka_inParamGA, std::vector<data::Instance<T_FEATURE>* > &aivectorptinst_instances, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn  gaencode::ChromosomeIGKA <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> igka_fklabel(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamPmFk, std::vector<data::Instance<T_FEATURE>* > &aivectorptinst_instances, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief IGKA \cite Lu:etal:GAclusteringLabel:IGKA:2004 and FGKA \cite Lu:etal:GAclusteringLabel:FGKA:2004 
   \details 
-  \param aoopcga_outParamClusteringGA a inout::OutParamGAClustering with the output parameters of the algorithm
-  \param aiinpkgka_inParamGA a inout::InParamGAClusteringGKA parameters required by the algorithm
+  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aiinp_inParamPmFk a inout::InParamPmFk parameters required by the algorithm
   \param aivectorptinst_instances a std::vector<data::Instance<T_FEATURE>* >
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
 */
@@ -77,15 +77,15 @@ gaencode::ChromosomeIGKA
  T_INSTANCES_CLUSTER_K>
 #endif /*ALG_IGKA_FKLABEL_LU_ETAL2004*/
 igka_fklabel
-(inout::OutParamGAClustering
+(inout::OutParamEAClustering
  <T_REAL,
- T_CLUSTERIDX>                   &aoopcga_outParamClusteringGA, 
- inout::InParamGAClusteringGKA
+ T_CLUSTERIDX>                   &aoop_outParamEAC, 
+ inout::InParamPmFk
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>         &aiinpkgka_inParamGA,
+ T_INSTANCES_CLUSTER_K>          &aiinp_inParamPmFk,
  std::vector
  <data::Instance<T_FEATURE>* >   &aivectorptinst_instances,
  dist::Dist<T_REAL,T_FEATURE>    &aifunc2p_dist
@@ -111,7 +111,7 @@ igka_fklabel
      T_INSTANCES_CLUSTER_K
      >
     lochromigka_best
-    ((uintidx) aiinpkgka_inParamGA.getNumClusterK()
+    ((uintidx) aiinp_inParamPmFk.getNumClusterK()
      );
 
   std::vector
@@ -133,7 +133,7 @@ igka_fklabel
     ((uintidx) aivectorptinst_instances.size());
 
   gaencode::ChromosomeFGKA<T_CLUSTERIDX,T_REAL>::setNumClusterK
-    (aiinpkgka_inParamGA.getNumClusterK() );
+    (aiinp_inParamPmFk.getNumClusterK() );
 
   gaencode::ChromosomeFGKA<T_CLUSTERIDX,T_REAL> lochromigka_best;
 
@@ -144,7 +144,7 @@ igka_fklabel
 #endif /*ALG_FGKA_FKLABEL_LU_ETAL2004*/
 
   std::uniform_int_distribution<T_CLUSTERIDX> uniformdis_mmcidx0K
-    (0,aiinpkgka_inParamGA.getNumClusterK()-1);
+    (0,aiinp_inParamPmFk.getNumClusterK()-1);
   std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
     
   T_REAL lrt_TWCVMax = 0.0;
@@ -162,18 +162,18 @@ igka_fklabel
 	      << ":  IN(" << geiinparam_verbose << ')'
 	      << "\t\n(output gaencode::ChromosomeIGKA: lochromigka_best[" 
 	      << &lochromigka_best << "]\n"
-	      << "\t output inout::OutParamGAClustering&: aoopcga_outParamClusteringGA[" 
-	      << &aoopcga_outParamClusteringGA << "]\n"
-	      << "\t input  InParamGAClusteringGKA&: aiinpkgka_inParamGA[" 
-	      << &aiinpkgka_inParamGA << "]\n"
+	      << "\t output inout::OutParamEAClustering&: aoop_outParamEAC[" 
+	      << &aoop_outParamEAC << "]\n"
+	      << "\t input  InParamPmFk&: aiinp_inParamPmFk[" 
+	      << &aiinp_inParamPmFk << "]\n"
 	      << "\t input  std::vector<Instance>: aivectorptinst_instances[" 
 	      <<  &aivectorptinst_instances << "]\n"
 	      << "\t input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\nGA parameters: "
-	      << "\tPopulation size = " << aiinpkgka_inParamGA.getSizePopulation()
-	      << "\tProbMutation  = " << aiinpkgka_inParamGA.getProbMutation()
-	      << "\tKFind = " << aiinpkgka_inParamGA.getNumClusterK()
+	      << "\tPopulation size = " << aiinp_inParamPmFk.getSizePopulation()
+	      << "\tProbMutation  = " << aiinp_inParamPmFk.getProbMutation()
+	      << "\tKFind = " << aiinp_inParamPmFk.getNumClusterK()
 	      << "\n\t)"
 	      << std::endl;
   }
@@ -181,7 +181,7 @@ igka_fklabel
   
   runtime::ListRuntimeFunction<COMMON_IDOMAIN> 
     llfh_listFuntionHist
-    (aiinpkgka_inParamGA.getNumMaxGenerations(),
+    (aiinp_inParamPmFk.getNumMaxGenerations(),
      "Iterations",
      "Clustering metrics"
      );
@@ -197,21 +197,21 @@ igka_fklabel
   std::vector<T_REAL>                   lvectorT_statfuncObjetiveFunc;
   //runtime::ExecutionTime               lexetime_iteration;
 
-  if ( aiinpkgka_inParamGA.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamPmFk.getWithPlotStatObjetiveFunc() ) {  
 
     lvectorT_statfuncObjetiveFunc.reserve
-      (aiinpkgka_inParamGA.getSizePopulation());  
+      (aiinp_inParamPmFk.getSizePopulation());  
     //DEFINE FUNCTION
     lofh_SSE  = 
       new runtime::RuntimeFunctionValue<T_REAL>
       ("SSE", 
-       aiinpkgka_inParamGA.getAlgorithmoName(),
+       aiinp_inParamPmFk.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
     lofh_time  = 
       new runtime::RuntimeFunctionValue<runtime::ExecutionTime>
       ("time", 
-       aiinpkgka_inParamGA.getAlgorithmoName(),
+       aiinp_inParamPmFk.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
     llfh_listFuntionHist.addFuntion(lofh_SSE);
@@ -222,20 +222,20 @@ igka_fklabel
       lofhs_statObjectiveFunc[li_i] = 
 	new runtime::RuntimeFunctionStat<T_REAL>
 	( (char) li_i,
-	  aiinpkgka_inParamGA.getAlgorithmoName(),
+	  aiinp_inParamPmFk.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoopcga_outParamClusteringGA.setFileNameOutPlotStatObjetiveFunc
-      (aiinpkgka_inParamGA.getFileNamePlotStatObjetiveFunc(),
-       aiinpkgka_inParamGA.getTimesRunAlgorithm()
+    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+      (aiinp_inParamPmFk.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamPmFk.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoopcga_outParamClusteringGA.getFileNameOutPlotStatObjetiveFunc().c_str(),  
+      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),  
        std::ios::out | std::ios::app
        );
     lfileout_plotStatObjetiveFunc.precision(COMMON_COUT_PRECISION);
@@ -249,7 +249,7 @@ igka_fklabel
 #endif  /*__WITHOUT_PLOT_STAT*/
 
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING*/
-  aoopcga_outParamClusteringGA.setTotalInvalidOffspring(0);
+  aoop_outParamEAC.setTotalInvalidOffspring(0);
 
   runtime::ExecutionTime lexetime_time = runtime::start();
  
@@ -272,14 +272,14 @@ igka_fklabel
  
 #ifdef ALG_IGKA_FKLABEL_LU_ETAL2004
     const uintidx luintidx_numClusterK =
-      (uintidx) aiinpkgka_inParamGA.getNumClusterK();
+      (uintidx) aiinp_inParamPmFk.getNumClusterK();
 #endif /*ALG_IGKA_FKLABEL_LU_ETAL2004*/
    
     lvectorchromigka_populationS.reserve
-      (aiinpkgka_inParamGA.getSizePopulation());
+      (aiinp_inParamPmFk.getSizePopulation());
    
     for (uintidx luintidx_i = 0; 
-	 luintidx_i < aiinpkgka_inParamGA.getSizePopulation(); 
+	 luintidx_i < aiinp_inParamPmFk.getSizePopulation(); 
 	 luintidx_i++) 
       {
 
@@ -334,25 +334,25 @@ igka_fklabel
 	lpartition_clusters
 	(lchromigka_iter->getString(),
 	 lchromigka_iter->getStringSize(),
-	 aiinpkgka_inParamGA.getNumClusterK() 
+	 aiinp_inParamPmFk.getNumClusterK() 
 	 );
 
       mat::MatrixRow<T_FEATURE> 
 	lmatrixrowt_centroids
-	((uintidx) aiinpkgka_inParamGA.getNumClusterK(),
+	((uintidx) aiinp_inParamPmFk.getNumClusterK(),
 	 data::Instance<T_FEATURE>::getNumDimensions() 
 	 );
 
       mat::MatrixRow<T_FEATURE_SUM>       
 	lmatrixrowt_sumInstCluster
-	((uintidx) aiinpkgka_inParamGA.getNumClusterK(), 
+	((uintidx) aiinp_inParamPmFk.getNumClusterK(), 
 	 data::Instance<T_FEATURE>::getNumDimensions(),
 	 T_FEATURE_SUM(0)
 	 );
 	
       std::vector<T_INSTANCES_CLUSTER_K> 
 	lvectort_numInstClusterK
-	((uintidx) aiinpkgka_inParamGA.getNumClusterK(),
+	((uintidx) aiinp_inParamPmFk.getNumClusterK(),
 	 T_INSTANCES_CLUSTER_K(0)
 	 );
     
@@ -378,7 +378,7 @@ igka_fklabel
 	 );
       lchromigka_iter->setObjetiveFunc(lrt_objetiveFunc);
       lchromigka_iter->setNumClusterNotNull
-	(aiinpkgka_inParamGA.getNumClusterK()- lmcidx_numClusterNull);
+	(aiinp_inParamPmFk.getNumClusterK()- lmcidx_numClusterNull);
       lchromigka_iter->setValidString( lmcidx_numClusterNull == 0);
 
 #endif /*ALG_FGKA_FKLABEL_LU_ETAL2004*/      
@@ -397,7 +397,7 @@ igka_fklabel
       
     }
    
-    aoopcga_outParamClusteringGA.sumTotalInvalidOffspring
+    aoop_outParamEAC.sumTotalInvalidOffspring
       (ll_invalidOffspring);
   
 #ifdef __VERBOSE_YES
@@ -449,7 +449,7 @@ igka_fklabel
    */
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiinpkgka_inParamGA.getWithPlotStatObjetiveFunc() ) {
+  if ( aiinp_inParamPmFk.getWithPlotStatObjetiveFunc() ) {
    
     lofh_SSE->setValue(lochromigka_best.getObjetiveFunc());
     lofh_time->setValue(runtime::elapsedTime(lexetime_time));
@@ -469,7 +469,7 @@ igka_fklabel
 
   /*BEGIN EVOLUTIONARY LOOP------------------------------------------------------ 
    */
-  while ( llfh_listFuntionHist.getDomainUpperBound() <  aiinpkgka_inParamGA.getNumMaxGenerations()) {
+  while ( llfh_listFuntionHist.getDomainUpperBound() <  aiinp_inParamPmFk.getNumMaxGenerations()) {
     
     llfh_listFuntionHist.increaseDomainUpperBound();
    
@@ -667,7 +667,7 @@ igka_fklabel
       T_INSTANCES_CLUSTER_K linstck_numAllelsMutated;
 #endif /*__VERBOSE_YES*/
           
-      std::vector<T_REAL> lvectorrt_probDistDistK(aiinpkgka_inParamGA.getNumClusterK());
+      std::vector<T_REAL> lvectorrt_probDistDistK(aiinp_inParamPmFk.getNumClusterK());
      
       for ( auto lchromigka_iter: lvectorchromigka_populationS )  {
 
@@ -689,25 +689,25 @@ igka_fklabel
 	  lpartition_clusters
 	  (lchromigka_iter->getString(),
 	   gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>::stcgetStringSize(),
-	   aiinpkgka_inParamGA.getNumClusterK() 
+	   aiinp_inParamPmFk.getNumClusterK() 
 	   );
        
 	mat::MatrixRow<T_FEATURE> 
 	  lmatrixrowt_centroids
-	  ((uintidx) aiinpkgka_inParamGA.getNumClusterK(),
+	  ((uintidx) aiinp_inParamPmFk.getNumClusterK(),
 	   data::Instance<T_FEATURE>::getNumDimensions() 
 	   );
 
 	mat::MatrixRow<T_FEATURE_SUM>       
 	  lmatrixrowt_sumInstCluster
-	  ((uintidx) aiinpkgka_inParamGA.getNumClusterK(), 
+	  ((uintidx) aiinp_inParamPmFk.getNumClusterK(), 
 	   data::Instance<T_FEATURE>::getNumDimensions(),
 	   T_FEATURE_SUM(0)
 	   );
 	
 	std::vector<T_INSTANCES_CLUSTER_K> 
 	  lvectort_numInstClusterK
-	  ((uintidx) aiinpkgka_inParamGA.getNumClusterK(),
+	  ((uintidx) aiinp_inParamPmFk.getNumClusterK(),
 	   T_INSTANCES_CLUSTER_K(0)
 	   );
     
@@ -726,7 +726,7 @@ igka_fklabel
 	  
 	for ( uintidx luintidx_i = 0; luintidx_i < aivectorptinst_instances.size(); luintidx_i++) {
 	    
-	  if ( uniformdis_real01(gmt19937_eng) < aiinpkgka_inParamGA.getProbMutation() ) {
+	  if ( uniformdis_real01(gmt19937_eng) < aiinp_inParamPmFk.getProbMutation() ) {
 	    /*IF BEGIN PROBABILITY*/
 #ifdef ALG_IGKA_FKLABEL_LU_ETAL2004
 	      
@@ -829,7 +829,7 @@ igka_fklabel
 		 [] (const uintidx aiit_num) {return aiit_num == 0;}
 		 );	  
 	      lchromigka_iter->setNumClusterNotNull
-		(aiinpkgka_inParamGA.getNumClusterK()- lmcidx_numClusterNull);
+		(aiinp_inParamPmFk.getNumClusterK()- lmcidx_numClusterNull);
 	      lchromigka_iter->setValidString( lmcidx_numClusterNull == 0);
 	     
 #endif /*ALG_FGKA_FKLABEL_LU_ETAL2004*/
@@ -902,7 +902,7 @@ igka_fklabel
       
       for ( auto lchromigka_iter: lvectorchromigka_populationS )  {
       
-	if ( lchromigka_iter->getNumClusterNotNull() ==  aiinpkgka_inParamGA.getNumClusterK() ) {
+	if ( lchromigka_iter->getNumClusterNotNull() ==  aiinp_inParamPmFk.getNumClusterK() ) {
 
 #ifdef ALG_IGKA_FKLABEL_LU_ETAL2004
 	  
@@ -930,7 +930,7 @@ igka_fklabel
 
 #ifdef ALG_FGKA_FKLABEL_LU_ETAL2004
 
-	  const uintidx  lui_numclusterK =  uintidx(aiinpkgka_inParamGA.getNumClusterK());
+	  const uintidx  lui_numclusterK =  uintidx(aiinp_inParamPmFk.getNumClusterK());
 	  
 	  mat::MatrixRow<T_FEATURE> 
 	    lmatrixrowt_centroids
@@ -979,7 +979,7 @@ igka_fklabel
 	
       }//FOR 
 
-      aoopcga_outParamClusteringGA.sumTotalInvalidOffspring
+      aoop_outParamEAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -1011,7 +1011,7 @@ igka_fklabel
 
       long ll_invalidOffspring = 0;
 
-      const uintidx  lui_numclusterK =  uintidx(aiinpkgka_inParamGA.getNumClusterK());
+      const uintidx  lui_numclusterK =  uintidx(aiinp_inParamPmFk.getNumClusterK());
      
       for (auto lchromigka_iter: lvectorchromigka_populationS) {
 
@@ -1020,7 +1020,7 @@ igka_fklabel
 	  lpartition_clusters
 	  (lchromigka_iter->getString(),
 	   lchromigka_iter->getStringSize(),
-	   aiinpkgka_inParamGA.getNumClusterK() 
+	   aiinp_inParamPmFk.getNumClusterK() 
 	   );
 
 	mat::MatrixRow<T_FEATURE> 
@@ -1064,7 +1064,7 @@ igka_fklabel
 	   );
 	lchromigka_iter->setObjetiveFunc(lrt_objetiveFunc);
 	lchromigka_iter->setNumClusterNotNull
-	  (aiinpkgka_inParamGA.getNumClusterK()- lmcidx_numClusterNull);
+	  (aiinp_inParamPmFk.getNumClusterK()- lmcidx_numClusterNull);
 	lchromigka_iter->setValidString( lmcidx_numClusterNull == 0);
      
 	if ( lrt_TWCVMax <  lchromigka_iter->getObjetiveFunc() )
@@ -1074,7 +1074,7 @@ igka_fklabel
 	  ++ll_invalidOffspring;
       }
        
-      aoopcga_outParamClusteringGA.sumTotalInvalidOffspring
+      aoop_outParamEAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -1137,9 +1137,9 @@ igka_fklabel
 	{/*BEGIN IF FIN std::min_element*/
 	  lochromigka_best = *loch_minChromosomeIGKA;
 	  /*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
-	  aoopcga_outParamClusteringGA.setIterationGetsBest
+	  aoop_outParamEAC.setIterationGetsBest
 	    (llfh_listFuntionHist.getDomainUpperBound());
-	  aoopcga_outParamClusteringGA.setRunTimeGetsBest
+	  aoop_outParamEAC.setRunTimeGetsBest
 	    (runtime::elapsedTime(lexetime_time));
 
 	} /*END IF FIN std::min_element*/
@@ -1178,7 +1178,7 @@ igka_fklabel
     /*MEASUREMENT NEW GENERATION: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM*/
 #ifndef __WITHOUT_PLOT_STAT  
 
-    if ( aiinpkgka_inParamGA.getWithPlotStatObjetiveFunc() ) {
+    if ( aiinp_inParamPmFk.getWithPlotStatObjetiveFunc() ) {
       //runtime::stop(lexetime_iteration);
 
    
@@ -1234,23 +1234,23 @@ igka_fklabel
 #endif /*__VERBOSE_YES*/
  
   runtime::stop(lexetime_time);
-  aoopcga_outParamClusteringGA.setNumClusterK
-    (aiinpkgka_inParamGA.getNumClusterK());
-  aoopcga_outParamClusteringGA.setMetricFuncRun
+  aoop_outParamEAC.setNumClusterK
+    (aiinp_inParamPmFk.getNumClusterK());
+  aoop_outParamEAC.setMetricFuncRun
     ( lochromigka_best.getObjetiveFunc() );
-  aoopcga_outParamClusteringGA.setFitness
+  aoop_outParamEAC.setFitness
     (lochromigka_best.getFitness());
-  aoopcga_outParamClusteringGA.setAlgorithmRunTime
+  aoop_outParamEAC.setAlgorithmRunTime
     (runtime::getTime(lexetime_time));
-  aoopcga_outParamClusteringGA.setNumTotalGenerations
+  aoop_outParamEAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
    
 #ifndef __WITHOUT_PLOT_STAT
-  if ( aiinpkgka_inParamGA.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamPmFk.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiinpkgka_inParamGA,
-       aoopcga_outParamClusteringGA
+       aiinp_inParamPmFk,
+       aoop_outParamEAC
        );  
   }
 #endif /*__WITHOUT_PLOT_STAT*/

@@ -36,8 +36,8 @@
 #include "clustering_operator_hierarchical.hpp"
 #include "vector_utils.hpp"
 #include "container_out.hpp"
-#include "inparam_gaclustering_tgca.hpp"
-#include "outparam_gaclustering.hpp"
+#include "inparam_tgca.hpp"
+#include "outparam_eaclustering.hpp"
 
 #include "plot_runtime_function.hpp"
 
@@ -150,7 +150,7 @@ tgca_getKSegments
 } /* End */
 
 
-/*! \fn gaencode::ChromVariableLength<T_FEATURE,T_METRIC> tgca_vkcentroid(inout::OutParamGAClustering<T_METRIC,T_CLUSTERIDX> &aoopcga_outParamClusteringGA, inout::InParamGAClusteringTGCA<T_CLUSTERIDX,T_METRIC,T_FEATURE,T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinparam_GAProbRangeKKmeans, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist)
+/*! \fn gaencode::ChromVariableLength<T_FEATURE,T_METRIC> tgca_vkcentroid(inout::OutParamEAClustering<T_METRIC,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamTGCA<T_CLUSTERIDX,T_METRIC,T_FEATURE,T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinparam_GAProbRkKmeans, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist)
   \brief TGCA \cite He:Tan:GAclusteringVarK:TGCA:2012
   \details Implementation of the TGCA algorithm based on \cite He:Tan:GAclusteringVarK:TGCA:2012. Which automatically finds K cluster using the Variance Ratio Criterion (VRC).
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid. Base to following equation:
@@ -159,8 +159,8 @@ tgca_getKSegments
   \| x_i - \mu_k \|,\; j=1,2,..k,
   \f]
   where \f$m_j\f$, represents the medoid of cluster \f$C_j\f$
-  \param aoopcga_outParamClusteringGA a inout::OutParamGAClustering with the output parameters of the algorithm
-  \param aiinparam_GAClusteringTGCA a inout::InParamGAClusteringTGCA parameters required by the algorithm
+  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aiinp_inParamTGCA a inout::InParamTGCA parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
@@ -174,15 +174,15 @@ template < typename T_METRIC,
 	   >
 gaencode::ChromVariableLength<T_FEATURE,T_METRIC> 
 tgca_vkcentroid
-(inout::OutParamGAClustering
+(inout::OutParamEAClustering
  <T_METRIC,
- T_CLUSTERIDX>                         &aoopcga_outParamClusteringGA,
- inout::InParamGAClusteringTGCA
+ T_CLUSTERIDX>                         &aoop_outParamEAC,
+ inout::InParamTGCA
  <T_CLUSTERIDX,
  T_METRIC,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>                &aiinparam_GAClusteringTGCA,
+ T_INSTANCES_CLUSTER_K>                &aiinp_inParamTGCA,
  const INPUT_ITERATOR                  aiiterator_instfirst,
  const INPUT_ITERATOR                  aiiterator_instlast,
  const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist
@@ -191,9 +191,9 @@ tgca_vkcentroid
 
   const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
   
-  if ( aiinparam_GAClusteringTGCA.getNumClusterKMaximum() == 
+  if ( aiinp_inParamTGCA.getNumClusterKMaximum() == 
        INPARAMCLUSTERING_DEFAULT_CLUSTERK_UNDEFINED )
-    aiinparam_GAClusteringTGCA.setNumClusterKMaximum
+    aiinp_inParamTGCA.setNumClusterKMaximum
       (std::round(std::sqrt((double)lui_numInstances)));
   
   gaencode::ChromVariableLength<T_FEATURE,T_METRIC> 
@@ -210,24 +210,24 @@ tgca_vkcentroid
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelAlgGA
 	      << "  IN(" << geiinparam_verbose << ")\n"
-	      << "\t(output inout::OutParamGAClustering&: aoopcga_outParamClusteringGA[" 
-	      << &aoopcga_outParamClusteringGA << "]\n"
-	      << "\t input  InParamClusteringGaProbFixedK&: aiinparam_GAClusteringTGCA[" 
-	      << &aiinparam_GAClusteringTGCA << "]\n"
+	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
+	      << &aoop_outParamEAC << "]\n"
+	      << "\t input  InParamClusteringGaProbFk&: aiinp_inParamTGCA[" 
+	      << &aiinp_inParamTGCA << "]\n"
               << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
 	      << "\t input aiiterator_instlast[" <<  &aiiterator_instlast << "]\n"
 	      << "\t input  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\n\t\tPopulation size = " 
-	      << aiinparam_GAClusteringTGCA.getSizePopulation()
+	      << aiinp_inParamTGCA.getSizePopulation()
 	      << "\n\t\tProbCrossover = " 
-	      << aiinparam_GAClusteringTGCA.getProbCrossover()
+	      << aiinp_inParamTGCA.getProbCrossover()
 	      << "\n\t\tk-minimum  = " 
-	      << aiinparam_GAClusteringTGCA.getNumClusterKMinimum()
+	      << aiinp_inParamTGCA.getNumClusterKMinimum()
 	      << "\n\t\tk-maximum  = " 
-	      << aiinparam_GAClusteringTGCA.getNumClusterKMaximum()
+	      << aiinp_inParamTGCA.getNumClusterKMaximum()
 	      << "\n\t\trandom-seed = "
-	      << aiinparam_GAClusteringTGCA.getRandomSeed()
+	      << aiinp_inParamTGCA.getRandomSeed()
 	      << "\n\t)"
 	      << std::endl;
   }
@@ -236,24 +236,24 @@ tgca_vkcentroid
 
   runtime::ListRuntimeFunction<COMMON_IDOMAIN> 
     llfh_listFuntionHist
-    (aiinparam_GAClusteringTGCA.getNumMaxGenerations(), "Iterations", "Clustering metrics");
+    (aiinp_inParamTGCA.getNumMaxGenerations(), "Iterations", "Clustering metrics");
 
   /*DECLARATION OF VARIABLES: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
    */
 #ifndef __WITHOUT_PLOT_STAT
-  std::ofstream               lfileout_plotStatObjetiveFunc;
+  std::ofstream                           lfileout_plotStatObjetiveFunc;
   runtime::RuntimeFunctionValue<T_METRIC> *lofh_objetiveFunc = NULL;
   runtime::RuntimeFunctionStat<T_METRIC>  *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
-  std::vector<T_METRIC>       lvectort_statfuncObjetiveFunc;
+  std::vector<T_METRIC>                   lvectort_statfuncObjetiveFunc;
   
-  if ( aiinparam_GAClusteringTGCA.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamTGCA.getWithPlotStatObjetiveFunc() ) {  
     
     lvectort_statfuncObjetiveFunc.reserve
-      ( aiinparam_GAClusteringTGCA.getSizePopulation());
+      ( aiinp_inParamTGCA.getSizePopulation());
     //DEFINE FUNCTION
     lofh_objetiveFunc  = new runtime::RuntimeFunctionValue<T_METRIC>
       ("DB", 
-       aiinparam_GAClusteringTGCA.getAlgorithmoName(),
+       aiinp_inParamTGCA.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -265,20 +265,20 @@ tgca_vkcentroid
 	new runtime::RuntimeFunctionStat
 	<T_METRIC>
 	( (char) li_i,
-	  aiinparam_GAClusteringTGCA.getAlgorithmoName(),
+	  aiinp_inParamTGCA.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoopcga_outParamClusteringGA.setFileNameOutPlotStatObjetiveFunc
-      (aiinparam_GAClusteringTGCA.getFileNamePlotStatObjetiveFunc(),
-       aiinparam_GAClusteringTGCA.getTimesRunAlgorithm()
+    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+      (aiinp_inParamTGCA.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamTGCA.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoopcga_outParamClusteringGA.getFileNameOutPlotStatObjetiveFunc().c_str(),
+      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
        std::ios::out | std::ios::app
        );
 
@@ -296,7 +296,7 @@ tgca_vkcentroid
  
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING
    */
-  aoopcga_outParamClusteringGA.setTotalInvalidOffspring(0);
+  aoop_outParamEAC.setTotalInvalidOffspring(0);
 
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
 
@@ -304,8 +304,8 @@ tgca_vkcentroid
 
   std::uniform_int_distribution<T_CLUSTERIDX>
     uniformdis_mmcidxMinMaxK
-    (aiinparam_GAClusteringTGCA.getNumClusterKMinimum(), 
-     aiinparam_GAClusteringTGCA.getNumClusterKMaximum()
+    (aiinp_inParamTGCA.getNumClusterKMinimum(), 
+     aiinp_inParamTGCA.getNumClusterKMaximum()
      );
   std::uniform_real_distribution<T_METRIC> uniformdis_real01(0, 1);
   std::uniform_int_distribution<uintidx> uniformdis_idxInstances
@@ -381,14 +381,14 @@ tgca_vkcentroid
     /*CREATE SPACE FOR STORE POPULATION
      */
     lvectorchrom_population.reserve
-      (aiinparam_GAClusteringTGCA.getSizePopulation());
+      (aiinp_inParamTGCA.getSizePopulation());
      
     /*CHROMOSOME INITIALIZATION
      */
 #ifdef __INITIALIZATION_RANDOM_SAMPLING__
 
     for (uintidx luintidx_i = 0; 
-	 luintidx_i < aiinparam_GAClusteringTGCA.getSizePopulation(); 
+	 luintidx_i < aiinp_inParamTGCA.getSizePopulation(); 
 	 luintidx_i++) 
       {
 	/*Generate a number Ki in range Kmin to Kmax
@@ -470,7 +470,7 @@ tgca_vkcentroid
        );
 
     for (uintidx luintidx_i = 0; 
-	 luintidx_i < aiinparam_GAClusteringTGCA.getSizePopulation(); 
+	 luintidx_i < aiinp_inParamTGCA.getSizePopulation(); 
 	 luintidx_i++) 
       {
 	/*Generate a number Ki in range Kmin to Kmax
@@ -644,8 +644,8 @@ tgca_vkcentroid
 	    ++lit_numMaxIter;
 		           
 	  } while
-	      ((luintidx_numThreshold > aiinparam_GAClusteringTGCA.getKmeansMinThreshold()) &&
-	       ( lit_numMaxIter  <  aiinparam_GAClusteringTGCA.getKmeansNumMaxIter() )
+	      ((luintidx_numThreshold > aiinp_inParamTGCA.getKmeansMinThreshold()) &&
+	       ( lit_numMaxIter  <  aiinp_inParamTGCA.getKmeansNumMaxIter() )
 	       );
 	  
 	  lchrom_iter->setValidString(lmcidx_numClusterNull > 0?false:true);
@@ -754,7 +754,7 @@ tgca_vkcentroid
 	  }
 	  else {
 	    lchrom_iter->setValidString(false);
-	    aoopcga_outParamClusteringGA.incTotalInvalidOffspring();
+	    aoop_outParamEAC.incTotalInvalidOffspring();
 	  }
 	   
 	  lchrom_iter->setObjetiveFunc(lT_VRC); 
@@ -825,9 +825,9 @@ tgca_vkcentroid
 	lochrom_best = *lit_chromMax;
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION
 	 */
-	aoopcga_outParamClusteringGA.setIterationGetsBest
+	aoop_outParamEAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoopcga_outParamClusteringGA.setRunTimeGetsBest
+	aoop_outParamEAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
 
 #ifdef __VERBOSE_YES
@@ -891,7 +891,7 @@ tgca_vkcentroid
     /*MEASUREMENT BEST: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
      */
 #ifndef __WITHOUT_PLOT_STAT
-    if ( aiinparam_GAClusteringTGCA.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamTGCA.getWithPlotStatObjetiveFunc() ) {  
       lofh_objetiveFunc->setValue(lochrom_best.getObjetiveFunc());
       functionhiststat_evaluateAll
 	(lofhs_statObjectiveFunc,
@@ -1014,7 +1014,7 @@ tgca_vkcentroid
 
       std::vector<gaencode::ChromVariableLength<T_FEATURE,T_METRIC>* > lvectorchrom_matingPool;
       lvectorchrom_matingPool.reserve
-	(aiinparam_GAClusteringTGCA.getSizePopulation());
+	(aiinp_inParamTGCA.getSizePopulation());
       
       {/*BEGIN 2.4.1. TWO-STAGE SELECTION
 	*/
@@ -1153,7 +1153,7 @@ tgca_vkcentroid
 	    (new gaencode::ChromVariableLength<T_FEATURE,T_METRIC>(lochrom_best));
 
 	  for (uintidx luintidx_i = 1; 
-	       luintidx_i < aiinparam_GAClusteringTGCA.getSizePopulation(); 
+	       luintidx_i < aiinp_inParamTGCA.getSizePopulation(); 
 	       luintidx_i++) 
 	    {      
 	      uintidx luintidx_chrom = 
@@ -1219,7 +1219,7 @@ tgca_vkcentroid
 	    (new gaencode::ChromVariableLength<T_FEATURE,T_METRIC>(lochrom_best));
 
 	  for (uintidx luintidx_i = 1; 
-	       luintidx_i < aiinparam_GAClusteringTGCA.getSizePopulation(); 
+	       luintidx_i < aiinp_inParamTGCA.getSizePopulation(); 
 	       luintidx_i++) 
 	    {
 	    
@@ -1283,7 +1283,7 @@ tgca_vkcentroid
 	  vectorutils::partition
 	  (lvectorchrom_matingPool.begin(),
 	   lvectorchrom_matingPool.end(),
-	   aiinparam_GAClusteringTGCA.getNumSubpopulationsCross()
+	   aiinp_inParamTGCA.getNumSubpopulationsCross()
 	   );
 
 	auto liter_beginSubpopulation = lvectoriter_subpopulations.begin();
@@ -1311,7 +1311,7 @@ tgca_vkcentroid
 	      ++jchrom_matingPool;
 
 	      if ( uniformdis_real01(gmt19937_eng) //if  Crossover
-		   < aiinparam_GAClusteringTGCA.getProbCrossover() ) {
+		   < aiinp_inParamTGCA.getProbCrossover() ) {
 	     
 		gagenericop::onePointCrossover
 		  (*(*lchrom_individualXi),
@@ -1583,7 +1583,7 @@ tgca_vkcentroid
 	      }
 	      else {
 		lchrom_iter->setValidString(false);
-		aoopcga_outParamClusteringGA.incTotalInvalidOffspring();
+		aoop_outParamEAC.incTotalInvalidOffspring();
 	      }
 	   
 	      lchrom_iter->setObjetiveFunc(lT_VRC); 
@@ -1670,7 +1670,7 @@ tgca_vkcentroid
 #endif /*__VERBOSE_YES*/
     
       if ( !(llfh_listFuntionHist.getDomainUpperBound() 
-	     < aiinparam_GAClusteringTGCA.getNumMaxGenerations() ) 
+	     < aiinp_inParamTGCA.getNumMaxGenerations() ) 
 	   )
 	break;
       llfh_listFuntionHist.increaseDomainUpperBound();
@@ -1682,27 +1682,27 @@ tgca_vkcentroid
     delete liter_chrom;
   
   runtime::stop(let_executionTime);
-  aoopcga_outParamClusteringGA.setNumClusterK
+  aoop_outParamEAC.setNumClusterK
     (T_CLUSTERIDX(lochrom_best.getStringSize() / data::Instance<T_FEATURE>::getNumDimensions())
      );
-  aoopcga_outParamClusteringGA.setMetricFuncRun
+  aoop_outParamEAC.setMetricFuncRun
     (lochrom_best.getObjetiveFunc());
-  aoopcga_outParamClusteringGA.setFitness
+  aoop_outParamEAC.setFitness
     (lochrom_best.getFitness());
-  aoopcga_outParamClusteringGA.setAlgorithmRunTime
+  aoop_outParamEAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoopcga_outParamClusteringGA.setNumTotalGenerations
+  aoop_outParamEAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
    */ 
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiinparam_GAClusteringTGCA.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamTGCA.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiinparam_GAClusteringTGCA,
-       aoopcga_outParamClusteringGA
+       aiinp_inParamTGCA,
+       aoop_outParamEAC
        );  
   }
 

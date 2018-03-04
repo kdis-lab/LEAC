@@ -30,8 +30,8 @@
 #include <iterator>
 
 #include <leac.hpp>
-#include "outparam_gaclustering.hpp"
-#include "inparam_gamedoidclustering_gca.hpp"
+#include "outparam_eaclustering.hpp"
+#include "inparam_gca.hpp"
 
 #include "plot_runtime_function.hpp"
 
@@ -46,12 +46,12 @@
 
 namespace eac {
   
-/*! \fn gaencode::ChromFixedLength<uintidx,T_REAL> gca_fkmedoid(inout::OutParamGAClustering<T_REAL,T_CLUSTERIDX> &aoopcga_outParamClusteringGA, inout::InParamGAMedoidClusteringGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiipcgagca_inParamGCA, const mat::MatrixTriang<T_REAL> &aimatrixtriagrt_dissimilarity)
+/*! \fn gaencode::ChromFixedLength<uintidx,T_REAL> gca_fkmedoid(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiipcgagca_inParamGCA, const mat::MatrixTriang<T_REAL> &aimatrixtriagrt_dissimilarity)
   \brief  GCA \cite Lucasius:etal:GAclusteringMedoid:GCA:1993  
   \details Implementation of the GCA algorithm based on \cite Lucasius:etal:GAclusteringMedoid:GCA:1993
   \returns A chromosome with k genes, where each gene is the index of the most representative instance of each cluster
-  \param aoopcga_outParamClusteringGA a inout::OutParamGAClustering with the output parameters of the algorithm
-  \param aiipcgagca_inParamGCA a inout::InParamGAMedoidClusteringGCA parameters required by the algorithm
+  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aiipcgagca_inParamGCA a inout::InParamGCA parameters required by the algorithm
   \param aimatrixtriagrt_dissimilarity a triangular matrix with the distances between the instances
 */
 template <typename T_CLUSTERIDX,
@@ -62,22 +62,22 @@ template <typename T_CLUSTERIDX,
 	  >
 gaencode::ChromFixedLength<uintidx,T_REAL> 
 gca_fkmedoid
-(inout::OutParamGAClustering
+(inout::OutParamEAClustering
  <T_REAL,
- T_CLUSTERIDX>                         &aoopcga_outParamClusteringGA,
- inout::InParamGAMedoidClusteringGCA
+ T_CLUSTERIDX>                         &aoop_outParamEAC,
+ inout::InParamGCA
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>                 &aiipcgagca_inParamGCA,
+ T_INSTANCES_CLUSTER_K>                 &aiinp_inParamGCA,
  const mat::MatrixTriang<T_REAL>        &aimatrixtriagrt_dissimilarity
  )
 {
   /*VARIABLE NEED FOR POPULATION AND MATINGPOOL GENETIC*/
   
   gaencode::ChromFixedLength<uintidx,T_REAL>::setStringSize
-    ((uintidx) aiipcgagca_inParamGCA.getNumClusterK() );
+    ((uintidx) aiinp_inParamGCA.getNumClusterK() );
 
   gaencode::ChromFixedLength<uintidx,T_REAL> lochromfixleng_best;
 
@@ -102,18 +102,18 @@ gca_fkmedoid
       << "  IN(" << geiinparam_verbose << ")\n"
       << "\t(output Chromosome: lochromfixleng_best[" 
       << &lochromfixleng_best << "]\n"
-      << "\t output inout::OutParamGAClustering&: aoopcga_outParamClusteringGA[" 
-      << &aoopcga_outParamClusteringGA << "]\n"
-      << "\t input  InParamClusteringGALucasius&: aiipcgagca_inParamGCA[" 
-      << &aiipcgagca_inParamGCA << ']'
+      << "\t output inout::OutParamEAClustering&: aoop_outParamEAC[" 
+      << &aoop_outParamEAC << "]\n"
+      << "\t input  InParamClusteringGALucasius&: aiinp_inParamGCA[" 
+      << &aiinp_inParamGCA << ']'
       << "\n\t\tPopulation size = " 
-      << aiipcgagca_inParamGCA.getSizePopulation()
+      << aiinp_inParamGCA.getSizePopulation()
       << "\n\t\tProbRecombination p_r = " 
-      << aiipcgagca_inParamGCA.getProbCrossover() 
+      << aiinp_inParamGCA.getProbCrossover() 
       << "\n\t\tProb_m.point  = " 
-      << aiipcgagca_inParamGCA.getProbMutation()
+      << aiinp_inParamGCA.getProbMutation()
       << "\n\t\tProbMixMutation  = " 
-      << aiipcgagca_inParamGCA.getProbMixMutation()
+      << aiinp_inParamGCA.getProbMixMutation()
       << "\n\t input  mat::MatrixTriang<T_REAL>: &aimatrixtriagrt_dissimilarity[" 
       <<  &aimatrixtriagrt_dissimilarity << ']'
       << "\n\t)"
@@ -123,7 +123,7 @@ gca_fkmedoid
   
   runtime::ListRuntimeFunction<COMMON_IDOMAIN> 
     llfh_listFuntionHist
-    (aiipcgagca_inParamGCA.getNumMaxGenerations(), "Iterations", "Clustering metrics");
+    (aiinp_inParamGCA.getNumMaxGenerations(), "Iterations", "Clustering metrics");
  
   /*DECLARATION OF VARIABLES: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM*/
 #ifndef __WITHOUT_PLOT_STAT
@@ -133,14 +133,14 @@ gca_fkmedoid
   runtime::RuntimeFunctionStat<T_REAL>  *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL>       lvectorT_statfuncObjetiveFunc;
   
-  if ( aiipcgagca_inParamGCA.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamGCA.getWithPlotStatObjetiveFunc() ) {  
 
     lvectorT_statfuncObjetiveFunc.reserve
-      (aiipcgagca_inParamGCA.getSizePopulation());  
+      (aiinp_inParamGCA.getSizePopulation());  
     //DEFINE FUNCTION
     lofh_SSE  = new runtime::RuntimeFunctionValue<T_REAL>
       ("SSE", 
-       aiipcgagca_inParamGCA.getAlgorithmoName(),
+       aiinp_inParamGCA.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -151,20 +151,20 @@ gca_fkmedoid
       lofhs_statObjectiveFunc[li_i] = 
 	new runtime::RuntimeFunctionStat<T_REAL>
 	( (char) li_i,
-	  aiipcgagca_inParamGCA.getAlgorithmoName(),
+	  aiinp_inParamGCA.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
     }
   
     //OPEN FILE STRORE FUNCTION 
-    aoopcga_outParamClusteringGA.setFileNameOutPlotStatObjetiveFunc
-      (aiipcgagca_inParamGCA.getFileNamePlotStatObjetiveFunc(),
-       aiipcgagca_inParamGCA.getTimesRunAlgorithm()
+    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+      (aiinp_inParamGCA.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamGCA.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open   
-      (aoopcga_outParamClusteringGA.getFileNameOutPlotStatObjetiveFunc().c_str(), 
+      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(), 
        std::ios::out | std::ios::app
        );
     lfileout_plotStatObjetiveFunc.precision(COMMON_COUT_PRECISION);
@@ -178,7 +178,7 @@ gca_fkmedoid
 #endif /*__WITHOUT_PLOT_STAT*/
 
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING*/
-  aoopcga_outParamClusteringGA.setTotalInvalidOffspring(0);
+  aoop_outParamEAC.setTotalInvalidOffspring(0);
 
   runtime::ExecutionTime let_executionTime  = runtime::start();
 
@@ -191,9 +191,9 @@ gca_fkmedoid
   /*POPULATION CREATE------------------------------------------------------------
    */
   lvectorchromfixleng_population.reserve
-    (aiipcgagca_inParamGCA.getSizePopulation());
+    (aiinp_inParamGCA.getSizePopulation());
   for (uintidx luintidx_i = 0; 
-       luintidx_i < aiipcgagca_inParamGCA.getSizePopulation(); 
+       luintidx_i < aiinp_inParamGCA.getSizePopulation(); 
        luintidx_i++) 
     {
       lvectorchromfixleng_population.push_back
@@ -203,9 +203,9 @@ gca_fkmedoid
   /*CREATE SPACE FOR STORE MATINGPOOL--------------------------------------------
    */
   lvectorchromfixleng_stringPool.reserve
-    (aiipcgagca_inParamGCA.getSizePopulation());
+    (aiinp_inParamGCA.getSizePopulation());
   for (uintidx luintidx_i = 0; 
-       luintidx_i < aiipcgagca_inParamGCA.getSizePopulation(); 
+       luintidx_i < aiinp_inParamGCA.getSizePopulation(); 
        luintidx_i++) 
     {
       lvectorchromfixleng_stringPool.push_back
@@ -230,7 +230,7 @@ gca_fkmedoid
 #endif /*__VERBOSE_YES*/
 
     const uintidx  luintidx_numClusterK =
-      (uintidx) aiipcgagca_inParamGCA.getNumClusterK();
+      (uintidx) aiinp_inParamGCA.getNumClusterK();
     
     for (auto lchromfixleng_iter :lvectorchromfixleng_population) {
        
@@ -293,7 +293,7 @@ gca_fkmedoid
 	   T_REAL lT_objetiveFunc = 
 	     um::SSEMedoid
 	     (lchromfixleng_iter->getString(),
-	      aiipcgagca_inParamGCA.getNumClusterK(),
+	      aiinp_inParamGCA.getNumClusterK(),
 	      aimatrixtriagrt_dissimilarity
 	      );
 	   lchromfixleng_iter->setObjetiveFunc(lT_objetiveFunc);
@@ -346,9 +346,9 @@ gca_fkmedoid
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
 	lochromfixleng_best = *lchromfixleng_maxFitness;
     
-	aoopcga_outParamClusteringGA.setIterationGetsBest
+	aoop_outParamEAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoopcga_outParamClusteringGA.setRunTimeGetsBest
+	aoop_outParamEAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
       }
 
@@ -367,7 +367,7 @@ gca_fkmedoid
     /*MEASUREMENT NEW GENERATION: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
      */
 #ifndef __WITHOUT_PLOT_STAT  
-    if ( aiipcgagca_inParamGCA.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamGCA.getWithPlotStatObjetiveFunc() ) {  
       lofh_SSE->setValue(lochromfixleng_best.getObjetiveFunc());
       functionhiststat_evaluateAll
 	(lofhs_statObjectiveFunc,
@@ -398,7 +398,7 @@ gca_fkmedoid
       maximum genetation
     */
     if ( llfh_listFuntionHist.getDomainUpperBound() >=
-	 aiipcgagca_inParamGCA.getNumMaxGenerations()) 
+	 aiinp_inParamGCA.getNumMaxGenerations()) 
       break;
    
     llfh_listFuntionHist.increaseDomainUpperBound();
@@ -502,15 +502,15 @@ gca_fkmedoid
 	  gaencode::ChromFixedLength<uintidx,T_REAL>* lchromfixleng_child2 = *lchromfixleng_iter;
 	  
 	  if ( uniformdis_real01(gmt19937_eng) //if  Crossover
-	       < aiipcgagca_inParamGCA.getProbCrossover() ) {
+	       < aiinp_inParamGCA.getProbCrossover() ) {
 
 	    gaintegerop::recombinationD_MX
 	      (*lchromfixleng_child1,
 	       *lchromfixleng_child2,
 	       *lvectorchromfixleng_stringPool.at(lpair_idxChrom.first),
 	       *lvectorchromfixleng_stringPool.at(lpair_idxChrom.second),
-	       aiipcgagca_inParamGCA.getNumInstances(), 
-	       aiipcgagca_inParamGCA.getProbMixMutation()
+	       aiinp_inParamGCA.getNumInstances(), 
+	       aiinp_inParamGCA.getProbMixMutation()
 	       );
 	  	   
 	  } //END if  Crossover
@@ -554,7 +554,7 @@ gca_fkmedoid
       for (auto lchromfixleng_iter :lvectorchromfixleng_population) {
 
 	if ( uniformdis_real01(gmt19937_eng) 
-	     < aiipcgagca_inParamGCA.getProbMutation() ) 
+	     < aiinp_inParamGCA.getProbMutation() ) 
 	  {	 
 	    std::unordered_set<uintidx> lunorderedset_medoids
 	      (lchromfixleng_iter->begin(),
@@ -675,25 +675,25 @@ gca_fkmedoid
     
   
   runtime::stop(let_executionTime);
-  aoopcga_outParamClusteringGA.setNumClusterK
-    (aiipcgagca_inParamGCA.getNumClusterK());
-  aoopcga_outParamClusteringGA.setMetricFuncRun
+  aoop_outParamEAC.setNumClusterK
+    (aiinp_inParamGCA.getNumClusterK());
+  aoop_outParamEAC.setMetricFuncRun
     (lochromfixleng_best.getObjetiveFunc());
-  aoopcga_outParamClusteringGA.setAlgorithmRunTime
+  aoop_outParamEAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoopcga_outParamClusteringGA.setFitness
+  aoop_outParamEAC.setFitness
     (lochromfixleng_best.getFitness());
-  aoopcga_outParamClusteringGA.setNumTotalGenerations
+  aoop_outParamEAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
 
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiipcgagca_inParamGCA.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamGCA.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiipcgagca_inParamGCA,
-       aoopcga_outParamClusteringGA
+       aiinp_inParamGCA,
+       aoop_outParamEAC
        );  
   }
 
