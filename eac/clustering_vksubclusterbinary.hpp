@@ -47,7 +47,7 @@
 
 namespace eac {
 
-/*! \fn gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL> clustering_genetic(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, const mat::MatrixRow<T_FEATURE> &aimatrixrowt_Vi, const std::vector<T_INSTANCES_CLUSTER_K> &aivectort_numInstBi, const T_REAL aitr_w, const partition::PartitionDisjSets <T_CLUSTERIDX> &aimembclassdisjsets_Bi, inout::InParamSubClusterBinary<T_REAL,T_BITSIZE,T_FEATURE,T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinp_inParamSubClustBin, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist, const COMMON_IDOMAIN aii_numrunalg, const runtime::ExecutionTime aiet_executionTime) 
+/*! \fn gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL> clustering_genetic(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, const mat::MatrixRow<T_FEATURE> &aimatrixrowt_Vi, const std::vector<T_INSTANCES_CLUSTER_K> &aivectort_numInstBi, const T_REAL aitr_w, const partition::PartitionDisjSets <T_CLUSTERIDX> &aimembclassdisjsets_Bi, inout::InParamSubClusterBinary<T_REAL,T_BITSIZE,T_FEATURE,T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinp_inParamSubClusterBin, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist, const COMMON_IDOMAIN aii_numrunalg, const runtime::ExecutionTime aiet_executionTime) 
  \brief CLUSTERING GENETIC \cite Tseng:Yang:GAclusteringVarK:CLUSTERING:2001
  \details
  \param aoop_outParamEAC a OutParamClusteringGA<T_REAL,T_CLUSTERIDX>
@@ -55,7 +55,7 @@ namespace eac {
  \param aivectort_numInstBi
  \param aitr_w
  \param aimembclassdisjsets_Bi
- \param aiinp_inParamSubClustBin a inparam::InParamGAClusteringPcPmFk
+ \param aiinp_inParamSubClusterBin a inparam::InParamGAClusteringPcPmFk
  \param aifunc2p_dist a dist::Dist<T_REAL,T_FEATURE>
  \param aii_numrunalg
  \param aiet_executionTime
@@ -85,7 +85,7 @@ clustering_genetic
  T_CLUSTERIDX,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>                        &aiinp_inParamSubClustBin,
+ T_INSTANCES_CLUSTER_K>                        &aiinp_inParamSubClusterBin,
  const dist::Dist<T_REAL,T_FEATURE>            &aifunc2p_dist,
  const COMMON_IDOMAIN                          aii_numrunalg,
  const runtime::ExecutionTime                  aiet_executionTime
@@ -93,6 +93,7 @@ clustering_genetic
 {
   /*VARIABLE NEED FOR POPULATION AND MATINGPOOL GENETIC
    */
+ 
   gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>
     lochrom_best( aimatrixrowt_Vi.getNumRows() );
 
@@ -107,16 +108,16 @@ clustering_genetic
 	      << ":  IN(" << geiinparam_verbose << ")\n"
 	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
 	      << &aoop_outParamEAC << "]\n"
-	      << "\t input  InParamClusteringGAProb&: aiinp_inParamSubClustBin[" 
-	      << &aiinp_inParamSubClustBin << "]\n"
+	      << "\t input  InParamClusteringGAProb&: aiinp_inParamSubClusterBin[" 
+	      << &aiinp_inParamSubClusterBin << "]\n"
 	      << "\t input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\n\t\tPopulation size = " 
-	      << aiinp_inParamSubClustBin.getSizePopulation()
+	      << aiinp_inParamSubClusterBin.getSizePopulation()
 	      << "\n\t\tProbCrossover = " 
-	      << aiinp_inParamSubClustBin.getProbCrossover() 
+	      << aiinp_inParamSubClusterBin.getProbCrossover() 
 	      << "\n\t\tProbMutation  = " 
-	      << aiinp_inParamSubClustBin.getProbMutation()
+	      << aiinp_inParamSubClusterBin.getProbMutation()
 	      << "\n\t\tw  = " 
 	      << aitr_w
 	      << "\n\t)"
@@ -124,10 +125,11 @@ clustering_genetic
   }
 #endif /*__VERBOSE_YES*/ 
 
+
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
   runtime::ListRuntimeFunction<COMMON_IDOMAIN> 
     llfh_listFuntionHist
-    (aiinp_inParamSubClustBin.getNumMaxGenerations(), "Iterations", "Clustering metrics");
+    (aiinp_inParamSubClusterBin.getNumMaxGenerations(), "Iterations", "Clustering metrics");
 
   /*DECLARATION OF VARIABLES: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
    */
@@ -137,14 +139,14 @@ clustering_genetic
   runtime::RuntimeFunctionStat<T_REAL>   *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL>        lvectorT_statfuncObjetiveFunc;
   
-  if ( aiinp_inParamSubClustBin.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamSubClusterBin.getWithPlotStatObjetiveFunc() ) {  
     
     lvectorT_statfuncObjetiveFunc.reserve
-      ( aiinp_inParamSubClustBin.getSizePopulation());
+      ( aiinp_inParamSubClusterBin.getSizePopulation());
     //DEFINE FUNCTION
     lofh_VRC  = new runtime::RuntimeFunctionValue<T_REAL>
       ("VRC", 
-       aiinp_inParamSubClustBin.getAlgorithmoName(),
+       aiinp_inParamSubClusterBin.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -156,7 +158,7 @@ clustering_genetic
 	new runtime::RuntimeFunctionStat
 	<T_REAL>
 	( (char) li_i,
-	  aiinp_inParamSubClustBin.getAlgorithmoName(),
+	  aiinp_inParamSubClusterBin.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
@@ -164,7 +166,7 @@ clustering_genetic
   
     //OPEN FILE STRORE FUNCTION
     aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
-      (aiinp_inParamSubClustBin.getFileNamePlotStatObjetiveFunc(),
+      (aiinp_inParamSubClusterBin.getFileNamePlotStatObjetiveFunc(),
        aitr_w
        );
 
@@ -230,10 +232,10 @@ clustering_genetic
     /*CREATE SPACE FOR STORE POPULATION-----------------------------------------
      */
     lvectorchrom_population.reserve
-      ( aiinp_inParamSubClustBin.getSizePopulation() );
+      ( aiinp_inParamSubClusterBin.getSizePopulation() );
 
     for (uintidx lui_i = 0; 
-	 lui_i < aiinp_inParamSubClustBin.getSizePopulation(); 
+	 lui_i < aiinp_inParamSubClusterBin.getSizePopulation(); 
 	 lui_i++) 
       {
 	lvectorchrom_population.push_back
@@ -317,21 +319,19 @@ clustering_genetic
     /*CREATE SPACE FOR STORE POPULATION-----------------------------------------
      */
     lvectorchrom_population.reserve
-      ( aiinp_inParamSubClustBin.getSizePopulation() );
+      ( aiinp_inParamSubClusterBin.getSizePopulation() );
 
     for (uintidx lui_i = 0; 
-	 lui_i < aiinp_inParamSubClustBin.getSizePopulation(); 
+	 lui_i < aiinp_inParamSubClusterBin.getSizePopulation(); 
 	 lui_i++) 
       {
 	lvectorchrom_population.push_back
-	  (gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>(aimatrixrowt_Vi.getNumRows()));
-  
+	  (gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>(aimatrixrowt_Vi.getNumRows()));  
       }
 
     std::uniform_int_distribution<int>     uniformdis_01(0,1);
 
     for (auto&& lchrom_iter: lvectorchrom_population ) {
-    
       gabinaryop::initializeGenes
 	(lchrom_iter,
 	 [&]() 
@@ -339,7 +339,6 @@ clustering_genetic
 	   return uniformdis_01(gmt19937_eng);
 	 }
 	 );
-	  
     }
    
 #ifdef __VERBOSE_YES
@@ -378,10 +377,10 @@ clustering_genetic
 
 	if ( lchrom_iter.getNumBitOn() > 1 ) {
 	   
-	  mat::MatrixRow<T_FEATURE>           lmatrixrowt_S;
+	  mat::MatrixRow<T_FEATURE>              lmatrixrowt_S;
 	  partition::PartitionDisjSets
-	    <T_CLUSTERIDX>                    lmembclassdisjsets_BkinCi;
-	  std::vector<T_INSTANCES_CLUSTER_K>  lvectort_numInstCi;
+	    <T_CLUSTERIDX>                       lmembclassdisjsets_BkinCi;
+	  std::vector<T_INSTANCES_CLUSTER_K>     lvectort_numInstCi;
 	  std::tie(lmatrixrowt_S,lmembclassdisjsets_BkinCi,lvectort_numInstCi) =
 	    clusteringop::getClusters
 	    (lchrom_iter,
@@ -394,7 +393,7 @@ clustering_genetic
 #ifdef __VERBOSE_YES
 	  ++geiinparam_verbose;
 	  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-	
+	    
 	    std::vector<T_CLUSTERIDX>
 	      lvectormmidx_memberShip =
 	      clusteringop::bkinCiToMemberShip
@@ -448,6 +447,7 @@ clustering_genetic
 	     lmembclassdisjsets_BkinCi,
 	     aifunc2p_dist
 	     );    
+	 
 	  lchrom_iter.setObjetiveFunc(lt_sumDinter * aitr_w - lt_sumDintra); 
 	  lchrom_iter.setFitness(lchrom_iter.getObjetiveFunc());
 	  lchrom_iter.setValidString(true); 
@@ -464,7 +464,7 @@ clustering_genetic
 #endif /*__WITHOUT_PLOT_STAT*/
 	   
       }
-  
+     
 #ifdef __VERBOSE_YES
       if ( geiinparam_verbose <= geiinparam_verboseMax ) {
 	std::cout << geverbosepc_labelstep
@@ -499,12 +499,14 @@ clustering_genetic
 	    ) 
 	 {  return x.getFitness() < y.getFitness(); }
 	 );
+     
       if ( lochrom_best.getFitness() < (*lit_chromMax).getFitness() ) {
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION
 	 */
-	lochrom_best = *lit_chromMax;	
+	lochrom_best = *lit_chromMax;
+
 	aoop_outParamEAC.setIterationGetsBest
-	  (aii_numrunalg  * aiinp_inParamSubClustBin.getNumMaxGenerations()
+	  (aii_numrunalg  * aiinp_inParamSubClusterBin.getNumMaxGenerations()
 	   +  llfh_listFuntionHist.getDomainUpperBound()
 	   );
 	aoop_outParamEAC.setRunTimeGetsBest
@@ -514,25 +516,16 @@ clustering_genetic
 	++geiinparam_verbose;
 	if ( geiinparam_verbose <= geiinparam_verboseMax ) {
 	  const char* lpc_labelStep = "CHROMOSOME ONE WAS FOUND IN THIS ITERATION: ";
-	  mat::MatrixRow<T_FEATURE>                   lmatrixrowt_S;
+
+	  mat::MatrixRow<T_FEATURE>                lmatrixrowt_S;
 	  partition::PartitionDisjSets
-	    <T_CLUSTERIDX>                  lmembclassdisjsets_BkinCi;
-	  //std::vector<T_CLUSTERIDX>        lvectormmidx_memberBkinCi;
-	  // std::vector<std::list<uintidx> >         lvectorlist_BkinCi;
+	    <T_CLUSTERIDX>                         lmembclassdisjsets_BkinCi;
+
 	  std::vector<T_INSTANCES_CLUSTER_K>       lvectort_numInstCi;
 	  std::tie(lmatrixrowt_S,lmembclassdisjsets_BkinCi,lvectort_numInstCi) =
 	    clusteringop::getClusters
-	    /* <T_BITSIZE,
-	     T_FEATURE,
-	     //T_INSTANCES_IDX,
-	     T_FEATURE_SUM,
-	     T_INSTANCES_CLUSTER_K,
-	     T_CLUSTERIDX,
-	     T_REAL
-	     >*/
 	    (lochrom_best,
 	     aimatrixrowt_Vi,
-	     //aivectorptinst_Vi,
 	     aivectort_numInstBi,
 	     aifunc2p_dist,
 	     (T_CLUSTERIDX) 0
@@ -540,35 +533,25 @@ clustering_genetic
 
 	  std::ostringstream lostrstream_labelCentroids;
 	  lostrstream_labelCentroids << "<CENTROIDS Cj:" << lpc_labelStep;
-	    //<< "lmatrixrowt_S[" << &lmatrixrowt_S << ']'
-	    //			     << ':' << "generation: "
-	    //			     <<  llfh_listFuntionHist.getDomainUpperBound() << ':';
 	  lmatrixrowt_S.print(std::cout,lostrstream_labelCentroids.str().c_str(),',',';');
 	  std::cout << std::endl;
 	  
 	  std::ostringstream lostrstream_labelBkinCi;
 	  lostrstream_labelBkinCi << "<MEMBER BkinCi: " << lpc_labelStep;
-	    //<< "lmembclassdisjsets_BkinCi<>["
-	    //			  << &lmembclassdisjsets_BkinCi << ']'
-	    //			  << ':' << "generation: "
-	    //			  <<  llfh_listFuntionHist.getDomainUpperBound() << ':';
 	  lmembclassdisjsets_BkinCi.print(std::cout,lostrstream_labelBkinCi.str().c_str(),',');
-	  //vectort_print(lvectormmidx_memberBkinCi,std::cout,lostrstream_labelBkinCi.str().c_str(),',');
 	  std::cout << std::endl;
 	     
 	  std::vector<T_CLUSTERIDX>
 	    lvectormmidx_memberShip =
 	    clusteringop::bkinCiToMemberShip
-	    <T_CLUSTERIDX>//T_INSTANCES_IDX>
+	    <T_CLUSTERIDX>
 	    (aimembclassdisjsets_Bi,
-	     lmembclassdisjsets_BkinCi//lvectormmidx_memberBkinCi//lmembclassdisjsets_BkinCi
+	     lmembclassdisjsets_BkinCi
 	     );
 	  
 	  std::ostringstream lostrstream_labelMember;
 	  lostrstream_labelMember << "<MEMBERCLUSTER CLUSTER Cj: " << lpc_labelStep;
-	    //<< "lvectormmidx_memberShip<>[" << &lvectormmidx_memberShip << ']'
-	  //			  << ':' << "generation: "
-	  //			  <<  llfh_listFuntionHist.getDomainUpperBound() << ':';
+	  
 	 inout::containerprint
 	    (lvectormmidx_memberShip.begin(),
 	     lvectormmidx_memberShip.end(),
@@ -576,13 +559,12 @@ clustering_genetic
 	     lostrstream_labelMember.str().c_str(),
 	     ','
 	     );
-	  //lmembclassdisjsets_BkinCi.print(std::cout,lostrstream_labelBkinCi.str().c_str(),',');
+	  
 	  std::cout << std::endl;
 	     
 	  std::ostringstream lostrstream_labelNumInstCi;
 	  lostrstream_labelNumInstCi << "<NUM INSTANCES CLUSTER Cj: " <<  lpc_labelStep;
-	  //<< ":std::vector<> lvectort_numInstCi["
-	  //			     << &lvectort_numInstCi << ']';
+	  
 	  inout::containerprint
 	    (lvectort_numInstCi.begin(),
 	     lvectort_numInstCi.end(),
@@ -590,16 +572,7 @@ clustering_genetic
 	     lostrstream_labelNumInstCi.str().c_str(),
 	     ','
 	     );
-	  std::cout << std::endl;
-	     
-	  //std::ostringstream lostrstream_labelChrom;
-	  // lostrstream_labelChrom << "<CHROMOSOME:"
-	  //			 << lpc_labelStep
-	    //<< "generation: " <<  llfh_listFuntionHist.getDomainUpperBound()
-	    //			 << " aitr_w: " << aitr_w;
-	  //lochrom_best.print(std::cout,lpc_labelStep);
-	  //std::cout << std::endl;
-	   	      
+	  std::cout << std::endl; 	      
 	}
 	--geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
@@ -621,7 +594,7 @@ clustering_genetic
     /*MEASUREMENT BEST: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
      */
 #ifndef __WITHOUT_PLOT_STAT
-    if ( aiinp_inParamSubClustBin.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamSubClusterBin.getWithPlotStatObjetiveFunc() ) {  
       lofh_VRC->setValue(lochrom_best.getObjetiveFunc());
       functionhiststat_evaluateAll
 	(lofhs_statObjectiveFunc,
@@ -648,8 +621,7 @@ clustering_genetic
     --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
 
-    //(runtime::elapsedTime(let_executionTime) > aiinp_inParamSubClustBin.getMaxExecutiontime())
-    if ( (llfh_listFuntionHist.getDomainUpperBound() >= aiinp_inParamSubClustBin.getNumMaxGenerations() ) )
+    if ( (llfh_listFuntionHist.getDomainUpperBound() >= aiinp_inParamSubClusterBin.getNumMaxGenerations() ) )
       break;
    
     /*Selection
@@ -662,10 +634,9 @@ clustering_genetic
       lvectorchrom_stringPool;
 
     lvectorchrom_stringPool.reserve
-      (aiinp_inParamSubClustBin.getSizePopulation());
+      (aiinp_inParamSubClusterBin.getSizePopulation());
 
     {/*BEGIN SELECTION*/
-
 #ifdef __VERBOSE_YES
       geverbosepc_labelstep = "STEP SELECTION";
       ++geiinparam_verbose;
@@ -688,7 +659,7 @@ clustering_genetic
      
       
       for (uintidx lui_i = 0; 
-	   lui_i < aiinp_inParamSubClustBin.getSizePopulation(); 
+	   lui_i < aiinp_inParamSubClusterBin.getSizePopulation(); 
 	   lui_i++) 
 	{      
 	  uintidx lstidx_chrom = 
@@ -701,26 +672,6 @@ clustering_genetic
 	     (lvectorchrom_population.at(lstidx_chrom))
 	     );
 	}
-	/*COPY POPULATION TO STRING POOL FOR ROULETTE WHEEL--------------------------
-	 */ 	
-	/*std::for_each
-	  (lvectorchrom_stringPool.begin(),
-	  lvectorchrom_stringPool.end(),
-	  [&](gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>& liter_iChrom
-	  )
-	  {
-
-	  uintidx lstidx_chrom = 
-	  gaselect::getIdxRouletteWheel
-	  (lvectorT_probDistRouletteWheel,
-	  (uintidx) 0,
-	  gerd_random
-	  );
-
-	  liter_iChrom.copy(lvectorchrom_population.at(lstidx_chrom));
-	     
-	  }
-	  );*/
 
 #ifdef __VERBOSE_YES
     if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -736,7 +687,6 @@ clustering_genetic
 
 
       /*Crossover phase: 
-
 	If a pair of strings R and Q are
 	chosen for applying the crossover operator, two random
 	numbers p and q in [1, m] are generated to decide
@@ -745,7 +695,7 @@ clustering_genetic
 	string R will be interchanged with those bits that are in
 	the same position of string Q. For each chosen pair
 	of strings, the crossover operator is done with prob-
-	ability p .
+	ability p.
       */
 
     { /*BEGIN CROSSOVER*/
@@ -760,7 +710,6 @@ clustering_genetic
       }
 #endif /*__VERBOSE_YES*/
       
-
       auto ichrom_population = lvectorchrom_population.begin();
       auto jchrom_matingPool = lvectorchrom_stringPool.begin();
 
@@ -783,21 +732,13 @@ clustering_genetic
 	  ++jchrom_matingPool;
 
 	  if ( uniformdis_real01(gmt19937_eng) 
-	       < aiinp_inParamSubClustBin.getProbCrossover() ) {
+	       < aiinp_inParamSubClusterBin.getProbCrossover() ) {
 	  
-
 	    gabinaryop::onePointDistCrossover
-	      (*lchrom_child1,  // lvectorchrom_population.at(luintidx_crossChromi-2),
-	       *lchrom_child2,  // lvectorchrom_population.at(luintidx_crossChromi-1),
-	       *lchrom_parent1, // lvectorchrom_stringPool.at(lpair_idxChrom.first),
-	       *lchrom_parent2 //,  //lvectorchrom_stringPool.at(lpair_idxChrom.second),
-	       /*prob::getRandPairUnlikeInOrd
-	       ([&]() -> uintidx
-		{
-		  return uniformdis_ui0N(gmt19937_eng);
-		}
-		)*/
-	       
+	      (*lchrom_child1,
+	       *lchrom_child2,
+	       *lchrom_parent1,
+	       *lchrom_parent2   
 	       );
 
 	    (*lchrom_child1).setFitness(-std::numeric_limits<T_REAL>::max());  
@@ -827,7 +768,6 @@ clustering_genetic
 
 
       /*Mutation phase: 
-
 	In the mutation phase, bits of the
 	strings in the population will be chosen with probability
 	p . Each chosen bit will be changed from 0 to 1 or from
@@ -835,7 +775,6 @@ clustering_genetic
       */
 
     { /*BEGIN MUTATION*/
-
 #ifdef __VERBOSE_YES
       geverbosepc_labelstep = "STEP MUTATION";
       ++geiinparam_verbose;
@@ -846,38 +785,20 @@ clustering_genetic
       }
 #endif /*__VERBOSE_YES*/
 
-
-      /*std::for_each
-	(lvectorchrom_population.begin(),
-	 lvectorchrom_population.end(),
-	 [&](gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>& liter_iChrom
-	     )
-	     {*/
       for (auto &&liter_iChrom: lvectorchrom_population) {
 	
 	   if ( uniformdis_real01(gmt19937_eng) 
-		< aiinp_inParamSubClustBin.getProbMutation() ) 
+		< aiinp_inParamSubClusterBin.getProbMutation() ) 
 	     { //IF BEGIN  MUTATION
-
-	       /*std::cout << "ANTES DE MUTATION" << std::endl;
-		 std::cout << liter_iChrom << std::endl;*/
-
 	       gabinaryop::bitMutation(liter_iChrom);
-	       
-	       //  uniformdis_ui0N(gmt19937_eng)
-	       //  );
 	       liter_iChrom.setFitness
 		 (-std::numeric_limits<T_REAL>::max());  
 	       liter_iChrom.setObjetiveFunc
 		 (-std::numeric_limits<T_REAL>::max());
-		 
-	       /* std::cout << "DESPUES DE MUTATION" << std::endl;
-		  std::cout << liter_iChrom << std::endl;*/
-
-
+		 	     
 	     } //END BEGIN  MUTATION
 	 }
-      // );
+
 
 #ifdef __VERBOSE_YES
     if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -893,12 +814,10 @@ clustering_genetic
 	
       /*END GENETIC OPERATIONS*/
    
-      // --li_iterNotChange;
     llfh_listFuntionHist.increaseDomainUpperBound();
 
   } /*END EVOLUTION While*/ 
 
-  // std::cout << "llfh_listFuntionHist.getDomainUpperBound() " << llfh_listFuntionHist.getDomainUpperBound() << std::endl;
   aoop_outParamEAC.incNumGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
@@ -906,10 +825,10 @@ clustering_genetic
    */ 
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiinp_inParamSubClustBin.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamSubClusterBin.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiinp_inParamSubClustBin,
+       aiinp_inParamSubClusterBin,
        aoop_outParamEAC
        );  
   }
@@ -935,23 +854,13 @@ clustering_genetic
 			   << ":w," << aitr_w ;
     lochrom_best.print(std::cout,lostrstream_labelChrom.str().c_str());
     std::cout << std::endl;
-
-    //++geiinparam_verbose;
-    //if ( geiinparam_verbose <= geiinparam_verboseMax ) {
       
-      mat::MatrixRow<T_FEATURE>                   lmatrixrowt_S;
+      mat::MatrixRow<T_FEATURE>          lmatrixrowt_S;
       partition::PartitionDisjSets
-      	<T_CLUSTERIDX>                  lmembclassdisjsets_BkinCi;
-      std::vector<T_INSTANCES_CLUSTER_K>       lvectort_numInstCi;
+      	<T_CLUSTERIDX>                   lmembclassdisjsets_BkinCi;
+      std::vector<T_INSTANCES_CLUSTER_K> lvectort_numInstCi;
       std::tie(lmatrixrowt_S,lmembclassdisjsets_BkinCi,lvectort_numInstCi) =
 	clusteringop::getClusters
-	/*<T_BITSIZE,
-	 T_FEATURE,
-	 T_FEATURE_SUM,
-	 T_INSTANCES_CLUSTER_K,
-	 T_CLUSTERIDX,
-	 T_REAL
-	 >*/
 	(lochrom_best,
 	 aimatrixrowt_Vi,
 	 aivectort_numInstBi,
@@ -963,26 +872,21 @@ clustering_genetic
       lostrstream_labelCentroids << "<CENTROIDS Sj:"
 				 << lpc_labelAlgGAOut
 				 << ":w," << aitr_w; 
-	//<< ':' << "lmatrixrowt_S[" << &lmatrixrowt_S << ']'
-	//			 << ':' << "generation " <<  llfh_listFuntionHist.getDomainUpperBound() << ':';
       lmatrixrowt_S.print(std::cout,lostrstream_labelCentroids.str().c_str(),',',';');
       std::cout << std::endl;
 
       std::vector<T_CLUSTERIDX>
 	lvectormmidx_memberShip =
 	clusteringop::bkinCiToMemberShip
-	<T_CLUSTERIDX>//T_INSTANCES_IDX>
+	<T_CLUSTERIDX>
 	(aimembclassdisjsets_Bi,
-	 lmembclassdisjsets_BkinCi//lvectormmidx_memberBkinCi//lmembclassdisjsets_BkinCi
+	 lmembclassdisjsets_BkinCi
 	 );
 
       std::ostringstream lostrstream_labelMember;
       lostrstream_labelMember << "<MEMBERCLUSTER CLUSTER Cj:"
 			      << lpc_labelAlgGAOut
-	                      << ":w," << aitr_w; 
-	// << ':' << "lvectormmidx_memberShip<>[" << &lvectormmidx_memberShip << ']'
-	//<< ':' << "generation " <<  llfh_listFuntionHist.getDomainUpperBound() << ':';
-     
+	                      << ":w," << aitr_w;      
       inout::containerprint
 	(lvectormmidx_memberShip.begin(),
 	 lvectormmidx_memberShip.end(),
@@ -991,10 +895,6 @@ clustering_genetic
 	 ','
 	 );
       std::cout << std::endl;
-      
-      //}
-      //--geiinparam_verbose;
-    
   }
   --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
@@ -1005,37 +905,20 @@ clustering_genetic
 
 
 /*! \fn std::tuple
-<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>,
- mat::MatrixRow<T_FEATURE>,
- std::vector<T_INSTANCES_CLUSTER_K>,
- partition::PartitionDisjSets<T_CLUSTERIDX>
- >
-clustering_vksubclusterbinary
-(inout::OutParamEAClustering
- <T_REAL,T_CLUSTERIDX>                          &aoop_outParamEAC,
- inout::InParamSubClusterBinary
- <T_REAL,
- T_BITSIZE,
- T_FEATURE,
- T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>                         &aiinp_inParamSubClustBin,
- const INPUT_ITERATOR                           aiiterator_instfirst,
- const INPUT_ITERATOR                           aiiterator_instlast,
- dist::Dist<T_REAL,T_FEATURE>                   &aifunc2p_dist
- )
+<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>, mat::MatrixRow<T_FEATURE>, std::vector<T_INSTANCES_CLUSTER_K>, partition::PartitionDisjSets<T_CLUSTERIDX> > clustering_vksubclusterbinary(inout::OutParamEAClustering <T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamSubClusterBinary<T_REAL,T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamSubClusterBin, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
  \brief CLUSTERING \cite Tseng:Yang:GAclusteringVarK:CLUSTERING:2001
  \details
- \details Implementation of the CBGA algorithm based on \cite Franti:etal:GAclustering:gafranti:1997.  \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid or a codebook.
+ \details Implementation of the CBGA algorithm based on \cite Franti:etal:GAclustering:gafranti:1997.  
+ \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid or a codebook.
   \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
   \param aiinParam_CBGA a inout::InParamGAClusteringPcPmFk parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
-
- \param aoop_outParamEAC a OutParamClusteringGA<T_REAL,T_CLUSTERIDX>
- \param aiinpcgaprobfixedk_inParamGA a inparam::InParamGAClusteringPcPmFk<T_CLUSTERIDX,T_REAL>
- \param aivectorptinst_instances a std::vector<data::Instance<T_FEATURE>* >
- \param aifunc2p_dist a dist::Dist<T_REAL,T_FEATURE>
+  \param aoop_outParamEAC a OutParamClusteringGA<T_REAL,T_CLUSTERIDX>
+  \param aiinpcgaprobfixedk_inParamGA a inparam::InParamGAClusteringPcPmFk<T_CLUSTERIDX,T_REAL>
+  \param aivectorptinst_instances a std::vector<data::Instance<T_FEATURE>* >
+  \param aifunc2p_dist a dist::Dist<T_REAL,T_FEATURE>
 */  
 template < typename T_BITSIZE,
            typename T_FEATURE, 
@@ -1060,7 +943,7 @@ clustering_vksubclusterbinary
  T_CLUSTERIDX,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>                         &aiinp_inParamSubClustBin,
+ T_INSTANCES_CLUSTER_K>                         &aiinp_inParamSubClusterBin,
  const INPUT_ITERATOR                           aiiterator_instfirst,
  const INPUT_ITERATOR                           aiiterator_instlast,
  dist::Dist<T_REAL,T_FEATURE>                   &aifunc2p_dist
@@ -1079,104 +962,43 @@ clustering_vksubclusterbinary
 	      << ": IN(" << geiinparam_verbose << ")\n"
 	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
 	      << &aoop_outParamEAC << "]\n"
-	      << "\t input  InParamClusteringGAProb&: aiinp_inParamSubClustBin[" 
-	      << &aiinp_inParamSubClustBin << "]\n"
+	      << "\t input  InParamClusteringGAProb&: aiinp_inParamSubClusterBin[" 
+	      << &aiinp_inParamSubClusterBin << "]\n"
               << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
 	      << "\t input aiiterator_instlast[" <<  &aiiterator_instlast << "]\n"
-      // << "\t input  std::vector<Instance>: aivectorptinst_instances[" 
-      //      << &aivectorptinst_instances << "]\n"
 	      << "\t input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\n\t\tPopulation size = " 
-	      << aiinp_inParamSubClustBin.getSizePopulation()
+	      << aiinp_inParamSubClusterBin.getSizePopulation()
 	      << "\n\t\tProbCrossover = " 
-	      << aiinp_inParamSubClustBin.getProbCrossover() 
+	      << aiinp_inParamSubClusterBin.getProbCrossover() 
 	      << "\n\t\tProbMutation  = " 
-	      << aiinp_inParamSubClustBin.getProbMutation()
+	      << aiinp_inParamSubClusterBin.getProbMutation()
 	      << "\n\t\tu  = " 
-	      << aiinp_inParamSubClustBin.getU()
+	      << aiinp_inParamSubClusterBin.getU()
 	      << "\n\t\tw1  = " 
-	      << aiinp_inParamSubClustBin.getW1()
+	      << aiinp_inParamSubClusterBin.getW1()
 	      << "\n\t\tw2  = " 
-	      << aiinp_inParamSubClustBin.getW2()
+	      << aiinp_inParamSubClusterBin.getW2()
 	      << "\n\t\tlambda  = " 
-	      << aiinp_inParamSubClustBin.getLambda()
+	      << aiinp_inParamSubClusterBin.getLambda()
 	      << "\n\t)"
 	      << std::endl;
   }
 #endif /*__VERBOSE_YES*/ 
-
-
-  /*DECLARATION OF VARIABLES: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
-   */
-  /*#ifndef __WITHOUT_PLOT_STAT
-    std::ofstream               lfileout_plotStatObjetiveFunc;
-    runtime::RuntimeFunctionValue<T_REAL> *lofh_VRC = NULL;
-    runtime::RuntimeFunctionStat<T_REAL>  *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
-    std::vector<T_REAL>       lvectorT_statfuncObjetiveFunc;
-  
-    if ( aiinp_inParamSubClustBin.getWithPlotStatObjetiveFunc() ) {  
-    
-    lvectorT_statfuncObjetiveFunc.reserve
-    ( aiinp_inParamSubClustBin.getSizePopulation());
-    //DEFINE FUNCTION
-    lofh_VRC  = new runtime::RuntimeFunctionValue<T_REAL>
-    ("VRC", 
-    aiinp_inParamSubClustBin.getAlgorithmoName(),
-    RUNTIMEFUNCTION_NOT_STORAGE
-    );
-
-    llfh_listFuntionHist.addFuntion(lofh_VRC);
-
-    //DEFINE FUNCTION STATISTICAL
-    for  (int li_i = 0; li_i < STATISTICAL_ALL_MEASURES; li_i++) {
-    lofhs_statObjectiveFunc[li_i] = 
-    new runtime::RuntimeFunctionStat
-    <T_REAL>
-    ( (char) li_i,
-    aiinp_inParamSubClustBin.getAlgorithmoName(),
-    RUNTIMEFUNCTION_NOT_STORAGE
-    );
-    llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
-    }
-  
-    //OPEN FILE STRORE FUNCTION
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
-    (aiinp_inParamSubClustBin);
-
-    lfileout_plotStatObjetiveFunc.open
-    (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
-    std::ios::out | std::ios::app
-    );
-
-    lfileout_plotStatObjetiveFunc.precision(COMMON_COUT_PRECISION);
-
-    //FUNCTION HEADER
-
-    lfileout_plotStatObjetiveFunc 
-    <<  llfh_listFuntionHist.getHeaderFuntions() 
-    << "\n";
-    }
-
-    #endif*/ /*__WITHOUT_PLOT_STAT*/
   
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING
    */
   aoop_outParamEAC.setTotalInvalidOffspring(0);
 
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
-
   runtime::ExecutionTime let_executionTime = runtime::start();
   
-  //executiontime_initialize(let_executionTime);
-  //executiontime_start(let_executionTime);
-
 #ifdef __VERBOSE_YES
   const char* lpc_labelFunc = "NEAREST-NEIGHBOR ALGORITHM";
   geverbosepc_labelstep = lpc_labelFunc;
 #endif /*__VERBOSE_YES*/
       
-
   std::vector<T_CLUSTERIDX>  lovectormmidx_memberShip;
   mat::MatrixRow<T_FEATURE>  lomatrixrowt_S;
 
@@ -1188,13 +1010,8 @@ clustering_vksubclusterbinary
   
   partition::PartitionDisjSets<T_CLUSTERIDX>
     lmembclassdisjsets_Bi =
-    graph::nearestNeighbor //get DisjSets
-    /* <T_BITSIZE,
-       T_REAL,
-       T_FEATURE,
-       T_CLUSTERIDX
-       >*/
-    (aiinp_inParamSubClustBin.getU(),
+    graph::nearestNeighbor
+    (aiinp_inParamSubClusterBin.getU(),
      aiiterator_instfirst,
      aiiterator_instlast,
      aifunc2p_dist,
@@ -1216,7 +1033,6 @@ clustering_vksubclusterbinary
     {/*BEGIN NEAREST-NEIGHBOR ALGORITHM
        The first stage
      */
-    
 #ifdef __VERBOSE_YES
       // "NEAREST-NEIGHBOR ALGORITHM";
       geverbosepc_labelstep = lpc_labelFunc;
@@ -1228,8 +1044,6 @@ clustering_vksubclusterbinary
       }
 #endif /*__VERBOSE_YES*/
       
-      //T_CLUSTERIDX             lmcidx_numClusterNull;
-    
       mat::MatrixRow<T_FEATURE_SUM>       
 	lmatrixrowt_sumInstancesClusterK
 	(lmatrixrowt_Vi.getNumRows(),
@@ -1237,12 +1051,6 @@ clustering_vksubclusterbinary
 	 T_FEATURE_SUM(0)
 	 );
 
-      /*interfacesse::copya
-	(lvectort_numInstBi.data(),
-	 T_INSTANCES_CLUSTER_K(0),
-	 (uintidx) lvectort_numInstBi.size()
-	 );
-      */
       clusteringop::getCentroids
 	(lmatrixrowt_Vi,
 	 lmatrixrowt_sumInstancesClusterK,
@@ -1251,23 +1059,7 @@ clustering_vksubclusterbinary
 	 aiiterator_instfirst,
 	 aiiterator_instlast
 	 );
-      
-      /*std::tie
-	(lmcidx_numClusterNull,
-	lmatrixrowt_Vi,
-	lmatrixrowt_sumInstancesClusterK,
-	lvectort_numInstBi) = 
-	centroids::clusterK
-	<T_FEATURE, 
-	T_FEATURE_SUM,
-	T_INSTANCES_CLUSTER_K,  //-1, 0, 1, .., N
-	T_CLUSTERIDX //-1, 0, 1, .., K
-	>
-	(lmembclassdisjsets_Bi,
-	aivectorptinst_instances
-	);
-      */
- 
+       
       lvectorr_meanRadiusBk =
 	um::avgRadiusClusterK
 	(lmatrixrowt_Vi,
@@ -1276,85 +1068,24 @@ clustering_vksubclusterbinary
 	 lmembclassdisjsets_Bi,
 	 aifunc2p_dist
 	 );
-      /*<T_REAL,
-	T_FEATURE,
-	T_INSTANCES_CLUSTER_K,
-	T_CLUSTERIDX
-	>*/
-	
-  
-      /* T_CLUSTERIDX                lmcidx_numClusterNull;
-	 mat::MatrixRow<T_FEATURE>             lmatrixrowt_Vi;
-	 mat::MatrixRow<T_FEATURE_SUM>         lmatrixrowt_sumInstancesClusterK;
-	 std::vector<T_INSTANCES_CLUSTER_K> lvectort_numInstBi;
-	 std::tie
-	 (lmcidx_numClusterNull,
-	 lmatrixrowt_Vi,
-	 lmatrixrowt_sumInstancesClusterK,
-	 lvectort_numInstBi) = 
-	 centroids::clusterK
-	 <T_FEATURE, 
-	 T_FEATURE_SUM,
-	 T_INSTANCES_CLUSTER_K,  //-1, 0, 1, .., N
-	 T_CLUSTERIDX //-1, 0, 1, .., K
-	 >
-	 (lmembclassdisjsets_Bi,
-	 aivectorptinst_instances
-	 );
-      */
-  
-      /*V_i
-       */
-      /* mat::MatrixRow<T_FEATURE_SUM>         lmatrixrowt_sumInstancesClusterK;
-	 std::vector<T_INSTANCES_CLUSTER_K> lvectort_numInstBi;
-
-	 std::tie(lmatrixrowt_sumInstancesClusterK,lvectort_numInstBi) =
-	 centroids::getSumInstancesClusterK
-	 <T_FEATURE,
-	 //T_INSTANCES_IDX,
-	 T_FEATURE_SUM,
-	 T_INSTANCES_CLUSTER_K
-	 //T_CLUSTERIDX //-1, 0, 1, .., K
-	 >
-	 (lvectorlist_componentSetBi,
-	 aivectorptinst_instances
-	 );
-
-	 mat::MatrixRow<T_FEATURE>       
-	 lmatrixrowt_Vi
-	 (lvectorlist_componentSetBi.size(),
-	 data::Instance<T_FEATURE>::getNumDimensions()
-	 );
-
-	 centroids::meanCentroids
-	 <T_FEATURE, 
-	 T_FEATURE_SUM, 
-	 T_INSTANCES_CLUSTER_K,
-	 T_CLUSTERIDX    //-1, 0, 1, .., K
-	 >
-	 (lmatrixrowt_Vi,
-	 lmatrixrowt_sumInstancesClusterK, 
-	 lvectort_numInstBi //lvectorT_numInstancesClusterK //larrayT_numInstancesClusterK
-	 );
-      */
-  
+      
 #ifdef __VERBOSE_YES
       if ( geiinparam_verbose <= geiinparam_verboseMax ) {
 	lpc_labelFunc = geverbosepc_labelstep;
 	std::cout << geverbosepc_labelstep
 		  << ": OUT(" << geiinparam_verbose << ")\n";
 	std::ostringstream lostrstream_labelVi;
-	lostrstream_labelVi << "<CENTROIDS Vi:";// << lpc_labelFunc;
+	lostrstream_labelVi << "<CENTROIDS Vi:";
 	lmatrixrowt_Vi.print(std::cout,lostrstream_labelVi.str().c_str(),',',';');
 	std::cout << '\n';
 
 	std::ostringstream lostrstream_labelBi;
-	lostrstream_labelBi << "<MEMBERCLUSTER Bi:";// << lpc_labelFunc;
+	lostrstream_labelBi << "<MEMBERCLUSTER Bi:";
 	lmembclassdisjsets_Bi.print(std::cout,lostrstream_labelBi.str().c_str(),',');
 	std::cout << '\n';
 	
 	std::ostringstream lostrstream_labelNumInstBi;
-	lostrstream_labelNumInstBi << "<NUM INSTANCES Bi:";// << lpc_labelFunc;
+	lostrstream_labelNumInstBi << "<NUM INSTANCES Bi:";
 	
 	inout::containerprint
 	  (lvectort_numInstBi.begin(),
@@ -1403,8 +1134,8 @@ clustering_vksubclusterbinary
       geverbosepc_labelstep = lpc_labelFunc;
       std::cout << geverbosepc_labelstep  
 		<< ": IN(" << geiinparam_verbose << ')'
-		<< "\n\twS = " << aiinp_inParamSubClustBin.getW1()
-		<< "\n\twL = " << aiinp_inParamSubClustBin.getW2()
+		<< "\n\twS = " << aiinp_inParamSubClusterBin.getW1()
+		<< "\n\twL = " << aiinp_inParamSubClusterBin.getW2()
 		<< std::endl;
     }
 #endif /*__VERBOSE_YES*/
@@ -1414,20 +1145,13 @@ clustering_vksubclusterbinary
 
     COMMON_IDOMAIN lii_numrunalg = 0;
       
-    T_REAL ltr_wS = aiinp_inParamSubClustBin.getW1();
-    T_REAL ltr_wL = aiinp_inParamSubClustBin.getW2();
+    T_REAL ltr_wS = aiinp_inParamSubClusterBin.getW1();
+    T_REAL ltr_wL = aiinp_inParamSubClusterBin.getW2();
 
     /*Ws
      */
     gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>&& lchrom_wS = 
       clustering_genetic
-      <T_REAL,
-       T_BITSIZE,
-       T_FEATURE,
-       T_FEATURE_SUM,
-       T_INSTANCES_CLUSTER_K, 
-       T_CLUSTERIDX //-1, 0, 1, .., K
-       >
       (aoop_outParamEAC,
        lmatrixrowt_Vi,
        lvectort_numInstBi,
@@ -1435,7 +1159,7 @@ clustering_vksubclusterbinary
 #ifdef __VERBOSE_YES
        lmembclassdisjsets_Bi,
 #endif /*__VERBOSE_YES*/
-       aiinp_inParamSubClustBin,
+       aiinp_inParamSubClusterBin,
        aifunc2p_dist,
        lii_numrunalg++,
        let_executionTime
@@ -1444,13 +1168,6 @@ clustering_vksubclusterbinary
    
     std::tie(lomatrixrowt_S,lmembclassdisjsets_BkinCi,lvectort_numInstCi) =
       clusteringop::getClusters
-      /* <T_BITSIZE,
-       T_FEATURE,
-       T_FEATURE_SUM,
-       T_INSTANCES_CLUSTER_K,
-       T_CLUSTERIDX,
-       T_REAL
-       >*/
       (lchrom_wS,
        lmatrixrowt_Vi,
        lvectort_numInstBi,
@@ -1480,13 +1197,6 @@ clustering_vksubclusterbinary
      */
     gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>&& lchrom_wL = 
       clustering_genetic
-      <T_REAL,
-       T_BITSIZE,
-       T_FEATURE,
-       T_FEATURE_SUM,
-       T_INSTANCES_CLUSTER_K, 
-       T_CLUSTERIDX //-1, 0, 1, .., K
-       >
       (aoop_outParamEAC,
        lmatrixrowt_Vi,
        lvectort_numInstBi,
@@ -1494,7 +1204,7 @@ clustering_vksubclusterbinary
 #ifdef __VERBOSE_YES
        lmembclassdisjsets_Bi,
 #endif /*__VERBOSE_YES*/
-       aiinp_inParamSubClustBin,
+       aiinp_inParamSubClusterBin,
        aifunc2p_dist,
         lii_numrunalg++,
        let_executionTime
@@ -1502,13 +1212,6 @@ clustering_vksubclusterbinary
     
     std::tie(lomatrixrowt_S,lmembclassdisjsets_BkinCi,lvectort_numInstCi) =
       clusteringop::getClusters
-      /* <T_BITSIZE,
-       T_FEATURE,
-       T_FEATURE_SUM,
-       T_INSTANCES_CLUSTER_K,
-       T_CLUSTERIDX,
-       T_REAL
-       >*/
       (lchrom_wL,
        lmatrixrowt_Vi,
        lvectort_numInstBi,
@@ -1560,7 +1263,7 @@ clustering_vksubclusterbinary
       geverbosepc_labelstep =  lpc_labelFunc;
       std::cout << geverbosepc_labelstep 
 		<< ": IN(" << geiinparam_verbose << ") "
-		<< ltr_wL -ltr_wS << " > " << aiinp_inParamSubClustBin.getLambda()  
+		<< ltr_wL -ltr_wS << " > " << aiinp_inParamSubClusterBin.getLambda()  
 		<< std::endl;
     }
 #endif /*__VERBOSE_YES*/
@@ -1568,7 +1271,7 @@ clustering_vksubclusterbinary
     T_REAL ltr_D2Wm;
     bool lb_saveFisrt = true;
 
-    while ( (ltr_wL -ltr_wS) > aiinp_inParamSubClustBin.getLambda() ) { 
+    while ( (ltr_wL -ltr_wS) > aiinp_inParamSubClusterBin.getLambda() ) { 
 
       /*Wm
        */
@@ -1576,13 +1279,6 @@ clustering_vksubclusterbinary
 
       gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL> lchrom_Wm = 
 	clustering_genetic
-	<T_REAL,
-	 T_BITSIZE,
-	 T_FEATURE,
-	 T_FEATURE_SUM,
-	 T_INSTANCES_CLUSTER_K, 
-	 T_CLUSTERIDX //-1, 0, 1, .., K
-	 >
 	(aoop_outParamEAC,
 	 lmatrixrowt_Vi,
 	 lvectort_numInstBi,
@@ -1590,7 +1286,7 @@ clustering_vksubclusterbinary
 #ifdef __VERBOSE_YES
 	 lmembclassdisjsets_Bi,
 #endif /*__VERBOSE_YES*/
-	 aiinp_inParamSubClustBin,
+	 aiinp_inParamSubClusterBin,
 	 aifunc2p_dist,
 	 lii_numrunalg++,
 	 let_executionTime
@@ -1598,13 +1294,6 @@ clustering_vksubclusterbinary
 
       std::tie(lomatrixrowt_S,lmembclassdisjsets_BkinCi,lvectort_numInstCi) =
 	clusteringop::getClusters
-	/*	<T_BITSIZE,
-	 T_FEATURE,
-	 T_FEATURE_SUM,
-	 T_INSTANCES_CLUSTER_K,
-	 T_CLUSTERIDX,
-	 T_REAL
-	 >*/
 	(lchrom_Wm,
 	 lmatrixrowt_Vi,
 	 lvectort_numInstBi,
@@ -1615,7 +1304,6 @@ clustering_vksubclusterbinary
       T_REAL ltr_D1Wm = 
 	um::minDistCjCjp //D1(w)
 	(lomatrixrowt_S,
-	 //lvectort_numInstCi,
 	 aifunc2p_dist
 	 );
 
@@ -1717,8 +1405,8 @@ clustering_vksubclusterbinary
       }
 #endif /*__VERBOSE_YES*/
       
-      ltr_wS = aiinp_inParamSubClustBin.getW1();
-      ltr_wL = aiinp_inParamSubClustBin.getW2();
+      ltr_wS = aiinp_inParamSubClusterBin.getW1();
+      ltr_wL = aiinp_inParamSubClusterBin.getW2();
       T_REAL ltr_wm = (ltr_wS + ltr_wL) / 2.0;
       
       T_REAL ltr_ratiosD2WmWs = ltr_D2Wm / ltr_D2Ws;
@@ -1727,13 +1415,10 @@ clustering_vksubclusterbinary
       if ( ltr_ratiosD2WmWs > ltr_ratiosD2WlWm ) {
 	ltr_wL   = ltr_wm;
 	ltr_D2Wl = ltr_D2Wm;
-
-	//lchrom_wL2 = lchrom_Wm;
       }
       else {
 	ltr_wS   = ltr_wm;
 	ltr_D2Ws = ltr_D2Wm;
-	//lchrom_wS2 = lchrom_Wm;
       }
 
 #ifdef __VERBOSE_YES
@@ -1778,19 +1463,12 @@ clustering_vksubclusterbinary
       }
 #endif /*__VERBOSE_YES*/
       
-      while ( (ltr_wL -ltr_wS) > aiinp_inParamSubClustBin.getLambda() ) { 
+      while ( (ltr_wL -ltr_wS) > aiinp_inParamSubClusterBin.getLambda() ) { 
     
 	ltr_wm = (ltr_wS + ltr_wL) / 2.0;
 
 	gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL> lchrom_Wm = 
 	  clustering_genetic
-	  <T_REAL,
-	   T_BITSIZE,
-	   T_FEATURE,
-	   T_FEATURE_SUM,
-	   T_INSTANCES_CLUSTER_K, 
-	   T_CLUSTERIDX //-1, 0, 1, .., K
-	   >
 	  (aoop_outParamEAC,
 	   lmatrixrowt_Vi,
 	   lvectort_numInstBi,
@@ -1798,7 +1476,7 @@ clustering_vksubclusterbinary
 #ifdef __VERBOSE_YES
 	   lmembclassdisjsets_Bi,
 #endif /*__VERBOSE_YES*/
-	   aiinp_inParamSubClustBin,
+	   aiinp_inParamSubClusterBin,
 	   aifunc2p_dist,
 	   lii_numrunalg++,
 	   let_executionTime
@@ -1806,13 +1484,6 @@ clustering_vksubclusterbinary
 
 	std::tie(lomatrixrowt_S,lmembclassdisjsets_BkinCi,lvectort_numInstCi) =
 	  clusteringop::getClusters
-	  /*<T_BITSIZE,
-	   T_FEATURE,
-	   T_FEATURE_SUM,
-	   T_INSTANCES_CLUSTER_K,
-	   T_CLUSTERIDX,
-	   T_REAL
-	   >*/
 	  (lchrom_Wm,
 	   lmatrixrowt_Vi,
 	   lvectort_numInstBi,
@@ -1951,26 +1622,7 @@ clustering_vksubclusterbinary
 		<< std::endl;
     }
     --geiinparam_verbose;
-#endif /*__VERBOSE_YES*/
-    /*  
-    std::tie(lomatrixrowt_S,lmembclassdisjsets_BkinCi,lvectort_numInstCi) =
-      clusteringop::getClusters
-      (lochrom_best,
-       lmatrixrowt_Vi,
-       lvectort_numInstBi,
-       aifunc2p_dist,
-       (T_CLUSTERIDX) 0
-       );
-
-    lovectormmidx_memberShip =
-      clusteringop::bkinCiToMemberShip
-      (lmembclassdisjsets_Bi,
-       lmembclassdisjsets_BkinCi 
-       );
-
-        aoop_outParamEAC.setEndingCondition(false)
-    */
-    
+#endif /*__VERBOSE_YES*/ 
   }
   else {
     aoop_outParamEAC.setEndingCondition(false);
@@ -1980,7 +1632,7 @@ clustering_vksubclusterbinary
 
   runtime::stop(let_executionTime);
   aoop_outParamEAC.setNumClusterK
-    ((T_CLUSTERIDX) lochrom_best.getNumBitOn() ); //(T_CLUSTERIDX)lomatrixrowt_S.getNumRows());
+    ((T_CLUSTERIDX) lochrom_best.getNumBitOn() ); 
   aoop_outParamEAC.setMetricFuncRun
     ( lochrom_best.getObjetiveFunc() );
   aoop_outParamEAC.setFitness
@@ -1996,35 +1648,7 @@ clustering_vksubclusterbinary
 	      << ": OUT(" << geiinparam_verbose << ")\n";
     lochrom_best.print();
     std::cout << std::endl;
-	   
-    /*std::ostringstream lostrstream_labelCentroids;
-    lostrstream_labelCentroids << "<CENTROIDS Cj";
-    lomatrixrowt_S.print(std::cout,lostrstream_labelCentroids.str().c_str(),',',';');
-    std::cout << std::endl;
-
-    std::ostringstream lostrstream_labelNumInstCi;
-    lostrstream_labelNumInstCi << "<NUM INSTANCES CLUSTER Cj";
-    inout::containerprint
-      (lvectort_numInstCi.begin(),
-       lvectort_numInstCi.end(),
-       std::cout,
-       lostrstream_labelNumInstCi.str().c_str(),
-       ','
-       );
-    std::cout << std::endl;
-
-    std::ostringstream lostrstream_labelMember;
-    lostrstream_labelMember << "<MEMBERCLUSTER CLUSTER Cj";
-    inout::containerprint
-      (lovectormmidx_memberShip.begin(),
-       lovectormmidx_memberShip.end(),
-       std::cout,
-       lostrstream_labelMember.str().c_str(),
-       ','
-       );
-    std::cout << std::endl;
-    */
-	     
+	   	     
   }
   --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
@@ -2036,8 +1660,6 @@ clustering_vksubclusterbinary
      lmembclassdisjsets_Bi
      );
     
-  //return std::make_pair(lomatrixrowt_S,lovectormmidx_memberShip);  
- 
 } /* END clustering_vksubclusterbinary */
 
 } /*END eac */
