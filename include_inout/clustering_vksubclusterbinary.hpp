@@ -47,7 +47,7 @@
 
 namespace eac {
 
-/*! \fn gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL> clustering_genetic(inout::OutParamGAClustering<T_REAL,T_CLUSTERIDX> &aoopcga_outParamClusteringGA, const mat::MatrixRow<T_FEATURE> &aimatrixrowt_Vi, const std::vector<T_INSTANCES_CLUSTER_K> &aivectort_numInstBi, const T_REAL aitr_w, const partition::PartitionDisjSets <T_CLUSTERIDX> &aimembclassdisjsets_Bi, inout::InParamClusteringVKSubClusterBinary<T_REAL,T_BITSIZE,T_FEATURE,T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinpcgaprob_inParamGA, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist, const COMMON_IDOMAIN aii_numrunalg, const runtime::ExecutionTime aiet_executionTime) 
+/*! \fn gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL> clustering_genetic(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoopcga_outParamClusteringGA, const mat::MatrixRow<T_FEATURE> &aimatrixrowt_Vi, const std::vector<T_INSTANCES_CLUSTER_K> &aivectort_numInstBi, const T_REAL aitr_w, const partition::PartitionDisjSets <T_CLUSTERIDX> &aimembclassdisjsets_Bi, inout::InParamClusteringVKSubClusterBinary<T_REAL,T_BITSIZE,T_FEATURE,T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinpcgaprob_inParamGA, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist, const COMMON_IDOMAIN aii_numrunalg, const runtime::ExecutionTime aiet_executionTime) 
  \brief CLUSTERING GENETIC \cite Tseng:Yang:GAclusteringVarK:CLUSTERING:2001
  \details
  \param aoopcga_outParamClusteringGA a OutParamClusteringGA<T_REAL,T_CLUSTERIDX>
@@ -55,7 +55,7 @@ namespace eac {
  \param aivectort_numInstBi
  \param aitr_w
  \param aimembclassdisjsets_Bi
- \param aiinpcgaprob_inParamGA a inparam::InParamGAClusteringProbCProbMFixedK
+ \param aiinpcgaprob_inParamGA a inparam::InParamGAClusteringPcPmFk
  \param aifunc2p_dist a dist::Dist<T_REAL,T_FEATURE>
  \param aii_numrunalg
  \param aiet_executionTime
@@ -69,7 +69,7 @@ template < typename T_REAL,
 	   >
 gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>
 clustering_genetic
-(inout::OutParamGAClustering
+(inout::OutParamEAClustering
  <T_REAL,
  T_CLUSTERIDX>                                 &aoopcga_outParamClusteringGA,
  const mat::MatrixRow<T_FEATURE>               &aimatrixrowt_Vi,
@@ -109,7 +109,7 @@ clustering_genetic
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelAlgGA 
 	      << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "\t(output inout::OutParamGAClustering&: aoopcga_outParamClusteringGA[" 
+	      << "\t(output inout::OutParamEAClustering&: aoopcga_outParamClusteringGA[" 
 	      << &aoopcga_outParamClusteringGA << "]\n"
 	      << "\t input  InParamClusteringGAProb&: aiinpcgaprob_inParamGA[" 
 	      << &aiinpcgaprob_inParamGA << "]\n"
@@ -1076,7 +1076,7 @@ clustering_genetic
  partition::PartitionDisjSets<T_CLUSTERIDX>
  >
 clustering_vksubclusterbinary
-(inout::OutParamGAClustering
+(inout::OutParamEAClustering
  <T_REAL,T_CLUSTERIDX>                          &aoopcga_outParamClusteringGA,
  inout::InParamClusteringVKSubClusterBinary
  <T_REAL,
@@ -1091,14 +1091,14 @@ clustering_vksubclusterbinary
  \brief CLUSTERING \cite Tseng:Yang:GAclusteringVarK:CLUSTERING:2001
  \details
  \details Implementation of the CBGA algorithm based on \cite Franti:etal:GAclustering:gafranti:1997.  \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid or a codebook.
-  \param aoopcga_outParamClusteringGA a inout::OutParamGAClustering with the output parameters of the algorithm
-  \param aiinParam_CBGA a inout::InParamGAClusteringProbCProbMFixedK parameters required by the algorithm
+  \param aoopcga_outParamClusteringGA a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aiinParam_CBGA a inout::InParamGAClusteringPcPmFk parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
 
  \param aoopcga_outParamClusteringGA a OutParamClusteringGA<T_REAL,T_CLUSTERIDX>
- \param aiinpcgaprobfixedk_inParamGA a inparam::InParamGAClusteringProbCProbMFixedK<T_CLUSTERIDX,T_REAL>
+ \param aiinpcgaprobfixedk_inParamGA a inparam::InParamGAClusteringPcPmFk<T_CLUSTERIDX,T_REAL>
  \param aivectorptinst_instances a std::vector<data::Instance<T_FEATURE>* >
  \param aifunc2p_dist a dist::Dist<T_REAL,T_FEATURE>
 */  
@@ -1117,7 +1117,7 @@ std::tuple
  partition::PartitionDisjSets<T_CLUSTERIDX>
  >
 clustering_vksubclusterbinary
-(inout::OutParamGAClustering
+(inout::OutParamEAClustering
  <T_REAL,T_CLUSTERIDX>                          &aoopcga_outParamClusteringGA,
  inout::InParamClusteringVKSubClusterBinary
  <T_REAL,
@@ -1142,7 +1142,7 @@ clustering_vksubclusterbinary
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelAlgHeuristic 
 	      << ": IN(" << geiinparam_verbose << ")\n"
-	      << "\t(output inout::OutParamGAClustering&: aoopcga_outParamClusteringGA[" 
+	      << "\t(output inout::OutParamEAClustering&: aoopcga_outParamClusteringGA[" 
 	      << &aoopcga_outParamClusteringGA << "]\n"
 	      << "\t input  InParamClusteringGAProb&: aiinpcgaprob_inParamGA[" 
 	      << &aiinpcgaprob_inParamGA << "]\n"

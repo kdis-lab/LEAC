@@ -1,4 +1,4 @@
-/*! \file inparam_gamedoidclustering_hka.hpp
+/*! \file inparam_hka.hpp
  *
  * \brief Definition of HKA program parameters
  *
@@ -8,10 +8,10 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_GAMEDOIDCLUSTERING_HKA_HPP
-#define IN_PARAM_GAMEDOIDCLUSTERING_HKA_HPP
+#ifndef __IN_PARAM_HKA_HPP__
+#define __IN_PARAM_HKA_HPP__
 
-#include "inparam_gamedoidclustering_gca.hpp"
+#include "inparam_gca.hpp"
 
 
 /*! \namespace inout
@@ -25,7 +25,7 @@
 
 namespace  inout {
   
-/*! \class InParamGAMedoidClusteringHKA 
+/*! \class InParamHKA 
   \brief Input parameter for HKA a hybrid algorithm for k-medoid clustering \cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004
 */
 template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
@@ -34,19 +34,19 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
 	   >
-class InParamGAMedoidClusteringHKA:
-    public InParamGAMedoidClusteringGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+class InParamHKA:
+    public InParamGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
 {
 public:
-  InParamGAMedoidClusteringHKA
+  InParamHKA
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
    int                aii_opNorm
    ) :
-    InParamGAMedoidClusteringGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+    InParamGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
     (ais_algorithmoName, ais_algorithmoAuthor, aiato_algTypeOut,aii_opNorm) {}
-  ~InParamGAMedoidClusteringHKA() {}
+  ~InParamHKA() {}
   
   inline void setOrderTournament(uintidx aist_orderTournament) 
   {
@@ -80,7 +80,7 @@ public:
 
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
-    InParamGAMedoidClusteringGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+    InParamGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
       ::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "_order of tournament"
 		 << aic_separator << this->st_orderTournament;
@@ -99,4 +99,4 @@ protected:
 } /* END namespace inout
    */
 
-#endif /*IN_PARAM_GAMEDOIDCLUSTERING_HKA_HPP*/
+#endif /*__IN_PARAM_HKA_HPP__*/

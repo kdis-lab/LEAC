@@ -1,4 +1,4 @@
-/*! \file inparam_gaclustering_pcpm.hpp
+/*! \file inparam_probcprobm.hpp
  *
  * \brief Definition of input parameters
  *
@@ -8,8 +8,8 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_GACLUSTERING_PC_PM_HPP
-#define IN_PARAM_GACLUSTERING_PC_PM_HPP
+#ifndef __IN_PARAM_GACLUSTERING_PROBC_PROBM_HPP__
+#define __IN_PARAM_GACLUSTERING_PROBC_PROBM_HPP__
 
 #include "inparam_gaclustering.hpp"
 
@@ -25,15 +25,15 @@
 namespace  inout {
   
 
-/*! \class InParamGAClusteringProbCProbM
+/*! \class InParamPcPm
   \brief Input parameter for GA with probability crossover (Pc) and  mutation (Pm)
 */
 template < typename T_REAL>
-class InParamGAClusteringProbCProbM
+class InParamPcPm
   : public InParamGAClustering
 {
 public:
-  InParamGAClusteringProbCProbM
+  InParamPcPm
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
@@ -43,7 +43,7 @@ public:
     (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm)
   {}
 
-  ~InParamGAClusteringProbCProbM() {}
+  ~InParamPcPm() {}
 
   inline void setProbCrossover(T_REAL aiT_probCrossover) 
   {
@@ -76,9 +76,9 @@ protected:
   T_REAL  t_probCrossover;
   T_REAL  t_probMutation;
   
-}; /*InParamGAClusteringProbCProbM*/
+}; /*InParamPcPm*/
 
 } /* END namespace inout
    */
 
-#endif /*IN_PARAM_GACLUSTERING_PC_PM_HPP*/
+#endif /*__IN_PARAM_GACLUSTERING_PROBC_PROBM_HPP__*/

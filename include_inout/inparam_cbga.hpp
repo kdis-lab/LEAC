@@ -13,7 +13,7 @@
 #define __IN_PARAM_CBGA_HPP__
 
 #include "inparam_fixedk.hpp"
-#include "inparam_gaclustering_pm.hpp"
+#include "inparam_probm.hpp"
 #include "inparam_readinst.hpp"
 
 
@@ -46,8 +46,8 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename T_INSTANCE_FREQUENCY
 	   >
 class InParamCBGA
-  : public InParamGAClusteringProbM<T_REAL>
-  , public InParamFixedK<T_CLUSTERIDX>
+  : public InParamPm<T_REAL>
+  , public InParamFk<T_CLUSTERIDX>
   , public InParamReadInstFreq<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX,T_INSTANCE_FREQUENCY>
 {
 public:
@@ -59,9 +59,9 @@ public:
    int                aii_opSelectMethod,
    int                aii_numGLAIterations 
    ):
-    InParamGAClusteringProbM<T_REAL>
+    InParamPm<T_REAL>
     (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm)
-    , InParamFixedK<T_CLUSTERIDX>()
+    , InParamFk<T_CLUSTERIDX>()
     , InParamReadInstFreq<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX,T_INSTANCE_FREQUENCY>()
     , i_opSelectMethod(aii_opSelectMethod)
     , i_numGLAIterations(aii_numGLAIterations) 
@@ -93,8 +93,8 @@ public:
   {
     const char  *las_opSelectMethod[] = INPARAMCLUSTERING_CBGA_SELECMETH;
 
-    InParamGAClusteringProbM<T_REAL>::print(aipf_outFile,aic_separator);
-    InParamFixedK<T_CLUSTERIDX>::print(aipf_outFile,aic_separator); 
+    InParamPm<T_REAL>::print(aipf_outFile,aic_separator);
+    InParamFk<T_CLUSTERIDX>::print(aipf_outFile,aic_separator); 
     InParamReadInstFreq<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX,T_INSTANCE_FREQUENCY>::print(aipf_outFile,aic_separator);
       aipf_outFile << aic_separator << "_selection method"            
 		   << aic_separator << las_opSelectMethod[this->i_opSelectMethod]; 

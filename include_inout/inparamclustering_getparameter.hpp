@@ -67,7 +67,7 @@
   defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) ||			\
   defined(ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002)
 
-#include "inparam_gaclustering_pcpm_fixedk.hpp"
+#include "inparam_probcprobm_fixedk.hpp"
 
 #endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||
 	 ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) ||
@@ -78,7 +78,7 @@
   defined(ALG_IGKA_FKLABEL_LU_ETAL2004) || \
   defined(ALG_FGKA_FKLABEL_LU_ETAL2004)
 
-#include "inparam_gaclustering_gka.hpp"
+#include "inparam_probm_fixedk.hpp"
 
 #endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999
 	 ALG_IGKA_FKLABEL_LU_ETAL2004
@@ -91,11 +91,11 @@
 #endif /*ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997*/
 
 #ifdef  ALG_GAGR_FKCENTROID_CHANG_ETAL_2009
-#include "inparam_gaclustering_padaptive.hpp"
+#include "inparam_adaptiveprobcprobm.hpp"
 #endif /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
 
 #ifdef  ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993
-#include "inparam_gamedoidclustering_gca.hpp"
+#include "inparam_gca.hpp"
 #endif /*ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993*/
 
 #ifdef ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997
@@ -103,20 +103,20 @@
 #endif /*ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997*/
 
 #ifdef ALG_HKA_FKMEDOID_SHENG_LUI2004
-#include "inparam_gamedoidclustering_hka.hpp"
+#include "inparam_hka.hpp"
 #endif /*ALG_HKA_FKMEDOID_SHENG_LUI2004*/
 
 #ifdef ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
-#include "inparam_gaclustering_withoutpcpm.hpp"
+#include "inparam_withoutprobcprobm.hpp"
 #endif /*ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994*/
 
 
 #ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
-#include "inparam_gaclustering_pcpm_rangek.hpp"
+#include "inparam_probcprobm_rangek.hpp"
 #endif /*ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002*/
 
 #ifdef ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003
-#include "inparam_gaclustering_pcpm_rangek.hpp"
+#include "inparam_probcprobm_rangek.hpp"
 #endif /*ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003*/
 
 #if defined(ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) || \
@@ -124,7 +124,7 @@
   defined(ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
   defined(ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
   defined(ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
-#include "inparam_gaclustering_feac.hpp"
+#include "inparam_feac.hpp"
 #endif /*ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) ||	\
 	 ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) ||	\
          ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
@@ -133,21 +133,21 @@
        */
 
 #ifdef ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003
-#include "inparam_gaclustering_vktreebinary.hpp"
+#include "inparam_genwochg_rangek.hpp"
 #endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
 
 #ifdef ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001
-#include "inparam_clustering_vksubclusterbinary.hpp"
+#include "inparam_subclusterbinary.hpp"
 #endif /*ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001*/
 
 #ifdef ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
-#include "inparam_gaclustering_tgca.hpp"
+#include "inparam_tgca.hpp"
 #endif /*ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
 	*/
 
 #if defined(ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012) || \
   defined(ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012)
-#include "inparam_gaclustering_gga.hpp"
+#include "inparam_gga.hpp"
 #endif /*ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012 ||	\
 	 ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012
        */
@@ -339,7 +339,7 @@ template<typename T_CLUSTERIDX,
 void 
 inparamclustering_usage
 (char *argv0, 
- InParamGAClusteringProbCProbMFixedK
+ InParamPcPmFk
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
@@ -363,7 +363,7 @@ template<typename T_CLUSTERIDX,
 void 
 inparamclustering_usage
 (char                                  *argv0, 
- InParamGAClusteringProbCProbMRangeK
+ InParamPcPmRk
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
@@ -408,7 +408,7 @@ template<typename T_CLUSTERIDX,
   void 
   inparamclustering_usage
   (char                      *argv0, 
-   InParamGAClusteringTGCA
+   InParamTGCA
    <T_CLUSTERIDX,
    T_REAL,
    T_FEATURE,
@@ -430,7 +430,7 @@ template<typename T_CLUSTERIDX,
   void 
   inparamclustering_usage
   (char                      *argv0, 
-   InParamGAClusteringGGA
+   InParamGGA
    <T_CLUSTERIDX,
    T_REAL,
    T_FEATURE,
@@ -453,7 +453,7 @@ template<typename T_CLUSTERIDX,
   void 
   inparamclustering_usage
   (char                              *argv0, 
-   InParamClusteringVKSubClusterBinary
+   InParamSubClusterBinary
    <T_REAL,
    T_BITSIZE,
    T_CLUSTERIDX,
@@ -475,7 +475,7 @@ template<typename T_CLUSTERIDX,
   void 
   inparamclustering_usage
   (char *argv0, 
-   InParamGAClusteringVKTreeBinary
+   InParamGenWOChgRk
    <T_BITSIZE,T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
    &aoipc_inParamClustering
    )
@@ -492,7 +492,7 @@ template<typename T_CLUSTERIDX,
   void 
 inparamclustering_usage
 (char *argv0, 
- InParamGAClusteringProbCProbMRangeK
+ InParamPcPmRk
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
@@ -517,7 +517,7 @@ template<typename T_FEATURE,
 void 
 inparamclustering_usage
 (char *argv0, 
- InParamGAClusteringFEAC
+ InParamFEAC
  <T_FEATURE,T_REAL,T_CLUSTERIDX,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
  &aoipc_inParamClustering
  )
@@ -539,7 +539,7 @@ template<typename T_CLUSTERIDX,
 void 
 inparamclustering_usage
 (char *argv0, 
- InParamGAClusteringWithoutProbCProbM
+ InParamWithoutPcPm
  <T_CLUSTERIDX,T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
  &aoipc_inParamClustering
  )
@@ -555,7 +555,7 @@ inparamclustering_usage
 void 
 inparamclustering_usage
   (char *argv0, 
-   InParamGAMedoidClusteringGCA
+   InParamGCA
    <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
    &aoipc_inParamClustering
    )
@@ -592,7 +592,7 @@ template<typename T_CLUSTERIDX,
 void 
 inparamclustering_usage
 (char *argv0, 
-InParamGAMedoidClusteringHKA
+InParamHKA
 <T_CLUSTERIDX,
 T_REAL,
 T_FEATURE,
@@ -614,7 +614,7 @@ template<typename T_CLUSTERIDX,
 void 
   inparamclustering_usage
   (char *argv0, 
-   InParamGAClusteringGKA
+   InParamPmFk
    <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
    &aoipc_inParamClustering
    )
@@ -632,7 +632,7 @@ template<typename T_CLUSTERIDX,
   void 
   inparamclustering_usage
   (char *argv0, 
-   InParamGAClusteringProbAdaptive
+   InParamAdaptivePcPm
    <T_CLUSTERIDX,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
    &aoipc_inParamClustering
    )
@@ -1696,7 +1696,7 @@ inparamclustering_getParameter
           > 
   void 
   inparamclustering_getParameter
-  (InParamGAClusteringWithoutProbCProbM
+  (InParamWithoutPcPm
    <T_CLUSTERIDX,T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
    &aoipc_inParamClustering,
    int                                     argc, 
@@ -1716,7 +1716,7 @@ template<typename T_CLUSTERIDX,
 	> 
 void 
 inparamclustering_getParameter
-(InParamGAClusteringProbCProbMFixedK
+(InParamPcPmFk
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
@@ -1741,7 +1741,7 @@ template<typename T_CLUSTERIDX,
 	 > 
 void 
 inparamclustering_getParameter
-  (InParamGAMedoidClusteringGCA
+  (InParamGCA
    <T_CLUSTERIDX,
    T_REAL,
    T_FEATURE,
@@ -1789,7 +1789,7 @@ inparamclustering_getParameter
   > 
   void 
   inparamclustering_getParameter
-  (InParamGAMedoidClusteringHKA
+  (InParamHKA
    <T_CLUSTERIDX,
    T_REAL,
    T_FEATURE,
@@ -1835,7 +1835,7 @@ template<typename T_CLUSTERIDX,
 	 > 
 void
 inparamclustering_getParameter
-(InParamGAClusteringGKA
+(InParamPmFk
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
@@ -1857,7 +1857,7 @@ template<typename T_CLUSTERIDX,
         > 
 void 
 inparamclustering_getParameter
-(InParamGAClusteringProbAdaptive
+(InParamAdaptivePcPm
  <T_CLUSTERIDX,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aoipc_inParamClustering,
  int                   argc, 
  char                  **argv
@@ -1874,7 +1874,7 @@ inparamclustering_getParameter
   > 
   void 
   inparamclustering_getParameter
-  (InParamGAClusteringProbCProbMRangeK
+  (InParamPcPmRk
    <T_CLUSTERIDX,
    T_REAL,
    T_FEATURE,
@@ -1895,7 +1895,7 @@ inparamclustering_getParameter
 	   > 
   void 
   inparamclustering_getParameter
-  (InParamGAClusteringTGCA
+  (InParamTGCA
    <T_CLUSTERIDX,
    T_REAL,
    T_FEATURE,         
@@ -1916,7 +1916,7 @@ inparamclustering_getParameter
           > 
   void 
   inparamclustering_getParameter
-  (InParamGAClusteringProbCProbMRangeK
+  (InParamPcPmRk
    <T_CLUSTERIDX,
    T_REAL,
    T_FEATURE,         
@@ -1943,7 +1943,7 @@ template<typename T_FEATURE,
 	 > 
 void 
 inparamclustering_getParameter
-(InParamGAClusteringFEAC
+(InParamFEAC
  <T_FEATURE,
  T_REAL,
  T_CLUSTERIDX,
@@ -1969,7 +1969,7 @@ inparamclustering_getParameter
 	   >
 void 
   inparamclustering_getParameter
-  (InParamGAClusteringVKTreeBinary
+  (InParamGenWOChgRk
    <T_BITSIZE,
    T_CLUSTERIDX,
    T_REAL,
@@ -1993,7 +1993,7 @@ void
           > 
   void 
   inparamclustering_getParameter
-  (InParamClusteringVKSubClusterBinary
+  (InParamSubClusterBinary
    <T_REAL,
    T_BITSIZE,
    T_CLUSTERIDX,
@@ -2017,7 +2017,7 @@ void
 	   > 
 void 
 inparamclustering_getParameter
-(InParamGAClusteringGGA
+(InParamGGA
  <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
  &aoipc_inParamClustering,
  int                                     argc, 

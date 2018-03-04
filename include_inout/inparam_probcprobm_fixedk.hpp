@@ -1,4 +1,4 @@
-/*! \file inparam_gaclustering_pcpm_fixedk.hpp
+/*! \file inparam_probcprobm_fixedk.hpp
  *
  * \brief Definition of input parameters
  *
@@ -11,7 +11,7 @@
 #ifndef IN_PARAM_GACLUSTERING_PROB_FIXEDK_HPP
 #define IN_PARAM_GACLUSTERING_PROB_FIXEDK_HPP
 
-#include "inparam_gaclustering_pcpm.hpp"
+#include "inparam_probcprobm.hpp"
 #include "inparam_fixedk.hpp"
 #include "inparam_readinst.hpp"
 
@@ -27,7 +27,7 @@
 namespace  inout {
 
 
-/*! \class InParamGAClusteringProbCProbMFixedK
+/*! \class InParamPcPmFk
   \brief Input parameter for GA with probability Pc, Pm and Fixed K 
 */
 template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
@@ -36,31 +36,31 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
 	   >
-class InParamGAClusteringProbCProbMFixedK
-  : public InParamGAClusteringProbCProbM<T_REAL>
-  , public InParamFixedK<T_CLUSTERIDX>
+class InParamPcPmFk
+  : public InParamPcPm<T_REAL>
+  , public InParamFk<T_CLUSTERIDX>
   , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
-  InParamGAClusteringProbCProbMFixedK
+  InParamPcPmFk
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
    int         aii_opNorm
    ) 
-    : InParamGAClusteringProbCProbM<T_REAL>
+    : InParamPcPm<T_REAL>
       (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm) 
-    , InParamFixedK<T_CLUSTERIDX>()
+    , InParamFk<T_CLUSTERIDX>()
     , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
   {}
 
-  ~InParamGAClusteringProbCProbMFixedK() {}
+  ~InParamPcPmFk() {}
 
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
-    InParamGAClusteringProbCProbM<T_REAL>
+    InParamPcPm<T_REAL>
       ::print(aipf_outFile,aic_separator);
-    InParamFixedK<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
+    InParamFk<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
     InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
   }  
 };

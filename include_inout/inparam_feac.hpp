@@ -1,4 +1,4 @@
-/*! \file inparam_gaclustering_feac.hpp
+/*! \file inparam_feac.hpp
  *
  * \brief Definition of FEAC program parameters
  *
@@ -8,8 +8,8 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_GACLUSTERING_FEAC_HPP
-#define IN_PARAM_GACLUSTERING_FEAC_HPP
+#ifndef __IN_PARAM_FEAC_HPP__
+#define __IN_PARAM_FEAC_HPP__
 
 #include "inparam_gaclustering.hpp"
 #include "inparam_rangek.hpp"
@@ -30,7 +30,7 @@ namespace  inout {
 #define INPARAMCLUSTERING_FEAC_KMEANSMAXDIFFCENT  0.001
 #define INPARAMCLUSTERING_FEAC_DEFAULT_DESIABLEFITNESS 1
   
-/*! \class InParamGAClusteringFEAC
+/*! \class InParamFEAC
   \brief Input parameter Fast Evolutionary Algorithm for Clustering F-EAC \cite Alves:etal:GAclusteringLabelKVar:FEAC:2006 
 */
 template < typename T_FEATURE,
@@ -39,13 +39,13 @@ template < typename T_FEATURE,
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
 	   >
-class InParamGAClusteringFEAC
+class InParamFEAC
   : public InParamGAClustering
-  , public InParamRangeK<T_CLUSTERIDX>
+  , public InParamRk<T_CLUSTERIDX>
   , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
-  InParamGAClusteringFEAC
+  InParamFEAC
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
@@ -53,14 +53,14 @@ public:
    )
     : InParamGAClustering
       (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut,aii_opNorm)
-    , InParamRangeK<T_CLUSTERIDX>()
+    , InParamRk<T_CLUSTERIDX>()
     , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
     , _it_kmeansNumMaxIter(INPARAMCLUSTERING_FEAC_KMEANSNUMMAXITER)
     , _rT_kmeansMaxDiffCent(INPARAMCLUSTERING_FEAC_KMEANSMAXDIFFCENT)
     , _rT_desiableObjetiveFunc(INPARAMCLUSTERING_FEAC_DEFAULT_DESIABLEFITNESS)
   {}
 
-  ~InParamGAClusteringFEAC() {}
+  ~InParamFEAC() {}
 
   
   inline void setKmeansNumMaxIter(COMMON_IDOMAIN aiiT_numMaxIterKmeans) 
@@ -97,7 +97,7 @@ public:
   virtual void  print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
     InParamGAClustering::print(aipf_outFile,aic_separator);
-      InParamRangeK<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
+      InParamRk<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
       InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
       aipf_outFile << aic_separator << "_k-means iterations"            
 		   << aic_separator << _it_kmeansNumMaxIter; 
@@ -109,7 +109,7 @@ public:
 
 protected:
   COMMON_IDOMAIN  _it_kmeansNumMaxIter;
-  T_FEATURE     _rT_kmeansMaxDiffCent;
+  T_FEATURE       _rT_kmeansMaxDiffCent;
   //!_rT_desiableObjetiveFunc
   /*!
     Value desiable fitness for stop algorith
@@ -120,4 +120,4 @@ protected:
 } /*END namespace inout 
    */
 
-#endif /*IN_PARAM_GACLUSTERING_FEAC_HPP*/
+#endif /*__IN_PARAM_FEAC_HPP__*/

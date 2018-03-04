@@ -28,13 +28,13 @@ namespace  inout {
 
 
 template <class T_CLUSTERIDX> //-1, 0, 1, .., K
-class InParamRangeK {
+class InParamRk {
 public:
-  InParamRangeK() 
+  InParamRk() 
     : _idxK_numClusterKMinimum(INPARAMCLUSTERING_DEFAULT_CLUSTERK_MIN)
     , _idxK_numClusterKMaximum(INPARAMCLUSTERING_DEFAULT_CLUSTERK_UNDEFINED)
   {}
-  ~InParamRangeK() {}
+  ~InParamRk() {}
 
   inline void setNumClusterKMinimum(T_CLUSTERIDX aiidxK_numClusterKMinimum) 
   {
@@ -69,7 +69,7 @@ protected:
   T_CLUSTERIDX _idxK_numClusterKMinimum;//-1, 0, 1, .., K,    // st_numClusterK;
   T_CLUSTERIDX _idxK_numClusterKMaximum;//-1, 0, 1, .., K,    // st_numClusterK;
   
-}; /*InParamRangeK*/
+}; /*InParamRk*/
   
 
 } /*END namespace inout

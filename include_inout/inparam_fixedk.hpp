@@ -28,16 +28,16 @@ namespace  inout {
   
 #define INPARAMCLUSTERING_DEFAULT_CLUSTERK     3
   
-/*! \class InParamFixedK
+/*! \class InParamFk
   \brief Input parameter for algorithms  with Fixed K 
 */
 template <class T_CLUSTERIDX> //-1, 0, 1, .., K
-class InParamFixedK {
+class InParamFk {
 public:
-  InParamFixedK() 
+  InParamFk() 
     : _idxK_numClusterK(INPARAMCLUSTERING_DEFAULT_CLUSTERK)
   {}
-  ~InParamFixedK() {}
+  ~InParamFk() {}
 
   inline void setNumClusterK(T_CLUSTERIDX aiidxK_numClusterK) 
   {
@@ -57,7 +57,7 @@ public:
   }
 protected:
   T_CLUSTERIDX _idxK_numClusterK; //-1, 0, 1, .., K
-}; /*InParamFixedK*/
+}; /*InParamFk*/
 
 } /*END namespace inout
    */

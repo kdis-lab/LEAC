@@ -1,4 +1,4 @@
-/*! \file inparam_gaclustering_pcpm_rangek.hpp
+/*! \file inparam_probcprobm_rangek.hpp
  *
  * \brief Definition of input parameters
  *
@@ -8,10 +8,10 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_GACLUSTERING_PROB_RANGEK_HPP
-#define IN_PARAM_GACLUSTERING_PROB_RANGEK_HPP
+#ifndef __IN_PROBC_PROBM_RANGEK_HPP__
+#define __IN_PROBC_PROBM_RANGEK_HPP__
 
-#include "inparam_gaclustering_pcpm.hpp"
+#include "inparam_probcprobm.hpp"
 #include "inparam_rangek.hpp"
 #include "inparam_readinst.hpp"
 
@@ -27,7 +27,7 @@
 
 namespace  inout {
 
-/*! \class InParamGAClusteringProbCProbMRangeK
+/*! \class InParamPcPmRk
   \brief Input parameter for GA with probability Pc, Pm and Range K 
 */
 template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
@@ -36,30 +36,30 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
 	   >
-class InParamGAClusteringProbCProbMRangeK
-  : public InParamGAClusteringProbCProbM<T_REAL>
-  , public InParamRangeK<T_CLUSTERIDX>
+class InParamPcPmRk
+  : public InParamPcPm<T_REAL>
+  , public InParamRk<T_CLUSTERIDX>
   , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
-  InParamGAClusteringProbCProbMRangeK
+  InParamPcPmRk
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
    int         aii_opNorm
    ) 
-    : InParamGAClusteringProbCProbM<T_REAL>
+    : InParamPcPm<T_REAL>
       (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm) 
-    , InParamRangeK<T_CLUSTERIDX>()
+    , InParamRk<T_CLUSTERIDX>()
     , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
   {}
 
-  ~InParamGAClusteringProbCProbMRangeK() {}
+  ~InParamPcPmRk() {}
 
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
-    InParamGAClusteringProbCProbM<T_REAL>::print(aipf_outFile,aic_separator);
-    InParamRangeK<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
+    InParamPcPm<T_REAL>::print(aipf_outFile,aic_separator);
+    InParamRk<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
     InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
   }  
 };
@@ -67,4 +67,4 @@ public:
 } /*END namespace inout 
    */
 
-#endif /*IN_PARAM_GACLUSTERING_PROB_RANGEK_HPP*/
+#endif /*__IN_PROBC_PROBM_RANGEK_HPP__*/

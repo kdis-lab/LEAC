@@ -1,6 +1,6 @@
-/*! \file outparam_gaclustering.hpp
+/*! \file outparam_eaclustering.hpp
  *
- * \brief out parameters GA-clustering
+ * \brief out parameters EA-clustering
  *
  * \version 1.0
  * \date 2015-2017
@@ -8,8 +8,8 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef OUT_PARAM_GACLUSTERING_HPP
-#define OUT_PARAM_GACLUSTERING_HPP
+#ifndef __OUT_PARAM_EA_HPP__
+#define __OUT_PARAM_EA_HPP__
 
 
 #include "outparam_clustering.hpp"
@@ -26,23 +26,23 @@
 namespace  inout {
 
   
-/*! \class OutParamGAClustering
-  \brief Output Parameters for Genetic and Evolutionary Algorithms
+/*! \class OutParamEAClustering
+  \brief Output Output parameters of the evolutionary algorithm
 */
 template < typename T_METRIC,
 	   typename T_CLUSTERIDX
 	  >
-class OutParamGAClustering:
+class OutParamEAClustering:
   public OutParamClustering<T_METRIC,T_CLUSTERIDX> {
 public:
-  OutParamGAClustering(const OutParamNameObjectiveFunc aienum_usedObjectiveFunc):
+  OutParamEAClustering(const OutParamNameObjectiveFunc aienum_usedObjectiveFunc):
   OutParamClustering<T_METRIC,T_CLUSTERIDX>
     ::OutParamClustering(aienum_usedObjectiveFunc)   
   {
     this->initialize(-1);
   }
 
-  virtual ~OutParamGAClustering() {}
+  virtual ~OutParamEAClustering() {}
 
   void initialize
   (int             aii_numRunAlgorithm)
@@ -94,9 +94,9 @@ protected:
   T_METRIC        t_fitness;             
   COMMON_IDOMAIN  t_numTotalGenerations; 
 
-}; /*OutParamGAClustering*/
+}; /*OutParamEAClustering*/
 
 } /*END namespace inout
    */
 
-#endif /*OUT_PARAM_GACLUSTERING_HPP*/
+#endif /*__OUT_PARAM_EA_HPP__*/

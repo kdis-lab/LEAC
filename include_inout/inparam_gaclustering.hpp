@@ -26,7 +26,7 @@
 namespace  inout {
   
 /*! \class InParamGAClustering
-  \brief Input parameter for genetic and evolutionary algorithm 
+  \brief Input parameter for genetic algorithm 
 */
 class InParamGAClustering:
     public InParamClustering

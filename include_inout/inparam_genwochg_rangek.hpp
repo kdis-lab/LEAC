@@ -1,4 +1,4 @@
-/*! \file inparam_gaclustering_vktreebinary.hpp
+/*! \file inparam_genwochg_rangek.hpp
  *
  * \brief Definition of GA program parameters
  *
@@ -8,10 +8,10 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef __IN_PARAM_GACLUSTERING_VKTREEBINARY_HPP__
-#define __IN_PARAM_GACLUSTERING_VKTREEBINARY_HPP__
+#ifndef __IN_PARAM_GENERATIONS_WITHOUT_CHANGE_HPP__
+#define __IN_PARAM_GENERATIONS_WITHOUT_CHANGE_HPP__
 
-#include "inparam_gaclustering_pcpm_rangek.hpp"
+#include "inparam_probcprobm_rangek.hpp"
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -24,7 +24,7 @@
 
 namespace  inout {
   
-/*! \class InParamGAClusteringVKTreeBinary
+/*! \class InParamGenWOChgRk
   \brief Input parameter Document clustering into an unknown number of clusters using a genetic algorithm \cite Casillas:etal:GAclusteringVarK:GA:2003
 */
   template < typename T_BITSIZE,
@@ -34,24 +34,21 @@ namespace  inout {
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
 	   >
-class InParamGAClusteringVKTreeBinary
-  : public InParamGAClusteringProbCProbMRangeK
+class InParamGenWOChgRk
+  : public InParamPcPmRk
 <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
 {
 public:
-  InParamGAClusteringVKTreeBinary
+  InParamGenWOChgRk
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
    int         aii_opNorm
-   ) : InParamGAClusteringProbCProbMRangeK
+   ) : InParamPcPmRk
        <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
     (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm) {}
-    /*: InParamGAClusteringProb<T_REAL>
-      (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm)
-      , InParamRangeK<T_CLUSTERIDX>()*/
-  
-  ~InParamGAClusteringVKTreeBinary() {}
+   
+  ~InParamGenWOChgRk() {}
 
   inline void setNumNotChangeStop(COMMON_IDOMAIN aiit_numNotChangeStop) 
   {
@@ -65,7 +62,7 @@ public:
 
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
-    InParamGAClusteringProbCProbMRangeK
+    InParamPcPmRk
       <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
       ::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "NumNotChangeStop"   
@@ -76,10 +73,10 @@ protected:
 
  COMMON_IDOMAIN _it_numNotChangeStop;
   
-}; /*InParamGAClusteringVKTreeBinary*/
+}; /*InParamGenWOChgRk*/
 
 
 } /*END namespace inout 
    */
 
-#endif /*__IN_PARAM_GACLUSTERING_VKTREEBINARY_HPP__*/
+#endif /*__IN_PARAM_GENERATIONS_WITHOUT_CHANGE_HPP__*/

@@ -1,4 +1,4 @@
-/*! \file inparam_gaclustering_pm.hpp
+/*! \file inparam_probm.hpp
  *
  * \brief Definition of input parameters
  *
@@ -8,8 +8,8 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_GACLUSTERING_PM_HPP
-#define IN_PARAM_GACLUSTERING_PM_HPP
+#ifndef __IN_PARAM_PROBM_HPP__
+#define __IN_PARAM_PROBM_HPP__
 
 #include "inparam_gaclustering.hpp"
 
@@ -25,15 +25,15 @@
 namespace  inout {
 
   
-/*! \class InParamGAClusteringProbM
+/*! \class InParamPm
   \brief Input parameter for GA with only probability mutation (Pm)
 */
   template <  typename T_REAL>
-class InParamGAClusteringProbM
+class InParamPm
     :  public InParamGAClustering
 {
 public:
-  InParamGAClusteringProbM
+  InParamPm
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
@@ -42,14 +42,14 @@ public:
     InParamGAClustering
     (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm) {}
 
-  ~InParamGAClusteringProbM() {}
+  ~InParamPm() {}
 
   inline void setProbMutation(T_REAL ait_probMutation) {
-    this->t_probMutation = ait_probMutation;
+    this->_t_probMutation = ait_probMutation;
   }
 
   inline const T_REAL getProbMutation() const  {
-    return this->t_probMutation;
+    return this->_t_probMutation;
   }
 
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
@@ -57,14 +57,14 @@ public:
     InParamGAClustering::print(aipf_outFile,aic_separator);
    
     aipf_outFile << aic_separator << "_probability mutation" 
-		 << aic_separator << this->t_probMutation;
+		 << aic_separator << this->_t_probMutation;
   }
 
 protected:
-  T_REAL  t_probMutation;
+  T_REAL  _t_probMutation;
 }; 
 
 } /* END namespace inout
    */
 
-#endif /*IN_PARAM_GACLUSTERING_PM_HPP*/
+#endif /*__IN_PARAM_PROBM_HPP__*/

@@ -1,4 +1,4 @@
-/*! \file inparam_gaclustering_tgca.hpp
+/*! \file inparam_tgca.hpp
  *
  * \brief Definition of TGCA program parameters
  *
@@ -8,10 +8,10 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_GACLUSTERING_TGCA_HPP
-#define IN_PARAM_GACLUSTERING_TGCA_HPP
+#ifndef __IN_PARAM_TGCA_HPP__
+#define __IN_PARAM_TGCA_HPP__
 
-#include "inparam_gaclustering_pcpm_rangek.hpp"
+#include "inparam_probcprobm_rangek.hpp"
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -25,7 +25,7 @@
 namespace  inout {
   
   
-/*! \class InParamGAClusteringTGCA
+/*! \class InParamTGCA
   \brief Input parameter for TGCA a two-stage genetic algorithm \cite He:Tan:GAclusteringVarK:TGCA:2012
 */
 template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
@@ -34,25 +34,25 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
 	   >
-class InParamGAClusteringTGCA
-  : public InParamGAClusteringProbCProbMRangeK
+class InParamTGCA
+  : public InParamPcPmRk
 <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
 {
 public:
-  InParamGAClusteringTGCA
+  InParamTGCA
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
    int         aii_opNorm
    )
-    : InParamGAClusteringProbCProbMRangeK
+    : InParamPcPmRk
       <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
     (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut,aii_opNorm)
     , _it_kmeansNumMaxIter(INPARAMCLUSTERING_DEFAULT_MAX_ITER)
     , _ui_kmeansNumMinThreshold(INPARAMCLUSTERING_DEFAULT_MIN_THRESHOLD)
   {}
 
-  ~InParamGAClusteringTGCA() {}
+  ~InParamTGCA() {}
   
   inline void setKmeansNumMaxIter(COMMON_IDOMAIN aiiT_numMaxIterKmeans) 
   {
@@ -87,7 +87,7 @@ public:
   virtual void  print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
 
-    InParamGAClusteringProbCProbMRangeK
+    InParamPcPmRk
       <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
       ::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "_k-means iterations"            
@@ -109,4 +109,4 @@ protected:
 
 }
 
-#endif /*IN_PARAM_GACLUSTERING_TGCA_HPP*/
+#endif /*__IN_PARAM_TGCA_HPP__*/

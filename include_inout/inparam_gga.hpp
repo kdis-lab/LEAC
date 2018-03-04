@@ -1,4 +1,4 @@
-/*! \file inparam_gaclustering_gga.hpp
+/*! \file inparam_gga.hpp
  *
  * \brief Definition of GGA program parameters
  *
@@ -8,8 +8,8 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_GACLUSTERING_GGA_HPP
-#define IN_PARAM_GACLUSTERING_GGA_HPP
+#ifndef __IN_PARAM_GGA_HPP__
+#define __IN_PARAM_GGA_HPP__
 
 #include "inparam_clustering.hpp"
 #include "inparam_rangek.hpp"
@@ -26,8 +26,8 @@
 
 namespace  inout {
   
-/*! \class InParamGAClusteringGGA
-  \brief Input parameter for GGA \cite Agustin:etal:GAclusteringVarK:GGA:2012
+/*! \class InParamGGA
+  \brief Input parameter for GGA algorithm \cite Agustin:etal:GAclusteringVarK:GGA:2012
 */
 template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename T_REAL,
@@ -35,13 +35,13 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
 	   >
-class InParamGAClusteringGGA
+class InParamGGA
   : public InParamClustering
-  , public InParamRangeK<T_CLUSTERIDX>
+  , public InParamRk<T_CLUSTERIDX>
   , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
-  InParamGAClusteringGGA
+  InParamGGA
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
@@ -49,7 +49,7 @@ public:
    )
     : InParamClustering
       (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut,aii_opNorm)
-    , InParamRangeK<T_CLUSTERIDX>()
+    , InParamRk<T_CLUSTERIDX>()
     , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
     , _ui_subPopulationSize(20)
     , _ui_numIsland(4)
@@ -63,7 +63,7 @@ public:
     , _rt_pbf(0.05)  //Probability local search
   {}
 
-  ~InParamGAClusteringGGA() {}
+  ~InParamGGA() {}
 
   inline void setSubPopulationSize(uintidx aiui_subPopulationSize) 
   {
@@ -169,7 +169,7 @@ public:
   virtual void  print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
     InParamClustering::print(aipf_outFile,aic_separator);
-    InParamRangeK<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
+    InParamRk<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
     InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "_sub-population-size"   
 		 << aic_separator << this->_ui_subPopulationSize;
@@ -179,7 +179,7 @@ public:
 		 << aic_separator << this->_rt_pe;
     aipf_outFile << aic_separator << "_number maximum generations" 
 		 << aic_separator << this->_it_numMaxGenerations;
-    InParamRangeK<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
+    InParamRk<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "_initial probability crossover"   
 		 << aic_separator << this->_rt_pci;
     aipf_outFile << aic_separator << "_final probability crossover"   
@@ -213,4 +213,4 @@ protected:
 } /* END namespace inout
    */
 
-#endif /*IN_PARAM_GACLUSTERING_GGA_HPP*/
+#endif /*__IN_PARAM_GGA_HPP__*/

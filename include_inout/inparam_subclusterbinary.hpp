@@ -1,4 +1,4 @@
-/*! \file inparam_clustering_vksubclusterbinary.hpp
+/*! \file inparam_subclusterbinary.hpp
  *
  * \brief Definition of CLUSTERING program parameters
  *
@@ -11,7 +11,7 @@
 #ifndef __IN_PARAM_CLUSTERING_VKSUBCLUSTERBINARY_HPP__
 #define __IN_PARAM_CLUSTERING_VKSUBCLUSTERBINARY_HPP__
 
-#include "inparam_gaclustering_pcpm.hpp"
+#include "inparam_probcprobm.hpp"
 #include "inparam_readinst.hpp"
 
 /*! \namespace inout
@@ -25,7 +25,7 @@
 
 namespace  inout {
     
-/*! \class InParamClusteringVKSubClusterBinary
+/*! \class InParamSubClusterBinary
   \brief Input parameter for CLUSTERING algorithm A genetic approach to the automatic clustering problem\cite Tseng:Yang:GAclusteringVarK:CLUSTERING:2001
 */
   template < typename T_REAL,
@@ -35,23 +35,23 @@ namespace  inout {
 	     typename T_FEATURE_SUM,
 	     typename T_INSTANCES_CLUSTER_K
 	     >
-class InParamClusteringVKSubClusterBinary
-    : public InParamGAClusteringProbCProbM<T_REAL>
+class InParamSubClusterBinary
+    : public InParamPcPm<T_REAL>
     , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
-  InParamClusteringVKSubClusterBinary
+  InParamSubClusterBinary
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
-   int         aii_opNorm
+   int                aii_opNorm
    )
-    : InParamGAClusteringProbCProbM<T_REAL>
+    : InParamPcPm<T_REAL>
       (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm)
     , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
   {}
 
-  ~InParamClusteringVKSubClusterBinary() {}
+  ~InParamSubClusterBinary() {}
 
   inline void setU(T_REAL aitr_u) 
   {
@@ -96,7 +96,7 @@ public:
 
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
-    InParamGAClusteringProbCProbM<T_REAL>::print(aipf_outFile,aic_separator);
+    InParamPcPm<T_REAL>::print(aipf_outFile,aic_separator);
     InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "_u"   
 		 << aic_separator << this->tr_u;
@@ -115,7 +115,7 @@ protected:
   T_REAL  tr_w1;
   T_REAL  tr_w2;
   
-}; /*InParamClusteringVKSubClusterBinary*/
+}; /*InParamSubClusterBinary*/
 
 
 } /*END namespace inout 

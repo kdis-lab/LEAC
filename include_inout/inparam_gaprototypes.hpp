@@ -11,7 +11,7 @@
 #ifndef __IN_PARAM_GAPROTOTYPES_HPP__
 #define __IN_PARAM_GAPROTOTYPES_HPP__
 
-#include "inparam_gaclustering_pcpm_fixedk.hpp"
+#include "inparam_probcprobm_fixedk.hpp"
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -35,7 +35,7 @@ template < typename T_BITSIZE, //-1, 0, 1, .., K
 	   typename T_INSTANCES_CLUSTER_K
 	   >
 class InParamGAPrototypes
-  : public InParamGAClusteringProbCProbMFixedK<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+  : public InParamPcPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
 {
 public:
   InParamGAPrototypes
@@ -44,7 +44,7 @@ public:
    InParam_algTypeOut aiato_algTypeOut,
    int         aii_opNorm
    ) :
-    InParamGAClusteringProbCProbMFixedK
+    InParamPcPmFk
     <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
     (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm) {}
 
@@ -72,7 +72,7 @@ public:
   
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
-    InParamGAClusteringProbCProbMFixedK
+    InParamPcPmFk
       <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
       ::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "_rt_pini" 

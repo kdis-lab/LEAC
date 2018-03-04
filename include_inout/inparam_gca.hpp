@@ -1,4 +1,4 @@
-/*! \file inparam_gamedoidclustering_gca.hpp
+/*! \file inparam_gca.hpp
  *
  * \brief Definition of GCA program parameters
  *
@@ -8,10 +8,10 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_GAMEDOIDCLUSTERING_GCA_HPP
-#define IN_PARAM_GAMEDOIDCLUSTERING_GCA_HPP
+#ifndef __IN_PARAM_GCA_HPP__
+#define __IN_PARAM_GCA_HPP__
 
-#include "inparam_gaclustering_pcpm_fixedk.hpp"
+#include "inparam_probcprobm_fixedk.hpp"
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -24,7 +24,7 @@
 
 namespace  inout {
     
-/*! \class InParamGAMedoidClusteringGCA 
+/*! \class InParamGCA 
   \brief Input parameter for GCA algorithm k-medoid clustering \cite Lucasius:etal:GAclusteringMedoid:GCA:1993
 */
 template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
@@ -33,19 +33,19 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
 	   >
-class InParamGAMedoidClusteringGCA:
-    public InParamGAClusteringProbCProbMFixedK<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+class InParamGCA:
+    public InParamPcPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
 {
 public:
-  InParamGAMedoidClusteringGCA
+  InParamGCA
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
    int                aii_opNorm
    ) :
-    InParamGAClusteringProbCProbMFixedK<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+    InParamPcPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
     (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm) {}
-  ~InParamGAMedoidClusteringGCA() {}
+  ~InParamGCA() {}
   
   inline void setProbMixMutation(T_REAL aiT_probMixMutation) 
   {
@@ -59,7 +59,7 @@ public:
 
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
-    InParamGAClusteringProbCProbMFixedK
+    InParamPcPmFk
       <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
       ::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "_mix mutation probability" 
@@ -76,4 +76,4 @@ protected:
 } /* END namespace inparam
    */
 
-#endif /*IN_PARAM_GAMEDOIDCLUSTERING_GCA_HPP*/
+#endif /*__IN_PARAM_GCA_HPP__*/
