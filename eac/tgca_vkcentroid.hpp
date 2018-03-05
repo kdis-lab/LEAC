@@ -60,9 +60,7 @@ namespace eac {
   \returns the coordinate of a centroid.
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
-  \param aipartitionDisjSets_clusters a partition::PartitionDisjSets of the attribute with maximum range maximum ki segments
-
- is partitioned into  by hierarchical agglomerative clustering algorithm.
+  \param aipartitionDisjSets_clusters a partition::PartitionDisjSets of the attribute with maximum range maximum ki segments is partitioned into  by hierarchical agglomerative clustering algorithm.
   \param function_getAttribute a function to obtain the attributes of an instance
 */
 template < typename CONTAINER_ITERINST,
@@ -150,7 +148,8 @@ tgca_getKSegments
 } /* End */
 
 
-/*! \fn gaencode::ChromVariableLength<T_FEATURE,T_METRIC> tgca_vkcentroid(inout::OutParamEAClustering<T_METRIC,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamTGCA<T_CLUSTERIDX,T_METRIC,T_FEATURE,T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinparam_GAProbRkKmeans, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist)
+/*! \fn gaencode::ChromVariableLength<T_FEATURE,T_METRIC> tgca_vkcentroid(inout::OutParamEAClustering<T_METRIC,
+ T_CLUSTERIDX> &aoop_outParamEAC,inout::InParamTGCA<T_CLUSTERIDX,T_METRIC,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamTGCA, const INPUT_ITERATOR  aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist)
   \brief TGCA \cite He:Tan:GAclusteringVarK:TGCA:2012
   \details Implementation of the TGCA algorithm based on \cite He:Tan:GAclusteringVarK:TGCA:2012. Which automatically finds K cluster using the Variance Ratio Criterion (VRC).
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid. Base to following equation:

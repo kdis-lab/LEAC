@@ -17,7 +17,7 @@
  * \version 1.0
  * \date 2015-2017
  * \authors Hermes Robles <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>
- * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> \endlink license
+ * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
 #ifndef __CLUSTERING_VKSUBCLUSTERBINARY_HPP__
@@ -904,8 +904,7 @@ clustering_genetic
 } /* END clustering_genetic */
 
 
-/*! \fn std::tuple
-<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>, mat::MatrixRow<T_FEATURE>, std::vector<T_INSTANCES_CLUSTER_K>, partition::PartitionDisjSets<T_CLUSTERIDX> > clustering_vksubclusterbinary(inout::OutParamEAClustering <T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamSubClusterBinary<T_REAL,T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamSubClusterBin, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn std::tuple<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>, mat::MatrixRow<T_FEATURE>, std::vector<T_INSTANCES_CLUSTER_K>, partition::PartitionDisjSets<T_CLUSTERIDX> > clustering_vksubclusterbinary(inout::OutParamEAClustering <T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamSubClusterBinary<T_REAL,T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamSubClusterBin, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
  \brief CLUSTERING \cite Tseng:Yang:GAclusteringVarK:CLUSTERING:2001
  \details
  \details Implementation of the CBGA algorithm based on \cite Franti:etal:GAclustering:gafranti:1997.  

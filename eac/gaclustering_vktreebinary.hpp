@@ -20,7 +20,7 @@
  * \version 1.0
  * \date 2015-2017
  * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
- * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> \endlink license
+ * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
  
 
@@ -47,14 +47,14 @@
 
 namespace eac {
 
-/*! \fn std::pair<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>,std::vector<uintidx> > gaclustering_vktreebinary(inout::OutParamEAClustering <T_REAL, T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamGenWOChgRk<T_BITSIZE, T_CLUSTERIDX, T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamVKTreeBinary, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn std::pair<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>,std::vector<uintidx> > gaclustering_vktreebinary(inout::OutParamEAClustering <T_REAL, T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamGenWOChgRk<T_BITSIZE, T_CLUSTERIDX, T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamGenWOChgRk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief GA Clustering \cite Casillas:etal:GAclusteringVarK:GA:2003
   \details Implementation of GA algorithm based on \cite Casillas:etal:GAclusteringVarK:GA:2003. 
- \returns A partition of a data set, encoded on a chromosome with n − 1 binary genes and a minimum spanning Tree (MST) where each gene with value “0” means that this  edge remains and “1” means that this edge is eliminated. The number of elements with value “1” represents the value of k − 1.
-  \param aoop_outParamEAC a OutParamClusteringGA<T_REAL,T_CLUSTERIDX>
-  \param aiinpcgaprobfixedk_inParamGA a inparam::InParamGAClusteringPcPmFk<T_CLUSTERIDX,T_REAL>
+  \returns A partition of a data set, encoded on a chromosome with n − 1 binary genes and a minimum spanning Tree (MST) where each gene with value “0” means that this  edge remains and “1” means that this edge is eliminated. The number of elements with value “1” represents the value of k − 1.
+  \param aoop_outParamEAC a inout::OutParamEAClustering
+  \param aiinp_inParamGenWOChgRk a inparam::InParamGenWOChgRk
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
- \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
+  \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aifunc2p_dist a dist::Dist<T_REAL,T_FEATURE>
 */
 template < typename T_BITSIZE,
@@ -65,8 +65,7 @@ template < typename T_BITSIZE,
 	   typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename INPUT_ITERATOR
 	   >
-std::pair<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>,
-	  std::vector<uintidx> >
+std::pair<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>,std::vector<uintidx> >
 gaclustering_vktreebinary
 (inout::OutParamEAClustering
  <T_REAL,
@@ -103,8 +102,6 @@ gaclustering_vktreebinary
       (T_CLUSTERIDX(((lui_numInstances -1) /2) + 1));
 #endif // _INITIATES_KMIN_KMAX_POPULATION_
 
- 
- 
 #ifdef __VERBOSE_YES
 
   /*ID PROC

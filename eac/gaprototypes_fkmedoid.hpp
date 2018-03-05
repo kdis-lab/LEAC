@@ -18,7 +18,7 @@
  * \version 1.0
  * \date 2015-2017
  * \authors Hermes Robles-Berumen <hermes@uaz.edu.mx>\n Sebastian Ventura <sventura@uco.es>\n Amelia Zafra <azafra@uco.es>\n <a href="http://www.uco.es/kdis/">KDIS</a>
- * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> \endlink license
+ * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
  
 #ifndef __GAPROTOTYPES_FKMEDOID_HPP__
@@ -46,12 +46,12 @@
 namespace eac {
   
 
-/*! \fn gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL> gaprototypes_fkmedoid(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamGAPrototypes<T_BITSIZE,T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinpkkunchevabezdek_inParamGA, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE>   &aifunc2p_dist)
+/*! \fn gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL> gaprototypes_fkmedoid(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamGAPrototypes<T_BITSIZE,T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamGAPrototypes, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE>   &aifunc2p_dist)
   \brief GA-Prototypes \cite Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997
   \details Implementation of the GA-Prototypes algorithm based on \cite Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997.
   \returns A partition of a data set, encoded in a binary chromosome, if the value of the gene is "1" in the i-th position the i-th instance is a medoid
   \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
-  \param aiinpgaprototypes_inParamGA a inout::InParamGAPrototypes parameters required by the algorithm
+  \param aiinp_inParamGAPrototypes a inout::InParamGAPrototypes parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aifunc2p_dist an object of type dist::Dist to calculate distance
@@ -75,15 +75,15 @@ gaprototypes_fkmedoid
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>         &aiinpgaprototypes_inParamGA,
+ T_INSTANCES_CLUSTER_K>         &aiinp_inParamGAPrototypes,
  const INPUT_ITERATOR          aiiterator_instfirst,
  const INPUT_ITERATOR           aiiterator_instlast,
  dist::Dist<T_REAL,T_FEATURE>   &aifunc2p_dist
  )
 {
   const uintidx  luintidx_numClusterK =
-    (uintidx) aiinpgaprototypes_inParamGA.getNumClusterK();
-  const T_REAL   lrt_numClusterK = (T_REAL) aiinpgaprototypes_inParamGA.getNumClusterK();
+    (uintidx) aiinp_inParamGAPrototypes.getNumClusterK();
+  const T_REAL   lrt_numClusterK = (T_REAL) aiinp_inParamGAPrototypes.getNumClusterK();
   const uintidx  luintidx_numIntances =
     uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
 
@@ -101,8 +101,8 @@ gaprototypes_fkmedoid
 
   std::uniform_real_distribution<T_REAL> uniformdis_real01(0,1);
   
-  if ( aiinpgaprototypes_inParamGA.getPini() < 0) {
-    aiinpgaprototypes_inParamGA.setPini
+  if ( aiinp_inParamGAPrototypes.getPini() < 0) {
+    aiinp_inParamGAPrototypes.setPini
       ( (T_REAL)luintidx_numClusterK / (T_REAL)luintidx_numIntances); 
   }
   
@@ -121,26 +121,26 @@ gaprototypes_fkmedoid
       << &lochrombitarray_best << "]\n"
       << "\t output inout::OutParamEAClustering&: aoop_outParamEAC[" 
       << &aoop_outParamEAC << "]\n"
-      << "\t input  InParamClusteringGABezdek1994&: aiinpgaprototypes_inParamGA[" 
-      << &aiinpgaprototypes_inParamGA << "]\n"
+      << "\t input  InParamClusteringGABezdek1994&: aiinp_inParamGAPrototypes[" 
+      << &aiinp_inParamGAPrototypes << "]\n"
       << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
       << "\t input aiiterator_instlast[" <<  &aiiterator_instlast << "]\n"
       << "\t input  dist::Dist<T_REAL,T_FEATURE>  &aifunc2p_dist[" 
       << &aifunc2p_dist << ']'
       << "\n\t\tPopulation size = " 
-      << aiinpgaprototypes_inParamGA.getSizePopulation()
+      << aiinp_inParamGAPrototypes.getSizePopulation()
       << "\n\t\t Generations  = "
-      << aiinpgaprototypes_inParamGA.getNumMaxGenerations()
+      << aiinp_inParamGAPrototypes.getNumMaxGenerations()
       << "\n\t\t Pini  = "
-      << aiinpgaprototypes_inParamGA.getPini()
+      << aiinp_inParamGAPrototypes.getPini()
       << "\n\t\t alpha  = "
-      << aiinpgaprototypes_inParamGA.getAlpha()
+      << aiinp_inParamGAPrototypes.getAlpha()
       << "\n\t\t ProbCrossover = "
-      << aiinpgaprototypes_inParamGA.getProbCrossover() 
+      << aiinp_inParamGAPrototypes.getProbCrossover() 
       << "\n\t\t ProbMutation  = "
-      << aiinpgaprototypes_inParamGA.getProbMutation()
+      << aiinp_inParamGAPrototypes.getProbMutation()
       << "\n\t\trandom-seed = "
-      << aiinpgaprototypes_inParamGA.getRandomSeed()
+      << aiinp_inParamGAPrototypes.getRandomSeed()
       << "\n\t)"
       << std::endl;
   }
@@ -148,7 +148,7 @@ gaprototypes_fkmedoid
 
   runtime::ListRuntimeFunction<COMMON_IDOMAIN>
     llfh_listFuntionHist
-    (aiinpgaprototypes_inParamGA.getNumMaxGenerations(),
+    (aiinp_inParamGAPrototypes.getNumMaxGenerations(),
      "Iterations",
      "Clustering metrics"
      );
@@ -164,23 +164,23 @@ gaprototypes_fkmedoid
     *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL>       lvectorT_statfuncObjetiveFunc;
   
-  if ( aiinpgaprototypes_inParamGA.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamGAPrototypes.getWithPlotStatObjetiveFunc() ) {  
     
     lvectorT_statfuncObjetiveFunc.reserve
-      ( aiinpgaprototypes_inParamGA.getSizePopulation());
+      ( aiinp_inParamGAPrototypes.getSizePopulation());
     //DEFINE FUNCTION
     lofh_J1  = new runtime::RuntimeFunctionValue<T_REAL>
       ("J1", 
-       aiinpgaprototypes_inParamGA.getAlgorithmoName(),
+       aiinp_inParamGAPrototypes.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
     llfh_listFuntionHist.addFuntion(lofh_J1);
 
-    if ( aiinpgaprototypes_inParamGA.getClassInstanceColumn()  ) {
+    if ( aiinp_inParamGAPrototypes.getClassInstanceColumn()  ) {
       lofh_errorBezdek = new runtime::RuntimeFunctionValue<T_INSTANCES_CLUSTER_K>
 	("ErrorBezdek", 
-	 aiinpgaprototypes_inParamGA.getAlgorithmoName(),
+	 aiinp_inParamGAPrototypes.getAlgorithmoName(),
 	 RUNTIMEFUNCTION_NOT_STORAGE
 	 );
       llfh_listFuntionHist.addFuntion(lofh_errorBezdek);
@@ -192,7 +192,7 @@ gaprototypes_fkmedoid
 	new runtime::RuntimeFunctionStat
 	<T_REAL>
 	( (char) li_i,
-	  aiinpgaprototypes_inParamGA.getAlgorithmoName(),
+	  aiinp_inParamGAPrototypes.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
@@ -200,8 +200,8 @@ gaprototypes_fkmedoid
   
     //OPEN FILE STRORE FUNCTION
     aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
-      (aiinpgaprototypes_inParamGA.getFileNamePlotStatObjetiveFunc(),
-       aiinpgaprototypes_inParamGA.getTimesRunAlgorithm()
+      (aiinp_inParamGAPrototypes.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamGAPrototypes.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
@@ -229,15 +229,15 @@ gaprototypes_fkmedoid
   /*SPACE FOR STORE POPULATION
    */
   lvectorchrom_population.reserve
-    ( aiinpgaprototypes_inParamGA.getSizePopulation() );
+    ( aiinp_inParamGAPrototypes.getSizePopulation() );
 
   /*SPACE FOR STORE MATINGPOOL
    */
   lvectorchrom_matingPool.reserve
-    ( aiinpgaprototypes_inParamGA.getSizePopulation() );
+    ( aiinp_inParamGAPrototypes.getSizePopulation() );
 
   lvectorchrom_setO.reserve
-    ( aiinpgaprototypes_inParamGA.getSizePopulation() );
+    ( aiinp_inParamGAPrototypes.getSizePopulation() );
 
   
   {/*BEGIN 1. INITIALIZE POPULATION*/
@@ -257,7 +257,7 @@ gaprototypes_fkmedoid
     /*CREATE SPACE FOR STORE POPULATION-----------------------------------------
      */
     for (uintidx lui_i = 0; 
-	 lui_i < aiinpgaprototypes_inParamGA.getSizePopulation(); 
+	 lui_i < aiinp_inParamGAPrototypes.getSizePopulation(); 
 	 lui_i++) 
       {
 	lvectorchrom_population.push_back
@@ -278,7 +278,7 @@ gaprototypes_fkmedoid
 	 [&]() 
 	 {
 	   return (uniformdis_real01(gmt19937_eng)
-		   <= aiinpgaprototypes_inParamGA.getPini());
+		   <= aiinp_inParamGAPrototypes.getPini());
 	 }
 	 );
 
@@ -324,7 +324,7 @@ gaprototypes_fkmedoid
 
 	T_REAL lrt_pmod = (T_REAL) lmatrixt_v.getNumRows();
    
-	lT_j1 +=  aiinpgaprototypes_inParamGA.getAlpha()
+	lT_j1 +=  aiinp_inParamGAPrototypes.getAlpha()
 	  *(lrt_pmod-lrt_numClusterK)*(lrt_pmod-lrt_numClusterK);
       }
       
@@ -348,9 +348,9 @@ gaprototypes_fkmedoid
 
 
   while ( (llfh_listFuntionHist.getDomainUpperBound() < 
-	   aiinpgaprototypes_inParamGA.getNumMaxGenerations()) &&
+	   aiinp_inParamGAPrototypes.getNumMaxGenerations()) &&
 	  (runtime::elapsedTime(let_executionTime) <
-	   aiinpgaprototypes_inParamGA.getMaxExecutiontime() ) ) {
+	   aiinp_inParamGAPrototypes.getMaxExecutiontime() ) ) {
    
     llfh_listFuntionHist.increaseDomainUpperBound();
 
@@ -417,7 +417,7 @@ gaprototypes_fkmedoid
 	      *aochrom_child2,
 	      *aichrom_parent1,
 	      *aichrom_parent2,
-	      aiinpgaprototypes_inParamGA.getProbCrossover()
+	      aiinp_inParamGAPrototypes.getProbCrossover()
 	      );
 	  
 	   aochrom_child1->setObjetiveFunc(std::numeric_limits<double>::max());
@@ -453,7 +453,7 @@ gaprototypes_fkmedoid
       
 	gabinaryop::eachBitArrayMutation
 	  (*lchrombitarray_iter,
-	   aiinpgaprototypes_inParamGA.getProbMutation(),
+	   aiinp_inParamGAPrototypes.getProbMutation(),
 	   [&]() 
 	   {
 	     return uniformdis_real01(gmt19937_eng);
@@ -536,7 +536,7 @@ gaprototypes_fkmedoid
 
 	  T_REAL lrt_pmod = (T_REAL) lmatrixt_v.getNumRows();
    
-	  lT_j1 +=  aiinpgaprototypes_inParamGA.getAlpha()
+	  lT_j1 +=  aiinp_inParamGAPrototypes.getAlpha()
 	    *(lrt_pmod-lrt_numClusterK)*(lrt_pmod-lrt_numClusterK);
 	}
       
@@ -661,7 +661,7 @@ gaprototypes_fkmedoid
 	AND METRIC OF THE ALGORITHM
       */
 #ifndef __WITHOUT_PLOT_STAT  
-    if ( aiinpgaprototypes_inParamGA.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamGAPrototypes.getWithPlotStatObjetiveFunc() ) {  
       lofh_J1->setValue(lvectorchrom_population[0]->getFitness());
       functionhiststat_evaluateAll
 	(lofhs_statObjectiveFunc,
