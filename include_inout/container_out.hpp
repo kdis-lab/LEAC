@@ -126,7 +126,6 @@ void  maplistprint
  const char aic_delimRow  = ';'
  )
 {
-  //std::map<T,std::list<T> >::const_iterator
   auto lconstit_listAdj = aimaplistadj_g.begin();
   out << aipc_label;
   while ( lconstit_listAdj != aimaplistadj_g.end() ) {
@@ -138,32 +137,6 @@ void  maplistprint
   out << std::endl;
 }
 
-
-/*! \fn void  print(const std::vector<std::list<uintidx> > &aivectorlistadj_g, std::ostream &out=std::cout, const char *aipc_label   = "", const char aic_delimCoef = ',', const char aic_delimRow  = ';')
-    \brief Prints graph of a vector structure with list of adjacencies
-    \details
-    \param aivectorlistadj_g a map de list
-    \param out  a std::ostream
-    \param aipc_label a label of graph
-    \param aic_delimCoef a separtor item separator
-    \param aic_delimRow a separtor item separator
- 
-void  print
-(const std::vector<std::list<uintidx> > &aivectorlistadj_g,
- std::ostream &out=std::cout,
- const char *aipc_label   = "",
- const char aic_delimCoef = ',',
- const char aic_delimRow  = ';'
- )
-{
-  out << aipc_label
-      << aivectorlistadj_g
-      << std::endl;
-  
-}
-*/  
-
- 
   
 template<typename T>
 void  vectorlistprint
@@ -199,105 +172,8 @@ void  vectorlistprint
     }
   }
 }
-  
-  
+    
 } /*END namespace inout*/
 
-/*
-template <class T>
-std::vector<T>
-vectorutil_keepItems
-(const std::vector<T>  &aivector_b,
- std::vector<uintidx>  &aivectorcidx_items
- )
-{
-  std::vector<T> lovector_keep
-    (aivectorcidx_items.size());
 
-  for ( uintidx luintidx_i = 0; luintidx_i < lovector_keep.size(); luintidx_i++) {
-    lovector_keep[luintidx_i] = aivector_b.at(aivectorcidx_items.at(luintidx_i));
-  }
-   
-  return lovector_keep;
-}
-
-template <class T>
-std::vector<T>
-vectorutil_normalized01
-(const std::vector<T>  &aivectort_data)
-{
-#ifdef __VERBOSE_YES
-  const char* lpc_labelFunc = "vectorutil_normalized01";
-  ++geiinparam_verbose;
-  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc 
-              << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "(input aivectort_data[" << &aivectort_data << "]:"
-	      << aivectort_data
-	      << "\n)"
-	      << std::endl;
-  }
-#endif //__VERBOSE_YES
-  
-  T lT_min;
-  T lT_max;
-  T lT_delta;
-  std::vector<T> lovector_norm;
-  
-  lovector_norm.reserve(aivectort_data.size());
-  lT_min = 
-    *std::min_element(std::begin(aivectort_data),std::end(aivectort_data));
-  lT_max =
-    *std::max_element(std::begin(aivectort_data),std::end(aivectort_data));
-  lT_delta = lT_max - lT_min;
-
-  std::for_each
-    (aivectort_data.begin(),
-     aivectort_data.end(),
-     [&](const T& liter_elem)
-     {
-       lovector_norm.push_back((liter_elem - lT_min) / lT_delta);
-     }
-     ); 
-
-#ifdef __VERBOSE_YES
-  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc
-	      << ": OUT(" << geiinparam_verbose << ")\n"
-	      << "lovector_norm[" << &lovector_norm << "]:"
-	      << lovector_norm
-	      << std::endl;
-  }
-  --geiinparam_verbose;
-#endif //__VERBOSE_YES
-  
-  return lovector_norm;
-}
-
-std::vector<std::string> 
-vectorutil_foundStrings
-(const std::vector<std::string> &aivectorstr_stringsToSearch,
- const std::string              &aistr_stringToFound
- )
-{
-  std::vector<std::string> lovector_stringsFound(0);
-  lovector_stringsFound.reserve(aivectorstr_stringsToSearch.size()/2);
-
-  std::for_each 
-    (std::begin(aivectorstr_stringsToSearch), 
-     std::end(aivectorstr_stringsToSearch), 
-     [&](const std::string literstr_nameFile) 
-     {
-       std::size_t found = literstr_nameFile.find(aistr_stringToFound);
-       if ( found != std::string::npos) {
-	 lovector_stringsFound.push_back(literstr_nameFile);
-       }
-     }
-     );
-
-  return lovector_stringsFound;
-
-}
-
-*/
 #endif /*__CONTAINER_OUT_HPP*/
