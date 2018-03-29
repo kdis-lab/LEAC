@@ -1,5 +1,5 @@
 #run:
-# awk -f zoo_binary.awk -F ',' -v OFS=','  zoo.data > zoo_bin.csv
+# awk -f zoo_binary.awk -F "," -v OFS=","  zoo.data > zoo_bin.csv
 BEGIN {
 
     h1 = "animalname";
