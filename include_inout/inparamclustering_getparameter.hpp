@@ -1347,21 +1347,28 @@ template<typename T_CLUSTERIDX,
 
 #if defined(ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993) ||			\
   defined(ALG_GCA_MEDOIDBASED_MULTIINSTCLUSTERING_LUCASIUS_ETAL1993)
-  std::cout << "      --number-clusters[=NUMBER]       number of clusters [NUMBER=" 
+  std::cout << "      --number-clusters[=NUMBER]\n"
+	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
-  std::cout << "      --generations[=NUMBER]           number of generations or iterations [NUMBER="
+  std::cout << "      --generations[=NUMBER]  number of generations or\n" 
+	    << "                              iterations [NUMBER="
 	    << aoipc_inParamClustering.getNumMaxGenerations()
 	    << "]\n";
-  std::cout << "      --population-size[=NUMBER]       size of population [NUMBER="
+  std::cout << "      --population-size[=NUMBER]\n"
+	    << "                              size of population either 10 or 20\n"
+	    << "                                [NUMBER="
 	    << aoipc_inParamClustering.getSizePopulation()
 	    << "]\n";
-  std::cout << "      --mix-recombination-probability[=NUMBER] real number in the interval [0.5, 0.9] [NUMBER="
+  std::cout << "      --mix-recombination-probability[=NUMBER] real number\n" 
+	    << "                              in the interval [0.5, 0.9] [NUMBER="
 	    << aoipc_inParamClustering.getProbCrossover() 
 	    << "]\n";
-  std::cout << "      --point-mutation-probability[=NUMBER]  real number in the interval [0.2, 0.4] [NUMBER="
+  std::cout << "      --point-mutation-probability[=NUMBER]  real number\n"  
+	    << "                              in the interval [0.2, 0.4] [NUMBER="
 	    << aoipc_inParamClustering.getProbMutation()
 	    << "]\n";
-  std::cout << "      --mix-mutation-probability[=NUMBER] real number in the interval [0, 0.125] [NUMBER="
+  std::cout << "      --mix-mutation-probability[=NUMBER] real number in the\n" 
+	    << "                              interval [0, 0.125] [NUMBER="
 	    << aoipc_inParamClustering.getProbMixMutation()
 	    << "]\n";
 #endif /*ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993 ||
@@ -1415,17 +1422,23 @@ template<typename T_CLUSTERIDX,
 #ifdef  ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997
   const char   *las_opSelectMethod[] = INPARAMCLUSTERING_CBGA_SELECMETH;
 
-  std::cout << "      --number-clusters[=NUMBER]       number of clusters [NUMBER=" 
+  std::cout << "      --number-clusters[=NUMBER]\n"
+	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
-  std::cout << "      --population-size[=NUMBER]       size of population [NUMBER="
-	    << aoipc_inParamClustering.getSizePopulation()
-	    << "]\n";
-  std::cout << "      --mutation-probability[=NUMBER]  real number in the interval [0, 1.0] [NUMBER="
-	    << aoipc_inParamClustering.getProbMutation()
-	    << "]\n";
-  std::cout << "      --generations[=NUMBER]           number of generations or iterations [NUMBER="
+  std::cout << "      --generations[=NUMBER]  number of generations or iterations\n"
+	    << "                               [NUMBER="
 	    << aoipc_inParamClustering.getNumMaxGenerations()
 	    << "]\n";
+  std::cout << "      --population-size[=NUMBER]\n"
+	    << "                               size of population [NUMBER="
+	    << aoipc_inParamClustering.getSizePopulation()
+	    << "]\n";
+  std::cout << "      --mutation-probability[=NUMBER]\n"
+	    << "                              real number in the interval [0, 1.0]\n"
+	    << "                                [NUMBER="
+	    << aoipc_inParamClustering.getProbMutation()
+	    << "]\n";
+ 
   std::cout << "      --select-method[=NAME]           ";
   li_i = 0;
   while (las_opSelectMethod[li_i+1] !=  NULL) {
@@ -1436,22 +1449,26 @@ template<typename T_CLUSTERIDX,
 	    << las_opSelectMethod[li_i] << ", by default " 
 	    << las_opSelectMethod[aoipc_inParamClustering.getOpSelectMethod()]
 	    << '\n';
-  std::cout << "      --gla-iterations[=NUMBER]       number of GLA iterations [NUMBER="
+  std::cout << "      --gla-iterations[=NUMBER] number of GLA iterations [NUMBER="
 	    << aoipc_inParamClustering.getNumGLAIterations()
 	    << "]\n";
 #endif  /*ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997*/
 
 
 #ifdef ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
-  std::cout << "      --number-clusters[=NUMBER]       number of clusters [NUMBER=" 
+  std::cout << "      --number-clusters[=NUMBER]\n"
+	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
-  std::cout << "      --generations[=NUMBER]           number of generations or iterations [NUMBER="
+  std::cout << "      --generations[=NUMBER]  number of generations or iterations\n"
+	    << "                               [NUMBER="
 	    << aoipc_inParamClustering.getNumMaxGenerations()
 	    << "]\n";
-  std::cout << "      --population-size[=NUMBER]       size of population [NUMBER="
+  std::cout << "      --population-size[=NUMBER]\n"
+	    << "                               size of population [NUMBER="
 	    << aoipc_inParamClustering.getSizePopulation()
 	    << "]\n";
-  std::cout << "      --matingpool-size[=NUMBER]       size of mating pool [NUMBER="
+  std::cout << "      --matingpool-size[=NUMBER]\n"
+	    << "                               size of mating pool [NUMBER="
 	    << aoipc_inParamClustering.getSizeMatingPool() 
 	    << "]\n";
 #endif  /*ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994*/
@@ -1459,17 +1476,21 @@ template<typename T_CLUSTERIDX,
 #if defined(ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999) ||	\
   defined(ALG_IGKA_FKLABEL_LU_ETAL2004) || \
   defined(ALG_FGKA_FKLABEL_LU_ETAL2004)
-  
-  std::cout << "      --number-clusters[=NUMBER]       number of clusters [NUMBER=" 
+  std::cout << "      --number-clusters[=NUMBER]\n"
+	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
-  std::cout << "      --population-size[=NUMBER]       size of population [NUMBER="
+  std::cout << "      --generations[=NUMBER]  number of generations or iterations\n"
+	    << "                               [NUMBER="
+	    << aoipc_inParamClustering.getNumMaxGenerations()
+	    << "]\n";
+  std::cout << "      --population-size[=NUMBER]\n"
+	    << "                               size of population [NUMBER="
 	    << aoipc_inParamClustering.getSizePopulation()
 	    << "]\n";
-  std::cout << "      --mutation-probability[=NUMBER]  real number in the interval [0, 1.0] [NUMBER="
+  std::cout << "      --mutation-probability[=NUMBER]\n"
+	    << "                              real number in the interval [0, 1.0]\n"
+	    << "                                [NUMBER="
 	    << aoipc_inParamClustering.getProbMutation()
-	    << "]\n";
-  std::cout << "      --generations[=NUMBER]           number of generations or iterations [NUMBER="
-	    << aoipc_inParamClustering.getNumMaxGenerations()
 	    << "]\n";
 #endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999
 	 ALG_IGKA_FKLABEL_LU_ETAL2004
@@ -1477,12 +1498,15 @@ template<typename T_CLUSTERIDX,
        */
 
 #ifdef  ALG_GAGR_FKCENTROID_CHANG_ETAL_2009
-  std::cout << "      --number-clusters[=NUMBER]       number of clusters [NUMBER=" 
+  std::cout << "      --number-clusters[=NUMBER]\n"
+	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
-  std::cout << "      --generations[=NUMBER]           number of generations or iterations [NUMBER="
+  std::cout << "      --generations[=NUMBER]  number of generations or iterations\n"
+	    << "                               [NUMBER="
 	    << aoipc_inParamClustering.getNumMaxGenerations()
 	    << "]\n";
-  std::cout << "      --population-size[=NUMBER]       size of population [NUMBER="
+  std::cout << "      --population-size[=NUMBER]\n"
+	    << "                              size of population [NUMBER="
 	    << aoipc_inParamClustering.getSizePopulation()
 	    << "]\n";
 #endif  /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
