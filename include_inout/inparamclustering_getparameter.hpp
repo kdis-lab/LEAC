@@ -1,4 +1,4 @@
-/*! \file inparamclustering_getparameter.hpp
+ /*! \file inparamclustering_getparameter.hpp
  *
  * \brief  inparam clustering get parameter
  *
@@ -21,136 +21,31 @@
 #include "vector_utils.hpp"
 #include "file_utils.hpp"
 
-
-#ifdef  ALG_KMEANS_FORGY_MACQUEEN_1967
-#include "inparam_clustering_clasic.hpp"
-#endif /* ALG_KMEANS_FORGY_MACQUEEN_1967 */
-
-#ifdef ALG_SLINK_SIBSON_1973
-#include "inparam_clustering_slink.hpp"
-#endif /*ALG_SLINK_SIBSON_1973 */
-
-#ifdef  ALG_ISODATA_BALL_HALL_1967
-#include "inparam_clustering_isodata.hpp"
-#endif /*ALG_ISODATA_BALL_HALL_1967*/
-
-#ifdef  ALG_FCM_BEZDEK_1973
-#include "inparam_clustering_fcm.hpp"
-#endif /*ALG_FCM_BEZDEK_1973*/
-
-#ifdef ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990
-#include "inparam_clustering_medoidspam.hpp"
-#endif /*ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990*/
-
-#ifdef ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996
-#include "inparam_clustering_dbscan.hpp"
-#endif /*ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996*/
-
-#ifdef ALG_STDVAR_MILLIGAN_COOPER1988
-#include "inparam_stdvar.hpp"
-#endif //ALG_STDVAR_MILLIGAN_COOPER1988
-
-#ifdef  ALG_PCA_PEARSON_1901  
-#include "inparam_pca.hpp"
-#endif //ALGORITHM PCA
-
-#ifdef  ALG_PCATRANSMATRIX_PEARSON_1901
-#include "inparam_pca.hpp"
-#endif //ALG_PCATRANSMATRIX_PEARSON_1901
-
-#ifdef  ALG_PLOT_CLUSTERING
 #include "inparam_plotclustering.hpp"
-#endif //ALG_PLOT_CLUSTERING
-
-
-#if defined(ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||	\
-  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) ||			\
-  defined(ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002)
-
 #include "inparam_probcprobm_fixedk.hpp"
-
-#endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||
-	 ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) ||
-	 ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002 ||
-       */
-
-#if defined(ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999) ||	\
-  defined(ALG_IGKA_FKLABEL_LU_ETAL2004) || \
-  defined(ALG_FGKA_FKLABEL_LU_ETAL2004)
-
 #include "inparam_probm_fixedk.hpp"
-
-#endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999
-	 ALG_IGKA_FKLABEL_LU_ETAL2004
-         ALG_FGKA_FKLABEL_LU_ETAL2004)
-       */
-
-
-#ifdef  ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997
 #include "inparam_cbga.hpp"
-#endif /*ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997*/
-
-#ifdef  ALG_GAGR_FKCENTROID_CHANG_ETAL_2009
 #include "inparam_adaptiveprobcprobm.hpp"
-#endif /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
-
-#ifdef  ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993
 #include "inparam_gca.hpp"
-#endif /*ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993*/
-
-#ifdef ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997
 #include "inparam_gaprototypes.hpp"
-#endif /*ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997*/
-
-#ifdef ALG_HKA_FKMEDOID_SHENG_LUI2004
 #include "inparam_hka.hpp"
-#endif /*ALG_HKA_FKMEDOID_SHENG_LUI2004*/
-
-#ifdef ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
 #include "inparam_withoutprobcprobm.hpp"
-#endif /*ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994*/
-
-
-#ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
 #include "inparam_probcprobm_rangek.hpp"
-#endif /*ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002*/
-
-#ifdef ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003
 #include "inparam_probcprobm_rangek.hpp"
-#endif /*ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003*/
-
-#if defined(ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) || \
-  defined(ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
 #include "inparam_feac.hpp"
-#endif /*ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) ||	\
-	 ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) ||	\
-         ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-         ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-	 ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
-       */
-
-#ifdef ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003
 #include "inparam_genwochg_rangek.hpp"
-#endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
-
-#ifdef ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001
 #include "inparam_subclusterbinary.hpp"
-#endif /*ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001*/
-
-#ifdef ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
 #include "inparam_tgca.hpp"
-#endif /*ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
-	*/
-
-#if defined(ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012) || \
-  defined(ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012)
 #include "inparam_gga.hpp"
-#endif /*ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012 ||	\
-	 ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012
-       */
+
+#include "inparam_stdvar.hpp"
+#include "inparam_clustering_clasic.hpp"
+#include "inparam_clustering_slink.hpp"
+#include "inparam_clustering_isodata.hpp"
+#include "inparam_clustering_fcm.hpp"
+#include "inparam_clustering_medoidspam.hpp"
+#include "inparam_clustering_dbscan.hpp"
+#include "inparam_pca.hpp"
 
 extern char  *optarg;
 
@@ -190,28 +85,39 @@ inparamclustering_usage
 
   
 #ifdef  ALG_SLINK_SIBSON_1973
-template <typename T_CLUSTERIDX> 
+template <typename T_CLUSTERIDX,
+	  typename T_FEATURE,
+	  typename T_INSTANCES_CLUSTER_K
+	 > 
 void
 inparamclustering_usage
 (char                                   *argv0, 
- InParamClusteringSlink<T_CLUSTERIDX>  &aoipc_inParamClustering
+ InParamClusteringSlink<T_CLUSTERIDX,T_FEATURE,T_INSTANCES_CLUSTER_K>  &aoipc_inParamClustering
 )
 #endif /*ALG_SLINK_SIBSON_1973*/
   
 
 #ifdef  ALG_PCA_PEARSON_1901 
+template < typename T_FEATURE,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_CLUSTERIDX
+	   >
   void
   inparamclustering_usage
   (char         *argv0, 
-   InParamPCA   &aoipc_inParamClustering
+   InParamPCA<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>   &aoipc_inParamClustering
    )
 #endif /* ALG_PCA_PEARSON_1901 */
 
-#ifdef  ALG_PCATRANSMATRIX_PEARSON_1901 
+#ifdef  ALG_PCATRANSMATRIX_PEARSON_1901
+template < typename T_FEATURE,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_CLUSTERIDX
+	   > 
   void
   inparamclustering_usage
   (char                   *argv0, 
-   InParamPCAtransmatrix  &aoipc_inParamClustering
+   InParamPCAtransmatrix<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>  &aoipc_inParamClustering
    )
 #endif /* ALG_PCATRANSMATRIX_PEARSON_1901 */
 
@@ -241,15 +147,17 @@ template < typename T_FEATURE,
 
 
 #ifdef ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990
-  template <typename T_CLUSTERIDX,
-	    typename T_FEATURE
-           > 
+template <typename T_CLUSTERIDX,
+          typename T_FEATURE,
+	  typename T_INSTANCES_CLUSTER_K
+          > 
   void
   inparamclustering_usage
   (char                         *argv0, 
    InParamClusteringMedoidsPAM
    <T_CLUSTERIDX,
-   T_FEATURE>                   &aoipc_inParamClustering
+   T_FEATURE,
+   T_INSTANCES_CLUSTER_K>                   &aoipc_inParamClustering
    )
 #endif /*ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990*/
 
@@ -313,20 +221,21 @@ inparamclustering_usage
   \cite{Ester:Kriegel:Sander:Xu:Clustering:DBSCAN:1996}
 */
 #ifdef ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996
-  template <typename T_FEATURE>  
+template < typename T_FEATURE,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_CLUSTERIDX
+	  >     
   void 
   inparamclustering_usage
   (char *argv0, 
-   InParamClusteringDBSCAN<T_FEATURE>  &aoipc_inParamClustering
+   InParamClusteringDBSCAN<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>  &aoipc_inParamClustering
    )
 
 #endif /*ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996*/
 
-//#ifdef  ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996
-
   
 #if defined(ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||	\
-  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) ||			\
+  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) || \
   defined(ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002)
   
   
@@ -350,7 +259,6 @@ inparamclustering_usage
 #endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||
 	 ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) ||
 	 ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002 ||
-  
        */
 
 #ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
@@ -985,7 +893,7 @@ template<typename T_CLUSTERIDX,
   std::cout << "      --epsilon[=NUMBER]      epsilon value [NUMBER="
 	    << aoipc_inParamClustering.getEpsilon()
 	    << "]\n"; 
-  std::cout << "      --weighting-exponent[=NUMBER]\n" <<
+  std::cout << "      --weighting-exponent[=NUMBER]\n"
 	    << "                              m = weighting exponent [NUMBER=" 
 	    << aoipc_inParamClustering.getWeightingExponent() 
 	    << "], m != 1\n"; 
@@ -1575,22 +1483,26 @@ inparamclustering_getParameter
 #ifdef  ALG_PCA_PEARSON_1901
 
 #include "inparam_pca.hpp"
-  
+template < typename T_FEATURE,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_CLUSTERIDX
+	   > 
 void 
 inparamclustering_getParameter
-(InParamPCA   &aoipc_inParamClustering,
- int          argc, 
- char         **argv
- )
+  (InParamPCA<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>   &aoipc_inParamClustering,
+   int          argc, 
+   char         **argv
+   )
 #endif /* ALG_PCA_PEARSON_1901 */
 
 #ifdef  ALG_PCATRANSMATRIX_PEARSON_1901
-  
-// #include "inparam_pca.hpp"
-  
+  template < typename T_FEATURE,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_CLUSTERIDX
+	   > 
   void 
   inparamclustering_getParameter
-  (InParamPCAtransmatrix   &aoipc_inParamClustering,
+  (InParamPCAtransmatrix<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>   &aoipc_inParamClustering,
    int          argc, 
    char         **argv
    )
@@ -1630,11 +1542,17 @@ inparamclustering_getParameter
 #endif /*ALG_KMEANS_FORGY_MACQUEEN_1967 */
 
 #ifdef ALG_SLINK_SIBSON_1973
-  template <typename T_CLUSTERIDX>
+
+template <typename T_CLUSTERIDX,
+	  typename T_FEATURE,
+	  typename T_INSTANCES_CLUSTER_K
+	 >
   void 
   inparamclustering_getParameter
   (InParamClusteringSlink
-   <T_CLUSTERIDX>           &aoipc_inParamClustering,
+   <T_CLUSTERIDX,
+   T_FEATURE,
+   T_INSTANCES_CLUSTER_K>   &aoipc_inParamClustering,
    int                      argc, 
    char                     **argv
    )
@@ -1642,15 +1560,16 @@ inparamclustering_getParameter
 
 
 #ifdef  ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990
-
 template <typename T_CLUSTERIDX,
-            typename T_FEATURE
-           >
+          typename T_FEATURE,
+	  typename T_INSTANCES_CLUSTER_K
+          > 
 void 
 inparamclustering_getParameter
 (InParamClusteringMedoidsPAM
  <T_CLUSTERIDX,
-  T_FEATURE>                   &aoipc_inParamClustering,
+ T_FEATURE,
+ T_INSTANCES_CLUSTER_K>        &aoipc_inParamClustering,
   int                          argc, 
   char                         **argv
 )
@@ -1701,12 +1620,18 @@ inparamclustering_getParameter
   \cite{Ester:Kriegel:Sander:Xu:Clustering:DBSCAN:1996}
 */
 #ifdef ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996
-  template <typename T_FEATURE> 
+template < typename T_FEATURE,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_CLUSTERIDX
+	  >
   void 
   inparamclustering_getParameter
-  (InParamClusteringDBSCAN<T_FEATURE>      &aoipc_inParamClustering,
-   int                                     argc, 
-   char                                    **argv
+  (InParamClusteringDBSCAN
+   <T_FEATURE,
+   T_INSTANCES_CLUSTER_K,
+   T_CLUSTERIDX>           &aoipc_inParamClustering,
+   int                     argc, 
+   char                    **argv
    )
 #endif /*ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996*/
 
@@ -2168,9 +2093,9 @@ inparamclustering_getParameter
 
   
 #if defined(ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||	\
-  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) ||			\
+  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) || \
   defined(ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002)
-  const char   *las_optAlgMurthyChowdhury1996[] = 
+  const char   *lastr_inParamPcPmFk[] = 
     {"number-clusters",
      "population-size", 
      "crossover-probability", 
@@ -2545,7 +2470,7 @@ inparamclustering_getParameter
 
 
 #if defined(ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||	\
-  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) ||			\
+  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) || \
   defined(ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002)
       {"number-clusters",         required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
@@ -3360,12 +3285,12 @@ inparamclustering_getParameter
 
       
 #if defined(ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||	\
-  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) ||			\
+  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) || \
   defined(ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002)
   
-      else if ( strcmp
+      else if ( strcmp /*number-clusters*/
 	   (long_options[option_index].name,
-	    las_optAlgMurthyChowdhury1996[0] ) == 0 ) 
+	    lastr_inParamPcPmFk[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_numClusterK;
 	  liss_stringstream.clear();
@@ -3373,9 +3298,9 @@ inparamclustering_getParameter
 	  liss_stringstream >> lmcidxT_numClusterK;
 	  aoipc_inParamClustering.setNumClusterK(lmcidxT_numClusterK);
 	}
-      else if ( strcmp
+      else if ( strcmp /*population-size*/
 		(long_options[option_index].name,
-		 las_optAlgMurthyChowdhury1996[1]) == 0 
+		 lastr_inParamPcPmFk[1]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -3383,9 +3308,9 @@ inparamclustering_getParameter
 	  liss_stringstream >> luintidx_read;
 	  aoipc_inParamClustering.setSizePopulation(luintidx_read);
 	}
-      else if ( strcmp
+      else if ( strcmp /*crossover-probability*/
 		(long_options[option_index].name,
-		 las_optAlgMurthyChowdhury1996[2]) == 0 
+		 lastr_inParamPcPmFk[2]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityCrossover;
@@ -3395,9 +3320,9 @@ inparamclustering_getParameter
 	  liss_stringstream >> lT_readProbabilityCrossover;
 	  aoipc_inParamClustering.setProbCrossover(lT_readProbabilityCrossover);
 	}
-      else if ( strcmp
+      else if ( strcmp /*mutation-probability*/
 		(long_options[option_index].name,
-		 las_optAlgMurthyChowdhury1996[3]) == 0 
+		 lastr_inParamPcPmFk[3]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityMutation;
@@ -3407,9 +3332,9 @@ inparamclustering_getParameter
 	  liss_stringstream >> lT_readProbabilityMutation;
 	  aoipc_inParamClustering.setProbMutation(lT_readProbabilityMutation);
 	}
-      else if ( strcmp
+      else if ( strcmp /*generations*/
 		(long_options[option_index].name,
-		 las_optAlgMurthyChowdhury1996[4]) == 0 
+		 lastr_inParamPcPmFk[4]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -3423,7 +3348,7 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name,
-	   las_optAlgMurthyChowdhury1996
+	   lastr_inParamPcPmFk
 	   );
       }
 #endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||  
