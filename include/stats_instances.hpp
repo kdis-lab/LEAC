@@ -125,9 +125,12 @@ meanVector
 
 
 /*! \fn void sumFeactures (T_FEATURE_SUM *aoarrayt_sumFeactures, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const T_FEATURE ait_initialValue)
-   \brief
+   \brief Add the instances by attributes
    \details
-   \param
+   \param aoarrayt_sumFeactures an output vector with the sum of the instances 
+   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
+   \param ait_initialValue value with which the output vector is initialized
 */
 template < typename INPUT_ITERATOR,
 	   typename T_FEATURE_SUM,
@@ -200,9 +203,13 @@ sumFeactures
 
 /*! \fn uintidx sumFeacturesFreq (T_FEATURE_SUM *aoarrayt_sumFeactures, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const T_FEATURE ait_initialValue, const FUNCTIONFREQ func_freq
  )
-   \brief
-   \details
-   \param
+   \brief Add the instances with frequency by attributes
+   \details 
+   \param aoarrayt_sumFeactures an output vector with the sum of the instances 
+   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
+   \param ait_initialValue value with which the output vector is initialized
+   \param func_freq a function that gets the frequency of the instance that is adding up
 */
 template < typename INPUT_ITERATOR,
 	   typename T_FEATURE_SUM,
@@ -290,9 +297,10 @@ sumFeacturesFreq
 
 
 /*! \fn std::vector<T_FEATURE> meanRow (const mat::MatrixRow<T_FEATURE>& aimatrixrowt_instances)
-   \brief
-   \details
-   \param
+   \brief  Obtiene un vector con la media de una matriz  por columnas
+   \details Get a vector with the mean of one matrix per row
+   \param aimatrixrowt_instances a matrix with the data to average
+   \return vector with the mean by row
 */
 template < typename T_FEATURE, 
 	   typename T_FEATURE_SUM
@@ -364,9 +372,12 @@ meanRow
 }
 
 /*! \fn void sumFeacturesSQ (T_FEATURE_SUM *aoarrayt_sumFeacturesSQ, T_FEATURE *aiarrayt_meanFeactures, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR  aiiterator_instlast)
-   \brief
-   \details
-   \param
+   \brief Gets the sum of the difference of the instances with the mean and the result square
+   \details 
+   \param aoarrayt_sumFeacturesSQ an output vector with the sum
+   \param aiarrayt_meanFeactures an input vector with the mean of the instances
+   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
 */
 template < typename INPUT_ITERATOR,
 	   typename T_FEATURE_SUM,
@@ -435,9 +446,13 @@ sumFeacturesSQ
 
 
 /*! \fn void sumFeacturesFreqSQ(T_FEATURE_SUM *aoarrayt_sumFeacturesSQ, T_FEATURE *aiarrayt_meanFeactures, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR  aiiterator_instlast, const FUNCTIONFREQ func_freq)
-   \brief
-   \details
-   \param
+   \brief Gets the sum of the difference of the instances with the mean and the result square. For instances frequently
+   \details 
+   \param aoarrayt_sumFeacturesSQ an output vector with the sum
+   \param aiarrayt_meanFeactures an input vector with the mean of the instances
+   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
+   \param func_freq a function that gets the frequency of the instance that is adding up
 */
 template < typename INPUT_ITERATOR,
 	   typename T_FEATURE_SUM,
@@ -511,9 +526,9 @@ sumFeacturesFreqSQ
 
 
 /*! \fn void varTodesvstd(T_FEATURE* aioarrayt_varTodesvstd)
-   \brief
+   \brief Obtain the standard deviation given the variance
    \details
-   \param
+   \param aioarrayt_varTodesvstd an input and output vector with the variances of the attributes of the instances
 */
 template < typename T_FEATURE > 
 void
@@ -579,9 +594,11 @@ std::transform
 
 
 /*! \fn void minFeatures (T_FEATURE *aoarrayt_minFeactures, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR  aiiterator_instlast)
-   \brief
-   \details
-   \param
+   \brief Obtain the minimum attributes of the instances
+   \details 
+   \param aoarrayt_minFeactures an output vector with the minimum attributes
+   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
 */
 template < typename INPUT_ITERATOR,
            typename T_FEATURE
@@ -650,9 +667,11 @@ minFeatures
 }
 
 /*! \fn  void maxFeatures(T_FEATURE *aoarrayt_maxFeactures, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR  aiiterator_instlast )
-   \brief
-   \details
-   \param
+   \brief Obtain the maximum attributes of the instances
+   \details 
+   \param aoarrayt_maxFeactures an output vector with the maximum attributes
+   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
 */
 template < typename INPUT_ITERATOR,
            typename T_FEATURE
