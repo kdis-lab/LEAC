@@ -30,7 +30,7 @@
 #include <algorithm>
 
 #include <leac.hpp>
-#include "inparam_gaprototypes.hpp"
+#include "inparam_gaprototypesfk.hpp"
 #include "outparam_eaclustering.hpp"
 
 #include "plot_runtime_function.hpp"
@@ -69,14 +69,14 @@ gaprototypes_fkmedoid
 (inout::OutParamEAClustering
  <T_REAL,
  T_CLUSTERIDX>                  &aoop_outParamEAC,
- inout::InParamGAPrototypes
+ inout::InParamGAPrototypesFk
  <T_BITSIZE,
  T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
  T_INSTANCES_CLUSTER_K>         &aiinp_inParamGAPrototypes,
- const INPUT_ITERATOR          aiiterator_instfirst,
+ const INPUT_ITERATOR           aiiterator_instfirst,
  const INPUT_ITERATOR           aiiterator_instlast,
  dist::Dist<T_REAL,T_FEATURE>   &aifunc2p_dist
  )

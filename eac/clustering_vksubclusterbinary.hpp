@@ -32,7 +32,7 @@
 
 #include "plot_runtime_function.hpp"
 
-#include "inparam_subclusterbinary.hpp"
+#include "inparam_subclusterbinaryvk.hpp"
 #include "outparam_eaclustering.hpp"
 
 
@@ -47,7 +47,7 @@
 
 namespace eac {
 
-/*! \fn gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL> clustering_genetic(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, const mat::MatrixRow<T_FEATURE> &aimatrixrowt_Vi, const std::vector<T_INSTANCES_CLUSTER_K> &aivectort_numInstBi, const T_REAL aitr_w, const partition::PartitionDisjSets <T_CLUSTERIDX> &aimembclassdisjsets_Bi, inout::InParamSubClusterBinary<T_REAL,T_BITSIZE,T_FEATURE,T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinp_inParamSubClusterBin, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist, const COMMON_IDOMAIN aii_numrunalg, const runtime::ExecutionTime aiet_executionTime) 
+/*! \fn gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL> clustering_genetic(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, const mat::MatrixRow<T_FEATURE> &aimatrixrowt_Vi, const std::vector<T_INSTANCES_CLUSTER_K> &aivectort_numInstBi, const T_REAL aitr_w, const partition::PartitionDisjSets <T_CLUSTERIDX> &aimembclassdisjsets_Bi, inout::InParamSubClusterBinaryVk<T_REAL,T_BITSIZE,T_FEATURE,T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinp_inParamSubClusterBinVk, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist, const COMMON_IDOMAIN aii_numrunalg, const runtime::ExecutionTime aiet_executionTime) 
  \brief CLUSTERING GENETIC \cite Tseng:Yang:GAclusteringVarK:CLUSTERING:2001
  \details
  \param aoop_outParamEAC a OutParamClusteringGA<T_REAL,T_CLUSTERIDX>
@@ -55,7 +55,7 @@ namespace eac {
  \param aivectort_numInstBi
  \param aitr_w
  \param aimembclassdisjsets_Bi
- \param aiinp_inParamSubClusterBin a inparam::InParamGAClusteringPcPmFk
+ \param aiinp_inParamSubClusterBinVk a inparam::InParamGAClusteringPcPmFk
  \param aifunc2p_dist a dist::Dist<T_REAL,T_FEATURE>
  \param aii_numrunalg
  \param aiet_executionTime
@@ -79,13 +79,13 @@ clustering_genetic
  const partition::PartitionDisjSets
  <T_CLUSTERIDX>                                &aimembclassdisjsets_Bi,
 #endif /*__VERBOSE_YES*/
- inout::InParamSubClusterBinary
+ inout::InParamSubClusterBinaryVk
  <T_REAL,
  T_BITSIZE,
  T_CLUSTERIDX,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>                        &aiinp_inParamSubClusterBin,
+ T_INSTANCES_CLUSTER_K>                        &aiinp_inParamSubClusterBinVk,
  const dist::Dist<T_REAL,T_FEATURE>            &aifunc2p_dist,
  const COMMON_IDOMAIN                          aii_numrunalg,
  const runtime::ExecutionTime                  aiet_executionTime
@@ -108,16 +108,16 @@ clustering_genetic
 	      << ":  IN(" << geiinparam_verbose << ")\n"
 	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
 	      << &aoop_outParamEAC << "]\n"
-	      << "\t input  InParamClusteringGAProb&: aiinp_inParamSubClusterBin[" 
-	      << &aiinp_inParamSubClusterBin << "]\n"
+	      << "\t input  InParamClusteringGAProb&: aiinp_inParamSubClusterBinVk[" 
+	      << &aiinp_inParamSubClusterBinVk << "]\n"
 	      << "\t input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\n\t\tPopulation size = " 
-	      << aiinp_inParamSubClusterBin.getSizePopulation()
+	      << aiinp_inParamSubClusterBinVk.getSizePopulation()
 	      << "\n\t\tProbCrossover = " 
-	      << aiinp_inParamSubClusterBin.getProbCrossover() 
+	      << aiinp_inParamSubClusterBinVk.getProbCrossover() 
 	      << "\n\t\tProbMutation  = " 
-	      << aiinp_inParamSubClusterBin.getProbMutation()
+	      << aiinp_inParamSubClusterBinVk.getProbMutation()
 	      << "\n\t\tw  = " 
 	      << aitr_w
 	      << "\n\t)"
@@ -129,7 +129,7 @@ clustering_genetic
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
   runtime::ListRuntimeFunction<COMMON_IDOMAIN> 
     llfh_listFuntionHist
-    (aiinp_inParamSubClusterBin.getNumMaxGenerations(), "Iterations", "Clustering metrics");
+    (aiinp_inParamSubClusterBinVk.getNumMaxGenerations(), "Iterations", "Clustering metrics");
 
   /*DECLARATION OF VARIABLES: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
    */
@@ -139,14 +139,14 @@ clustering_genetic
   runtime::RuntimeFunctionStat<T_REAL>   *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL>        lvectorT_statfuncObjetiveFunc;
   
-  if ( aiinp_inParamSubClusterBin.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamSubClusterBinVk.getWithPlotStatObjetiveFunc() ) {  
     
     lvectorT_statfuncObjetiveFunc.reserve
-      ( aiinp_inParamSubClusterBin.getSizePopulation());
+      ( aiinp_inParamSubClusterBinVk.getSizePopulation());
     //DEFINE FUNCTION
     lofh_VRC  = new runtime::RuntimeFunctionValue<T_REAL>
       ("VRC", 
-       aiinp_inParamSubClusterBin.getAlgorithmoName(),
+       aiinp_inParamSubClusterBinVk.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -158,7 +158,7 @@ clustering_genetic
 	new runtime::RuntimeFunctionStat
 	<T_REAL>
 	( (char) li_i,
-	  aiinp_inParamSubClusterBin.getAlgorithmoName(),
+	  aiinp_inParamSubClusterBinVk.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
@@ -166,7 +166,7 @@ clustering_genetic
   
     //OPEN FILE STRORE FUNCTION
     aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
-      (aiinp_inParamSubClusterBin.getFileNamePlotStatObjetiveFunc(),
+      (aiinp_inParamSubClusterBinVk.getFileNamePlotStatObjetiveFunc(),
        aitr_w
        );
 
@@ -232,10 +232,10 @@ clustering_genetic
     /*CREATE SPACE FOR STORE POPULATION-----------------------------------------
      */
     lvectorchrom_population.reserve
-      ( aiinp_inParamSubClusterBin.getSizePopulation() );
+      ( aiinp_inParamSubClusterBinVk.getSizePopulation() );
 
     for (uintidx lui_i = 0; 
-	 lui_i < aiinp_inParamSubClusterBin.getSizePopulation(); 
+	 lui_i < aiinp_inParamSubClusterBinVk.getSizePopulation(); 
 	 lui_i++) 
       {
 	lvectorchrom_population.push_back
@@ -319,10 +319,10 @@ clustering_genetic
     /*CREATE SPACE FOR STORE POPULATION-----------------------------------------
      */
     lvectorchrom_population.reserve
-      ( aiinp_inParamSubClusterBin.getSizePopulation() );
+      ( aiinp_inParamSubClusterBinVk.getSizePopulation() );
 
     for (uintidx lui_i = 0; 
-	 lui_i < aiinp_inParamSubClusterBin.getSizePopulation(); 
+	 lui_i < aiinp_inParamSubClusterBinVk.getSizePopulation(); 
 	 lui_i++) 
       {
 	lvectorchrom_population.push_back
@@ -506,7 +506,7 @@ clustering_genetic
 	lochrom_best = *lit_chromMax;
 
 	aoop_outParamEAC.setIterationGetsBest
-	  (aii_numrunalg  * aiinp_inParamSubClusterBin.getNumMaxGenerations()
+	  (aii_numrunalg  * aiinp_inParamSubClusterBinVk.getNumMaxGenerations()
 	   +  llfh_listFuntionHist.getDomainUpperBound()
 	   );
 	aoop_outParamEAC.setRunTimeGetsBest
@@ -594,7 +594,7 @@ clustering_genetic
     /*MEASUREMENT BEST: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
      */
 #ifndef __WITHOUT_PLOT_STAT
-    if ( aiinp_inParamSubClusterBin.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamSubClusterBinVk.getWithPlotStatObjetiveFunc() ) {  
       lofh_VRC->setValue(lochrom_best.getObjetiveFunc());
       functionhiststat_evaluateAll
 	(lofhs_statObjectiveFunc,
@@ -621,7 +621,7 @@ clustering_genetic
     --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
 
-    if ( (llfh_listFuntionHist.getDomainUpperBound() >= aiinp_inParamSubClusterBin.getNumMaxGenerations() ) )
+    if ( (llfh_listFuntionHist.getDomainUpperBound() >= aiinp_inParamSubClusterBinVk.getNumMaxGenerations() ) )
       break;
    
     /*Selection
@@ -634,7 +634,7 @@ clustering_genetic
       lvectorchrom_stringPool;
 
     lvectorchrom_stringPool.reserve
-      (aiinp_inParamSubClusterBin.getSizePopulation());
+      (aiinp_inParamSubClusterBinVk.getSizePopulation());
 
     {/*BEGIN SELECTION*/
 #ifdef __VERBOSE_YES
@@ -659,7 +659,7 @@ clustering_genetic
      
       
       for (uintidx lui_i = 0; 
-	   lui_i < aiinp_inParamSubClusterBin.getSizePopulation(); 
+	   lui_i < aiinp_inParamSubClusterBinVk.getSizePopulation(); 
 	   lui_i++) 
 	{      
 	  uintidx lstidx_chrom = 
@@ -732,7 +732,7 @@ clustering_genetic
 	  ++jchrom_matingPool;
 
 	  if ( uniformdis_real01(gmt19937_eng) 
-	       < aiinp_inParamSubClusterBin.getProbCrossover() ) {
+	       < aiinp_inParamSubClusterBinVk.getProbCrossover() ) {
 	  
 	    gabinaryop::onePointDistCrossover
 	      (*lchrom_child1,
@@ -788,7 +788,7 @@ clustering_genetic
       for (auto &&liter_iChrom: lvectorchrom_population) {
 	
 	   if ( uniformdis_real01(gmt19937_eng) 
-		< aiinp_inParamSubClusterBin.getProbMutation() ) 
+		< aiinp_inParamSubClusterBinVk.getProbMutation() ) 
 	     { //IF BEGIN  MUTATION
 	       gabinaryop::bitMutation(liter_iChrom);
 	       liter_iChrom.setFitness
@@ -825,10 +825,10 @@ clustering_genetic
    */ 
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiinp_inParamSubClusterBin.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamSubClusterBinVk.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiinp_inParamSubClusterBin,
+       aiinp_inParamSubClusterBinVk,
        aoop_outParamEAC
        );  
   }
@@ -904,7 +904,7 @@ clustering_genetic
 } /* END clustering_genetic */
 
 
-/*! \fn std::tuple<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>, mat::MatrixRow<T_FEATURE>, std::vector<T_INSTANCES_CLUSTER_K>, partition::PartitionDisjSets<T_CLUSTERIDX> > clustering_vksubclusterbinary(inout::OutParamEAClustering <T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamSubClusterBinary<T_REAL,T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamSubClusterBin, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn std::tuple<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>, mat::MatrixRow<T_FEATURE>, std::vector<T_INSTANCES_CLUSTER_K>, partition::PartitionDisjSets<T_CLUSTERIDX> > clustering_vksubclusterbinary(inout::OutParamEAClustering <T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamSubClusterBinaryVk<T_REAL,T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamSubClusterBinVk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
  \brief CLUSTERING \cite Tseng:Yang:GAclusteringVarK:CLUSTERING:2001
  \details
  \details Implementation of the CBGA algorithm based on \cite Franti:etal:GAclustering:gafranti:1997.  
@@ -936,13 +936,13 @@ std::tuple
 clustering_vksubclusterbinary
 (inout::OutParamEAClustering
  <T_REAL,T_CLUSTERIDX>                          &aoop_outParamEAC,
- inout::InParamSubClusterBinary
+ inout::InParamSubClusterBinaryVk
  <T_REAL,
  T_BITSIZE,
  T_CLUSTERIDX,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>                         &aiinp_inParamSubClusterBin,
+ T_INSTANCES_CLUSTER_K>                         &aiinp_inParamSubClusterBinVk,
  const INPUT_ITERATOR                           aiiterator_instfirst,
  const INPUT_ITERATOR                           aiiterator_instlast,
  dist::Dist<T_REAL,T_FEATURE>                   &aifunc2p_dist
@@ -961,26 +961,26 @@ clustering_vksubclusterbinary
 	      << ": IN(" << geiinparam_verbose << ")\n"
 	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
 	      << &aoop_outParamEAC << "]\n"
-	      << "\t input  InParamClusteringGAProb&: aiinp_inParamSubClusterBin[" 
-	      << &aiinp_inParamSubClusterBin << "]\n"
+	      << "\t input  InParamClusteringGAProb&: aiinp_inParamSubClusterBinVk[" 
+	      << &aiinp_inParamSubClusterBinVk << "]\n"
               << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
 	      << "\t input aiiterator_instlast[" <<  &aiiterator_instlast << "]\n"
 	      << "\t input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\n\t\tPopulation size = " 
-	      << aiinp_inParamSubClusterBin.getSizePopulation()
+	      << aiinp_inParamSubClusterBinVk.getSizePopulation()
 	      << "\n\t\tProbCrossover = " 
-	      << aiinp_inParamSubClusterBin.getProbCrossover() 
+	      << aiinp_inParamSubClusterBinVk.getProbCrossover() 
 	      << "\n\t\tProbMutation  = " 
-	      << aiinp_inParamSubClusterBin.getProbMutation()
+	      << aiinp_inParamSubClusterBinVk.getProbMutation()
 	      << "\n\t\tu  = " 
-	      << aiinp_inParamSubClusterBin.getU()
+	      << aiinp_inParamSubClusterBinVk.getU()
 	      << "\n\t\tw1  = " 
-	      << aiinp_inParamSubClusterBin.getW1()
+	      << aiinp_inParamSubClusterBinVk.getW1()
 	      << "\n\t\tw2  = " 
-	      << aiinp_inParamSubClusterBin.getW2()
+	      << aiinp_inParamSubClusterBinVk.getW2()
 	      << "\n\t\tlambda  = " 
-	      << aiinp_inParamSubClusterBin.getLambda()
+	      << aiinp_inParamSubClusterBinVk.getLambda()
 	      << "\n\t)"
 	      << std::endl;
   }
@@ -1010,7 +1010,7 @@ clustering_vksubclusterbinary
   partition::PartitionDisjSets<T_CLUSTERIDX>
     lmembclassdisjsets_Bi =
     graph::nearestNeighbor
-    (aiinp_inParamSubClusterBin.getU(),
+    (aiinp_inParamSubClusterBinVk.getU(),
      aiiterator_instfirst,
      aiiterator_instlast,
      aifunc2p_dist,
@@ -1133,8 +1133,8 @@ clustering_vksubclusterbinary
       geverbosepc_labelstep = lpc_labelFunc;
       std::cout << geverbosepc_labelstep  
 		<< ": IN(" << geiinparam_verbose << ')'
-		<< "\n\twS = " << aiinp_inParamSubClusterBin.getW1()
-		<< "\n\twL = " << aiinp_inParamSubClusterBin.getW2()
+		<< "\n\twS = " << aiinp_inParamSubClusterBinVk.getW1()
+		<< "\n\twL = " << aiinp_inParamSubClusterBinVk.getW2()
 		<< std::endl;
     }
 #endif /*__VERBOSE_YES*/
@@ -1144,8 +1144,8 @@ clustering_vksubclusterbinary
 
     COMMON_IDOMAIN lii_numrunalg = 0;
       
-    T_REAL ltr_wS = aiinp_inParamSubClusterBin.getW1();
-    T_REAL ltr_wL = aiinp_inParamSubClusterBin.getW2();
+    T_REAL ltr_wS = aiinp_inParamSubClusterBinVk.getW1();
+    T_REAL ltr_wL = aiinp_inParamSubClusterBinVk.getW2();
 
     /*Ws
      */
@@ -1158,7 +1158,7 @@ clustering_vksubclusterbinary
 #ifdef __VERBOSE_YES
        lmembclassdisjsets_Bi,
 #endif /*__VERBOSE_YES*/
-       aiinp_inParamSubClusterBin,
+       aiinp_inParamSubClusterBinVk,
        aifunc2p_dist,
        lii_numrunalg++,
        let_executionTime
@@ -1203,7 +1203,7 @@ clustering_vksubclusterbinary
 #ifdef __VERBOSE_YES
        lmembclassdisjsets_Bi,
 #endif /*__VERBOSE_YES*/
-       aiinp_inParamSubClusterBin,
+       aiinp_inParamSubClusterBinVk,
        aifunc2p_dist,
         lii_numrunalg++,
        let_executionTime
@@ -1262,7 +1262,7 @@ clustering_vksubclusterbinary
       geverbosepc_labelstep =  lpc_labelFunc;
       std::cout << geverbosepc_labelstep 
 		<< ": IN(" << geiinparam_verbose << ") "
-		<< ltr_wL -ltr_wS << " > " << aiinp_inParamSubClusterBin.getLambda()  
+		<< ltr_wL -ltr_wS << " > " << aiinp_inParamSubClusterBinVk.getLambda()  
 		<< std::endl;
     }
 #endif /*__VERBOSE_YES*/
@@ -1270,7 +1270,7 @@ clustering_vksubclusterbinary
     T_REAL ltr_D2Wm;
     bool lb_saveFisrt = true;
 
-    while ( (ltr_wL -ltr_wS) > aiinp_inParamSubClusterBin.getLambda() ) { 
+    while ( (ltr_wL -ltr_wS) > aiinp_inParamSubClusterBinVk.getLambda() ) { 
 
       /*Wm
        */
@@ -1285,7 +1285,7 @@ clustering_vksubclusterbinary
 #ifdef __VERBOSE_YES
 	 lmembclassdisjsets_Bi,
 #endif /*__VERBOSE_YES*/
-	 aiinp_inParamSubClusterBin,
+	 aiinp_inParamSubClusterBinVk,
 	 aifunc2p_dist,
 	 lii_numrunalg++,
 	 let_executionTime
@@ -1404,8 +1404,8 @@ clustering_vksubclusterbinary
       }
 #endif /*__VERBOSE_YES*/
       
-      ltr_wS = aiinp_inParamSubClusterBin.getW1();
-      ltr_wL = aiinp_inParamSubClusterBin.getW2();
+      ltr_wS = aiinp_inParamSubClusterBinVk.getW1();
+      ltr_wL = aiinp_inParamSubClusterBinVk.getW2();
       T_REAL ltr_wm = (ltr_wS + ltr_wL) / 2.0;
       
       T_REAL ltr_ratiosD2WmWs = ltr_D2Wm / ltr_D2Ws;
@@ -1462,7 +1462,7 @@ clustering_vksubclusterbinary
       }
 #endif /*__VERBOSE_YES*/
       
-      while ( (ltr_wL -ltr_wS) > aiinp_inParamSubClusterBin.getLambda() ) { 
+      while ( (ltr_wL -ltr_wS) > aiinp_inParamSubClusterBinVk.getLambda() ) { 
     
 	ltr_wm = (ltr_wS + ltr_wL) / 2.0;
 
@@ -1475,7 +1475,7 @@ clustering_vksubclusterbinary
 #ifdef __VERBOSE_YES
 	   lmembclassdisjsets_Bi,
 #endif /*__VERBOSE_YES*/
-	   aiinp_inParamSubClusterBin,
+	   aiinp_inParamSubClusterBinVk,
 	   aifunc2p_dist,
 	   lii_numrunalg++,
 	   let_executionTime

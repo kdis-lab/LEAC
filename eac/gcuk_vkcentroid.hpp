@@ -29,7 +29,7 @@
 #include <algorithm>
 
 #include <leac.hpp>
-#include "inparam_probcprobm_rangek.hpp"
+#include "inparam_pcpmvk.hpp"
 #include "outparam_eaclustering.hpp"
 
 #include "plot_runtime_function.hpp"
@@ -45,7 +45,7 @@
 
 namespace eac {
   
-/*! \fn mat::MatrixRow<T_FEATURE> gcuk_vkcentroid(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamPcPmRk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamPcPmRk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist) 
+/*! \fn mat::MatrixRow<T_FEATURE> gcuk_vkcentroid(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamPcPmVk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamPcPmVk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist) 
   \brief GCUK \cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002
   \details Implementation of the GCUK algorithm based on \cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002. Which automatically finds K cluster using the Davies–Bouldin index.
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid. Base to following equation:
@@ -55,7 +55,7 @@ namespace eac {
   \f]
   where \f$mu_j\f$, represents the centroid of cluster \f$C_j\f$
   \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
-  \param aiinp_inParamPcPmRk a inout::InParamPcPmRk parameters required by the algorithm
+  \param aiinp_inParamPcPmVk a inout::InParamPcPmVk parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
@@ -72,12 +72,12 @@ gcuk_vkcentroid
 (inout::OutParamEAClustering
  <T_REAL,
  T_CLUSTERIDX>                                &aoop_outParamEAC,
- inout::InParamPcPmRk
+ inout::InParamPcPmVk
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>                       &aiinp_inParamPcPmRk,
+ T_INSTANCES_CLUSTER_K>                       &aiinp_inParamPcPmVk,
  const INPUT_ITERATOR                         aiiterator_instfirst,
  const INPUT_ITERATOR                         aiiterator_instlast,
  dist::Dist<T_REAL,T_FEATURE>                 &aifunc2p_dist
@@ -96,8 +96,8 @@ gcuk_vkcentroid
    
   std::uniform_int_distribution<uintidx>
     uniformdis_uiMinMaxK
-    ((uintidx) aiinp_inParamPcPmRk.getNumClusterKMinimum(), 
-     (uintidx) aiinp_inParamPcPmRk.getNumClusterKMaximum()
+    ((uintidx) aiinp_inParamPcPmVk.getNumClusterKMinimum(), 
+     (uintidx) aiinp_inParamPcPmVk.getNumClusterKMaximum()
      );
     
   std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
@@ -110,22 +110,22 @@ gcuk_vkcentroid
 	      << "  IN(" << geiinparam_verbose << ")\n"
 	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
 	      << &aoop_outParamEAC << "]\n"
-	      << "\t input  InParamClusteringGaProbFk&: aiinp_inParamPcPmRk[" 
-	      << &aiinp_inParamPcPmRk << "]\n"
+	      << "\t input  InParamClusteringGaProbFk&: aiinp_inParamPcPmVk[" 
+	      << &aiinp_inParamPcPmVk << "]\n"
 	      << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
 	      << "\t input aiiterator_instlast[" <<  &aiiterator_instlast << "]\n"
 	      << "\t input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\n\t\tPopulation size = " 
-	      << aiinp_inParamPcPmRk.getSizePopulation()
+	      << aiinp_inParamPcPmVk.getSizePopulation()
 	      << "\n\t\tProbCrossover = " 
-	      << aiinp_inParamPcPmRk.getProbCrossover() 
+	      << aiinp_inParamPcPmVk.getProbCrossover() 
 	      << "\n\t\tProbMutation  = " 
-	      << aiinp_inParamPcPmRk.getProbMutation()
+	      << aiinp_inParamPcPmVk.getProbMutation()
 	      << "\n\t\tk-minimum  = " 
-	      << aiinp_inParamPcPmRk.getNumClusterKMinimum()
+	      << aiinp_inParamPcPmVk.getNumClusterKMinimum()
 	      << "\n\t\tk-maximum  = " 
-	      << aiinp_inParamPcPmRk.getNumClusterKMaximum()
+	      << aiinp_inParamPcPmVk.getNumClusterKMaximum()
 	      << "\n\t)"
 	      << std::endl;
   }
@@ -134,7 +134,7 @@ gcuk_vkcentroid
 
   runtime::ListRuntimeFunction<COMMON_IDOMAIN> 
     llfh_listFuntionHist
-    (aiinp_inParamPcPmRk.getNumMaxGenerations(),
+    (aiinp_inParamPcPmVk.getNumMaxGenerations(),
      "Iterations",
      "Clustering metrics"
      );
@@ -147,14 +147,14 @@ gcuk_vkcentroid
   runtime::RuntimeFunctionStat<T_REAL>  *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL> lvectort_statfuncObjetiveFunc;
   
-  if ( aiinp_inParamPcPmRk.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamPcPmVk.getWithPlotStatObjetiveFunc() ) {  
     
     lvectort_statfuncObjetiveFunc.reserve
-      ( aiinp_inParamPcPmRk.getSizePopulation());
+      ( aiinp_inParamPcPmVk.getSizePopulation());
     //DEFINE FUNCTION
     lofh_DBindex  = new runtime::RuntimeFunctionValue<T_REAL>
       ("DB", 
-       aiinp_inParamPcPmRk.getAlgorithmoName(),
+       aiinp_inParamPcPmVk.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -166,7 +166,7 @@ gcuk_vkcentroid
 	new runtime::RuntimeFunctionStat
 	<T_REAL>
 	( (char) li_i,
-	  aiinp_inParamPcPmRk.getAlgorithmoName(),
+	  aiinp_inParamPcPmVk.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
@@ -174,8 +174,8 @@ gcuk_vkcentroid
   
     //OPEN FILE STRORE FUNCTION
     aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
-      (aiinp_inParamPcPmRk.getFileNamePlotStatObjetiveFunc(),
-       aiinp_inParamPcPmRk.getTimesRunAlgorithm()
+      (aiinp_inParamPcPmVk.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamPcPmVk.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
@@ -219,10 +219,10 @@ gcuk_vkcentroid
      */
 
     lvectorchrom_population.reserve
-      (aiinp_inParamPcPmRk.getSizePopulation());
+      (aiinp_inParamPcPmVk.getSizePopulation());
   
     for (uintidx luintidx_i = 0; 
-	 luintidx_i < aiinp_inParamPcPmRk.getSizePopulation(); 
+	 luintidx_i < aiinp_inParamPcPmVk.getSizePopulation(); 
 	 luintidx_i++) 
       {
 	/*Generate a number Ki in range Kmin to Kmax
@@ -230,7 +230,7 @@ gcuk_vkcentroid
 	lvectorchrom_population.push_back
 	  (gaencode::ChromosomeMatrixWithRowNull<T_FEATURE,T_REAL>
 	   (uniformdis_uiMinMaxK(gmt19937_eng),
-	    (uintidx) aiinp_inParamPcPmRk.getNumClusterKMaximum(),
+	    (uintidx) aiinp_inParamPcPmVk.getNumClusterKMaximum(),
 	    data::Instance<T_FEATURE>::getNumDimensions())
 	   );
       }
@@ -508,7 +508,7 @@ gcuk_vkcentroid
     /*MEASUREMENT BEST: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
      */
 #ifndef __WITHOUT_PLOT_STAT
-    if ( aiinp_inParamPcPmRk.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamPcPmVk.getWithPlotStatObjetiveFunc() ) {  
       lofh_DBindex->setValue(lochrom_best.getObjetiveFunc());
       functionhiststat_evaluateAll
 	(lofhs_statObjectiveFunc,
@@ -552,7 +552,7 @@ gcuk_vkcentroid
 	/*COPY POPULATION TO MATING POOL FOR ROULETTE WHEEL--------------------------
 	 */ 
 	lvectorchrom_matingPool.reserve
-	  (aiinp_inParamPcPmRk.getSizePopulation());
+	  (aiinp_inParamPcPmVk.getSizePopulation());
 
 	/*ELITISMO
 	 */
@@ -560,7 +560,7 @@ gcuk_vkcentroid
 	  (gaencode::ChromosomeMatrixWithRowNull<T_FEATURE,T_REAL>(lochrom_best));
 
 	for (uintidx luintidx_i = 1; 
-	     luintidx_i < aiinp_inParamPcPmRk.getSizePopulation(); 
+	     luintidx_i < aiinp_inParamPcPmVk.getSizePopulation(); 
 	     luintidx_i++) 
 	  {      
 	    uintidx luintidx_chrom = 
@@ -618,7 +618,7 @@ gcuk_vkcentroid
 	  ++jchrom_matingPool;
 	  
 	  if ( uniformdis_real01(gmt19937_eng)
-	       < aiinp_inParamPcPmRk.getProbCrossover() ) {
+	       < aiinp_inParamPcPmVk.getProbCrossover() ) {
 
 	    gaclusteringop::onePointCrossover
 	      ( *lchrom_parent1,
@@ -658,7 +658,7 @@ gcuk_vkcentroid
     
 	for ( auto&& liter_iChrom : lvectorchrom_matingPool ) {
 	  if ( uniformdis_real01(gmt19937_eng) 
-	       < aiinp_inParamPcPmRk.getProbMutation() ) {
+	       < aiinp_inParamPcPmVk.getProbMutation() ) {
 	    //IF BEGIN  MUTATION
 	    gaclusteringop::randomMutation
 	      (liter_iChrom);	   
@@ -705,7 +705,7 @@ gcuk_vkcentroid
 #endif /*__VERBOSE_YES*/
     
       if ( !(llfh_listFuntionHist.getDomainUpperBound() 
-	     < aiinp_inParamPcPmRk.getNumMaxGenerations() ) 
+	     < aiinp_inParamPcPmVk.getNumMaxGenerations() ) 
 	   )
 	break;
       llfh_listFuntionHist.increaseDomainUpperBound();
@@ -734,10 +734,10 @@ gcuk_vkcentroid
    */ 
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiinp_inParamPcPmRk.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamPcPmVk.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiinp_inParamPcPmRk,
+       aiinp_inParamPcPmVk,
        aoop_outParamEAC
        );  
   }

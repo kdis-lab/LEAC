@@ -31,7 +31,7 @@
 
 #include <leac.hpp>
 
-#include "inparam_probcprobm_fixedk.hpp"
+#include "inparam_pcpmfk.hpp"
 #include "outparam_eaclustering.hpp"
 
 #include "plot_runtime_function.hpp"

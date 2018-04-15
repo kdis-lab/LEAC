@@ -32,7 +32,7 @@
 #include <leac.hpp>
 
 #include "plot_runtime_function.hpp"
-#include "inparam_withoutprobcprobm.hpp"
+#include "inparam_withoutpcpmfk.hpp"
 #include "outparam_eaclustering.hpp"
 
 /*! \namespace eac
@@ -69,12 +69,12 @@ gaclustering_fkcrispmatrix
 (inout::OutParamEAClustering
  <T_REAL,
  T_CLUSTERIDX>                &aoop_outParamEAC,
- inout::InParamWithoutPcPm
+ inout::InParamWithoutPcPmFk
  <T_CLUSTERIDX,
  T_BITSIZE,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>       &aiinp_inParamFEACWithoutPcPm,
+ T_INSTANCES_CLUSTER_K>       &aiinp_inParamWithoutPcPmFk,
  const INPUT_ITERATOR         aiiterator_instfirst,
  const INPUT_ITERATOR         aiiterator_instlast,
  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist
@@ -93,27 +93,27 @@ gaclustering_fkcrispmatrix
       << "  IN(" << geiinparam_verbose << ")\n"
       << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
       << &aoop_outParamEAC << "]\n"
-      << "\t input  InParamWithoutPcPm&: aiinp_inParamFEACWithoutPcPm[" 
-      << &aiinp_inParamFEACWithoutPcPm << "]\n"
+      << "\t input  InParamWithoutPcPm&: aiinp_inParamWithoutPcPmFk[" 
+      << &aiinp_inParamWithoutPcPmFk << "]\n"
       << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
       << "\t input aiiterator_instlast[" <<  &aiiterator_instlast << "]\n"
       << "\t input  dist::Dist<T_REAL,T_FEATURE>  &aifunc2p_dist[" 
       << &aifunc2p_dist << ']'
       << "\n\t\tPopulation size = " 
-      << aiinp_inParamFEACWithoutPcPm.getSizePopulation()
+      << aiinp_inParamWithoutPcPmFk.getSizePopulation()
       << "\n\t\tMatingPool size = " 
-      << aiinp_inParamFEACWithoutPcPm.getSizeMatingPool()
+      << aiinp_inParamWithoutPcPmFk.getSizeMatingPool()
       << "\n\t\t Generations  = "
-      << aiinp_inParamFEACWithoutPcPm.getNumMaxGenerations()
+      << aiinp_inParamWithoutPcPmFk.getNumMaxGenerations()
       << "\n\t\trandom-seed = "
-      << aiinp_inParamFEACWithoutPcPm.getRandomSeed()
+      << aiinp_inParamWithoutPcPmFk.getRandomSeed()
       << "\n\t)"
       << std::endl;
   }
 #endif /*__VERBOSE_YES*/
   
   const uintidx  luintidx_numClusterK =
-    (uintidx) aiinp_inParamFEACWithoutPcPm.getNumClusterK();
+    (uintidx) aiinp_inParamWithoutPcPmFk.getNumClusterK();
   const uintidx  luintidx_numIntances =
     uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
   
@@ -126,7 +126,7 @@ gaclustering_fkcrispmatrix
      );
 
   std::uniform_int_distribution<T_CLUSTERIDX> uniformdis_mmcidx0K
-    (0,aiinp_inParamFEACWithoutPcPm.getNumClusterK()-1);
+    (0,aiinp_inParamWithoutPcPmFk.getNumClusterK()-1);
 
   gaencode::ChromosomeCrispMatrix<T_BITSIZE,T_CLUSTERIDX,T_REAL>
     lochrombitcrispmatrix_best(luintidx_numClusterK,luintidx_numIntances);
@@ -146,8 +146,8 @@ gaclustering_fkcrispmatrix
   std::vector<gaencode::ChromosomeCrispMatrix<T_BITSIZE,T_CLUSTERIDX,T_REAL>* >
     lvectorchromfixleng_childR;
   
-  if ( aiinp_inParamFEACWithoutPcPm.getSizePopulation()
-       <= aiinp_inParamFEACWithoutPcPm.getSizeMatingPool() )
+  if ( aiinp_inParamWithoutPcPmFk.getSizePopulation()
+       <= aiinp_inParamWithoutPcPmFk.getSizeMatingPool() )
     throw std::invalid_argument
       ("gaclustering_fkcrispmatrix: "
        "size population should be greater than size matingpool"
@@ -155,7 +155,7 @@ gaclustering_fkcrispmatrix
   
   runtime::ListRuntimeFunction<COMMON_IDOMAIN>
     llfh_listFuntionHist
-    (aiinp_inParamFEACWithoutPcPm.getNumMaxGenerations(),
+    (aiinp_inParamWithoutPcPmFk.getNumMaxGenerations(),
      "Iterations",
      "Clustering metrics"
      );
@@ -172,24 +172,24 @@ gaclustering_fkcrispmatrix
     *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL>       lvectorT_statfuncObjetiveFunc;
   
-  if ( aiinp_inParamFEACWithoutPcPm.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamWithoutPcPmFk.getWithPlotStatObjetiveFunc() ) {  
     
     lvectorT_statfuncObjetiveFunc.reserve
-      ( aiinp_inParamFEACWithoutPcPm.getSizePopulation());
+      ( aiinp_inParamWithoutPcPmFk.getSizePopulation());
     //Variable to monitor in the execution of the program
     lofh_J1  = new runtime::RuntimeFunctionValue<T_REAL>
       ("J1", 
-       aiinp_inParamFEACWithoutPcPm.getAlgorithmoName(),
+       aiinp_inParamWithoutPcPmFk.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
     llfh_listFuntionHist.addFuntion(lofh_J1);
 
-    if ( aiinp_inParamFEACWithoutPcPm.getClassInstanceColumn()  ) {
+    if ( aiinp_inParamWithoutPcPmFk.getClassInstanceColumn()  ) {
       lofh_misclassified =
 	new runtime::RuntimeFunctionValue<T_INSTANCES_CLUSTER_K>
 	("Misclassified", 
-	 aiinp_inParamFEACWithoutPcPm.getAlgorithmoName(),
+	 aiinp_inParamWithoutPcPmFk.getAlgorithmoName(),
 	 RUNTIMEFUNCTION_NOT_STORAGE
 	 );
       llfh_listFuntionHist.addFuntion(lofh_misclassified);
@@ -201,7 +201,7 @@ gaclustering_fkcrispmatrix
 	new runtime::RuntimeFunctionStat
 	<T_REAL>
 	( (char) li_i,
-	  aiinp_inParamFEACWithoutPcPm.getAlgorithmoName(),
+	  aiinp_inParamWithoutPcPmFk.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
@@ -209,8 +209,8 @@ gaclustering_fkcrispmatrix
   
     //OPEN FILE STRORE FUNCTION
     aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
-      (aiinp_inParamFEACWithoutPcPm.getFileNamePlotStatObjetiveFunc(),
-       aiinp_inParamFEACWithoutPcPm.getTimesRunAlgorithm()
+      (aiinp_inParamWithoutPcPmFk.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamWithoutPcPmFk.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
@@ -232,9 +232,9 @@ gaclustering_fkcrispmatrix
   /*Create space for store population
    */
   lvectorchrombitcrispmatrix_population.reserve
-    (aiinp_inParamFEACWithoutPcPm.getSizePopulation() + 1);
+    (aiinp_inParamWithoutPcPmFk.getSizePopulation() + 1);
   for (uintidx lui_i = 0; 
-       lui_i < aiinp_inParamFEACWithoutPcPm.getSizePopulation(); 
+       lui_i < aiinp_inParamWithoutPcPmFk.getSizePopulation(); 
        lui_i++) 
     {
       lvectorchrombitcrispmatrix_population.push_back
@@ -246,12 +246,12 @@ gaclustering_fkcrispmatrix
   /*Space for store matingpool
    */
   lvectorchrombitcrispmatrix_matingPool.reserve
-    (aiinp_inParamFEACWithoutPcPm.getSizeMatingPool());
+    (aiinp_inParamWithoutPcPmFk.getSizeMatingPool());
 
   /*Space for chromosomes R  
    */
   lvectorchromfixleng_childR.reserve
-    (aiinp_inParamFEACWithoutPcPm.getSizeMatingPool() + 1 );
+    (aiinp_inParamWithoutPcPmFk.getSizeMatingPool() + 1 );
 
   /*Initialization of population
 
@@ -430,7 +430,7 @@ gaclustering_fkcrispmatrix
      */
 #ifndef __WITHOUT_PLOT_STAT
 
-    if ( aiinp_inParamFEACWithoutPcPm.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamWithoutPcPmFk.getWithPlotStatObjetiveFunc() ) {  
 
       for ( auto lchrombitcrispmatrix_iter:
 	      lvectorchrombitcrispmatrix_population) {
@@ -513,9 +513,9 @@ gaclustering_fkcrispmatrix
     /*Termination criterion attained?
      */
     if ( (llfh_listFuntionHist.getDomainUpperBound()
-	  >= aiinp_inParamFEACWithoutPcPm.getNumMaxGenerations()) ||
+	  >= aiinp_inParamWithoutPcPmFk.getNumMaxGenerations()) ||
 	 (runtime::elapsedTime(let_executionTime) >
-	  aiinp_inParamFEACWithoutPcPm.getMaxExecutiontime())
+	  aiinp_inParamWithoutPcPmFk.getMaxExecutiontime())
 	 )
       break;
   
@@ -528,7 +528,7 @@ gaclustering_fkcrispmatrix
       auto ichrom_population = lvectorchrombitcrispmatrix_population.begin();
    
       for (uintidx lui_i = 0; 
-	   lui_i < aiinp_inParamFEACWithoutPcPm.getSizeMatingPool(); 
+	   lui_i < aiinp_inParamWithoutPcPmFk.getSizeMatingPool(); 
 	   lui_i++)  {
 	lvectorchrombitcrispmatrix_matingPool.push_back
 	  (*ichrom_population);
@@ -557,7 +557,7 @@ gaclustering_fkcrispmatrix
 #endif /*__VERBOSE_YES*/
 
       for (uintidx lui_i = 0; 
-	   lui_i < aiinp_inParamFEACWithoutPcPm.getSizeMatingPool(); 
+	   lui_i < aiinp_inParamWithoutPcPmFk.getSizeMatingPool(); 
 	   lui_i++) {
 	lvectorchromfixleng_childR.push_back
 	  (new gaencode::ChromosomeCrispMatrix<T_BITSIZE,T_CLUSTERIDX,T_REAL>
@@ -744,13 +744,13 @@ gaclustering_fkcrispmatrix
 	(new gaencode::ChromosomeCrispMatrix<T_BITSIZE,T_CLUSTERIDX,T_REAL>());
       
       lvectorchrombitcrispmatrix_population.reserve
-	(aiinp_inParamFEACWithoutPcPm.getSizePopulation() + 1);
+	(aiinp_inParamWithoutPcPmFk.getSizePopulation() + 1);
 
       uintidx luintidx_l = 0;
       uintidx luintidx_r = 0;
       
       for (uintidx lui_i = 0;
-	   lui_i < aiinp_inParamFEACWithoutPcPm.getSizePopulation();
+	   lui_i < aiinp_inParamWithoutPcPmFk.getSizePopulation();
 	   lui_i++)
 	{
 
@@ -872,7 +872,7 @@ gaclustering_fkcrispmatrix
 
   runtime::stop(let_executionTime);
   aoop_outParamEAC.setNumClusterK
-    (aiinp_inParamFEACWithoutPcPm.getNumClusterK());
+    (aiinp_inParamWithoutPcPmFk.getNumClusterK());
   aoop_outParamEAC.setMetricFuncRun
     (lochrombitcrispmatrix_best.getObjetiveFunc());
   aoop_outParamEAC.setAlgorithmRunTime
@@ -887,10 +887,10 @@ gaclustering_fkcrispmatrix
    */ 
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiinp_inParamFEACWithoutPcPm.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamWithoutPcPmFk.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiinp_inParamFEACWithoutPcPm,
+       aiinp_inParamWithoutPcPmFk,
        aoop_outParamEAC
        );  
   }

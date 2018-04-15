@@ -10,13 +10,6 @@
  */
 #include <iostream>
 
-#include <leac.hpp>
-#include "inparamclustering_getparameter.hpp"
-#include "instances_read.hpp"
-#include "instances_classfrequency_read.hpp"
-#include "bar_progress.h"
-
-
 /*Fixed-K --- Encode label
  */
 #ifdef  ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996
@@ -151,6 +144,13 @@
 #include "datatype_instance_real.hpp"
 #include "gaclustering_vktreebinary.hpp"
 #endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
+
+#include <leac.hpp>
+#include "inparamclustering_getparameter.hpp"
+#include "instances_read.hpp"
+//#include "instances_classfrequency_read.hpp"
+#include "bar_progress.hpp"
+
  
 /*---< main() >-------------------------------------------------------------*/
 int main(int argc, char **argv) 
@@ -369,7 +369,7 @@ int main(int argc, char **argv)
 #ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
   /*INPUT: PARAMETER
    */
-  inout::InParamPcPmRk
+  inout::InParamPcPmVk
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
      DATATYPE_FEATURE,         
@@ -403,7 +403,7 @@ int main(int argc, char **argv)
   /*INPUT: PARAMETER
    */
 #ifdef _INITIATES_KMIN_KMAX_POPULATION_
-  inout::InParamGenWOChgRk
+  inout::InParamGenWOChgVk
     <DATATYPE_BITSIZE,
      DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -453,7 +453,7 @@ int main(int argc, char **argv)
 #ifdef ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001
   /*INPUT: PARAMETER
    */
-  inout::InParamSubClusterBinary
+  inout::InParamSubClusterBinaryVk
     <DATATYPE_REAL,
      DATATYPE_BITSIZE,
      DATATYPE_CLUSTERIDX,
@@ -495,7 +495,7 @@ int main(int argc, char **argv)
 
 #ifdef ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003   
   /*INPUT: PARAMETER*/
-  inout::InParamPcPmRk
+  inout::InParamPcPmVk
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
      DATATYPE_FEATURE,
@@ -797,7 +797,7 @@ int main(int argc, char **argv)
 #ifdef  ALG_GAGR_FKCENTROID_CHANG_ETAL_2009
   /*INPUT: PARAMETER
    */
-  inout::InParamAdaptivePcPm
+  inout::InParamAdaptivePcPmFk
     <DATATYPE_CLUSTERIDX,
      DATATYPE_FEATURE,         
      DATATYPE_FEATURE_SUM,
@@ -859,7 +859,7 @@ int main(int argc, char **argv)
 #ifdef ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997
    /*INPUT: PARAMETER
    */
-  inout::InParamGAPrototypes
+  inout::InParamGAPrototypesFk
     <DATATYPE_BITSIZE,
      DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
@@ -927,7 +927,7 @@ int main(int argc, char **argv)
 #ifdef ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
   /*\cite{Sheng:Xiaohui:GAclusteringMedoid:HKA:2004}
    */
-  inout::InParamWithoutPcPm
+  inout::InParamWithoutPcPmFk
     <DATATYPE_CLUSTERIDX,
      DATATYPE_BITSIZE,
      DATATYPE_FEATURE,
@@ -973,7 +973,7 @@ int main(int argc, char **argv)
   
   /*BAR PRINTING*/
   if ( linparam_ClusteringGA.getProgressBarPrinting() ) 
-    barprogress_update
+    inout::barprogress_update
       (0, 
        linparam_ClusteringGA.getTimesRunAlgorithm() * 
        linparam_ClusteringGA.getNumFilesInstance()
@@ -2756,6 +2756,7 @@ int main(int argc, char **argv)
 	  lomatrixrowt_centroids.r8mat_print
 	    ("Centroids:",
 	     lostrstream_labelNameCol.str().c_str(),
+	     inout::OutFileName::getDelim(),
 	     5,
 	     lostream_outcentroids
 	     );
@@ -3235,7 +3236,7 @@ int main(int argc, char **argv)
     
       /*BAR PRINTING*/
       if ( linparam_ClusteringGA.getProgressBarPrinting() ) 
-	barprogress_update
+	inout::barprogress_update
 	  (__lst_i * linparam_ClusteringGA.getTimesRunAlgorithm()+ li_l, 
 	   linparam_ClusteringGA.getTimesRunAlgorithm() * 
 	   linparam_ClusteringGA.getNumFilesInstance()

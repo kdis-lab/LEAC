@@ -27,7 +27,7 @@
 #include <vector>
 
 #include <leac.hpp>
-#include "inparam_adaptiveprobcprobm.hpp"
+#include "inparam_adaptivepcpmfk.hpp"
 #include "outparam_eaclustering.hpp"
 
 #include "plot_runtime_function.hpp"
@@ -70,7 +70,7 @@ gagr_fkcentroid
 (inout::OutParamEAClustering
  <T_REAL,
  T_CLUSTERIDX>                     &aoop_outParamEAC,
- const inout::InParamAdaptivePcPm
+ const inout::InParamAdaptivePcPmFk
  <T_CLUSTERIDX,
  T_FEATURE,
  T_FEATURE_SUM,

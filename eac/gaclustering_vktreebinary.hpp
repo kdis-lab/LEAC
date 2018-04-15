@@ -31,7 +31,7 @@
 #include <algorithm>   // std::iter_swap
 #include <utility>      // std::pair
 #include <leac.hpp>
-#include "inparam_genwochg_rangek.hpp"
+#include "inparam_genwochgvk.hpp"
 #include "outparam_eaclustering.hpp"
 #include "container_out.hpp"
 #include "plot_runtime_function.hpp"
@@ -47,12 +47,12 @@
 
 namespace eac {
 
-/*! \fn std::pair<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>,std::vector<uintidx> > gaclustering_vktreebinary(inout::OutParamEAClustering <T_REAL, T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamGenWOChgRk<T_BITSIZE, T_CLUSTERIDX, T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamGenWOChgRk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn std::pair<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>,std::vector<uintidx> > gaclustering_vktreebinary(inout::OutParamEAClustering <T_REAL, T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamGenWOChgVk<T_BITSIZE, T_CLUSTERIDX, T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamGenWOChgVk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief GA Clustering \cite Casillas:etal:GAclusteringVarK:GA:2003
   \details Implementation of GA algorithm based on \cite Casillas:etal:GAclusteringVarK:GA:2003. 
   \returns A partition of a data set, encoded on a chromosome with n − 1 binary genes and a minimum spanning Tree (MST) where each gene with value “0” means that this  edge remains and “1” means that this edge is eliminated. The number of elements with value “1” represents the value of k − 1.
   \param aoop_outParamEAC a inout::OutParamEAClustering
-  \param aiinp_inParamGenWOChgRk a inparam::InParamGenWOChgRk
+  \param aiinp_inParamGenWOChgVk a inparam::InParamGenWOChgVk
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aifunc2p_dist a dist::Dist<T_REAL,T_FEATURE>
@@ -70,13 +70,13 @@ gaclustering_vktreebinary
 (inout::OutParamEAClustering
  <T_REAL,
  T_CLUSTERIDX>                          &aoop_outParamEAC,
- inout::InParamGenWOChgRk
+ inout::InParamGenWOChgVk
  <T_BITSIZE,
  T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>                 &aiinp_inParamGenWOChgRk,
+ T_INSTANCES_CLUSTER_K>                 &aiinp_inParamGenWOChgVk,
  const INPUT_ITERATOR                   aiiterator_instfirst,
  const INPUT_ITERATOR                   aiiterator_instlast,
  dist::Dist<T_REAL,T_FEATURE>           &aifunc2p_dist
@@ -85,20 +85,20 @@ gaclustering_vktreebinary
   const uintidx  lui_numInstances =
     uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
   
-  if ( aiinp_inParamGenWOChgRk.getNumMaxGenerations() == 0 )  {
-    aiinp_inParamGenWOChgRk.setNumMaxGenerations
+  if ( aiinp_inParamGenWOChgVk.getNumMaxGenerations() == 0 )  {
+    aiinp_inParamGenWOChgVk.setNumMaxGenerations
       ( (COMMON_IDOMAIN) lui_numInstances );
   }
 
-  if ( aiinp_inParamGenWOChgRk.getSizePopulation() == 0 ) {
-    aiinp_inParamGenWOChgRk.setSizePopulation
+  if ( aiinp_inParamGenWOChgVk.getSizePopulation() == 0 ) {
+    aiinp_inParamGenWOChgVk.setSizePopulation
       ( uintidx( 10 * lui_numInstances ) );
   }
     
 #ifdef _INITIATES_KMIN_KMAX_POPULATION_
-  if ( aiinp_inParamGenWOChgRk.getNumClusterKMaximum() == 
+  if ( aiinp_inParamGenWOChgVk.getNumClusterKMaximum() == 
        INPARAMCLUSTERING_DEFAULT_CLUSTERK_UNDEFINED )
-    aiinp_inParamGenWOChgRk.setNumClusterKMaximum
+    aiinp_inParamGenWOChgVk.setNumClusterKMaximum
       (T_CLUSTERIDX(((lui_numInstances -1) /2) + 1));
 #endif // _INITIATES_KMIN_KMAX_POPULATION_
 
@@ -115,25 +115,25 @@ gaclustering_vktreebinary
 	      << ":  IN(" << geiinparam_verbose << ")\n"
 	      << "\t(output OutParamClusteringGA&: aoop_outParamEAC[" 
 	      << &aoop_outParamEAC << "]\n"
-	      << "\t input  InParamGenWOChgRk&: aiinp_inParamGenWOChgRk[" 
-	      << &aiinp_inParamGenWOChgRk << "]\n"
+	      << "\t input  InParamGenWOChgVk&: aiinp_inParamGenWOChgVk[" 
+	      << &aiinp_inParamGenWOChgVk << "]\n"
 	      << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
 	      << "\t input aiiterator_instlast[" <<  &aiiterator_instlast << "]\n"
 	      << "\t input dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\n\t\tPopulation size = " 
-	      << aiinp_inParamGenWOChgRk.getSizePopulation()
+	      << aiinp_inParamGenWOChgVk.getSizePopulation()
 	      << "\n\t\tProbCrossover = " 
-	      << aiinp_inParamGenWOChgRk.getProbCrossover() 
+	      << aiinp_inParamGenWOChgVk.getProbCrossover() 
 	      << "\n\t\tProbMutation  = " 
-	      << aiinp_inParamGenWOChgRk.getProbMutation()
+	      << aiinp_inParamGenWOChgVk.getProbMutation()
 	      << "\n\t\tNumMaxGenerations = "
-	      << aiinp_inParamGenWOChgRk.getNumMaxGenerations()
+	      << aiinp_inParamGenWOChgVk.getNumMaxGenerations()
 #ifdef _INITIATES_KMIN_KMAX_POPULATION_  
 	      << "\n\t\tk-minimum  = " 
-	      << aiinp_inParamGenWOChgRk.getNumClusterKMinimum()
+	      << aiinp_inParamGenWOChgVk.getNumClusterKMinimum()
 	      << "\n\t\tk-maximum  = " 
-	      << aiinp_inParamGenWOChgRk.getNumClusterKMaximum()
+	      << aiinp_inParamGenWOChgVk.getNumClusterKMaximum()
 #endif //_INITIATES_RANDOM_POPULATION_      
 	      << "\n\t)"
 	      << std::endl;
@@ -156,13 +156,13 @@ gaclustering_vktreebinary
    
   runtime::ListRuntimeFunction<COMMON_IDOMAIN>
     llfh_listFuntionHist
-    (aiinp_inParamGenWOChgRk.getNumMaxGenerations(),
+    (aiinp_inParamGenWOChgVk.getNumMaxGenerations(),
      "Iterations",
      "Clustering metrics"
      );
   
   COMMON_IDOMAIN  lit_iterNotChange =
-    aiinp_inParamGenWOChgRk.getNumNotChangeStop();
+    aiinp_inParamGenWOChgVk.getNumNotChangeStop();
   //GA_CLUSTERINGVARK_NOT_CHANGE_STOP;
 
   /*DECLARATION OF VARIABLES: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
@@ -173,14 +173,14 @@ gaclustering_vktreebinary
   runtime::RuntimeFunctionStat<T_REAL>  *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL>       lvectorT_statfuncObjetiveFunc;
   
-  if ( aiinp_inParamGenWOChgRk.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamGenWOChgVk.getWithPlotStatObjetiveFunc() ) {  
     
     lvectorT_statfuncObjetiveFunc.reserve
-      ( aiinp_inParamGenWOChgRk.getSizePopulation());
+      ( aiinp_inParamGenWOChgVk.getSizePopulation());
     //DEFINE FUNCTION
     lofh_VRC  = new runtime::RuntimeFunctionValue<T_REAL>
       ("VRC", 
-       aiinp_inParamGenWOChgRk.getAlgorithmoName(),
+       aiinp_inParamGenWOChgVk.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -192,7 +192,7 @@ gaclustering_vktreebinary
 	new runtime::RuntimeFunctionStat
 	<T_REAL>
 	( (char) li_i,
-	  aiinp_inParamGenWOChgRk.getAlgorithmoName(),
+	  aiinp_inParamGenWOChgVk.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
@@ -200,8 +200,8 @@ gaclustering_vktreebinary
   
     //OPEN FILE STRORE FUNCTION
     aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
-      (aiinp_inParamGenWOChgRk.getFileNamePlotStatObjetiveFunc(),
-       aiinp_inParamGenWOChgRk.getTimesRunAlgorithm()
+      (aiinp_inParamGenWOChgVk.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamGenWOChgVk.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
@@ -309,10 +309,10 @@ gaclustering_vktreebinary
     /*CREATE SPACE FOR STORE POPULATION-----------------------------------------
      */
     lvectorchrom_population.reserve
-      ( aiinp_inParamGenWOChgRk.getSizePopulation() );
+      ( aiinp_inParamGenWOChgVk.getSizePopulation() );
 
     for (uintidx luintidx_i = 0; 
-	 luintidx_i < aiinp_inParamGenWOChgRk.getSizePopulation(); 
+	 luintidx_i < aiinp_inParamGenWOChgVk.getSizePopulation(); 
 	 luintidx_i++) 
       {	
 	lvectorchrom_population.push_back
@@ -325,8 +325,8 @@ gaclustering_vktreebinary
     
     std::uniform_int_distribution<T_CLUSTERIDX>
       uniformdis_iMinMaxK
-      (aiinp_inParamGenWOChgRk.getNumClusterKMinimum(), 
-       aiinp_inParamGenWOChgRk.getNumClusterKMaximum()
+      (aiinp_inParamGenWOChgVk.getNumClusterKMinimum(), 
+       aiinp_inParamGenWOChgVk.getNumClusterKMaximum()
        );
 
     std::uniform_int_distribution<uintidx> uniformdis_uiInitialize0N_1
@@ -360,10 +360,10 @@ gaclustering_vktreebinary
     /*CREATE SPACE FOR STORE MATINGPOOL--------------------------------------------
      */
     lvectorchrom_stringPool.reserve
-      ( aiinp_inParamGenWOChgRk.getSizePopulation() );
+      ( aiinp_inParamGenWOChgVk.getSizePopulation() );
 
     for (uintidx luintidx_i = 0; 
-	 luintidx_i < aiinp_inParamGenWOChgRk.getSizePopulation(); 
+	 luintidx_i < aiinp_inParamGenWOChgVk.getSizePopulation(); 
 	 luintidx_i++) 
       {	
 	lvectorchrom_stringPool.push_back
@@ -526,7 +526,7 @@ gaclustering_vktreebinary
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION
 	 */
 	lit_iterNotChange =
-	  aiinp_inParamGenWOChgRk.getNumNotChangeStop();
+	  aiinp_inParamGenWOChgVk.getNumNotChangeStop();
 	aoop_outParamEAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
 	aoop_outParamEAC.setRunTimeGetsBest
@@ -623,7 +623,7 @@ gaclustering_vktreebinary
     /*MEASUREMENT BEST: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
      */
 #ifndef __WITHOUT_PLOT_STAT
-    if ( aiinp_inParamGenWOChgRk.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamGenWOChgVk.getWithPlotStatObjetiveFunc() ) {  
       lofh_VRC->setValue(lochrom_best.getObjetiveFunc());
       functionhiststat_evaluateAll
 	(lofhs_statObjectiveFunc,
@@ -656,7 +656,7 @@ gaclustering_vktreebinary
       std::cout << "TERMINATION CRITERION ATTAINED?: NumMaxGenerations =  " 
 		<< llfh_listFuntionHist.getDomainUpperBound()
 		<< " < "
-		<< aiinp_inParamGenWOChgRk.getNumMaxGenerations()
+		<< aiinp_inParamGenWOChgVk.getNumMaxGenerations()
 		<< "  OR Not Change " << lit_iterNotChange
 		<< std::endl; 
     }
@@ -664,9 +664,9 @@ gaclustering_vktreebinary
 #endif /*__VERBOSE_YES*/
 
 
-    if ( (llfh_listFuntionHist.getDomainUpperBound() >= aiinp_inParamGenWOChgRk.getNumMaxGenerations() ) || 
+    if ( (llfh_listFuntionHist.getDomainUpperBound() >= aiinp_inParamGenWOChgVk.getNumMaxGenerations() ) || 
 	 (lit_iterNotChange == 0 ) ||
-	 (runtime::elapsedTime(let_executionTime) > aiinp_inParamGenWOChgRk.getMaxExecutiontime())
+	 (runtime::elapsedTime(let_executionTime) > aiinp_inParamGenWOChgVk.getMaxExecutiontime())
 	 )
       break;
    
@@ -801,7 +801,7 @@ gaclustering_vktreebinary
        {
 
 	 if ( uniformdis_real01(gmt19937_eng) //if  Crossover
-	     < aiinp_inParamGenWOChgRk.getProbCrossover() ) {
+	     < aiinp_inParamGenWOChgVk.getProbCrossover() ) {
 	  
 	  gabinaryop::onePointCrossover
 	    (*aochrom_child1,
@@ -854,7 +854,7 @@ gaclustering_vktreebinary
 
       for (auto&& liter_iChrom :lvectorchrom_population) {
 	if ( uniformdis_real01(gmt19937_eng)
-	     <  aiinp_inParamGenWOChgRk.getProbMutation() ) 
+	     <  aiinp_inParamGenWOChgVk.getProbMutation() ) 
 	  {
 	    gabinaryop::bitMutation(*liter_iChrom);
 	  }
@@ -954,10 +954,10 @@ gaclustering_vktreebinary
    */ 
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiinp_inParamGenWOChgRk.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamGenWOChgVk.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiinp_inParamGenWOChgRk,
+       aiinp_inParamGenWOChgVk,
        aoop_outParamEAC
        );  
   }

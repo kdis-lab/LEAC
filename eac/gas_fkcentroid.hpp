@@ -27,7 +27,7 @@
 #include <algorithm>
 
 #include <leac.hpp>
-#include "inparam_probcprobm_fixedk.hpp"
+#include "inparam_pcpmfk.hpp"
 #include "outparam_eaclustering.hpp"
 
 #include "plot_runtime_function.hpp"
@@ -43,7 +43,7 @@
 
 namespace eac {
   
-/*! \fn gaencode::ChromFixedLength<T_FEATURE,T_REAL> gas_fkcentroid (inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamPcPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinpcgaprobfixedk_inParamKGA, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn gaencode::ChromFixedLength<T_FEATURE,T_REAL> gas_fkcentroid (inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamPcPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamPcPmFk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief GAS \cite Maulik:Bandyopadhyay:GAclustering:GAS:2000
   \details Implementation of GAS algorithm based on \cite Maulik:Bandyopadhyay:GAclustering:GAS:2000. 
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid. Base to following equation:
@@ -53,7 +53,7 @@ namespace eac {
   \f]
   where \f$m_j\f$, represents the medoid of cluster \f$C_j\f$
   \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
-  \param aiinpcgaprobfixedk_inParamKGA a inout::InParamPcPmFk parameters required by the algorithm
+  \param aiinp_inParamPcPmFk a inout::InParamPcPmFk parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
@@ -75,14 +75,14 @@ gas_fkcentroid
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>              &aiinpcgaprobfixedk_inParamKGA,
+ T_INSTANCES_CLUSTER_K>              &aiinp_inParamPcPmFk,
  const INPUT_ITERATOR                aiiterator_instfirst,
  const INPUT_ITERATOR                aiiterator_instlast,
  const dist::Dist<T_REAL,T_FEATURE>  &aifunc2p_dist
  )
 {  
   const uintidx lconstui_numClusterFk =
-    (uintidx) aiinpcgaprobfixedk_inParamKGA.getNumClusterK();
+    (uintidx) aiinp_inParamPcPmFk.getNumClusterK();
 
   /*ASSIGN SIZE FOR ALL CHROMOSOMES
    */
@@ -97,13 +97,13 @@ gas_fkcentroid
    */
   std::vector<gaencode::ChromFixedLength<T_FEATURE,T_REAL> >
     lvectorchromfixleng_population
-    (aiinpcgaprobfixedk_inParamKGA.getSizePopulation());
+    (aiinp_inParamPcPmFk.getSizePopulation());
 
   /*CREATE SPACE FOR STORE MATINGPOOL--------------------------------------------
    */
   std::vector<gaencode::ChromFixedLength<T_FEATURE,T_REAL> >
     lvectorchromfixleng_matingPool
-    (aiinpcgaprobfixedk_inParamKGA.getSizePopulation());
+    (aiinp_inParamPcPmFk.getSizePopulation());
 
   std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
   
@@ -126,18 +126,18 @@ gas_fkcentroid
       << "aoop_outParamEAC[" 
       << &aoop_outParamEAC << "]\n"
       << "\t input  InParamPcPmFk&: "
-      <<"aiinpcgaprobfixedk_inParamKGA[" 
-      << &aiinpcgaprobfixedk_inParamKGA << "]\n"
+      <<"aiinp_inParamPcPmFk[" 
+      << &aiinp_inParamPcPmFk << "]\n"
       << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
       << "\t input aiiterator_instlast[" <<  &aiiterator_instlast << "]\n"
       << "\t input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
       << &aifunc2p_dist << ']'
       << "\n\t\tPopulation size = " 
-      << aiinpcgaprobfixedk_inParamKGA.getSizePopulation()
+      << aiinp_inParamPcPmFk.getSizePopulation()
       << "\n\t\tProbCrossover = " 
-      << aiinpcgaprobfixedk_inParamKGA.getProbCrossover() 
+      << aiinp_inParamPcPmFk.getProbCrossover() 
       << "\n\t\tProbMutation  = " 
-      << aiinpcgaprobfixedk_inParamKGA.getProbMutation() 
+      << aiinp_inParamPcPmFk.getProbMutation() 
       << "\n\t)"
       << std::endl;
   }
@@ -145,7 +145,7 @@ gas_fkcentroid
 
   runtime::ListRuntimeFunction<COMMON_IDOMAIN> 
     llfh_listFuntionHist
-    (aiinpcgaprobfixedk_inParamKGA.getNumMaxGenerations(),
+    (aiinp_inParamPcPmFk.getNumMaxGenerations(),
      "Iterations",
      "Clustering metrics"
      );
@@ -158,14 +158,14 @@ gas_fkcentroid
     *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
   std::vector<T_REAL>         lvectorT_statfuncObjetiveFunc;
 
-  if ( aiinpcgaprobfixedk_inParamKGA.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamPcPmFk.getWithPlotStatObjetiveFunc() ) {  
     
     lvectorT_statfuncObjetiveFunc.reserve
-      ( aiinpcgaprobfixedk_inParamKGA.getSizePopulation());
+      ( aiinp_inParamPcPmFk.getSizePopulation());
     //DEFINE FUNCTION
     lofh_SSE  = new runtime::RuntimeFunctionValue<T_REAL>
       ("SSE", 
-       aiinpcgaprobfixedk_inParamKGA.getAlgorithmoName(),
+       aiinp_inParamPcPmFk.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -177,7 +177,7 @@ gas_fkcentroid
 	new runtime::RuntimeFunctionStat
 	<T_REAL>
 	( (char) li_i,
-	  aiinpcgaprobfixedk_inParamKGA.getAlgorithmoName(),
+	  aiinp_inParamPcPmFk.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
@@ -185,8 +185,8 @@ gas_fkcentroid
   
     //OPEN FILE STRORE FUNCTION
     aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
-      (aiinpcgaprobfixedk_inParamKGA.getFileNamePlotStatObjetiveFunc(),
-       aiinpcgaprobfixedk_inParamKGA.getTimesRunAlgorithm()
+      (aiinp_inParamPcPmFk.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamPcPmFk.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
@@ -474,7 +474,7 @@ gas_fkcentroid
       ALGORITHM
     */
 #ifndef __WITHOUT_PLOT_STAT
-    if ( aiinpcgaprobfixedk_inParamKGA.getWithPlotStatObjetiveFunc() ) {  
+    if ( aiinp_inParamPcPmFk.getWithPlotStatObjetiveFunc() ) {  
 
       lofh_SSE->setValue(lochromfixleng_best.getObjetiveFunc());
 
@@ -507,7 +507,7 @@ gas_fkcentroid
 #endif /*__VERBOSE_YES*/
    
     if ( !(llfh_listFuntionHist.getDomainUpperBound() 
-	   < aiinpcgaprobfixedk_inParamKGA.getNumMaxGenerations() ) 
+	   < aiinp_inParamPcPmFk.getNumMaxGenerations() ) 
 	 )
       break;
 
@@ -612,7 +612,7 @@ gas_fkcentroid
 	 {
 	 
 	   if ( uniformdis_real01(gmt19937_eng) <
-		aiinpcgaprobfixedk_inParamKGA.getProbCrossover()  ) {
+		aiinp_inParamPcPmFk.getProbCrossover()  ) {
 	      
 	     gagenericop::onePointCrossover
 	       (aochrom_child1,
@@ -659,7 +659,7 @@ gas_fkcentroid
 
       for ( auto& lchromfixleng_iter: lvectorchromfixleng_population ) {
 	if ( uniformdis_real01(gmt19937_eng) 
-	     < aiinpcgaprobfixedk_inParamKGA.getProbMutation() ) 
+	     < aiinp_inParamPcPmFk.getProbMutation() ) 
 	  { //IF BEGIN  MUTATION	
 	    garealop::randomMutation(lchromfixleng_iter);
 	    //THE FITNESS VALUE AND OBJECTIVE IS RESET
@@ -687,7 +687,7 @@ gas_fkcentroid
     
   runtime::stop(let_executionTime);
   aoop_outParamEAC.setNumClusterK
-    (aiinpcgaprobfixedk_inParamKGA.getNumClusterK());
+    (aiinp_inParamPcPmFk.getNumClusterK());
   aoop_outParamEAC.setMetricFuncRun
     (lochromfixleng_best.getObjetiveFunc());
   aoop_outParamEAC.setAlgorithmRunTime
@@ -699,10 +699,10 @@ gas_fkcentroid
  
 #ifndef __WITHOUT_PLOT_STAT
 
-  if ( aiinpcgaprobfixedk_inParamKGA.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamPcPmFk.getWithPlotStatObjetiveFunc() ) {  
     runtime::plot_funtionHist
       (llfh_listFuntionHist,
-       aiinpcgaprobfixedk_inParamKGA,
+       aiinp_inParamPcPmFk,
        aoop_outParamEAC
        );  
   }

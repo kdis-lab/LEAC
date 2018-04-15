@@ -29,7 +29,7 @@
 #include <algorithm>
 
 #include <leac.hpp>
-#include "inparam_probm_fixedk.hpp"
+#include "inparam_pmfk.hpp"
 #include "outparam_eaclustering.hpp"
 #include "ga_integer_operator.hpp"
 
