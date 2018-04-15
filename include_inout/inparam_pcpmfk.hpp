@@ -1,4 +1,4 @@
-/*! \file inparam_probcprobm_fixedk.hpp
+/*! \file inparam_pcpmfk.hpp
  *
  * \brief Definition of input parameters
  *
@@ -8,12 +8,14 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_GACLUSTERING_PROB_FIXEDK_HPP
-#define IN_PARAM_GACLUSTERING_PROB_FIXEDK_HPP
+#ifndef __IN_PARAM_PCPMFK_HPP__
+#define __IN_PARAM_PCPMFK_HPP__
 
-#include "inparam_probcprobm.hpp"
+#include "inparam_pcpm.hpp"
 #include "inparam_fixedk.hpp"
 #include "inparam_readinst.hpp"
+
+#define __INPARAM_PCPMFK__
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -25,7 +27,6 @@
 */
 
 namespace  inout {
-
 
 /*! \class InParamPcPmFk
   \brief Input parameter for GA with probability Pc, Pm and Fixed K 
@@ -68,4 +69,4 @@ public:
 } /*END namespace inout 
    */
 
-#endif /*IN_PARAM_GACLUSTERING_PROB_FIXEDK_HPP*/
+#endif /*__IN_PARAM_PCPMFK_HPP__*/

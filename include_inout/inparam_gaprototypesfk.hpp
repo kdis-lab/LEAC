@@ -1,4 +1,4 @@
-/*! \file inparam_gaprototypes.hpp
+/*! \file inparam_gaprototypesfk.hpp
  *
  * \brief Definition of GA-Prototypes program parameters
  *
@@ -8,10 +8,13 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef __IN_PARAM_GAPROTOTYPES_HPP__
-#define __IN_PARAM_GAPROTOTYPES_HPP__
+#ifndef __IN_PARAM_GAPROTOTYPESFK_HPP__
+#define __IN_PARAM_GAPROTOTYPESFK_HPP__
 
-#include "inparam_probcprobm_fixedk.hpp"
+#include "inparam_pcpmfk.hpp"
+
+#undef  __INPARAM_PCPMFK__
+#define __INPARAM_GAPROTOTYPESFK__
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -24,7 +27,7 @@
 
 namespace  inout {
 
-/*! \class InParamGAPrototypes
+/*! \class InParamGAPrototypesFk
   \brief Input parameter for GA-Prototypes algorithm \cite Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997
 */
 template < typename T_BITSIZE, //-1, 0, 1, .., K
@@ -34,11 +37,11 @@ template < typename T_BITSIZE, //-1, 0, 1, .., K
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
 	   >
-class InParamGAPrototypes
+class InParamGAPrototypesFk
   : public InParamPcPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
 {
 public:
-  InParamGAPrototypes
+  InParamGAPrototypesFk
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
@@ -48,7 +51,7 @@ public:
     <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
     (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm) {}
 
-  ~InParamGAPrototypes() {}
+  ~InParamGAPrototypesFk() {}
 
   inline void setPini(T_REAL airt_pini) 
   {
@@ -92,4 +95,4 @@ protected:
 } /* END namespace inout
    */
 
-#endif /*__IN_PARAM_GAPROTOTYPES_HPP__*/
+#endif /*__IN_PARAM_GAPROTOTYPESFK_HPP__*/

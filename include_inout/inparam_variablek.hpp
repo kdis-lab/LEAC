@@ -1,4 +1,4 @@
-/*! \file inparam_rangek.hpp
+/*! \file inparam_variablek.hpp
  *
  * \brief Definition of input parameters
  *
@@ -8,8 +8,8 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_RANGEK_HPP
-#define IN_PARAM_RANGEK_HPP
+#ifndef __IN_PARAM_VARIABLEK_HPP__
+#define __IN_PARAM_VARIABLEK_HPP__
 
 
 /*! \namespace inout
@@ -28,13 +28,13 @@ namespace  inout {
 
 
 template <class T_CLUSTERIDX> //-1, 0, 1, .., K
-class InParamRk {
+class InParamVk {
 public:
-  InParamRk() 
+  InParamVk() 
     : _idxK_numClusterKMinimum(INPARAMCLUSTERING_DEFAULT_CLUSTERK_MIN)
     , _idxK_numClusterKMaximum(INPARAMCLUSTERING_DEFAULT_CLUSTERK_UNDEFINED)
   {}
-  ~InParamRk() {}
+  ~InParamVk() {}
 
   inline void setNumClusterKMinimum(T_CLUSTERIDX aiidxK_numClusterKMinimum) 
   {
@@ -69,10 +69,10 @@ protected:
   T_CLUSTERIDX _idxK_numClusterKMinimum;//-1, 0, 1, .., K,    // st_numClusterK;
   T_CLUSTERIDX _idxK_numClusterKMaximum;//-1, 0, 1, .., K,    // st_numClusterK;
   
-}; /*InParamRk*/
+}; /*InParamVk*/
   
 
 } /*END namespace inout
    */
 
-#endif /*IN_PARAM_RANGEK_HPP*/
+#endif /*__IN_PARAM_VARIABLEK_HPP__*/

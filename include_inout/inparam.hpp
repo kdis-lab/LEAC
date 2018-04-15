@@ -14,7 +14,7 @@
 #include <cstddef>
 #include <time.h>
 #include "outfilename.hpp"
-
+#include "getsubopt.hpp"
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -69,9 +69,42 @@ public:
 
   ~InParamAlgorithmo() {}
 
-  void errorArgument(char *apc_command, const char *apc_options, const char *aas_arguments[]);
+  void errorArgument(char *apc_command, const char *apc_options, const char *aas_arguments[])
+  {
+  int li_i;
 
-  bool isYesNo(char  *optarg, char *apc_command, const char *apc_options);
+  li_i = 0;
+  std::cerr << apc_command <<": ambiguous argument for `--" << apc_options << "'\n";
+  std::cerr << "Valid arguments are:\n";
+  while ( aas_arguments[li_i] != NULL)  {
+    std::cerr << "`" << aas_arguments[li_i] << "' ";
+    ++li_i;
+    if  (aas_arguments[li_i] != NULL)
+      std::cerr << ", ";
+  }  
+  std::cerr << "\nTry `ls --" << apc_command << "' for more information." << std::endl;
+  exit(-1);                           
+  }
+   
+
+  bool isYesNo(char  *optarg, char *apc_command, const char *apc_options)
+  {
+  const char *las_optTokensYesNo[] = {"no", "yes", (char *) NULL };
+  char *lps_optsubValue = NULL;
+  bool lob_yesNo = true;
+  int  li_idxSubOpt;
+
+  if (optarg) {
+    if ( (li_idxSubOpt = getsubopt_getsubopt(&optarg, las_optTokensYesNo, &lps_optsubValue)) != -1) {
+      lob_yesNo = li_idxSubOpt;
+    }
+    else {
+      this->errorArgument(apc_command, apc_options, las_optTokensYesNo);
+    }	
+  }
+  
+  return lob_yesNo;    
+}
   
   inline void setFileNameTimesRun(char *aips_nameFile) 
   {

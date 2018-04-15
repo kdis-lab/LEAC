@@ -1,4 +1,4 @@
-/*! \file inparam_clustering_isodata.hpp
+/*! \file inparam_isodata.hpp
  *
  * \brief Definition of ISODATA program parameters
  *
@@ -15,6 +15,8 @@
 #include "inparam_fixedk.hpp"
 #include "inparam_readinst.hpp"
 
+#define __INPARAM_ISODATA__
+
 /*! \namespace inout
   \brief Module for input and output parameters
   \details
@@ -26,8 +28,8 @@
 
 namespace  inout {
   
-/*! \class InParamClusteringIsoData
-  \brief Input parameter for IsoData algorithm \cite Ball:Hall:ClusterAnalysis:ISODATA:1967
+/*! \class InParamIsoData
+  \brief Input parameter for IsoData algorithm
 */
 template < typename T_CLUSTERIDX,
            typename T_REAL,
@@ -35,14 +37,14 @@ template < typename T_CLUSTERIDX,
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
 	   >
-class InParamClusteringIsoData
+class InParamIsoData
   : public InParamClusteringMaxIter
   , public InParamFk<T_CLUSTERIDX>
   , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
 
-  InParamClusteringIsoData
+  InParamIsoData
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut, 
@@ -55,7 +57,7 @@ public:
     , t_epsilon(INPARAMCLUSTERING_DEFAULT_EPSILON) 
   {}
   
-  ~InParamClusteringIsoData()
+  ~InParamIsoData()
   {}
 
   inline void setIsOptimalInitializacion(bool aib_optimalInitializacion) 

@@ -13,9 +13,10 @@
 #define __IN_PARAM_CBGA_HPP__
 
 #include "inparam_fixedk.hpp"
-#include "inparam_probm.hpp"
+#include "inparam_pm.hpp"
 #include "inparam_readinst.hpp"
 
+#define __INPARAM_CBGA__
 
 /*! \namespace inout
   \brief Module for input and output parameters

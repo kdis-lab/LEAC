@@ -11,7 +11,10 @@
 #ifndef __IN_PARAM_GCA_HPP__
 #define __IN_PARAM_GCA_HPP__
 
-#include "inparam_probcprobm_fixedk.hpp"
+#include "inparam_pcpmfk.hpp"
+
+#undef   __INPARAM_PCPMFK__
+#define  __INPARAM_GCA__
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -73,7 +76,7 @@ protected:
 };
 
   
-} /* END namespace inparam
+} /* END namespace inout
    */
 
 #endif /*__IN_PARAM_GCA_HPP__*/

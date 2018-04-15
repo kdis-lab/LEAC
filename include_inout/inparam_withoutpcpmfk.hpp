@@ -1,4 +1,4 @@
-/*! \file inparam_withoutprobcprobm.hpp
+/*! \file inparam_withoutpcpmfk.hpp
  *
  * \brief Definition of GA program parameters
  *
@@ -8,12 +8,14 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef __IN_PARAM_WITHOUT_PCPM_HPP__
-#define __IN_PARAM_WITHOUT_PCPM_HPP__
+#ifndef __IN_PARAM_WITHOUT_PCPMFK_HPP__
+#define __IN_PARAM_WITHOUT_PCPMFK_HPP__
 
 #include "inparam_fixedk.hpp"
 #include "inparam_gaclustering.hpp"
 #include "inparam_readinst.hpp"
+
+#define __INPARAM_WITHOUTPCPMFK__
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -26,7 +28,7 @@
 
 namespace  inout {
   
-/*! \class InParamWithoutPcPm
+/*! \class InParamWithoutPcPmFk
   \brief Input parameter for GA without probability crossover (Pc) and mutation (Pm)\cite Bezdek:etal:GAclustering:GA:1994
 */
 template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
@@ -35,13 +37,13 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
 	  > 
-class InParamWithoutPcPm
+class InParamWithoutPcPmFk
   : public InParamGAClustering
   , public InParamFk<T_CLUSTERIDX>
   , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
-  InParamWithoutPcPm
+  InParamWithoutPcPmFk
   (const std::string&   ais_algorithmoName,
    const std::string&   ais_algorithmoAuthor,
    InParam_algTypeOut   aiato_algTypeOut,
@@ -79,4 +81,4 @@ protected:
 } /* END namespace inout
    */
 
-#endif /*__IN_PARAM_WITHOUT_PCPM_HPP__*/
+#endif /*__IN_PARAM_WITHOUT_PCPMFK_HPP__*/

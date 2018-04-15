@@ -1,4 +1,4 @@
-/*! \file inparam_probm.hpp
+/*! \file inparam_pm.hpp
  *
  * \brief Definition of input parameters
  *

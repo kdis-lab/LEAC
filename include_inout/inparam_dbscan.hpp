@@ -1,4 +1,4 @@
-/*! \file inparam_clustering_dbscan.hpp
+/*! \file inparam_dbscan.hpp
  *
  * \brief Definition of DBSCAN program parameters
  *
@@ -9,12 +9,13 @@
  */
 
 
-
-#ifndef IN_PARAM_CLUSTERING_DBSCAN_HPP
-#define IN_PARAM_CLUSTERING_DBSCAN_HPP
+#ifndef __IN_PARAM_DBSCAN_HPP__
+#define __IN_PARAM_DBSCAN_HPP__
 
 #include "inparam_clustering.hpp"
 #include "inparam_readinst.hpp"
+
+#define __INPARAM_DBSCAN__
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -28,19 +29,19 @@
 
 namespace  inout {
   
-/*! \class InParamClusteringDBSCAN
+/*! \class InParamDBSCAN
   \brief Input parameter for DBSCAN algorithm \cite Ester:Kriegel:Sander:Xu:Clustering:DBSCAN:1996
 */
 template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
 	  > 
-class InParamClusteringDBSCAN
+class InParamDBSCAN
   : public InParamClustering
   , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
-  InParamClusteringDBSCAN
+  InParamDBSCAN
   (std::string        ais_algorithmoName,
    std::string        ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
@@ -51,12 +52,10 @@ public:
      ais_algorithmoAuthor,
      aiato_algTypeOut,
      aii_opNorm)
-    , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
-    //  , InParamDefineFeat<T_FEATURE>()
-    
+    , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()    
   {}
 
-  ~InParamClusteringDBSCAN() {}
+  ~InParamDBSCAN() {}
   
   inline void setEps(double aid_eps) 
   {
@@ -68,7 +67,6 @@ public:
     return this->_d_eps;
   }
 
-  //inline void setMinPts(T_INSTANCES_CLUSTER_K aiit_minPts) 
   inline void setMinPts(uint32_t aiui32t_minPts) 
   {
     this->_ui32t_minPts = aiui32t_minPts;
@@ -161,4 +159,4 @@ protected:
 } /*END namespace inout
    */
 
-#endif /*IN_PARAM_CLUSTERING_DBSCAN_HPP*/
+#endif /*__IN_PARAM_DBSCAN_HPP__*/

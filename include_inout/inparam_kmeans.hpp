@@ -1,4 +1,4 @@
-/*! \file inparam_clustering_clasic.hpp
+/*! \file inparam_kmeans.hpp
  *
  * \brief Definition of clustering clasic program parameters
  *
@@ -8,12 +8,14 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_CLUSTERING_CLASIC_HPP
-#define IN_PARAM_CLUSTERING_CLASIC_HPP
+#ifndef __IN_PARAM_KMEANS_HPP__
+#define __IN_PARAM_KMEANS_HPP__
 
 #include "inparam_clustering_max_iter.hpp"
 #include "inparam_fixedk.hpp"
 #include "inparam_readinst.hpp"
+
+#define __INPARAM_KMEANS__
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -27,7 +29,7 @@
 namespace  inout {
 
   
-/*! \class InParamClusteringClasic
+/*! \class InParamKmeans
   \brief Input parameter for traditional algorithm clustering \cite MacQueen:ClusterAnalysis:KMeans:1967
 */
   template <typename T_CLUSTERIDX,
@@ -35,13 +37,13 @@ namespace  inout {
 	    typename T_FEATURE_SUM,
 	    typename T_INSTANCES_CLUSTER_K 
 	    > 
-class InParamClusteringClasic
+class InParamKmeans
     : public InParamClusteringMaxIter
     , public InParamFk<T_CLUSTERIDX>
     , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
-  InParamClusteringClasic
+  InParamKmeans
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
@@ -52,7 +54,7 @@ public:
     , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
     , _ui_numMinThreshold(INPARAMCLUSTERING_DEFAULT_MIN_THRESHOLD)
   {}
-  ~InParamClusteringClasic() {}
+  ~InParamKmeans() {}
 
   inline void setMinThreshold(uintidx aiui_numMinThreshold) 
   {
@@ -81,4 +83,4 @@ protected:
 } /*END namespace inparam 
    */
 
-#endif /*IN_PARAM_CLUSTERING_CLASIC_HPP*/
+#endif /*__IN_PARAM_KMEANS_HPP__*/

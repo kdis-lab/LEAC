@@ -12,8 +12,10 @@
 #define __IN_PARAM_FEAC_HPP__
 
 #include "inparam_gaclustering.hpp"
-#include "inparam_rangek.hpp"
+#include "inparam_variablek.hpp"
 #include "inparam_readinst.hpp"
+
+#define __INPARAM_FEAC__
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -41,7 +43,7 @@ template < typename T_FEATURE,
 	   >
 class InParamFEAC
   : public InParamGAClustering
-  , public InParamRk<T_CLUSTERIDX>
+  , public InParamVk<T_CLUSTERIDX>
   , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
@@ -53,7 +55,7 @@ public:
    )
     : InParamGAClustering
       (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut,aii_opNorm)
-    , InParamRk<T_CLUSTERIDX>()
+    , InParamVk<T_CLUSTERIDX>()
     , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
     , _it_kmeansNumMaxIter(INPARAMCLUSTERING_FEAC_KMEANSNUMMAXITER)
     , _rT_kmeansMaxDiffCent(INPARAMCLUSTERING_FEAC_KMEANSMAXDIFFCENT)
@@ -97,7 +99,7 @@ public:
   virtual void  print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
     InParamGAClustering::print(aipf_outFile,aic_separator);
-      InParamRk<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
+      InParamVk<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
       InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
       aipf_outFile << aic_separator << "_k-means iterations"            
 		   << aic_separator << _it_kmeansNumMaxIter; 

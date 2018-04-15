@@ -18,6 +18,11 @@
 #include "inparam.hpp"
 #include "standardize_variable.hpp"
 
+/*Directive used to compile, characterize, which is a clustering 
+  algorithm, used in the inparamclustering_getparameter.hpp file
+ */
+#define __ALG_CLUSTERING__ 
+
 
 /*! \namespace inout
   \brief Module for input and output parameters

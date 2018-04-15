@@ -8,12 +8,12 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-
-#ifndef IN_PARAM_PCA_HPP
-#define IN_PARAM_PCA_HPP
+#ifndef __IN_PARAM_PCA_HPP__
+#define __IN_PARAM_PCA_HPP__
 
 #include "inparam.hpp"
 
+#define  __INPARAM_PCA__ 
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -169,4 +169,4 @@ protected:
 
 } /* END namespace inout*/
 
-#endif /*IN_PARAM_PCA_HPP*/
+#endif /*__IN_PARAM_PCA_HPP__*/

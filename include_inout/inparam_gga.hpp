@@ -12,8 +12,10 @@
 #define __IN_PARAM_GGA_HPP__
 
 #include "inparam_clustering.hpp"
-#include "inparam_rangek.hpp"
+#include "inparam_variablek.hpp"
 #include "inparam_readinst.hpp"
+
+#define __INPARAM_GGA__
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -37,7 +39,7 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   >
 class InParamGGA
   : public InParamClustering
-  , public InParamRk<T_CLUSTERIDX>
+  , public InParamVk<T_CLUSTERIDX>
   , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
@@ -49,7 +51,7 @@ public:
    )
     : InParamClustering
       (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut,aii_opNorm)
-    , InParamRk<T_CLUSTERIDX>()
+    , InParamVk<T_CLUSTERIDX>()
     , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
     , _ui_subPopulationSize(20)
     , _ui_numIsland(4)
@@ -169,7 +171,7 @@ public:
   virtual void  print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
     InParamClustering::print(aipf_outFile,aic_separator);
-    InParamRk<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
+    InParamVk<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
     InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "_sub-population-size"   
 		 << aic_separator << this->_ui_subPopulationSize;
@@ -179,7 +181,7 @@ public:
 		 << aic_separator << this->_rt_pe;
     aipf_outFile << aic_separator << "_number maximum generations" 
 		 << aic_separator << this->_it_numMaxGenerations;
-    InParamRk<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
+    InParamVk<T_CLUSTERIDX>::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "_initial probability crossover"   
 		 << aic_separator << this->_rt_pci;
     aipf_outFile << aic_separator << "_final probability crossover"   

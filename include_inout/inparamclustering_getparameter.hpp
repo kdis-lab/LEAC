@@ -8,8 +8,8 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_CLUSTERING_GETPARAMETER_HPP
-#define IN_PARAM_CLUSTERING_GETPARAMETER_HPP
+#ifndef __IN_PARAM_CLUSTERING_GETPARAMETER_HPP__
+#define __IN_PARAM_CLUSTERING_GETPARAMETER_HPP__
 
 #include <iostream>
 #include <sstream>
@@ -17,35 +17,8 @@
 #include <string>
 #include <string.h>
 #include <getopt.h>
-#include "getsubopt.h"
 #include "vector_utils.hpp"
 #include "file_utils.hpp"
-
-#include "inparam_plotclustering.hpp"
-#include "inparam_probcprobm_fixedk.hpp"
-#include "inparam_probm_fixedk.hpp"
-#include "inparam_cbga.hpp"
-#include "inparam_adaptiveprobcprobm.hpp"
-#include "inparam_gca.hpp"
-#include "inparam_gaprototypes.hpp"
-#include "inparam_hka.hpp"
-#include "inparam_withoutprobcprobm.hpp"
-#include "inparam_probcprobm_rangek.hpp"
-#include "inparam_probcprobm_rangek.hpp"
-#include "inparam_feac.hpp"
-#include "inparam_genwochg_rangek.hpp"
-#include "inparam_subclusterbinary.hpp"
-#include "inparam_tgca.hpp"
-#include "inparam_gga.hpp"
-
-#include "inparam_stdvar.hpp"
-#include "inparam_clustering_clasic.hpp"
-#include "inparam_clustering_slink.hpp"
-#include "inparam_clustering_isodata.hpp"
-#include "inparam_clustering_fcm.hpp"
-#include "inparam_clustering_medoidspam.hpp"
-#include "inparam_clustering_dbscan.hpp"
-#include "inparam_pca.hpp"
 
 extern char  *optarg;
 
@@ -64,8 +37,7 @@ namespace  inout {
 
 /*---< inparam_usageClustering>------------------------------------------------------------*/
 
-#ifdef  ALG_KMEANS_FORGY_MACQUEEN_1967
-  
+#ifdef __INPARAM_KMEANS__  
   template <typename T_CLUSTERIDX,
 	    typename T_FEATURE,         
 	    typename T_FEATURE_SUM,
@@ -74,17 +46,16 @@ namespace  inout {
 void
 inparamclustering_usage
 (char                    *argv0, 
- InParamClusteringClasic
+ InParamKmeans
  <T_CLUSTERIDX,
  T_FEATURE,
  T_FEATURE_SUM,
  T_INSTANCES_CLUSTER_K>  &aoipc_inParamClustering
  )
-  
-#endif /* ALG_KMEANS_FORGY_MACQUEEN_1967 */
+#endif /* __INPARAM_KMEANS__ */
 
   
-#ifdef  ALG_SLINK_SIBSON_1973
+#ifdef  __INPARAM_SLINK__
 template <typename T_CLUSTERIDX,
 	  typename T_FEATURE,
 	  typename T_INSTANCES_CLUSTER_K
@@ -92,12 +63,12 @@ template <typename T_CLUSTERIDX,
 void
 inparamclustering_usage
 (char                                   *argv0, 
- InParamClusteringSlink<T_CLUSTERIDX,T_FEATURE,T_INSTANCES_CLUSTER_K>  &aoipc_inParamClustering
+ InParamSlink<T_CLUSTERIDX,T_FEATURE,T_INSTANCES_CLUSTER_K>  &aoipc_inParamClustering
 )
-#endif /*ALG_SLINK_SIBSON_1973*/
+#endif /*__INPARAM_SLINK__*/
   
 
-#ifdef  ALG_PCA_PEARSON_1901 
+#ifdef  __INPARAM_PCA__ 
 template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
@@ -107,9 +78,9 @@ template < typename T_FEATURE,
   (char         *argv0, 
    InParamPCA<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>   &aoipc_inParamClustering
    )
-#endif /* ALG_PCA_PEARSON_1901 */
+#endif /* __INPARAM_PCA__ */
 
-#ifdef  ALG_PCATRANSMATRIX_PEARSON_1901
+#ifdef  __INPARAM_PCATRANSMATRIX__
 template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
@@ -119,9 +90,9 @@ template < typename T_FEATURE,
   (char                   *argv0, 
    InParamPCAtransmatrix<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>  &aoipc_inParamClustering
    )
-#endif /* ALG_PCATRANSMATRIX_PEARSON_1901 */
+#endif /* __INPARAM_PCATRANSMATRIX__ */
 
-#ifdef  ALG_STDVAR_MILLIGAN_COOPER1988
+#ifdef  __INPARAM_STDVAR_MILLIGAN_COOPER1988__
 template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
@@ -131,9 +102,9 @@ template < typename T_FEATURE,
   (char            *argv0, 
    InParamStdVar<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>   &aoipc_inParamClustering
    )
-#endif /* ALG_STDVAR_MILLIGAN_COOPER1988 */
+#endif /* __INPARAM_STDVAR_MILLIGAN_COOPER1988__ */
   
-#ifdef  ALG_PLOT_CLUSTERING 
+#ifdef  __INPARAM_PLOT_CLUSTERING__ 
 template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
@@ -143,10 +114,10 @@ template < typename T_FEATURE,
 (char                    *argv0, 
  InParamPlotClustering<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>   &aoipc_inParamClustering
  )
-#endif /* ALG_PLOT_CLUSTERING */
+#endif /* __INPARAM_PLOT_CLUSTERING__ */
 
 
-#ifdef ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990
+#ifdef __INPARAM_PAM__
 template <typename T_CLUSTERIDX,
           typename T_FEATURE,
 	  typename T_INSTANCES_CLUSTER_K
@@ -154,31 +125,14 @@ template <typename T_CLUSTERIDX,
   void
   inparamclustering_usage
   (char                         *argv0, 
-   InParamClusteringMedoidsPAM
+   InParamPAM
    <T_CLUSTERIDX,
    T_FEATURE,
    T_INSTANCES_CLUSTER_K>                   &aoipc_inParamClustering
    )
-#endif /*ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990*/
+#endif /*__INPARAM_PAM__*/
 
-
-#if defined(ALG_PAM_KMEDOIDS_MULTIINSTCLUSTERING_KAUFMAN_ROUSSEEUW_1990) || \
-  defined(ALG_BAMIC_MULTIINSTCLUSTERING_ZHANG_ZHOU_2009)
-
-template <typename T_CLUSTERIDX > 
-  void
-  inparamclustering_usage
-  (char              *argv0, 
-   InParamClusteringMedoidsMultiInstance
-   <T_CLUSTERIDX> 
-   &aoipc_inParamClustering
-   )
-#endif /*ALG_PAM_KMEDOIDS_MULTIINSTCLUSTERING_KAUFMAN_ROUSSEEUW_1990 ||
-	 ALG_BAMIC_MULTIINSTCLUSTERING_ZHANG_ZHOU_2009 */
-
-
-#ifdef  ALG_ISODATA_BALL_HALL_1967
-  
+#ifdef  __INPARAM_ISODATA__
   template <typename T_CLUSTERIDX,
             typename T_EPSILON,
             typename T_FEATURE,         
@@ -188,17 +142,16 @@ template <typename T_CLUSTERIDX >
 void 
 inparamclustering_usage
 (char                       *argv0, 
- InParamClusteringIsoData
+ InParamIsoData
  <T_CLUSTERIDX,
  T_EPSILON,
  T_FEATURE,
  T_FEATURE_SUM,
  T_INSTANCES_CLUSTER_K>     &aoipc_inParamClustering
  )
-#endif /*ALG_ISODATA_BALL_HALL_1967*/
+#endif /*__INPARAM_ISODATA__*/
 
-#ifdef  ALG_FCM_BEZDEK_1973
-    
+#ifdef  __INPARAM_FCM__
   template <typename T_CLUSTERIDX,
             typename T_U,
             typename T_FEATURE,         
@@ -207,20 +160,15 @@ inparamclustering_usage
   void 
   inparamclustering_usage
   (char                    *argv0, 
-   InParamClusteringFCM
+   InParamFCM
    <T_CLUSTERIDX,
    T_U,
    T_FEATURE,
    T_INSTANCES_CLUSTER_K>  &aoipc_inParamClustering
    )  
-#endif /*ALG_FCM_BEZDEK_1973*/
+#endif /*__INPARAM_FCM__*/
 
-
-
-/*algDBSCAN_EsterKriegelSanderXuClustering1996
-  \cite{Ester:Kriegel:Sander:Xu:Clustering:DBSCAN:1996}
-*/
-#ifdef ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996
+#ifdef __INPARAM_DBSCAN__
 template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
@@ -228,17 +176,13 @@ template < typename T_FEATURE,
   void 
   inparamclustering_usage
   (char *argv0, 
-   InParamClusteringDBSCAN<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>  &aoipc_inParamClustering
+   InParamDBSCAN<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>  &aoipc_inParamClustering
    )
 
-#endif /*ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996*/
+#endif /*__INPARAM_DBSCAN__*/
 
-  
-#if defined(ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||	\
-  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) || \
-  defined(ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002)
-  
-  
+
+#ifdef __INPARAM_PCPMFK__    
 template<typename T_CLUSTERIDX,
   typename T_REAL,
 	   typename T_FEATURE,         
@@ -256,12 +200,9 @@ inparamclustering_usage
  T_INSTANCES_CLUSTER_K
  >                             &aoipc_inParamClustering
 ) 
-#endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||
-	 ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) ||
-	 ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002 ||
-       */
+#endif /* __INPARAM_PCPMFK__ */
 
-#ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
+#ifdef __INPARAM_PCPMVK__
 template<typename T_CLUSTERIDX,
          typename T_REAL,
          typename T_FEATURE,         
@@ -271,17 +212,17 @@ template<typename T_CLUSTERIDX,
 void 
 inparamclustering_usage
 (char                                  *argv0, 
- InParamPcPmRk
+ InParamPcPmVk
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
  T_INSTANCES_CLUSTER_K>                &aoipc_inParamClustering
  )
-#endif /*ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
+#endif /*__INPARAM_PCPMVK__
 	*/
 
-#ifdef ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997
+#ifdef __INPARAM_GAPROTOTYPESFK__
 template<typename T_BITSIZE,
          typename T_CLUSTERIDX,
          typename T_REAL,
@@ -292,7 +233,7 @@ template<typename T_BITSIZE,
 void 
 inparamclustering_usage
 (char *argv0, 
- InParamGAPrototypes
+ InParamGAPrototypesFk
  <T_BITSIZE,
  T_CLUSTERIDX,
  T_REAL,
@@ -302,11 +243,11 @@ inparamclustering_usage
  >
  &aoipc_inParamClustering
  )
-#endif /*ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997
+#endif /*__INPARAM_GAPROTOTYPESFK__
 	*/
 
-#ifdef ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
   
+#ifdef __INPARAM_TGCA__
 template<typename T_CLUSTERIDX,
          typename T_REAL,
          typename T_FEATURE,         
@@ -322,13 +263,11 @@ template<typename T_CLUSTERIDX,
    T_FEATURE,
    T_FEATURE_SUM,
    T_INSTANCES_CLUSTER_K>     &aoipc_inParamClustering
-   )
-  
-#endif /*ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
+   )  
+#endif /*__INPARAM_TGCA__
 	*/
 
-#if defined(ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012) || \
-  defined(ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012)
+#ifdef __INPARAM_GGA__
   template<typename T_CLUSTERIDX,
             typename T_REAL,
             typename T_FEATURE,
@@ -345,12 +284,9 @@ template<typename T_CLUSTERIDX,
    T_FEATURE_SUM,
    T_INSTANCES_CLUSTER_K>  &aoipc_inParamClustering
    )
-#endif /*ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012 ||	\
-	 ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012
-       */
-  
-  
-#ifdef ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001
+#endif /* __INPARAM_GGA__ */
+    
+#ifdef __INPARAM_SUBCLUSTERBINARYVK__
   template<typename T_REAL,
            typename T_BITSIZE,
            typename T_CLUSTERIDX,
@@ -361,7 +297,7 @@ template<typename T_CLUSTERIDX,
   void 
   inparamclustering_usage
   (char                              *argv0, 
-   InParamSubClusterBinary
+   InParamSubClusterBinaryVk
    <T_REAL,
    T_BITSIZE,
    T_CLUSTERIDX,
@@ -369,10 +305,10 @@ template<typename T_CLUSTERIDX,
    T_FEATURE_SUM,
    T_INSTANCES_CLUSTER_K>            &aoipc_inParamClustering
    )
-#endif /*ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001*/
+#endif /*__INPARAM_SUBCLUSTERBINARYVK__*/
 
  
-#ifdef ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003
+#ifdef __INPARAM_GENWOCHGVK__
   template <typename T_BITSIZE,
            typename T_CLUSTERIDX, //-1, 0, 1, .., K
            typename T_REAL,
@@ -383,14 +319,14 @@ template<typename T_CLUSTERIDX,
   void 
   inparamclustering_usage
   (char *argv0, 
-   InParamGenWOChgRk
+   InParamGenWOChgVk
    <T_BITSIZE,T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
    &aoipc_inParamClustering
    )
-#endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
+#endif /*__INPARAM_GENWOCHGVK__*/
 
 
-#ifdef ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003
+#ifdef __INPARAM_PCPMVK__
   template<typename T_CLUSTERIDX,
 	   typename T_REAL,
 	   typename T_FEATURE,         
@@ -400,7 +336,7 @@ template<typename T_CLUSTERIDX,
   void 
 inparamclustering_usage
 (char *argv0, 
- InParamPcPmRk
+ InParamPcPmVk
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
@@ -409,13 +345,9 @@ inparamclustering_usage
  >
  &aoipc_inParamClustering
  )
-#endif /*ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003*/
+#endif /*__INPARAM_PCPMVK__*/
 
-#if defined(ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) || \
-  defined(ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
+#ifdef __INPARAM_FEAC__
 template<typename T_FEATURE,
 	 typename T_REAL,
 	 typename T_CLUSTERIDX,
@@ -429,15 +361,10 @@ inparamclustering_usage
  <T_FEATURE,T_REAL,T_CLUSTERIDX,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
  &aoipc_inParamClustering
  )
-#endif /*ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) ||	\
-	 ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) ||	\
-         ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-         ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-	 ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
-       */
+#endif /*__INPARAM_FEAC__*/
 
 
-#ifdef ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
+#ifdef __INPARAM_WITHOUTPCPMFK__
 template<typename T_CLUSTERIDX,
 	 typename T_BITSIZE,
 	 typename T_FEATURE,         
@@ -447,13 +374,13 @@ template<typename T_CLUSTERIDX,
 void 
 inparamclustering_usage
 (char *argv0, 
- InParamWithoutPcPm
+ InParamWithoutPcPmFk
  <T_CLUSTERIDX,T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
  &aoipc_inParamClustering
  )
-#endif /*ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994*/
+#endif /*__INPARAM_WITHOUTPCPMFK__*/
 
-#ifdef  ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993
+#ifdef  __INPARAM_GCA__
   template<typename T_CLUSTERIDX,
 	   typename T_REAL,
 	   typename T_FEATURE,         
@@ -467,10 +394,10 @@ inparamclustering_usage
    <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
    &aoipc_inParamClustering
    )
-#endif /*ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993*/
+#endif /*__INPARAM_GCA__*/
 
 
-#ifdef  ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997
+#ifdef  __INPARAM_CBGA__
 template<typename T_CLUSTERIDX,
          typename T_REAL,
          typename T_FEATURE,         
@@ -488,9 +415,9 @@ template<typename T_CLUSTERIDX,
    T_INSTANCES_CLUSTER_K,
    T_INSTANCE_FREQUENCY>           aoipc_inParamClustering
    )
-#endif /*ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997*/
+#endif /*__INPARAM_CBGA__*/
 
-#ifdef  ALG_HKA_FKMEDOID_SHENG_LUI2004
+#ifdef  __INPARAM_HKA__
 template<typename T_CLUSTERIDX,
          typename T_REAL,
          typename T_FEATURE,         
@@ -507,12 +434,11 @@ T_FEATURE,
 T_FEATURE_SUM,
 T_INSTANCES_CLUSTER_K>              &aoipc_inParamClustering
 )
-#endif /* ALG_HKA_FKMEDOID_SHENG_LUI2004 */
+#endif /* __INPARAM_HKA__ */
 
 
-#if defined(ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999) ||	\
-  defined(ALG_IGKA_FKLABEL_LU_ETAL2004) || \
-  defined(ALG_FGKA_FKLABEL_LU_ETAL2004)
+#ifdef __INPARAM_PMFK__
+
 template<typename T_CLUSTERIDX,
 	 typename T_REAL,
 	 typename T_FEATURE,         
@@ -526,12 +452,10 @@ void
    <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
    &aoipc_inParamClustering
    )
-#endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999
-	 ALG_IGKA_FKLABEL_LU_ETAL2004
-         ALG_FGKA_FKLABEL_LU_ETAL2004)
-       */
+#endif /* __INPARAM_PMFK__
+	*/
 
-#ifdef  ALG_GAGR_FKCENTROID_CHANG_ETAL_2009
+#ifdef  __INPARAM_ADAPTIVEPCPMFK__
 template<typename T_CLUSTERIDX,
 	 typename T_FEATURE,         
 	 typename T_FEATURE_SUM,
@@ -540,11 +464,11 @@ template<typename T_CLUSTERIDX,
   void 
   inparamclustering_usage
   (char *argv0, 
-   InParamAdaptivePcPm
+   InParamAdaptivePcPmFk
    <T_CLUSTERIDX,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
    &aoipc_inParamClustering
    )
-#endif /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
+#endif /*__INPARAM_ADAPTIVEPCPMFK__*/
 
 { 
   const char   *larray_opFormatFile[] = INPARAMCLUSTERING_FORMATINSTANCEFILE;
@@ -616,11 +540,9 @@ template<typename T_CLUSTERIDX,
 	    << "                                (by default [NUMBER=1])\n";
   std::cout << "  -R, --runtime-filename=[FILE]\n"
 	    << "                              out file of times run\n";
-
  
   /* ONLY CLUSTERING */
-#ifdef _ALG_CLUSTERING_
-
+#ifdef __ALG_CLUSTERING__
   const char   *las_opFuncDistance[] = INPARAMCLUSTERING_DISTANCE_TYPE;
   std::cout << "  -n  --distance[=NAME]       ";
   li_i = 0;
@@ -633,7 +555,6 @@ template<typename T_CLUSTERIDX,
     }
     std::cout << las_opFuncDistance[li_i] << ", ";
     ++li_i;
-    
   }
   lst_lenline += strlen(las_opFuncDistance[li_i]);
   if ( lst_lenline > 40 ) {
@@ -702,7 +623,7 @@ template<typename T_CLUSTERIDX,
 	    << "]\n";
 #endif /*__WITHOUT_PLOT_STAT*/
  
-#endif /*_ALG_CLUSTERING_*/
+#endif /*__ALG_CLUSTERING__*/
 
 
   std::cout << "\nParticular options of the algorithm "
@@ -712,15 +633,15 @@ template<typename T_CLUSTERIDX,
 	    << aoipc_inParamClustering.getAlgorithmoAuthor()
 	    << '\n';
 
-#ifdef ALG_PCATRANSMATRIX_PEARSON_1901
+#ifdef __INPARAM_PCATRANSMATRIX__
   std::cout << "      --transmatrix-outfile[=FILE]\n"
 	    << "                              print transformation matrix,\n"
 	    << "                                standard output FILE="
 	    <<  OUTFILENAME_STDOUT               
 	    << "\n";
-#endif /*ALG_PCATRANSMATRIX_PEARSON_1901*/
+#endif /*__INPARAM_PCATRANSMATRIX__*/
 
-#ifdef  ALG_PLOT_CLUSTERING
+#ifdef  __INPARAM_PLOT_CLUSTERING__
   
   const char   *las_opProjection[] = INPARAMCLUSTERING_PLOT_PLOJECTION;
   std::cout << "      --projection[=NAME]    ";
@@ -824,19 +745,18 @@ template<typename T_CLUSTERIDX,
   std::cout << "      --graphics-outfile[=FILE]\n"
 	    << "                              file of out for graphics result, if null\n" 
 	    << "                                out terminal x11\n";
-  
-#endif /*ALG_PLOT_CLUSTERING*/
+#endif /*__INPARAM_PLOT_CLUSTERING__*/
 
-#ifdef ALG_STDVAR_MILLIGAN_COOPER1988
+#ifdef __INPARAM_STDVAR_MILLIGAN_COOPER1988__
   const char   *las_opStdVarName[] = STD_VAR_NAME;
   
   std::cout << "      --std-var[=ARG]         standardization of variables: Z0, Z1,\n" 
 	    << "                                Z2, Z3, Z4, Z5, Z6, Z7 [ARG=" 
 	    << las_opStdVarName[aoipc_inParamClustering.getStandardizationVar()] 
 	    << "]\n";
-#endif /*ALG_STDVAR_MILLIGAN_COOPER1988*/
+#endif /*__INPARAM_STDVAR_MILLIGAN_COOPER1988__*/
   
-#ifdef  ALG_KMEANS_FORGY_MACQUEEN_1967
+#ifdef  __INPARAM_KMEANS__
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
@@ -846,28 +766,15 @@ template<typename T_CLUSTERIDX,
   std::cout << "      --threshold[=NUMBER]    threshold value [NUMBER="  
 	    << aoipc_inParamClustering.getMinThreshold(); 
   std::cout << "]\n";
-#endif /* ALG_KMEANS_FORGY_MACQUEEN_1967 */
+#endif /* __INPARAM_KMEANS__ */
 
-#ifdef ALG_SLINK_SIBSON_1973
+#ifdef __INPARAM_SLINK__
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
-#endif /*ALG_SLINK_SIBSON_1973*/
+#endif /*__INPARAM_SLINK__*/
   
-#if defined(ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990) ||		\
-  defined(ALG_BAMIC_MULTIINSTCLUSTERING_ZHANG_ZHOU_2009)
-  std::cout << "      --number-clusters[=NUMBER]\n"
-	    << "                              number of clusters [NUMBER=" 
-	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
-  std::cout << "      --iterations[=NUMBER]   maximum number of iterations\n"
-	    << "                                [NUMBER="
-	    << aoipc_inParamClustering.getNumMaxIter()
-	    << "]\n";
-#endif /*ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990 || 
-	 ALG_BAMIC_MULTIINSTCLUSTERING_ZHANG_ZHOU_2009*/
-
-
-#ifdef  ALG_ISODATA_BALL_HALL_1967
+#ifdef  __INPARAM_ISODATA__
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
@@ -881,9 +788,9 @@ template<typename T_CLUSTERIDX,
   std::cout << "      --optimal-initializacion\n"
 	    << "                              if the instances are assigned class is\n"
 	    << "                                initialized with the correct partition\n";
-#endif /*ALG_ISODATA_BALL_HALL_1967*/    
+#endif /*__INPARAM_ISODATA__*/    
 
-#ifdef  ALG_FCM_BEZDEK_1973
+#ifdef  __INPARAM_FCM__
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
@@ -899,7 +806,7 @@ template<typename T_CLUSTERIDX,
 	    << "], m != 1\n"; 
 #endif /*ALG_FCM_BEZDEK_H*/
 
-#ifdef ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996
+#ifdef __INPARAM_DBSCAN__
   std::cout << "      --epsilon[=NUMBER]               epsilon neighborhood [NUMBER=" 
 	    << aoipc_inParamClustering.getEps()
 	    << "]\n";
@@ -916,11 +823,10 @@ template<typename T_CLUSTERIDX,
 	    << aoipc_inParamClustering.getRTreeleafCapacity() << "]\n";
   
 
-#endif /*ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996*/
+#endif /*__INPARAM_DBSCAN__*/
 
-#if defined(ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||	\
-  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) ||			\
-  defined(ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002)
+#ifdef __INPARAM_PCPMFK__
+
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
@@ -942,9 +848,9 @@ template<typename T_CLUSTERIDX,
 	    << "                                [NUMBER="
 	    << aoipc_inParamClustering.getProbMutation()
 	    << "]\n";
-#endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996*/
+#endif /*__INPARAM_PCPMFK__*/
 
-#ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
+#ifdef __INPARAM_PCPMVK__
   std::cout << "      --k-minimum[=NUMBER]    number of clusters  by default [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
   std::cout << "      --k-maximum[=NUMBER]    number of clusters [NUMBER=" 
@@ -967,10 +873,10 @@ template<typename T_CLUSTERIDX,
 	    << "                                [NUMBER="
 	    << aoipc_inParamClustering.getProbMutation()
 	    << "]\n";
-#endif /*ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002*/
+#endif /*__INPARAM_PCPMVK__*/
 
   
-#ifdef ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
+#ifdef __INPARAM_TGCA__
   std::cout << "      --k-minimum[=NUMBER]    number of clusters  by default [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
   std::cout << "      --k-maximum[=NUMBER]    number of clusters if eq -1\n"
@@ -1006,12 +912,10 @@ template<typename T_CLUSTERIDX,
 	    << "                                [NUMBER="  
 	    << aoipc_inParamClustering.getKmeansMinThreshold(); 
   std::cout << "]\n";
-#endif /*ALG_TGCA_VKCENTROID_HE_AND_TAN_2012*/
+#endif /*__INPARAM_TGCA__*/
 
   
-#if defined(ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012) || \
-  defined(ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012)
-  
+#ifdef __INPARAM_GGA__
   std::cout << "      --k-minimum[=NUMBER]    number of clusters  by default\n"
 	    << "                                [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
@@ -1067,13 +971,10 @@ template<typename T_CLUSTERIDX,
 	    << "                                moderate in the last stages [NUMBER="
 	    << aoipc_inParamClustering.getPbf() 
 	    << "]\n";
-
-#endif /*ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012 ||	\
-	 ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012
-       */
+#endif 
   
     
-#ifdef ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001
+#ifdef __INPARAM_SUBCLUSTERBINARYVK__
   std::cout << "      --u-parameter[=NUMBER]    parameter u [NUMBER=" 
 	    << aoipc_inParamClustering.getU() << "]\n";
   std::cout << "      --lambda[=NUMBER]         parameter lambda [NUMBER=" 
@@ -1100,9 +1001,9 @@ template<typename T_CLUSTERIDX,
 	    << "                                [NUMBER="
 	    << aoipc_inParamClustering.getProbMutation()
 	    << "]\n";
-#endif /*ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001*/
+#endif /*__INPARAM_SUBCLUSTERBINARYVK__*/
 
-#ifdef ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003
+#ifdef __INPARAM_GENWOCHGVK__
 
 #ifdef _INITIATES_KMIN_KMAX_POPULATION_
   std::cout << "      --k-minimum[=NUMBER]    number of clusters  by default 2\n"
@@ -1142,10 +1043,10 @@ template<typename T_CLUSTERIDX,
 	    << "                              [NUMBER="
 	    << aoipc_inParamClustering.getProbMutation()
 	    << "]\n";
-#endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
+#endif /*__INPARAM_GENWOCHGVK__*/
 
   
-#ifdef ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003
+#ifdef __INPARAM_PCPMVK__
   std::cout << "      --k-minimum[=NUMBER]    minimum number of clusters to find by\n"
 	    << "                                default [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
@@ -1170,10 +1071,10 @@ template<typename T_CLUSTERIDX,
 	    << "                                interval [0, 0.5] [NUMBER="
 	    << aoipc_inParamClustering.getProbMutation()
 	    << "]\n";
-#endif /*ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003*/
+#endif /*__INPARAM_PCPMVK__*/
 
 
-#ifdef ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997
+#ifdef __INPARAM_GAPROTOTYPESFK__
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
@@ -1206,15 +1107,10 @@ template<typename T_CLUSTERIDX,
 	    << aoipc_inParamClustering.getAlpha()
 	    << "]\n";
   
-#endif /*ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997
+#endif /*__INPARAM_GAPROTOTYPESFK__
 	*/
 
-  
-#if defined(ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) || \
-  defined(ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
+#ifdef __INPARAM_FEAC__
   std::cout << "      --k-minimum[=NUMBER]    number of clusters  by default [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
   std::cout << "      --k-maximum[=NUMBER]    number of clusters if eq -1\n"
@@ -1245,16 +1141,11 @@ template<typename T_CLUSTERIDX,
 	    << "                                equal to [NUMBER="
 	    << aoipc_inParamClustering.getKmeansMaxDiffCent()
 	    << "]\n";
-#endif /*ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) ||	\
-         ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) ||	\
-         ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-         ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-	 ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
+#endif /*__INPARAM_FEAC__
        */
 
 
-#if defined(ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993) ||			\
-  defined(ALG_GCA_MEDOIDBASED_MULTIINSTCLUSTERING_LUCASIUS_ETAL1993)
+#ifdef __INPARAM_GCA__
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
@@ -1279,11 +1170,10 @@ template<typename T_CLUSTERIDX,
 	    << "                              interval [0, 0.125] [NUMBER="
 	    << aoipc_inParamClustering.getProbMixMutation()
 	    << "]\n";
-#endif /*ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993 ||
-         ALG_GCA_MEDOIDBASED_MULTIINSTCLUSTERING_LUCASIUS_ETAL1993 
+#endif /*__INPARAM_GCA__ 
        */
 
-#ifdef  ALG_HKA_FKMEDOID_SHENG_LUI2004
+#ifdef  __INPARAM_HKA__
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
@@ -1324,10 +1214,10 @@ template<typename T_CLUSTERIDX,
 	    << "                                 [NUMBER="
 	    << aoipc_inParamClustering.getProbSearchHeuristic()
 	    << "]\n";
-#endif /*ALG_HKA_FKMEDOID_SHENG_LUI2004*/
+#endif /*__INPARAM_HKA__*/
 
 
-#ifdef  ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997
+#ifdef  __INPARAM_CBGA__
   const char   *las_opSelectMethod[] = INPARAMCLUSTERING_CBGA_SELECMETH;
 
   std::cout << "      --number-clusters[=NUMBER]\n"
@@ -1360,10 +1250,10 @@ template<typename T_CLUSTERIDX,
   std::cout << "      --gla-iterations[=NUMBER] number of GLA iterations [NUMBER="
 	    << aoipc_inParamClustering.getNumGLAIterations()
 	    << "]\n";
-#endif  /*ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997*/
+#endif  /*__INPARAM_CBGA__*/
 
 
-#ifdef ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
+#ifdef __INPARAM_WITHOUTPCPMFK__
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
@@ -1379,11 +1269,9 @@ template<typename T_CLUSTERIDX,
 	    << "                               size of mating pool [NUMBER="
 	    << aoipc_inParamClustering.getSizeMatingPool() 
 	    << "]\n";
-#endif  /*ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994*/
+#endif  /*__INPARAM_WITHOUTPCPMFK__*/
 
-#if defined(ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999) ||	\
-  defined(ALG_IGKA_FKLABEL_LU_ETAL2004) || \
-  defined(ALG_FGKA_FKLABEL_LU_ETAL2004)
+#ifdef __INPARAM_PMFK__
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
@@ -1405,7 +1293,7 @@ template<typename T_CLUSTERIDX,
 	 ALG_FGKA_FKLABEL_LU_ETAL2004
        */
 
-#ifdef  ALG_GAGR_FKCENTROID_CHANG_ETAL_2009
+#ifdef  __INPARAM_ADAPTIVEPCPMFK__
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
@@ -1417,33 +1305,8 @@ template<typename T_CLUSTERIDX,
 	    << "                              size of population [NUMBER="
 	    << aoipc_inParamClustering.getSizePopulation()
 	    << "]\n";
-#endif  /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
+#endif  /*__INPARAM_ADAPTIVEPCPMFK__*/
 
-
-#if defined(ALG_PAM_KMEDOIDS_MULTIINSTCLUSTERING_KAUFMAN_ROUSSEEUW_1990) || \
-  defined(ALG_BAMIC_MULTIINSTCLUSTERING_ZHANG_ZHOU_2009) ||		\
-  defined(ALG_GCA_MEDOIDBASED_MULTIINSTCLUSTERING_LUCASIUS_ETAL1993)
-
-  const char   *las_opHousdorffDistance[] = INPARAMCLUSTERING_HAUSDORFFDISTANCE;
-  
-  std::cout << "      --number-clusters[=NUMBER]       number of clusters [NUMBER=" 
-	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
-  std::cout << "      --bag-broken                      if bag of instances broken, by default is no\n";
-  std::cout << "      --hausdorff-distance[=NAME]       ";
-  li_i = 0;
-  while (las_opHousdorffDistance[li_i+1] !=  NULL) {
-    std::cout << las_opHousdorffDistance[li_i] << ",";
-    ++li_i;
-  } 
-  std::cout << "\n                                        or " 
-	    << las_opHousdorffDistance[li_i] << ", by default " 
-	    << las_opHousdorffDistance[aoipc_inParamClustering.getOpHausdorffDistance()]
-	    << '\n';
-
-#endif /*ALG_PAM_KMEDOIDS_MULTIINSTCLUSTERING_KAUFMAN_ROUSSEEUW_1990) || \
-	 ALG_BAMIC_MULTIINSTCLUSTERING_ZHANG_ZHOU_2009 ||
-	 ALG_GCA_MEDOIDBASED_MULTIINSTCLUSTERING_LUCASIUS_ETAL1993
-       */
 
   std::cout << "\n";
   std::cout << "  -v, --verbose[=NUMBER]      explain what is being done (compiled with\n"
@@ -1463,8 +1326,7 @@ template<typename T_CLUSTERIDX,
 }
 
 
-
-#ifdef  ALG_STDVAR_MILLIGAN_COOPER1988 
+#ifdef  __INPARAM_STDVAR_MILLIGAN_COOPER1988__ 
 template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
@@ -1475,12 +1337,12 @@ inparamclustering_getParameter
  int                 argc, 
  char                **argv
  )
-#endif /* ALG_STDVAR_MILLIGAN_COOPER1988 */
+#endif /* __INPARAM_STDVAR_MILLIGAN_COOPER1988__ */
   
 /*\cite Pearson:statistical:PCA:1901
 */
 
-#ifdef  ALG_PCA_PEARSON_1901
+#ifdef  __INPARAM_PCA__
 
 #include "inparam_pca.hpp"
 template < typename T_FEATURE,
@@ -1493,9 +1355,9 @@ inparamclustering_getParameter
    int          argc, 
    char         **argv
    )
-#endif /* ALG_PCA_PEARSON_1901 */
+#endif /* __INPARAM_PCA__ */
 
-#ifdef  ALG_PCATRANSMATRIX_PEARSON_1901
+#ifdef  __INPARAM_PCATRANSMATRIX__
   template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
@@ -1506,10 +1368,10 @@ inparamclustering_getParameter
    int          argc, 
    char         **argv
    )
-#endif /*ALG_PCATRANSMATRIX_PEARSON_1901*/
+#endif /*__INPARAM_PCATRANSMATRIX__*/
   
   
-#ifdef  ALG_PLOT_CLUSTERING  
+#ifdef  __INPARAM_PLOT_CLUSTERING__  
 template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
@@ -1520,10 +1382,10 @@ inparamclustering_getParameter
  int                   argc, 
  char                  **argv
 )
-#endif /* ALG_PLOT_CLUSTERING */
+#endif /* __INPARAM_PLOT_CLUSTERING__ */
 
 
-#ifdef ALG_KMEANS_FORGY_MACQUEEN_1967
+#ifdef __INPARAM_KMEANS__
   template <typename T_CLUSTERIDX,
             typename T_FEATURE,         
 	    typename T_FEATURE_SUM,
@@ -1531,7 +1393,7 @@ inparamclustering_getParameter
 	    >
   void 
   inparamclustering_getParameter
-  (InParamClusteringClasic
+  (InParamKmeans
    <T_CLUSTERIDX,
    T_FEATURE,
    T_FEATURE_SUM,
@@ -1539,44 +1401,43 @@ inparamclustering_getParameter
    int                       argc, 
    char                      **argv
    )
-#endif /*ALG_KMEANS_FORGY_MACQUEEN_1967 */
+#endif /*__INPARAM_KMEANS__ */
 
-#ifdef ALG_SLINK_SIBSON_1973
-
+#ifdef __INPARAM_SLINK__
 template <typename T_CLUSTERIDX,
 	  typename T_FEATURE,
 	  typename T_INSTANCES_CLUSTER_K
 	 >
   void 
   inparamclustering_getParameter
-  (InParamClusteringSlink
+  (InParamSlink
    <T_CLUSTERIDX,
    T_FEATURE,
    T_INSTANCES_CLUSTER_K>   &aoipc_inParamClustering,
    int                      argc, 
    char                     **argv
    )
-#endif /*ALG_SLINK_SIBSON_1973*/
+#endif /*__INPARAM_SLINK__*/
 
 
-#ifdef  ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990
+#ifdef  __INPARAM_PAM__
 template <typename T_CLUSTERIDX,
           typename T_FEATURE,
 	  typename T_INSTANCES_CLUSTER_K
           > 
 void 
 inparamclustering_getParameter
-(InParamClusteringMedoidsPAM
+(InParamPAM
  <T_CLUSTERIDX,
  T_FEATURE,
  T_INSTANCES_CLUSTER_K>        &aoipc_inParamClustering,
   int                          argc, 
   char                         **argv
 )
-#endif /*ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990*/
+#endif /*__INPARAM_PAM__*/
 
 
-#ifdef  ALG_ISODATA_BALL_HALL_1967
+#ifdef  __INPARAM_ISODATA__
   template <typename T_CLUSTERIDX,
 	    typename T_EPSILON,
 	    typename T_FEATURE,         
@@ -1585,7 +1446,7 @@ inparamclustering_getParameter
 	    > 
 void 
 inparamclustering_getParameter
-  (InParamClusteringIsoData
+  (InParamIsoData
    <T_CLUSTERIDX,
    T_EPSILON,
    T_FEATURE,
@@ -1594,10 +1455,10 @@ inparamclustering_getParameter
    int                            argc, 
    char                           **argv
    )
-#endif /*ALG_ISODATA_BALL_HALL_1967*/
+#endif /*__INPARAM_ISODATA__*/
 
 
-#ifdef  ALG_FCM_BEZDEK_1973
+#ifdef  __INPARAM_FCM__
 template<typename T_CLUSTERIDX,
          typename T_U,
          typename T_FEATURE,         
@@ -1605,7 +1466,7 @@ template<typename T_CLUSTERIDX,
 > 
 void 
 inparamclustering_getParameter
-(InParamClusteringFCM
+(InParamFCM
 <T_CLUSTERIDX,
  T_U,
  T_FEATURE,
@@ -1613,30 +1474,27 @@ inparamclustering_getParameter
  int                       argc, 
  char                      **argv
 )  
-#endif /*ALG_FCM_BEZDEK_1973*/
+#endif /*__INPARAM_FCM__*/
 
 
-/*algDBSCAN_EsterKriegelSanderXuClustering1996
-  \cite{Ester:Kriegel:Sander:Xu:Clustering:DBSCAN:1996}
-*/
-#ifdef ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996
+#ifdef __INPARAM_DBSCAN__
 template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
 	  >
   void 
   inparamclustering_getParameter
-  (InParamClusteringDBSCAN
+  (InParamDBSCAN
    <T_FEATURE,
    T_INSTANCES_CLUSTER_K,
    T_CLUSTERIDX>           &aoipc_inParamClustering,
    int                     argc, 
    char                    **argv
    )
-#endif /*ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996*/
+#endif /*__INPARAM_DBSCAN__*/
 
 
-#ifdef  ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
+#ifdef  __INPARAM_WITHOUTPCPMFK__
   template<typename T_CLUSTERIDX,
            typename T_BITSIZE,
            typename T_FEATURE,         
@@ -1645,18 +1503,17 @@ template < typename T_FEATURE,
           > 
   void 
   inparamclustering_getParameter
-  (InParamWithoutPcPm
+  (InParamWithoutPcPmFk
    <T_CLUSTERIDX,T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
    &aoipc_inParamClustering,
    int                                     argc, 
    char                                    **argv
    )
-#endif /*ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994*/
+#endif /*__INPARAM_WITHOUTPCPMFK__*/
 
   
-#if defined(ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||	\
-  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) ||			\
-  defined(ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002)
+#ifdef __INPARAM_PCPMFK__
+
 template<typename T_CLUSTERIDX,
          typename T_REAL,
          typename T_FEATURE,         
@@ -1676,12 +1533,10 @@ inparamclustering_getParameter
  int                                     argc, 
  char                                    **argv
  )  
-#endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996*/
+#endif /*__INPARAM_PCPMFK__*/
 
 
-/*\cite{Lucasius:etal:GAclusteringMedoid:GCA:1993}
-*/
-#ifdef  ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993
+#ifdef  __INPARAM_GCA__
 template<typename T_CLUSTERIDX,
          typename T_REAL,
          typename T_FEATURE,         
@@ -1699,12 +1554,10 @@ inparamclustering_getParameter
    int                         argc, 
    char                        **argv
    )
-#endif /*ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993*/
+#endif /*__INPARAM_GCA__*/
 
-  
-/*\cite{Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997}
-*/
-#ifdef ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997
+
+#ifdef __INPARAM_GAPROTOTYPESFK__
 template<typename T_BITSIZE,
          typename T_CLUSTERIDX,
 	 typename T_REAL,
@@ -1714,7 +1567,7 @@ template<typename T_BITSIZE,
 	 > 
 void 
 inparamclustering_getParameter
-(InParamGAPrototypes
+(InParamGAPrototypesFk
  <T_BITSIZE,
  T_CLUSTERIDX,
  T_REAL,
@@ -1724,12 +1577,10 @@ inparamclustering_getParameter
  int                       argc, 
  char                      **argv
 )
-#endif /*ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997*/
+#endif /*__INPARAM_GAPROTOTYPESFK__*/
 
 
-/*\cite{Sheng:Xiaohui:GAclusteringMedoid:HKA:2004}
-*/
-#ifdef  ALG_HKA_FKMEDOID_SHENG_LUI2004
+#ifdef  __INPARAM_HKA__
   template<typename T_CLUSTERIDX,
            typename T_REAL,
            typename T_FEATURE,         
@@ -1747,10 +1598,10 @@ inparamclustering_getParameter
    int                           argc, 
    char                          **argv
    )
-#endif /*ALG_HKA_FKMEDOID_SHENG_LUI2004*/
+#endif /*__INPARAM_HKA__*/
 
   
-#ifdef  ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997
+#ifdef  __INPARAM_CBGA__
 template<typename T_CLUSTERIDX,
 	 typename T_REAL,
 	 typename T_FEATURE,         
@@ -1769,13 +1620,10 @@ inparamclustering_getParameter
    int                        argc, 
    char                       **argv
    )
-#endif /*ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997*/
+#endif /*__INPARAM_CBGA__*/
 
 
-#if defined(ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999) ||	\
-  defined(ALG_IGKA_FKLABEL_LU_ETAL2004) || \
-  defined(ALG_FGKA_FKLABEL_LU_ETAL2004)
-  
+#ifdef __INPARAM_PMFK__
 template<typename T_CLUSTERIDX,
          typename T_REAL,
          typename T_FEATURE,         
@@ -1793,12 +1641,10 @@ inparamclustering_getParameter
  int                       argc, 
  char                      **argv
  )
-#endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999
-	 ALG_IGKA_FKLABEL_LU_ETAL2004
-	 ALG_FGKA_FKLABEL_LU_ETAL2004
-       */
+#endif /* __INPARAM_PMFK__ */
 
-#ifdef  ALG_GAGR_FKCENTROID_CHANG_ETAL_2009
+
+#ifdef  __INPARAM_ADAPTIVEPCPMFK__
 template<typename T_CLUSTERIDX,
          typename T_FEATURE,         
 	 typename T_FEATURE_SUM,
@@ -1806,15 +1652,15 @@ template<typename T_CLUSTERIDX,
         > 
 void 
 inparamclustering_getParameter
-(InParamAdaptivePcPm
+(InParamAdaptivePcPmFk
  <T_CLUSTERIDX,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aoipc_inParamClustering,
  int                   argc, 
  char                  **argv
  )
-#endif /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
+#endif /*__INPARAM_ADAPTIVEPCPMFK__*/
 
 
-#ifdef  ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
+#ifdef  __INPARAM_PCPMVK__
   template<typename T_CLUSTERIDX,
            typename T_REAL,
            typename T_FEATURE,         
@@ -1823,7 +1669,7 @@ inparamclustering_getParameter
   > 
   void 
   inparamclustering_getParameter
-  (InParamPcPmRk
+  (InParamPcPmVk
    <T_CLUSTERIDX,
    T_REAL,
    T_FEATURE,
@@ -1832,10 +1678,10 @@ inparamclustering_getParameter
    int                             argc, 
    char                            **argv
    )  
-#endif /*ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002*/
+#endif /*__INPARAM_PCPMVK__*/
 
 
-#ifdef ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
+#ifdef __INPARAM_TGCA__
   template<typename T_CLUSTERIDX,
 	   typename T_REAL,
            typename T_FEATURE,         
@@ -1853,10 +1699,10 @@ inparamclustering_getParameter
    int                                     argc, 
    char                                    **argv
    )  
-#endif /*ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
+#endif /*__INPARAM_TGCA__
 	*/
 
-#ifdef  ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003
+#ifdef  __INPARAM_PCPMVK__
   template<typename T_CLUSTERIDX,
            typename T_REAL,
            typename T_FEATURE,         
@@ -1865,7 +1711,7 @@ inparamclustering_getParameter
           > 
   void 
   inparamclustering_getParameter
-  (InParamPcPmRk
+  (InParamPcPmVk
    <T_CLUSTERIDX,
    T_REAL,
    T_FEATURE,         
@@ -1876,14 +1722,10 @@ inparamclustering_getParameter
    int                                     argc, 
    char                                    **argv
    )  
-#endif /*ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003*/
+#endif /*__INPARAM_PCPMVK__*/
 
 
-#if defined(ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) || \
-  defined(ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
+#ifdef __INPARAM_FEAC__
 template<typename T_FEATURE,
 	 typename T_REAL,
 	 typename T_CLUSTERIDX,
@@ -1901,14 +1743,9 @@ inparamclustering_getParameter
  int                                   argc, 
  char                                  **argv
  )
-#endif /*ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) ||	\
-	 ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) ||	\
-         ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-         ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-	 ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
-       */
+#endif /*__INPARAM_FEAC__*/
 
-#ifdef ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003
+#ifdef __INPARAM_GENWOCHGVK__
   template < typename T_BITSIZE,
            typename T_CLUSTERIDX, //-1, 0, 1, .., K
            typename T_REAL,
@@ -1918,7 +1755,7 @@ inparamclustering_getParameter
 	   >
 void 
   inparamclustering_getParameter
-  (InParamGenWOChgRk
+  (InParamGenWOChgVk
    <T_BITSIZE,
    T_CLUSTERIDX,
    T_REAL,
@@ -1928,10 +1765,10 @@ void
    int                               argc, 
    char                              **argv
    )  
-#endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
+#endif /*__INPARAM_GENWOCHGVK__*/
 
 
-#ifdef ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001
+#ifdef __INPARAM_SUBCLUSTERBINARYVK__
 
   template<typename T_REAL,
 	   typename T_BITSIZE,
@@ -1942,7 +1779,7 @@ void
           > 
   void 
   inparamclustering_getParameter
-  (InParamSubClusterBinary
+  (InParamSubClusterBinaryVk
    <T_REAL,
    T_BITSIZE,
    T_CLUSTERIDX,
@@ -1953,11 +1790,10 @@ void
    char                         **argv
    )  
 
-#endif /*ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001*/
+#endif /*__INPARAM_SUBCLUSTERBINARYVK__*/
 
 
-#if defined(ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012) || \
-  defined(ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012)
+#ifdef __INPARAM_GGA__
   template<typename T_CLUSTERIDX,
            typename T_REAL,
            typename T_FEATURE,
@@ -1972,9 +1808,8 @@ inparamclustering_getParameter
  int                                     argc, 
  char                                    **argv
  )
-#endif /*ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012 ||	\
-	 ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012
-       */
+#endif /*__INPARAM_GGA__
+	*/
 
 { /*BEGIN inparamclustering_getParameter*/
 
@@ -1990,24 +1825,24 @@ inparamclustering_getParameter
 
   const char   *larray_opFormatFile[] = INPARAMCLUSTERING_FORMATINSTANCEFILE;
 
-#ifdef _ALG_CLUSTERING_ /* ONLY CLUSTERING */
+#ifdef __ALG_CLUSTERING__ /* ONLY CLUSTERING */
 
   const char   *las_opFuncDistance[] = INPARAMCLUSTERING_DISTANCE_TYPE;
   const char   *las_optGnuplotCoreStyles[] = {"points", "lines", "linespoints", "dot", (char *) NULL };
 
-#endif /* _ALG_CLUSTERING_  */
+#endif /* __ALG_CLUSTERING__  */
 
-#ifdef  ALG_STDVAR_MILLIGAN_COOPER1988
+#ifdef  __INPARAM_STDVAR_MILLIGAN_COOPER1988__
   const char   *las_optStanVar[] =  STD_VAR_NAME;
   const char   *las_optStandardizationVar[] =  {"std-var", (char *) NULL };
-#endif /* ALG_STDVAR_MILLIGAN_COOPER1988 */
+#endif /* __INPARAM_STDVAR_MILLIGAN_COOPER1988__ */
  
-#ifdef ALG_PCATRANSMATRIX_PEARSON_1901
+#ifdef __INPARAM_PCATRANSMATRIX__
   const char   *las_optPCAtransmatrix[] = 
     {"transmatrix-outfile", (char *) NULL };
-#endif /*ALG_PCATRANSMATRIX_PEARSON_1901*/
+#endif /*__INPARAM_PCATRANSMATRIX__*/
 
-#ifdef ALG_PLOT_CLUSTERING
+#ifdef __INPARAM_PLOT_CLUSTERING__
   const char   *las_opProjection[] = INPARAMCLUSTERING_PLOT_PLOJECTION;
   const char   *las_optPlotClustering[] = 
     {"projection",          //0
@@ -2040,28 +1875,28 @@ inparamclustering_getParameter
      "graphics-outfile",   //27
      (char *) NULL
     };
-#endif /*ALG_PLOT_CLUSTERING*/
+#endif /*__INPARAM_PLOT_CLUSTERING__*/
 
-#ifdef ALG_KMEANS_FORGY_MACQUEEN_1967
-  const char   *las_optAlgKmeans1967[] = 
+#ifdef __INPARAM_KMEANS__
+  const char   *las_optKmeans[] = 
     {"number-clusters","iterations", "threshold", (char *) NULL };
-#endif /*ALG_KMEANS_FORGY_MACQUEEN_1967*/
+#endif /*__INPARAM_KMEANS__*/
 
-#ifdef ALG_SLINK_SIBSON_1973
-  const char   *las_optAlgSLINK1973[] = 
+#ifdef __INPARAM_SLINK__
+  const char   *las_optSLINK[] = 
     {"number-clusters", (char *) NULL };
-#endif /*ALG_SLINK_SIBSON_1973*/
+#endif /*__INPARAM_SLINK__*/
 
-#ifdef ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990
-  const char   *las_optAlgPAMKmedoids1990[] = {"number-clusters","iterations", (char *) NULL };
-#endif /*ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990*/
+#ifdef __INPARAM_PAM__
+  const char   *las_optPAM[] = {"number-clusters","iterations", (char *) NULL };
+#endif /*__INPARAM_PAM__*/
 
-#ifdef ALG_ISODATA_BALL_HALL_1967 
-  const char   *las_optAlgIsoDataBallHall1967[] = 
+#ifdef __INPARAM_ISODATA__ 
+  const char   *las_optIsoData[] = 
     {"number-clusters", "iterations", "epsilon", "optimal-initializacion", (char *) NULL };
-#endif /*ALG_ISODATA_BALL_HALL_1967*/
+#endif /*__INPARAM_ISODATA__*/
 
-#ifdef  ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996
+#ifdef  __INPARAM_DBSCAN__
   const char   *las_optAlgDBSCANEsterKriegelSanderXuClustering1996[] = 
     {"epsilon", 
      "min-pts", 
@@ -2071,16 +1906,16 @@ inparamclustering_getParameter
      "tree-leaf-capacity",
      (char *) NULL 
     };
-#endif /*ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996*/
+#endif /*__INPARAM_DBSCAN__*/
 
 
-#ifdef  ALG_FCM_BEZDEK_1973
-  const char   *las_optAlgFCMBezdek1973[] = 
+#ifdef  __INPARAM_FCM__
+  const char   *las_optFCM[] = 
     {"number-clusters", "iterations", "epsilon", "weighting-exponent", (char *) NULL };
-#endif /*ALG_FCM_BEZDEK_1973*/
+#endif /*__INPARAM_FCM__*/
 
-#ifdef ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003
-    const char   *las_optAlgCGAHruschkaEbecken2003[] = 
+#ifdef __INPARAM_PCPMVK__
+    const char   *las_optPcPmVk[] = 
     {"k-minimum",
      "k-maximum",
      "population-size", 
@@ -2089,12 +1924,11 @@ inparamclustering_getParameter
      "generations", 
      (char *) NULL
     };
-#endif /*ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003*/
+#endif /*__INPARAM_PCPMVK__*/
 
   
-#if defined(ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||	\
-  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) || \
-  defined(ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002)
+#ifdef __INPARAM_PCPMFK__
+
   const char   *lastr_inParamPcPmFk[] = 
     {"number-clusters",
      "population-size", 
@@ -2103,10 +1937,10 @@ inparamclustering_getParameter
      "generations", 
      (char *) NULL
     };
-#endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996*/
+#endif /*__INPARAM_PCPMFK__*/
 
-#ifdef ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997
-  const char   *las_optKunchevaBezdek1997[] = 
+#ifdef __INPARAM_GAPROTOTYPESFK__
+  const char   *las_optGAPrototypesFk[] = 
     {"number-clusters",
      "population-size", 
      "crossover-probability", 
@@ -2116,11 +1950,11 @@ inparamclustering_getParameter
      "alpha",
      (char *) NULL
     };
-#endif /*ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997*/
+#endif /*__INPARAM_GAPROTOTYPESFK__*/
 
   
-#ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
-  const char   *las_optGCUKBandyopadhyayMaulik2002[] = 
+#ifdef __INPARAM_PCPMVK__
+  const char   *las_optGpcpmrk[] = 
     {"k-minimum",
      "k-maximum",
      "population-size", 
@@ -2129,11 +1963,11 @@ inparamclustering_getParameter
      "generations", 
      (char *) NULL
     };
-#endif /*ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002*/
+#endif /*__INPARAM_PCPMVK__*/
 
 
-#ifdef ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
-  const char   *las_optTGCAHeTan2012[] = 
+#ifdef __INPARAM_TGCA__
+  const char   *las_optTGCA[] = 
     {"k-minimum",
      "k-maximum",
      "population-size",
@@ -2144,12 +1978,11 @@ inparamclustering_getParameter
      "kmeans-threshold",
      (char *) NULL
     };
-#endif /*ALG_TGCA_VKCENTROID_HE_AND_TAN_2012*/
+#endif /*__INPARAM_TGCA__*/
 
 
-#if defined(ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012) || \
-  defined(ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012)
-  const char   *las_optGGAAgustinEtal2012[] = 
+#ifdef __INPARAM_GGA__
+  const char   *las_optGGA[] = 
     {"k-minimum",
      "k-maximum",
      "sub-population-size",
@@ -2164,11 +1997,10 @@ inparamclustering_getParameter
      "pbf",
      (char *) NULL
     };
-#endif /*ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012 ||	\
-	 ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012
+#endif /*__INPARAM_GGA__
        */  
 
-#ifdef ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001
+#ifdef __INPARAM_SUBCLUSTERBINARYVK__
   const char   *las_optCLUSTERINGTsengYang2001[] = 
     {"u-parameter",
      "lambda",
@@ -2180,10 +2012,10 @@ inparamclustering_getParameter
      "generations", 
      (char *) NULL
     };
-#endif /*ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001*/
+#endif /*__INPARAM_SUBCLUSTERBINARYVK__*/
 
-#ifdef ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003
-  const char   *las_optGACasillasGonzalezMartinez2003[] = 
+#ifdef __INPARAM_GENWOCHGVK__
+  const char   *las_optGenWOChgVk[] = 
     {"k-minimum",
      "k-maximum", 
       "population-size", 
@@ -2193,16 +2025,10 @@ inparamclustering_getParameter
       "notchangestop",
       (char *) NULL
     };
-#endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
+#endif /*__INPARAM_GENWOCHGVK__*/
 
-
-
-#if defined(ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) || \
-  defined(ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
-  const char   *las_optAlgFEACAlvesCampelloHruschka2006[] = 
+#ifdef __INPARAM_FEAC__
+  const char   *las_optInparamFEAC[] = 
     {"k-minimum",
      "k-maximum",
      "population-size", 
@@ -2212,15 +2038,11 @@ inparamclustering_getParameter
      "kmeans-difference",
      (char *) NULL 
     };
-#endif /*ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) ||	\
-	 ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) ||	\
-         ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-         ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-	 ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
+#endif /*__INPARAM_FEAC__
        */
 
-#ifdef  ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993
-  const char   *las_optGCAMedoidBasedLucasiusEtAl1993[] = 
+#ifdef  __INPARAM_GCA__
+  const char   *las_optGCA[] = 
     {"k-minimum",
      "k-maximum",
      "population-size",               /*Population size                x2*/
@@ -2232,28 +2054,10 @@ inparamclustering_getParameter
      "mix-mutation-probability",      /*Mix mutation probability       x9*/
      (char *) NULL 
     };
-#endif /*ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993*/
+#endif /*__INPARAM_GCA__*/
 
-  /*\cite{Lucasius:etal:GAclusteringMedoid:GCA:1993}*/
-#ifdef ALG_GCA_MEDOIDBASED_MULTIINSTCLUSTERING_LUCASIUS_ETAL1993
-  const char *las_optGCAMedoidBasedMultiInstLucasiusEtAl1993[] = 
-    {"number-clusters",
-     "population-size",               /*Population size                x2*/
-     "mix-recombination-probability", /*Mix recombination probability  x7 
-					(crossover-probability)*/ 
-     "point-mutation-probability",    /*Point mutation probability     x8 
-					(mutation-probability)*/
-     "generations",                   /*Number of generations          x1*/
-     "mix-mutation-probability",      /*Mix mutation probability       x9*/
-     "bag-broken",
-     "hausdorff-distance",
-     (char *) NULL 
-    };
-  const char   *las_opHausdorffdistance[] = INPARAMCLUSTERING_HAUSDORFFDISTANCE;
-#endif /*ALG_GCA_MEDOIDBASED_MULTIINSTCLUSTERING_LUCASIUS_ETAL1993*/
-
-#ifdef  ALG_HKA_FKMEDOID_SHENG_LUI2004
-  const char   *las_optHKAMedoidBasedShengLiu2004[] = 
+#ifdef  __INPARAM_HKA__
+  const char   *las_optHKA[] = 
     {"number-clusters",
      "population-size",               /*Population size                x2*/
      "mix-recombination-probability", /*Mix recombination probability  x7 
@@ -2267,57 +2071,30 @@ inparamclustering_getParameter
      "search-heuristic-probability",
      (char *) NULL 
     };
-#endif /*ALG_HKA_FKMEDOID_SHENG_LUI2004*/
+#endif /*__INPARAM_HKA__*/
 
 
-#ifdef  ALG_HKA_MEDOIDBASED_MULTIINSTCLUSTERING_SHENG_LUI2004
-  const char   *las_optHKAMedoidBasedMultiInstShengLiu2004[] = 
-    {"number-clusters",
-     "population-size",               /*Population size                x2*/
-     "mix-recombination-probability", /*Mix recombination probability  x7 
-					(crossover-probability)*/ 
-     "point-mutation-probability",    /*Point mutation probability     x8 
-					(mutation-probability)*/
-     "generations",                   /*Number of generations          x1*/
-     "mix-mutation-probability",      /*Mix mutation probability       x9*/
-     "order-tournament",
-     "nearest-neighbors",
-     "search-heuristic-probability",
-     "bag-broken",
-     "hausdorff-distance",
-     (char *) NULL 
-    };
-  const char   *las_opHausdorffdistance[] = INPARAMCLUSTERING_HAUSDORFFDISTANCE;
-#endif /*ALG_HKA_MEDOIDBASED_MULTIINSTCLUSTERING_SHENG_LUI2004*/
-
-
-#if defined(ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999) ||	\
-  defined(ALG_IGKA_FKLABEL_LU_ETAL2004) || \
-  defined(ALG_FGKA_FKLABEL_LU_ETAL2004)
-     
-  const char  *las_optGKALabelBasedKrishnaMurty1999[] = 
+#ifdef __INPARAM_PMFK__
+  const char  *las_optGAPmFk[] = 
     {"number-clusters",
      "population-size", 
      "mutation-probability", 
      "generations", 
      (char *) NULL 
     };
-#endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999
-	 ALG_IGKA_FKLABEL_LU_ETAL2004
-         ALG_FGKA_FKLABEL_LU_ETAL2004
-       */
+#endif 
 
-#ifdef  ALG_GAGR_FKCENTROID_CHANG_ETAL_2009
+#ifdef  __INPARAM_ADAPTIVEPCPMFK__
   const char   *las_optAlgChangEtAl2009[] = 
     {"number-clusters", 
      "population-size", 
      "generations", 
      (char *) NULL 
     };
-#endif /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
+#endif /*__INPARAM_ADAPTIVEPCPMFK__*/
 
-#ifdef  ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997
-  const char   *las_optAlgFrantiEtAl1997[] 
+#ifdef  __INPARAM_CBGA__
+  const char   *las_optCBGA[] 
     = {"number-clusters",
        "population-size", 
        "mutation-probability", 
@@ -2326,18 +2103,23 @@ inparamclustering_getParameter
        "gla-iterations", 
        (char *) NULL };
   const char   *las_opSelectMethod[] = INPARAMCLUSTERING_CBGA_SELECMETH; /*?CHECAR FALTA*/
-#endif /*ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997*/
+#endif /*__INPARAM_CBGA__*/
 
   
-#ifdef ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
-  const char   *las_optAlgGABezdek1994[] = {"number-clusters", "population-size", "matingpool-size", "generations",  (char *) NULL };
-#endif /*ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994*/
+#ifdef __INPARAM_WITHOUTPCPMFK__
+  const char   *las_opWithoutPcPm[] = 
+    {"number-clusters", 
+     "population-size", 
+     "matingpool-size", 
+     "generations",  (char *) NULL 
+    };
+#endif /*__INPARAM_WITHOUTPCPMFK__*/
 
-#ifdef _ALG_CLUSTERING_ /* ONLY CLUSTERING */
+#ifdef __ALG_CLUSTERING__ /* ONLY CLUSTERING */
   
   const char   *las_opGeneral[] = {"centroids-format", "table-format",  (char *) NULL };
 
-#endif /* _ALG_CLUSTERING_ */
+#endif /* __ALG_CLUSTERING__ */
   
   int          li_opt;
   char         *lps_optsubValue; 
@@ -2387,15 +2169,15 @@ inparamclustering_getParameter
       {"plot-styles",             required_argument, 0, 'y'},
       {"help",                    no_argument,       0, '?'},
 
-#ifdef  ALG_STDVAR_MILLIGAN_COOPER1988
+#ifdef  __INPARAM_STDVAR_MILLIGAN_COOPER1988__
       {"std-var",                 required_argument, 0, 0},
-#endif /* ALG_STDVAR_MILLIGAN_COOPER1988 */
+#endif /* __INPARAM_STDVAR_MILLIGAN_COOPER1988__ */
 
-#ifdef ALG_PCATRANSMATRIX_PEARSON_1901
+#ifdef __INPARAM_PCATRANSMATRIX__
       {"transmatrix-outfile",     required_argument, 0, 0},
-#endif /*ALG_PCATRANSMATRIX_PEARSON_1901*/
+#endif /*__INPARAM_PCATRANSMATRIX__*/
 
-#ifdef ALG_PLOT_CLUSTERING
+#ifdef __INPARAM_PLOT_CLUSTERING__
       {"projection",             required_argument, 0, 0},
       {"transmatrix-infile",     required_argument, 0, 0},
       {"centroids-infile",       required_argument, 0, 0},
@@ -2425,61 +2207,58 @@ inparamclustering_getParameter
       {"color-graphics",         required_argument, 0, 0},
       {"sleep",                  required_argument, 0, 0},
       {"graphics-outfile",       required_argument, 0, 0},
-#endif /*ALG_PLOT_CLUSTERING*/
+#endif /*__INPARAM_PLOT_CLUSTERING__*/
       
       
-#ifdef ALG_KMEANS_FORGY_MACQUEEN_1967
+#ifdef __INPARAM_KMEANS__
       {"number-clusters",         required_argument, 0, 0},
       {"iterations",              required_argument, 0, 0},
       {"threshold",               required_argument, 0, 0},
-#endif /*ALG_KMEANS_FORGY_MACQUEEN_1967 */
+#endif /*__INPARAM_KMEANS__ */
 
-#ifdef ALG_SLINK_SIBSON_1973
+#ifdef __INPARAM_SLINK__
       {"number-clusters",         required_argument, 0, 0},
-#endif /*ALG_SLINK_SIBSON_1973*/
+#endif /*__INPARAM_SLINK__*/
 
       
-#ifdef ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990
+#ifdef __INPARAM_PAM__
       {"number-clusters",         required_argument, 0, 0},
       {"iterations",              required_argument, 0, 0},
-#endif /*ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990*/
+#endif /*__INPARAM_PAM__*/
 
 
-#ifdef  ALG_ISODATA_BALL_HALL_1967
+#ifdef  __INPARAM_ISODATA__
       {"number-clusters",         required_argument, 0, 0},
       {"iterations",              required_argument, 0, 0},
       {"epsilon",                 required_argument, 0, 0},
       {"optimal-initializacion",  no_argument,       0, 0},      
-#endif /*ALG_ISODATA_BALL_HALL_1967*/
+#endif /*__INPARAM_ISODATA__*/
 
-#ifdef  ALG_FCM_BEZDEK_1973
+#ifdef  __INPARAM_FCM__
       {"number-clusters",         required_argument, 0, 0},
       {"iterations",              required_argument, 0, 0},
       {"epsilon",                 required_argument, 0, 0},
       {"weighting-exponent",      required_argument, 0, 0},
-#endif /*ALG_FCM_BEZDEK_1973*/
+#endif /*__INPARAM_FCM__*/
 
-#ifdef  ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996
+#ifdef  __INPARAM_DBSCAN__
       {"epsilon",                 required_argument, 0, 0},
       {"min-pts",                 required_argument, 0, 0},
       {"buffer-capacity",         required_argument, 0, 0},
       {"tree-fill-factor",        required_argument, 0, 0},
       {"tree-index-capacity",     required_argument, 0, 0},
       {"tree-leaf-capacity",      required_argument, 0, 0},
-#endif /*ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996*/
+#endif /*__INPARAM_DBSCAN__*/
 
-
-#if defined(ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||	\
-  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) || \
-  defined(ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002)
+#ifdef __INPARAM_PCPMFK__
       {"number-clusters",         required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
       {"crossover-probability",   required_argument, 0, 0},
       {"mutation-probability",    required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
-#endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996*/
+#endif /*__INPARAM_PCPMFK__*/
 
-#ifdef ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997
+#ifdef __INPARAM_GAPROTOTYPESFK__
       {"number-clusters",         required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
       {"crossover-probability",   required_argument, 0, 0},
@@ -2487,18 +2266,18 @@ inparamclustering_getParameter
       {"probability-ini",         required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
       {"alpha",                   required_argument, 0, 0},
-#endif /*ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997*/
+#endif /*__INPARAM_GAPROTOTYPESFK__*/
       
-#ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
+#ifdef __INPARAM_PCPMVK__
       {"k-minimum",               required_argument, 0, 0},
       {"k-maximum",               required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
       {"crossover-probability",   required_argument, 0, 0},
       {"mutation-probability",    required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
-#endif /*ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002*/
+#endif /*__INPARAM_PCPMVK__*/
 
-#ifdef ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
+#ifdef __INPARAM_TGCA__
       {"k-minimum",               required_argument, 0, 0},
       {"k-maximum",               required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
@@ -2507,10 +2286,9 @@ inparamclustering_getParameter
       {"generations",             required_argument, 0, 0},
       {"kmeans-iterations",       required_argument, 0, 0},
       {"kmeans-threshold",       required_argument, 0, 0},
-#endif /*ALG_TGCA_VKCENTROID_HE_AND_TAN_2012*/
+#endif /*__INPARAM_TGCA__*/
 
-#if defined(ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012) || \
-  defined(ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012)
+#ifdef __INPARAM_GGA__
       {"k-minimum",               required_argument, 0, 0}, /*0*/
       {"k-maximum",               required_argument, 0, 0}, /*1*/
       {"sub-population-size",     required_argument, 0, 0}, /*2*/
@@ -2523,11 +2301,10 @@ inparamclustering_getParameter
       {"pmf",                     required_argument, 0, 0}, /*9.*/
       {"pbi",                     required_argument, 0, 0}, /*10.*/
       {"pbf",                     required_argument, 0, 0}, /*11.*/
-#endif /*ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012 ||	\
-	 ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012
+#endif /*__INPARAM_GGA__
        */
       
-#ifdef ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001
+#ifdef __INPARAM_SUBCLUSTERBINARYVK__
       {"u-parameter",             required_argument, 0, 0},
       {"lambda",                  required_argument, 0, 0},
       {"w1",                      required_argument, 0, 0},
@@ -2536,9 +2313,9 @@ inparamclustering_getParameter
       {"crossover-probability",   required_argument, 0, 0},
       {"mutation-probability",    required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
-#endif /*ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001*/
+#endif /*__INPARAM_SUBCLUSTERBINARYVK__*/
 
-#ifdef ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003
+#ifdef __INPARAM_GENWOCHGVK__
       {"k-minimum",               required_argument, 0, 0},
       {"k-maximum",               required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
@@ -2546,22 +2323,18 @@ inparamclustering_getParameter
       {"mutation-probability",    required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
       {"notchangestop",           required_argument, 0, 0},
-#endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
+#endif /*__INPARAM_GENWOCHGVK__*/
 
-#ifdef ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003
+#ifdef __INPARAM_PCPMVK__
       {"k-minimum",               required_argument, 0, 0},
       {"k-maximum",               required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
       {"crossover-probability",   required_argument, 0, 0},
       {"mutation-probability",    required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
-#endif /*ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003*/
+#endif /*__INPARAM_PCPMVK__*/
 
-#if defined(ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) || \
-  defined(ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
+#ifdef __INPARAM_FEAC__
       {"k-minimum",               required_argument, 0, 0},
       {"k-maximum",               required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
@@ -2569,35 +2342,19 @@ inparamclustering_getParameter
       {"desiable-objfunc",        required_argument, 0, 0},
       {"kmeans-iterations",       required_argument, 0, 0},
       {"kmeans-difference",       required_argument, 0, 0},
-#endif /*ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) ||	\
-         ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) ||	\
-         ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-	 ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-	 ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
+#endif /*__INPARAM_FEAC__
        */ 
 
-#ifdef  ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993
+#ifdef  __INPARAM_GCA__
       {"number-clusters",               required_argument, 0, 0},
       {"population-size",               required_argument, 0, 0},
       {"mix-recombination-probability", required_argument, 0, 0},
       {"point-mutation-probability",    required_argument, 0, 0},
       {"generations",                   required_argument, 0, 0},
       {"mix-mutation-probability",      required_argument, 0, 0},
-#endif /*ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993*/
+#endif /*__INPARAM_GCA__*/
 
-
-#ifdef ALG_GCA_MEDOIDBASED_MULTIINSTCLUSTERING_LUCASIUS_ETAL1993
-      {"number-clusters",               required_argument, 0, 0},
-      {"population-size",               required_argument, 0, 0},
-      {"mix-recombination-probability", required_argument, 0, 0},
-      {"point-mutation-probability",    required_argument, 0, 0},
-      {"generations",                   required_argument, 0, 0},
-      {"mix-mutation-probability",      required_argument, 0, 0},
-      {"bag-broken",                    no_argument, 0, 0},
-      {"hausdorff-distance",            required_argument, 0, 0},
-#endif /*ALG_GCA_MEDOIDBASED_MULTIINSTCLUSTERING_LUCASIUS_ETAL1993*/
-
-#ifdef ALG_HKA_FKMEDOID_SHENG_LUI2004
+#ifdef __INPARAM_HKA__
       {"number-clusters",               required_argument, 0, 0},
       {"population-size",               required_argument, 0, 0},
       {"mix-recombination-probability", required_argument, 0, 0},
@@ -2607,41 +2364,37 @@ inparamclustering_getParameter
       {"order-tournament",              required_argument, 0, 0},
       {"nearest-neighbors",             required_argument, 0, 0},
       {"search-heuristic-probability",  required_argument, 0, 0},
-#endif /*ALG_HKA_FKMEDOID_SHENG_LUI2004*/
+#endif /*__INPARAM_HKA__*/
 
-#ifdef  ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997
+#ifdef  __INPARAM_CBGA__
       {"number-clusters",         required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
       {"mutation-probability",    required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
       {"select-method",           required_argument, 0, 0},
       {"gla-iterations",          required_argument, 0, 0},
-#endif /*ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997*/
+#endif /*__INPARAM_CBGA__*/
 
-#if defined(ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999) ||	\
-  defined(ALG_IGKA_FKLABEL_LU_ETAL2004) || \
-  defined(ALG_FGKA_FKLABEL_LU_ETAL2004)
+
+#ifdef __INPARAM_PMFK__
       {"number-clusters",         required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
       {"mutation-probability",    required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
-#endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999  
-	 ALG_IGKA_FKLABEL_LU_ETAL2004
-	 ALG_FGKA_FKLABEL_LU_ETAL2004
-       */
+#endif
 
-#ifdef  ALG_GAGR_FKCENTROID_CHANG_ETAL_2009
+#ifdef  __INPARAM_ADAPTIVEPCPMFK__
       {"number-clusters",         required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
-#endif /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
+#endif /*__INPARAM_ADAPTIVEPCPMFK__*/
 
-#ifdef ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
+#ifdef __INPARAM_WITHOUTPCPMFK__
       {"number-clusters",         required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
       {"matingpool-size",         required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
-#endif /*ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994*/
+#endif /*__INPARAM_WITHOUTPCPMFK__*/
 
       {0, 0, 0, 0}
     };
@@ -2680,7 +2433,7 @@ inparamclustering_getParameter
     switch (li_opt) {
     case 0:
 
-#ifdef _ALG_CLUSTERING_ /* ONLY CLUSTERING */
+#ifdef __ALG_CLUSTERING__ /* ONLY CLUSTERING */
 
       if ( strcmp //centroids-format
 	   (long_options[option_index].name,
@@ -2697,10 +2450,10 @@ inparamclustering_getParameter
 	    (aoipc_inParamClustering.isYesNo(optarg, argv[0],long_options[option_index].name));
 	}
      
-#endif /* _ALG_CLUSTERING_ */
+#endif /* __ALG_CLUSTERING__ */
       
 
-#ifdef  ALG_STDVAR_MILLIGAN_COOPER1988
+#ifdef  __INPARAM_STDVAR_MILLIGAN_COOPER1988__
 
       if ( strcmp
 	   (long_options[option_index].name,
@@ -2734,9 +2487,9 @@ inparamclustering_getParameter
 	     );
 	}
 	  
-#endif /* ALG_STDVAR_MILLIGAN_COOPER1988 */
+#endif /* __INPARAM_STDVAR_MILLIGAN_COOPER1988__ */
       
-#ifdef ALG_PCATRANSMATRIX_PEARSON_1901
+#ifdef __INPARAM_PCATRANSMATRIX__
       
       if ( strcmp
 	   (long_options[option_index].name,
@@ -2750,9 +2503,9 @@ inparamclustering_getParameter
 	    (argv[0],long_options[option_index].name,las_optPCAtransmatrix);
 	}
       
-#endif /*ALG_PCATRANSMATRIX_PEARSON_1901*/
+#endif /*__INPARAM_PCATRANSMATRIX__*/
 
-#ifdef ALG_PLOT_CLUSTERING
+#ifdef __INPARAM_PLOT_CLUSTERING__
       
       if ( strcmp
 	   (long_options[option_index].name,
@@ -3009,14 +2762,14 @@ inparamclustering_getParameter
 	    (argv[0],long_options[option_index].name,las_optPlotClustering);
 	}
       
-#endif /*ALG_PLOT_CLUSTERING*/
+#endif /*__INPARAM_PLOT_CLUSTERING__*/
       
       
-#ifdef ALG_KMEANS_FORGY_MACQUEEN_1967
+#ifdef __INPARAM_KMEANS__
 
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optAlgKmeans1967[0] ) == 0 ) 
+	    las_optKmeans[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_numClusterK;
 	  liss_stringstream.clear();
@@ -3026,7 +2779,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgKmeans1967[1] ) == 0 ) 
+		 las_optKmeans[1] ) == 0 ) 
 	{ 
 	  COMMON_IDOMAIN lT_readNumMaxIter;
 	  liss_stringstream.clear();
@@ -3036,7 +2789,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgKmeans1967[2] ) == 0 
+		 las_optKmeans[2] ) == 0 
 		) 
 	{ 
 	  liss_stringstream.clear();
@@ -3047,15 +2800,15 @@ inparamclustering_getParameter
       else 
 	{
 	  aoipc_inParamClustering.errorArgument
-	    (argv[0],long_options[option_index].name,las_optAlgKmeans1967);
+	    (argv[0],long_options[option_index].name,las_optKmeans);
 	}
 
-#endif /*ALG_KMEANS_FORGY_MACQUEEN_1967 */
+#endif /*__INPARAM_KMEANS__ */
 
-#ifdef ALG_SLINK_SIBSON_1973
+#ifdef __INPARAM_SLINK__
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optAlgSLINK1973[0] ) == 0 ) 
+	    las_optSLINK[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_numClusterK;
 	  liss_stringstream.clear();
@@ -3066,14 +2819,14 @@ inparamclustering_getParameter
       else 
 	{
 	  aoipc_inParamClustering.errorArgument
-	    (argv[0],long_options[option_index].name,las_optAlgSLINK1973);
+	    (argv[0],long_options[option_index].name,las_optSLINK);
 	}
-#endif /*ALG_SLINK_SIBSON_1973*/
+#endif /*__INPARAM_SLINK__*/
       
-#ifdef ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990
+#ifdef __INPARAM_PAM__
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optAlgPAMKmedoids1990[0] ) == 0 ) 
+	    las_optPAM[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_numClusterK;
 	  liss_stringstream.clear();
@@ -3083,7 +2836,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgPAMKmedoids1990[1] ) == 0 
+		 las_optPAM[1] ) == 0 
 		)
 	{ 
 	  COMMON_IDOMAIN lT_readNumMaxIter;
@@ -3097,17 +2850,16 @@ inparamclustering_getParameter
 	  aoipc_inParamClustering.errorArgument
 	    (argv[0],
 	     long_options[option_index].name,
-	     las_optAlgPAMKmedoids1990
+	     las_optPAM
 	     );
 	}
-#endif /*ALG_PAM_KMEDOIDS_KAUFMAN_ROUSSEEUW_1990*/
+#endif /*__INPARAM_PAM__*/
 
 
-#ifdef  ALG_ISODATA_BALL_HALL_1967
-
+#ifdef  __INPARAM_ISODATA__
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optAlgIsoDataBallHall1967[0] ) == 0 ) 
+	    las_optIsoData[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_numClusterK;
 	  liss_stringstream.clear();
@@ -3117,14 +2869,14 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].
-		 name,las_optAlgIsoDataBallHall1967[1]) == 0 
+		 name,las_optIsoData[1]) == 0 
 		) 
 	{ 
 	  aoipc_inParamClustering.setNumMaxIter(atoi(optarg));
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgIsoDataBallHall1967[2]) == 0 
+		 las_optIsoData[2]) == 0 
 		) 
 	{
 	  T_EPSILON  lT_readEpsilon;
@@ -3135,7 +2887,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgIsoDataBallHall1967[3]) == 0 
+		 las_optIsoData[3]) == 0 
 		) 
 	{
 	  aoipc_inParamClustering.setIsOptimalInitializacion(true);
@@ -3144,16 +2896,16 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name,
-	   las_optAlgIsoDataBallHall1967
+	   las_optIsoData
 	   );
       }  
-#endif /*ALG_ISODATA_BALL_HALL_1967*/
+#endif /*__INPARAM_ISODATA__*/
 
-#ifdef  ALG_FCM_BEZDEK_1973
+#ifdef  __INPARAM_FCM__
 
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optAlgFCMBezdek1973[0] ) == 0 ) 
+	    las_optFCM[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_numClusterK;
 	  liss_stringstream.clear();
@@ -3163,14 +2915,14 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgFCMBezdek1973[1]) == 0 
+		 las_optFCM[1]) == 0 
 		) 
 	{ 
 	  aoipc_inParamClustering.setNumMaxIter(atoi(optarg));
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgFCMBezdek1973[2]) == 0 
+		 las_optFCM[2]) == 0 
 		) 
 	{
 	  T_U  lT_readEpsilon;
@@ -3181,7 +2933,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgFCMBezdek1973[3]) == 0 
+		 las_optFCM[3]) == 0 
 		) 
 	{
 	  T_U lT_readWeightingExponent;
@@ -3195,14 +2947,14 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name, 
-	   las_optAlgFCMBezdek1973
+	   las_optFCM
 	   );
       }
 
 #endif /*ALG_FCM_BEZDEK_H*/
 
 
-#ifdef  ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996
+#ifdef  __INPARAM_DBSCAN__
 
       else if ( strcmp
 	   (long_options[option_index].name,
@@ -3219,7 +2971,6 @@ inparamclustering_getParameter
 		 las_optAlgDBSCANEsterKriegelSanderXuClustering1996[1]) == 0 
 		) 
 	{ 
-	  //T_INSTANCES_CLUSTER_K lit_minPts;
 	  uint32_t lui32t_minPts;
 	  liss_stringstream.clear();
 	  liss_stringstream.str(optarg);
@@ -3281,13 +3032,10 @@ inparamclustering_getParameter
 	   );
       }
 
-#endif /*ALG_DBSCAN_ESTER_KRIEGEL_SANDER_XU_1996*/
+#endif /*__INPARAM_DBSCAN__*/
 
       
-#if defined(ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||	\
-  defined(ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000) || \
-  defined(ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002)
-  
+#ifdef __INPARAM_PCPMFK__
       else if ( strcmp /*number-clusters*/
 	   (long_options[option_index].name,
 	    lastr_inParamPcPmFk[0] ) == 0 ) 
@@ -3351,15 +3099,12 @@ inparamclustering_getParameter
 	   lastr_inParamPcPmFk
 	   );
       }
-#endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996) ||  
-	 ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000 ||
-	 ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002 ||
-       */
+#endif /*__INPARAM_PCPMFK__*/
 
-#ifdef ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997
+#ifdef __INPARAM_GAPROTOTYPESFK__
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optKunchevaBezdek1997[0] ) == 0 ) 
+	    las_optGAPrototypesFk[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_numClusterK;
 	  liss_stringstream.clear();
@@ -3369,7 +3114,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optKunchevaBezdek1997[1]) == 0 
+		 las_optGAPrototypesFk[1]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -3379,7 +3124,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optKunchevaBezdek1997[2]) == 0 
+		 las_optGAPrototypesFk[2]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityCrossover;
@@ -3391,7 +3136,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optKunchevaBezdek1997[3]) == 0 
+		 las_optGAPrototypesFk[3]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityMutation;
@@ -3404,7 +3149,7 @@ inparamclustering_getParameter
 
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optKunchevaBezdek1997[4]) == 0 
+		 las_optGAPrototypesFk[4]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityIni;
@@ -3417,7 +3162,7 @@ inparamclustering_getParameter
       
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optKunchevaBezdek1997[5]) == 0 
+		 las_optGAPrototypesFk[5]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -3430,7 +3175,7 @@ inparamclustering_getParameter
 
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optKunchevaBezdek1997[6]) == 0 
+		 las_optGAPrototypesFk[6]) == 0 
 		) 
 	{
 	  T_REAL  lT_readApha;
@@ -3445,15 +3190,15 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name,
-	   las_optKunchevaBezdek1997
+	   las_optGAPrototypesFk
 	   );
       }
-#endif /*ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997*/
+#endif /*__INPARAM_GAPROTOTYPESFK__*/
 
-#ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
+#ifdef __INPARAM_PCPMVK__
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optGCUKBandyopadhyayMaulik2002[0] ) == 0 ) 
+	    las_optGpcpmrk[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMinimum;
 	  liss_stringstream.clear();
@@ -3463,7 +3208,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGCUKBandyopadhyayMaulik2002[1] ) == 0 ) 
+		 las_optGpcpmrk[1] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMaximum;
 	  liss_stringstream.clear();
@@ -3473,7 +3218,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*Population-size*/
 		(long_options[option_index].name,
-		 las_optGCUKBandyopadhyayMaulik2002[2]) == 0 
+		 las_optGpcpmrk[2]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -3483,7 +3228,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*crossover-probability*/
 		(long_options[option_index].name,
-		 las_optGCUKBandyopadhyayMaulik2002[3]) == 0 
+		 las_optGpcpmrk[3]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityCrossover;
@@ -3495,7 +3240,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGCUKBandyopadhyayMaulik2002[4]) == 0 
+		 las_optGpcpmrk[4]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityMutation;
@@ -3507,7 +3252,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGCUKBandyopadhyayMaulik2002[5]) == 0 
+		 las_optGpcpmrk[5]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -3521,15 +3266,15 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name,
-	   las_optGCUKBandyopadhyayMaulik2002
+	   las_optGpcpmrk
 	   );
       }
-#endif /*ALG_GCUK_CLUSTERINGCENTROIDVARK_BANDYOPADHYAY_AND_MAULIK200*/
+#endif /*__INPARAM_PCPMVK__*/
 
-#ifdef ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
+#ifdef __INPARAM_TGCA__
       else if ( strcmp /*k-minimum*/
 	   (long_options[option_index].name,
-	    las_optTGCAHeTan2012[0] ) == 0 ) 
+	    las_optTGCA[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMinimum;
 	  liss_stringstream.clear();
@@ -3539,7 +3284,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*k-maximum*/
 		(long_options[option_index].name,
-		 las_optTGCAHeTan2012[1] ) == 0 ) 
+		 las_optTGCA[1] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMaximum;
 	  liss_stringstream.clear();
@@ -3549,7 +3294,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*Population-size*/
 		(long_options[option_index].name,
-		 las_optTGCAHeTan2012[2]) == 0 
+		 las_optTGCA[2]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -3559,7 +3304,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*num-subpopulations-cross*/
 		(long_options[option_index].name,
-		 las_optTGCAHeTan2012[3]) == 0 
+		 las_optTGCA[3]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -3569,7 +3314,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*crossover-probability*/
 		(long_options[option_index].name,
-		 las_optTGCAHeTan2012[4]) == 0 
+		 las_optTGCA[4]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityCrossover;
@@ -3581,7 +3326,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*generations*/
 		(long_options[option_index].name,
-		 las_optTGCAHeTan2012[5]) == 0 
+		 las_optTGCA[5]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -3593,7 +3338,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*kmeans-iterations*/
 		(long_options[option_index].name,
-		 las_optTGCAHeTan2012[6]) == 0 
+		 las_optTGCA[6]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN liT_readKmeansNumMaxIter;
@@ -3605,7 +3350,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*kmeans-threshold*/
 		(long_options[option_index].name,
-		 las_optTGCAHeTan2012[7]) == 0 
+		 las_optTGCA[7]) == 0 
 		) 
 	{
 	  uintidx lui_kmeansNumMinThreshold;
@@ -3619,17 +3364,15 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name,
-	   las_optTGCAHeTan2012
+	   las_optTGCA
 	   );
       }
-#endif /*ALG_TGCA_VKCENTROID_HE_AND_TAN_2012*/
+#endif /*__INPARAM_TGCA__*/
 
-#if defined(ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012) || \
-  defined(ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012)
-
+#ifdef __INPARAM_GGA__
       else if ( strcmp /*k-minimum*/
 	   (long_options[option_index].name,
-	    las_optGGAAgustinEtal2012[0] ) == 0 ) 
+	    las_optGGA[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMinimum;
 	  liss_stringstream.clear();
@@ -3639,7 +3382,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*k-maximum*/
 		(long_options[option_index].name,
-		 las_optGGAAgustinEtal2012[1] ) == 0 ) 
+		 las_optGGA[1] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMaximum;
 	  liss_stringstream.clear();
@@ -3649,7 +3392,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*sub-population-size*/
 		(long_options[option_index].name,
-		 las_optGGAAgustinEtal2012[2]) == 0 
+		 las_optGGA[2]) == 0 
 		) 
 	{
 	  uintidx luintidx_readSubPopulationSize;
@@ -3660,7 +3403,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*number-island*/ 
 		(long_options[option_index].name,
-		 las_optGGAAgustinEtal2012[3]) == 0 
+		 las_optGGA[3]) == 0 
 		) 
 	{
 	  uintidx luintidx_readNumIsland;
@@ -3671,7 +3414,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*probability of migration pe*/
 		(long_options[option_index].name,
-		 las_optGGAAgustinEtal2012[4]) == 0 
+		 las_optGGA[4]) == 0 
 		) 
 	{
 	  T_REAL  lrt_readPe;
@@ -3683,7 +3426,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*generations*/
 		(long_options[option_index].name,
-		 las_optGGAAgustinEtal2012[5]) == 0 
+		 las_optGGA[5]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lit_readNumMaxGenerations;
@@ -3695,7 +3438,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*crossover probability initial pci*/
 		(long_options[option_index].name,
-		 las_optGGAAgustinEtal2012[6]) == 0 
+		 las_optGGA[6]) == 0 
 		) 
 	{
 	  T_REAL  lrt_readPci;
@@ -3707,7 +3450,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*crossover probability final pcf*/
 		(long_options[option_index].name,
-		 las_optGGAAgustinEtal2012[7]) == 0 
+		 las_optGGA[7]) == 0 
 		) 
 	{
 	  T_REAL  lrt_readPcf;
@@ -3718,7 +3461,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*mutation probability initial pmi*/
 		(long_options[option_index].name,
-		 las_optGGAAgustinEtal2012[8]) == 0 
+		 las_optGGA[8]) == 0 
 		) 
 	{
 	  T_REAL  lrt_readPmi;
@@ -3730,7 +3473,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*mutation probability final pmf*/
 		(long_options[option_index].name,
-		 las_optGGAAgustinEtal2012[9]) == 0 
+		 las_optGGA[9]) == 0 
 		) 
 	{
 	  T_REAL  lrt_readPmf;
@@ -3742,7 +3485,7 @@ inparamclustering_getParameter
 
       else if ( strcmp /*local search probability initial pmi*/
 		(long_options[option_index].name,
-		 las_optGGAAgustinEtal2012[10]) == 0 
+		 las_optGGA[10]) == 0 
 		) 
 	{
 	  T_REAL  lrt_readPbi;
@@ -3754,7 +3497,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*local search probability final pmf*/
 		(long_options[option_index].name,
-		 las_optGGAAgustinEtal2012[11]) == 0 
+		 las_optGGA[11]) == 0 
 		) 
 	{
 	  T_REAL  lrt_readPbf;
@@ -3767,14 +3510,13 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name,
-	   las_optGGAAgustinEtal2012
+	   las_optGGA
 	   );
       }
-#endif /*ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012 ||	\
-	 ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012
+#endif /*__INPARAM_GGA__
        */      
       
-#ifdef ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001
+#ifdef __INPARAM_SUBCLUSTERBINARYVK__
       
       else if ( strcmp
 	   (long_options[option_index].name,
@@ -3881,13 +3623,13 @@ inparamclustering_getParameter
 	   );
       }
 
-#endif /*ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001*/
+#endif /*__INPARAM_SUBCLUSTERBINARYVK__*/
 
 
-#ifdef ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003
+#ifdef __INPARAM_GENWOCHGVK__
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optGACasillasGonzalezMartinez2003[0] ) == 0 ) 
+	    las_optGenWOChgVk[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMinimum;
 	  liss_stringstream.clear();
@@ -3897,7 +3639,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGACasillasGonzalezMartinez2003[1] ) == 0 ) 
+		 las_optGenWOChgVk[1] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMaximum;
 	  liss_stringstream.clear();
@@ -3907,7 +3649,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optGACasillasGonzalezMartinez2003[2]) == 0 
+	    las_optGenWOChgVk[2]) == 0 
 	   ) 
 	{
 	  liss_stringstream.clear();
@@ -3917,7 +3659,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGACasillasGonzalezMartinez2003[3]) == 0 
+		 las_optGenWOChgVk[3]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityCrossover;
@@ -3929,7 +3671,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGACasillasGonzalezMartinez2003[4]) == 0 
+		 las_optGenWOChgVk[4]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityMutation;
@@ -3941,7 +3683,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGACasillasGonzalezMartinez2003[5]) == 0 
+		 las_optGenWOChgVk[5]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -3953,7 +3695,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGACasillasGonzalezMartinez2003[6]) == 0 
+		 las_optGenWOChgVk[6]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lit_numNotChangeStop;
@@ -3967,17 +3709,17 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name,
-	   las_optGACasillasGonzalezMartinez2003
+	   las_optGenWOChgVk
 	   );
       }
 
-#endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
+#endif /*__INPARAM_GENWOCHGVK__*/
 
-#ifdef ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003
+#ifdef __INPARAM_PCPMVK__
        
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optAlgCGAHruschkaEbecken2003[0] ) == 0 ) 
+	    las_optPcPmVk[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMinimum;
 	  liss_stringstream.clear();
@@ -3987,7 +3729,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgCGAHruschkaEbecken2003[1] ) == 0 ) 
+		 las_optPcPmVk[1] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMaximum;
 	  liss_stringstream.clear();
@@ -3997,7 +3739,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgCGAHruschkaEbecken2003[2]) == 0 
+		 las_optPcPmVk[2]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -4007,7 +3749,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgCGAHruschkaEbecken2003[3]) == 0 
+		 las_optPcPmVk[3]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityCrossover;
@@ -4019,7 +3761,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgCGAHruschkaEbecken2003[4]) == 0 
+		 las_optPcPmVk[4]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityMutation;
@@ -4031,7 +3773,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgCGAHruschkaEbecken2003[5]) == 0 
+		 las_optPcPmVk[5]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -4045,20 +3787,16 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name,
-	   las_optAlgCGAHruschkaEbecken2003
+	   las_optPcPmVk
 	   );
       }
-#endif /*ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003*/
+#endif /*__INPARAM_PCPMVK__*/
 
-       
-#if defined(ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) || \
-  defined(ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-  defined(ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
+      
+#ifdef __INPARAM_FEAC__
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optAlgFEACAlvesCampelloHruschka2006[0] ) == 0 ) 
+	    las_optInparamFEAC[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMinimum;
 	  liss_stringstream.clear();
@@ -4068,7 +3806,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgFEACAlvesCampelloHruschka2006[1] ) == 0 ) 
+		 las_optInparamFEAC[1] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMaximum;
 	  liss_stringstream.clear();
@@ -4078,7 +3816,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgFEACAlvesCampelloHruschka2006[2]) == 0 
+		 las_optInparamFEAC[2]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -4089,7 +3827,7 @@ inparamclustering_getParameter
 
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgFEACAlvesCampelloHruschka2006[3]) == 0 
+		 las_optInparamFEAC[3]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -4101,7 +3839,7 @@ inparamclustering_getParameter
       
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgFEACAlvesCampelloHruschka2006[4]) == 0 
+		 las_optInparamFEAC[4]) == 0 
 		) 
 	{
 	  T_REAL lT_readDesiableObjetiveFunc;
@@ -4112,7 +3850,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgFEACAlvesCampelloHruschka2006[5]) == 0 
+		 las_optInparamFEAC[5]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN liT_readKmeansNumMaxIter;
@@ -4124,7 +3862,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgFEACAlvesCampelloHruschka2006[6]) == 0 
+		 las_optInparamFEAC[6]) == 0 
 		) 
 	{
 	  T_FEATURE lT_readKmeansmaxDiffCent;
@@ -4138,22 +3876,17 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name,
-	   las_optAlgFEACAlvesCampelloHruschka2006
+	   las_optInparamFEAC
 	   );
       }
-#endif /*ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) ||	\
-         ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) ||	\
-         ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-         ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006) || \
-	 ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006)
-       */
+#endif /*__INPARAM_FEAC__
+	*/
 
-
-#ifdef  ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
+#ifdef  __INPARAM_WITHOUTPCPMFK__
 
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optAlgGABezdek1994[0] ) == 0 ) 
+	    las_opWithoutPcPm[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_numClusterK;
 	  liss_stringstream.clear();
@@ -4163,7 +3896,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgGABezdek1994[1]) == 0 
+		 las_opWithoutPcPm[1]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -4173,7 +3906,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgGABezdek1994[2]) == 0 
+		 las_opWithoutPcPm[2]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -4183,7 +3916,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgGABezdek1994[3]) == 0 
+		 las_opWithoutPcPm[3]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -4196,16 +3929,15 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name,
-	   las_optAlgGABezdek1994
+	   las_opWithoutPcPm
 	   );
       }
-#endif /*ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994*/
+#endif /*__INPARAM_WITHOUTPCPMFK__*/
 
-#ifdef  ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993
-
+#ifdef  __INPARAM_GCA__
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optGCAMedoidBasedLucasiusEtAl1993[0] ) == 0 ) 
+	    las_optGCA[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_numClusterK;
 	  liss_stringstream.clear();
@@ -4215,7 +3947,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp  /*Population size x2*/    
 		(long_options[option_index].name,
-		 las_optGCAMedoidBasedLucasiusEtAl1993[1]) == 0 
+		 las_optGCA[1]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -4225,7 +3957,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*Mix recombination probability  x7*/ 
 		(long_options[option_index].name,
-		 las_optGCAMedoidBasedLucasiusEtAl1993[2]) == 0 
+		 las_optGCA[2]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityCrossover;
@@ -4236,7 +3968,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*Point mutation probability     x8*/  
       		(long_options[option_index].name,
-		 las_optGCAMedoidBasedLucasiusEtAl1993[3]) == 0 
+		 las_optGCA[3]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityMutation;
@@ -4247,7 +3979,7 @@ inparamclustering_getParameter
 	}		
       else if ( strcmp /*Number of generations          x1*/
 		(long_options[option_index].name,
-		 las_optGCAMedoidBasedLucasiusEtAl1993[4]) == 0 
+		 las_optGCA[4]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -4258,7 +3990,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*Mix mutation probability       x9*/
 		(long_options[option_index].name,
-		 las_optGCAMedoidBasedLucasiusEtAl1993[5]) == 0 
+		 las_optGCA[5]) == 0 
 		) 
 	{
 	  T_REAL lT_readProbabilityMixMutation;
@@ -4273,125 +4005,16 @@ inparamclustering_getParameter
 	  aoipc_inParamClustering.errorArgument
 	    (argv[0],
 	     long_options[option_index].name,
-	     las_optGCAMedoidBasedLucasiusEtAl1993
+	     las_optGCA
 	     );
 	}
-#endif /*ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993*/
+#endif /*__INPARAM_GCA__*/
 
 
-#ifdef  ALG_GCA_MEDOIDBASED_MULTIINSTCLUSTERING_LUCASIUS_ETAL1993
-
+#ifdef __INPARAM_HKA__
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optGCAMedoidBasedMultiInstLucasiusEtAl1993[0] ) == 0 ) 
-	{ 
-	  T_CLUSTERIDX lmcidxT_numClusterK;
-	  liss_stringstream.clear();
-	  liss_stringstream.str(optarg);
-	  liss_stringstream >> lmcidxT_numClusterK;
-	  aoipc_inParamClustering.setNumClusterK(lmcidxT_numClusterK);
-	}
-      else if ( strcmp  /*Population size x2*/    
-		(long_options[option_index].name,
-		 las_optGCAMedoidBasedMultiInstLucasiusEtAl1993[1]) == 0 
-		) 
-	{
-	  liss_stringstream.clear();
-	  liss_stringstream.str(optarg);
-	  liss_stringstream >> luintidx_read;
-	  aoipc_inParamClustering.setSizePopulation(luintidx_read);
-	}
-      else if ( strcmp /*Mix recombination probability  x7*/ 
-		(long_options[option_index].name,
-		 las_optGCAMedoidBasedMultiInstLucasiusEtAl1993[2]) == 0 
-		) 
-	{
-	  T_REAL  lT_readProbabilityCrossover;
-	  liss_stringstream.clear();
-	  liss_stringstream.str(optarg);
-	  liss_stringstream >> lT_readProbabilityCrossover;
-	  aoipc_inParamClustering.setProbCrossover(lT_readProbabilityCrossover);
-	}
-      else if ( strcmp /*Point mutation probability     x8*/  
-      		(long_options[option_index].name,
-		 las_optGCAMedoidBasedMultiInstLucasiusEtAl1993[3]) == 0 
-		) 
-	{
-	  T_REAL  lT_readProbabilityMutation;
-	  liss_stringstream.clear();
-	  liss_stringstream.str(optarg);
-	  liss_stringstream >> lT_readProbabilityMutation;
-	  aoipc_inParamClustering.setProbMutation(lT_readProbabilityMutation);
-	}		
-      else if ( strcmp /*Number of generations          x1*/
-		(long_options[option_index].name,
-		 las_optGCAMedoidBasedMultiInstLucasiusEtAl1993[4]) == 0 
-		) 
-	{
-	  COMMON_IDOMAIN lT_readNumMaxGenerations;
-	  liss_stringstream.clear();
-	  liss_stringstream.str(optarg);
-	  liss_stringstream >> lT_readNumMaxGenerations;
-	  aoipc_inParamClustering.setNumMaxGenerations(lT_readNumMaxGenerations);
-	}
-      else if ( strcmp /*Mix mutation probability       x9*/
-		(long_options[option_index].name,
-		 las_optGCAMedoidBasedMultiInstLucasiusEtAl1993[5]) == 0 
-		) 
-	{
-	  T_REAL lT_readProbabilityMixMutation;
-	  liss_stringstream.clear();
-	  liss_stringstream.str(optarg);
-	  liss_stringstream >> lT_readProbabilityMixMutation;
-	  aoipc_inParamClustering.setProbMixMutation
-	    ( lT_readProbabilityMixMutation );
-	}
-      else if ( strcmp
-		(long_options[option_index].name,
-		 las_optGCAMedoidBasedMultiInstLucasiusEtAl1993[6]) == 0 
-		) 
-	{
-	  aoipc_inParamClustering.setOpBagBroken(true); 
-	}
-      else if ( strcmp
-		(long_options[option_index].name,
-		 las_optGCAMedoidBasedMultiInstLucasiusEtAl1993[7]) == 0 
-		) 
-	{
-	  if ( (li_idxSubOpt = 
-		getsubopt_getsubopt
-		(&optarg, 
-		 las_opHausdorffdistance, 
-		 &lps_optsubValue)) != -1
-	       ) 
-	    {
-	      aoipc_inParamClustering.setOpHausdorffDistance(li_idxSubOpt);
-	    }
-	  else 
-	    {
-	      aoipc_inParamClustering.errorArgument
-		(argv[0],
-		 long_options[option_index].name, 
-		 las_opHausdorffdistance
-		 );
-	    }
-	   
-	}
-      else {
-	aoipc_inParamClustering.errorArgument
-	  (argv[0],
-	   long_options[option_index].name, 
-	   las_optGCAMedoidBasedMultiInstLucasiusEtAl1993
-	   );
-      }
-#endif /*ALG_GCA_MEDOIDBASED_MULTIINSTCLUSTERING_LUCASIUS_ETAL1993*/
-
-
-#ifdef ALG_HKA_FKMEDOID_SHENG_LUI2004
-
-      else if ( strcmp
-	   (long_options[option_index].name,
-	    las_optHKAMedoidBasedShengLiu2004[0] ) == 0 ) 
+	    las_optHKA[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_numClusterK;
 	  liss_stringstream.clear();
@@ -4401,7 +4024,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp  /*Population size  x2*/             
 		(long_options[option_index].name,
-		 las_optHKAMedoidBasedShengLiu2004[1]) == 0 
+		 las_optHKA[1]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -4411,7 +4034,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp                    /*Mix recombination probability  x7*/ 
 		(long_options[option_index].name,
-		 las_optHKAMedoidBasedShengLiu2004[2]) == 0 
+		 las_optHKA[2]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityCrossover;
@@ -4422,7 +4045,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp                   /*Point mutation probability     x8*/  
       		(long_options[option_index].name,
-		 las_optHKAMedoidBasedShengLiu2004[3]) == 0 
+		 las_optHKA[3]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityMutation;
@@ -4433,7 +4056,7 @@ inparamclustering_getParameter
 	}		
       else if ( strcmp           /*Number of generations          x1*/
 		(long_options[option_index].name,
-		 las_optHKAMedoidBasedShengLiu2004[4]) == 0 
+		 las_optHKA[4]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -4444,7 +4067,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp           /*Mix mutation probability       x9*/
 		(long_options[option_index].name,
-		 las_optHKAMedoidBasedShengLiu2004[5]) == 0 
+		 las_optHKA[5]) == 0 
 		) 
 	{
 	  T_REAL lT_readProbabilityMixMutation;
@@ -4456,7 +4079,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp                           /*order-tournament*/
 		(long_options[option_index].name,
-		 las_optHKAMedoidBasedShengLiu2004[6]) == 0 ) {
+		 las_optHKA[6]) == 0 ) {
 	liss_stringstream.clear();
 	liss_stringstream.str(optarg);
 	liss_stringstream >> luintidx_read;
@@ -4464,7 +4087,7 @@ inparamclustering_getParameter
       }
       else if ( strcmp                           /*order-tournament*/
 		(long_options[option_index].name,
-		 las_optHKAMedoidBasedShengLiu2004[7]) == 0 
+		 las_optHKA[7]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -4474,7 +4097,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp           /*Mix mutation probability       x9*/
 		(long_options[option_index].name,
-		 las_optHKAMedoidBasedShengLiu2004[8]) == 0 
+		 las_optHKA[8]) == 0 
 		) 
 	{
 	  T_REAL lT_readProbSearchHeuristic;
@@ -4489,17 +4112,17 @@ inparamclustering_getParameter
 	  aoipc_inParamClustering.errorArgument
 	    (argv[0],
 	     long_options[option_index].name,
-	     las_optHKAMedoidBasedShengLiu2004
+	     las_optHKA
 	     );
 	}
-#endif /*ALG_HKA_FKMEDOID_SHENG_LUI2004*/
+#endif /*__INPARAM_HKA__*/
 
 
-#ifdef  ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997
+#ifdef  __INPARAM_CBGA__
 
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optAlgFrantiEtAl1997[0] ) == 0 ) 
+	    las_optCBGA[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_numClusterK;
 	  liss_stringstream.clear();
@@ -4509,7 +4132,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgFrantiEtAl1997[1]) == 0 
+		 las_optCBGA[1]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -4520,7 +4143,7 @@ inparamclustering_getParameter
       else if 
 	( strcmp
 	  (long_options[option_index].name,
-	   las_optAlgFrantiEtAl1997[2]) == 0 
+	   las_optCBGA[2]) == 0 
 	  ) 
 	{
 	  T_REAL  lT_readProbabilityMutation;
@@ -4530,7 +4153,7 @@ inparamclustering_getParameter
 	  aoipc_inParamClustering.setProbMutation(lT_readProbabilityMutation);
 	}
       else if ( strcmp(long_options[option_index].name,
-		       las_optAlgFrantiEtAl1997[3]) == 0 
+		       las_optCBGA[3]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -4541,7 +4164,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgFrantiEtAl1997[4]) == 0 
+		 las_optCBGA[4]) == 0 
 		) 
 	{
 	  if ( (li_idxSubOpt = 
@@ -4557,7 +4180,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgFrantiEtAl1997[5]) == 0 
+		 las_optCBGA[5]) == 0 
 		) 
 	{
 	  int li_numGlaIterations;
@@ -4570,19 +4193,16 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name, 
-	   las_optAlgFrantiEtAl1997
+	   las_optCBGA
 	   );
       }
-#endif /*ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997*/
+#endif /*__INPARAM_CBGA__*/
 
 
-#if defined(ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999) ||	\
-  defined(ALG_IGKA_FKLABEL_LU_ETAL2004) || \
-  defined(ALG_FGKA_FKLABEL_LU_ETAL2004)
-
+#ifdef __INPARAM_PMFK__
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optGKALabelBasedKrishnaMurty1999[0] ) == 0 ) 
+	    las_optGAPmFk[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_numClusterK;
 	  liss_stringstream.clear();
@@ -4592,7 +4212,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGKALabelBasedKrishnaMurty1999[1]) == 0 
+		 las_optGAPmFk[1]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -4602,7 +4222,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGKALabelBasedKrishnaMurty1999[2]) == 0 
+		 las_optGAPmFk[2]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityMutation;
@@ -4613,7 +4233,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGKALabelBasedKrishnaMurty1999[3]) == 0 
+		 las_optGAPmFk[3]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -4625,15 +4245,12 @@ inparamclustering_getParameter
       else {
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],long_options[option_index].name, 
-	   las_optGKALabelBasedKrishnaMurty1999
+	   las_optGAPmFk
 	   );
       }
-#endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999
-	 ALG_IGKA_FKLABEL_LU_ETAL2004
-	 ALG_FGKA_FKLABEL_LU_ETAL2004)
-       */
+#endif /*__INPARAM_PMFK__*/
 
-#ifdef  ALG_GAGR_FKCENTROID_CHANG_ETAL_2009
+#ifdef  __INPARAM_ADAPTIVEPCPMFK__
 
       else if ( strcmp
 	   (long_options[option_index].name,
@@ -4674,10 +4291,9 @@ inparamclustering_getParameter
 	     );
 	}
 
-#endif /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
+#endif /*__INPARAM_ADAPTIVEPCPMFK__*/
 
       break;
-      
     case 'i':
       lptstr_fileInstance = optarg;
       break;
@@ -4787,7 +4403,7 @@ inparamclustering_getParameter
       aoipc_inParamClustering.setFileNameTimesRun(optarg);
       break;
 
-#ifdef _ALG_CLUSTERING_ /* ONLY CLUSTERING */
+#ifdef __ALG_CLUSTERING__ /* ONLY CLUSTERING */
 
     case 'n':
       if ( (li_idxSubOpt = 
@@ -4854,7 +4470,7 @@ inparamclustering_getParameter
 	}
       break;
 
-#endif /* _ALG_CLUSTERING_ */
+#endif /* __ALG_CLUSTERING__ */
    
     case 'q': 
       aoipc_inParamClustering.setProgressBarPrinting(true);
@@ -4980,5 +4596,5 @@ inparamclustering_getParameter
 } /*END namespace inparam 
    */
 
-#endif  /*IN_PARAM_CLUSTERING_GETPARAMETER_HPP*/
+#endif  /*__IN_PARAM_CLUSTERING_GETPARAMETER_HPP__*/
 

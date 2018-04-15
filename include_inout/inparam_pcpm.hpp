@@ -1,4 +1,4 @@
-/*! \file inparam_probcprobm.hpp
+/*! \file inparam_pcpm.hpp
  *
  * \brief Definition of input parameters
  *

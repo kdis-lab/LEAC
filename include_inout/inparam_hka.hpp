@@ -13,6 +13,8 @@
 
 #include "inparam_gca.hpp"
 
+#undef   __INPARAM_GCA__
+#define  __INPARAM_HKA__
 
 /*! \namespace inout
   \brief Module for input and output parameters

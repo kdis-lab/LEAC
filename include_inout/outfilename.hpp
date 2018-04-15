@@ -35,7 +35,10 @@ class OutFileName {
 public:
   OutFileName() 
     :  _stdstremamsize_precisionDefault(std::cout.precision())
-  {}
+       //  , _c_delim(OUTFILENAME_SEPARATOR_DEFAULT)
+  {
+    // _c_delim =  OUTFILENAME_SEPARATOR_DEFAULT; 
+  }
   ~OutFileName() {} 
 
   std::ostream& openFile
@@ -69,11 +72,13 @@ public:
 
   static void setDelim(const char aic_delim)
   {
+    // _c_delim = aic_delim;
     OutFileName::_c_delim = aic_delim;
   }
 
   static  const char getDelim()  
   {
+    //  return _c_delim;
     return OutFileName::_c_delim;
   }
 
@@ -83,10 +88,11 @@ protected:
   std::ostream     *_ptostream_ostream;
   std::ofstream    _ofstream_filename;
 
-  static char      _c_delim;
+  static  char         _c_delim; 
 
 }; /*OutFileName*/
 
+char OutFileName::_c_delim = OUTFILENAME_SEPARATOR_DEFAULT;
 
 } /*END namespace  outparam
    */

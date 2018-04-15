@@ -15,6 +15,8 @@
 #include "standardize_variable.hpp"
 #include "inparam_readinst.hpp"
 
+#define __INPARAM_STDVAR_MILLIGAN_COOPER1988__
+
 /*! \namespace inout
   \brief Module for input and output parameters
   \details

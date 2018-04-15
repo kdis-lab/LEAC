@@ -19,6 +19,8 @@
   
 #define INPARAMCLUSTERING_PLOT_PLOJECTION {"pca", "identity", (char *) NULL }
 
+#define __INPARAM_PLOT_CLUSTERING__
+
 /*! \namespace inout
   \brief Module for input and output parameters
   \details

@@ -1,4 +1,4 @@
-/*! \file inparam_subclusterbinary.hpp
+/*! \file inparam_subclusterbinaryvk.hpp
  *
  * \brief Definition of CLUSTERING program parameters
  *
@@ -8,11 +8,13 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef __IN_PARAM_CLUSTERING_VKSUBCLUSTERBINARY_HPP__
-#define __IN_PARAM_CLUSTERING_VKSUBCLUSTERBINARY_HPP__
+#ifndef __IN_PARAM_CLUSTERING_VKSUBCLUSTERBINARYVK_HPP__
+#define __IN_PARAM_CLUSTERING_VKSUBCLUSTERBINARYVK_HPP__
 
-#include "inparam_probcprobm.hpp"
+#include "inparam_pcpm.hpp"
 #include "inparam_readinst.hpp"
+
+#define __INPARAM_SUBCLUSTERBINARYVK__
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -25,7 +27,7 @@
 
 namespace  inout {
     
-/*! \class InParamSubClusterBinary
+/*! \class InParamSubClusterBinaryVk
   \brief Input parameter for CLUSTERING algorithm A genetic approach to the automatic clustering problem\cite Tseng:Yang:GAclusteringVarK:CLUSTERING:2001
 */
   template < typename T_REAL,
@@ -35,12 +37,12 @@ namespace  inout {
 	     typename T_FEATURE_SUM,
 	     typename T_INSTANCES_CLUSTER_K
 	     >
-class InParamSubClusterBinary
+class InParamSubClusterBinaryVk
     : public InParamPcPm<T_REAL>
     , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 {
 public:
-  InParamSubClusterBinary
+  InParamSubClusterBinaryVk
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
@@ -51,7 +53,7 @@ public:
     , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
   {}
 
-  ~InParamSubClusterBinary() {}
+  ~InParamSubClusterBinaryVk() {}
 
   inline void setU(T_REAL aitr_u) 
   {
@@ -115,7 +117,7 @@ protected:
   T_REAL  tr_w1;
   T_REAL  tr_w2;
   
-}; /*InParamSubClusterBinary*/
+}; /*InParamSubClusterBinaryVk*/
 
 
 } /*END namespace inout 

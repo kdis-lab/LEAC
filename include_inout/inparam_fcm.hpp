@@ -1,4 +1,4 @@
-/*! \file inparam_clustering_fcm.hpp
+/*! \file inparam_fcm.hpp
  *
  * \brief Definition of FCM program parameters
  *
@@ -8,12 +8,14 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_CLUSTERING_FCM_HPP
-#define IN_PARAM_CLUSTERING_FCM_HPP
+#ifndef __IN_PARAM_FCM_HPP__
+#define __IN_PARAM_FCM_HPP__
 
 #include "inparam_clustering_max_iter.hpp"
 #include "inparam_fixedk.hpp"
 #include "inparam_readinst.hpp"
+
+#define __INPARAM_FCM__
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -26,7 +28,7 @@
 
 namespace  inout {
 
-/*! \class InParamClusteringFCM
+/*! \class InParamFCM
   \brief Input parameter for FCM algorithm clustering \cite Bezdek:ClusterAnalysis:FCM:1974
 */
 template < typename T_CLUSTERIDX,
@@ -34,13 +36,13 @@ template < typename T_CLUSTERIDX,
 	   typename T_FEATURE,         
 	   typename T_INSTANCES_CLUSTER_K
 	   >
-class InParamClusteringFCM
+class InParamFCM
   : public InParamClusteringMaxIter
   , public InParamFk<T_CLUSTERIDX>
   , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 { 
 public:
-  InParamClusteringFCM
+  InParamFCM
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
@@ -54,7 +56,7 @@ public:
     , t_weightingExponent(INPARAMCLUSTERING_DEFAULT_WEIGHTING_EXPONENT) 
   {}
   
-  ~InParamClusteringFCM() {}
+  ~InParamFCM() {}
 
   inline void setWeightingExponent(T_REAL aiT_weightingExponent) 
   {
@@ -97,4 +99,4 @@ protected:
 } /*END namespace inout
    */
 
-#endif /*IN_PARAM_CLUSTERING_FCM_HPP*/
+#endif /*__IN_PARAM_FCM_HPP__*/

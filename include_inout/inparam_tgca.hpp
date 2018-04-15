@@ -11,7 +11,10 @@
 #ifndef __IN_PARAM_TGCA_HPP__
 #define __IN_PARAM_TGCA_HPP__
 
-#include "inparam_probcprobm_rangek.hpp"
+#include "inparam_pcpmvk.hpp"
+
+#undef  __INPARAM_PCPMVK__
+#define __INPARAM_TGCA__
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -35,7 +38,7 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename T_INSTANCES_CLUSTER_K
 	   >
 class InParamTGCA
-  : public InParamPcPmRk
+  : public InParamPcPmVk
 <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
 {
 public:
@@ -45,7 +48,7 @@ public:
    InParam_algTypeOut aiato_algTypeOut,
    int         aii_opNorm
    )
-    : InParamPcPmRk
+    : InParamPcPmVk
       <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
     (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut,aii_opNorm)
     , _it_kmeansNumMaxIter(INPARAMCLUSTERING_DEFAULT_MAX_ITER)
@@ -87,7 +90,7 @@ public:
   virtual void  print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
 
-    InParamPcPmRk
+    InParamPcPmVk
       <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
       ::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "_k-means iterations"            

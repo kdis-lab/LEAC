@@ -1,4 +1,4 @@
-/*! \file inparam_clustering_medoidspam.hpp
+/*! \file inparam_pam.hpp
  *
  * \brief Definition of PAM program parameters
  *
@@ -8,13 +8,14 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-
-#ifndef IN_PARAM_CLUSTERING_MEDOIDSPAM_HPP
-#define IN_PARAM_CLUSTERING_MEDOIDSPAM_HPP
+#ifndef __IN_PARAM_PAM_HPP__
+#define __IN_PARAM_PAM_HPP__
 
 #include "inparam_clustering_max_iter.hpp"
 #include "inparam_fixedk.hpp"
 #include "inparam_readinst.hpp"
+
+#define __INPARAM_PAM__
 
 /*! \namespace inout
   \brief Module for input and output parameters
@@ -27,20 +28,20 @@
 
 namespace  inout {
 
-/*! \class InParamClusteringMedoidsPAM
+/*! \class InParamPAM
   \brief Input parameter for Medoids PAM algorithm \cite Kaufman:Rousseeuw:Book:ClusterAnalysis:1990
 */
 template <typename T_CLUSTERIDX,
 	  typename T_FEATURE,
 	  typename T_INSTANCES_CLUSTER_K
 	 > 
-class InParamClusteringMedoidsPAM
+class InParamPAM
   : public InParamClusteringMaxIter
   , public InParamFk<T_CLUSTERIDX>
   , public InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 { 
 public:
-  InParamClusteringMedoidsPAM
+  InParamPAM
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
@@ -50,7 +51,7 @@ public:
     , InParamFk<T_CLUSTERIDX>()
     , InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>()
    {}
-  ~InParamClusteringMedoidsPAM() {}
+  ~InParamPAM() {}
 
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
@@ -66,4 +67,4 @@ protected:
 } /*END namespace inout 
    */
 
-#endif /*IN_PARAM_CLUSTERING_MEDOIDSPAM_HPP*/
+#endif /*__IN_PARAM_PAM_HPP__*/

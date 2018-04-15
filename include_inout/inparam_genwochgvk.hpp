@@ -1,4 +1,4 @@
-/*! \file inparam_genwochg_rangek.hpp
+/*! \file inparam_genwochgvk.hpp
  *
  * \brief Definition of GA program parameters
  *
@@ -8,11 +8,14 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef __IN_PARAM_GENERATIONS_WITHOUT_CHANGE_HPP__
-#define __IN_PARAM_GENERATIONS_WITHOUT_CHANGE_HPP__
+#ifndef __IN_PARAM_GENERATIONS_WITHOUT_CHANGE_VK_HPP__
+#define __IN_PARAM_GENERATIONS_WITHOUT_CHANGE_VK_HPP__
 
-#include "inparam_probcprobm_rangek.hpp"
+#include "inparam_pcpmvk.hpp"
 
+#undef  __INPARAM_PCPMVK__
+#define __INPARAM_GENWOCHGVK__
+ 
 /*! \namespace inout
   \brief Module for input and output parameters
   \details
@@ -24,7 +27,7 @@
 
 namespace  inout {
   
-/*! \class InParamGenWOChgRk
+/*! \class InParamGenWOChgVk
   \brief Input parameter Document clustering into an unknown number of clusters using a genetic algorithm \cite Casillas:etal:GAclusteringVarK:GA:2003
 */
   template < typename T_BITSIZE,
@@ -34,21 +37,21 @@ namespace  inout {
 	   typename T_FEATURE_SUM,
 	   typename T_INSTANCES_CLUSTER_K
 	   >
-class InParamGenWOChgRk
-  : public InParamPcPmRk
+class InParamGenWOChgVk
+  : public InParamPcPmVk
 <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
 {
 public:
-  InParamGenWOChgRk
+  InParamGenWOChgVk
   (const std::string& ais_algorithmoName,
    const std::string& ais_algorithmoAuthor,
    InParam_algTypeOut aiato_algTypeOut,
    int         aii_opNorm
-   ) : InParamPcPmRk
+   ) : InParamPcPmVk
        <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
     (ais_algorithmoName,ais_algorithmoAuthor,aiato_algTypeOut, aii_opNorm) {}
    
-  ~InParamGenWOChgRk() {}
+  ~InParamGenWOChgVk() {}
 
   inline void setNumNotChangeStop(COMMON_IDOMAIN aiit_numNotChangeStop) 
   {
@@ -62,7 +65,7 @@ public:
 
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
-    InParamPcPmRk
+    InParamPcPmVk
       <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
       ::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "NumNotChangeStop"   
@@ -73,10 +76,10 @@ protected:
 
  COMMON_IDOMAIN _it_numNotChangeStop;
   
-}; /*InParamGenWOChgRk*/
+}; /*InParamGenWOChgVk*/
 
 
 } /*END namespace inout 
    */
 
-#endif /*__IN_PARAM_GENERATIONS_WITHOUT_CHANGE_HPP__*/
+#endif /*__IN_PARAM_GENERATIONS_WITHOUT_CHANGE_VK_HPP__*/
