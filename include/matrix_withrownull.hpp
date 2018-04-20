@@ -16,7 +16,6 @@
 #include <typeinfo>
 #include <stdexcept>
 #include <algorithm> // std::copy
-#include "outfilename.hpp"
 #include "matrix_base.hpp"
 
 
@@ -32,6 +31,7 @@
 namespace mat {
 
 #define MATRIX_WITHROWNULL_CHAR '#'
+#define MATRIX_WITHROWNULL_OUT_SEPARATOR_DEFAULT ','
 
 
 /*! \class MatrixWithRowNull
@@ -415,7 +415,7 @@ public:
 
   friend std::ostream& operator<<(std::ostream& os, const mat::MatrixWithRowNull<T> &aimatrixwrownull_a)
   {
-    aimatrixwrownull_a.print(os,"",inout::OutFileName::getDelim(),'\n');
+    aimatrixwrownull_a.print(os,"",MATRIX_WITHROWNULL_OUT_SEPARATOR_DEFAULT,'\n');
     
     return os;
   }

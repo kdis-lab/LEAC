@@ -25,7 +25,6 @@
 #include "matrix_base.hpp"
 #include "linear_algebra_level1.hpp"
 #include "line_split.hpp"
-#include "outfilename.hpp"
 
 /*! \namespace mat
   \brief Matrix module and associated operations
@@ -374,6 +373,7 @@ public:
   void r8mat_print
   (const char   *aipc_label       = "",
    const char   *aipc_labelColums = '\0',
+   const char   aic_separatorlabels = ',',
    const int    aii_numColumns    = 5,
    std::ostream &os=std::cout
   ) const
@@ -440,7 +440,7 @@ public:
     os << aipc_label << "\n";
 
     std::string      lstr_colNames(aipc_labelColums);
-    std::string      lstr_separator(1,inout::OutFileName::getDelim());
+    std::string      lstr_separator(1,aic_separatorlabels);
     inout::LineSplit lsplit_colNames;
     
     lsplit_colNames.setSeparator(lstr_separator);

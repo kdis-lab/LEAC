@@ -14,9 +14,10 @@
 #include <cmath>
 #include <limits>
 #include "line_split.hpp"
-#include "outfilename.hpp"
+//#include "outfilename.hpp"
 #include "common.hpp"
 
+#define INSTANCE_OUT_SEPARATOR_DEFAULT  ','
 
 /*! \namespace data
   \brief Module for the handling of instances or also called objects or points.
@@ -240,7 +241,7 @@ public:
 
   friend std::ostream& operator<<(std::ostream& os, const Instance<T_FEATURE> &aiinst_instance)
   {
-    aiinst_instance.print(os,inout::OutFileName::getDelim());
+    aiinst_instance.print(os,INSTANCE_OUT_SEPARATOR_DEFAULT);
     
     return os;
   }

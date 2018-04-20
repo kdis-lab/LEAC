@@ -13,9 +13,9 @@
 #define MATRIX_TRIANG_HPP
 
 #include <iostream>
-#include "outfilename.hpp"
 #include "common.hpp"
 
+#define MATRIX_TRIANG_OUT_SEPARATOR_DEFAULT ','
 
 /*! \namespace mat
   \brief Matrix module and associated operations
@@ -172,7 +172,7 @@ public:
 
   friend std::ostream& operator<<(std::ostream& os, const mat::MatrixTriang<T_FEATURE> &aimatrix_a)
   {
-    aimatrix_a.print(os,inout::OutFileName::getDelim(),'\n');
+    aimatrix_a.print(os,MATRIX_TRIANG_OUT_SEPARATOR_DEFAULT,'\n');
     
     return os;
   }
