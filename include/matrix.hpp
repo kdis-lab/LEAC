@@ -372,7 +372,7 @@ public:
 
   void r8mat_print
   (const char   *aipc_label       = "",
-   const char   *aipc_labelColums = '\0',
+   const char   *aipc_labelColums = "",
    const char   aic_separatorlabels = ',',
    const int    aii_numColumns    = 5,
    std::ostream &os=std::cout
