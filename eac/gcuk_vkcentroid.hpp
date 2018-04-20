@@ -11,7 +11,7 @@
  * <a href="http://dx.doi.org/10.1016/S0031-3203(01)00108-X">doi:http://dx.doi.org/10.1016/S0031-3203(01)00108-X</a>.\n
  * \n
  * Library Evolutionary Algorithms for Clustering (LEAC) is a library\n
- * for the implementation of evolutionary and genetic algorithms\n
+ * for the implementation of evolutionary algorithms\n
  * focused on the partition type clustering problem. Based on the\n
  * current standards of the <a href="http://en.cppreference.com">C++</a> language, as well as on Standard\n
  * Template Library <a href="http://en.cppreference.com/w/cpp/container">STL</a> 

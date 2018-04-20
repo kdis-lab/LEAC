@@ -985,130 +985,14 @@ int main(int argc, char **argv)
 
     /*READ: INSTANCES 
      */
-    std::vector<data::Instance<DATATYPE_FEATURE>* >  lvectorptinst_instances;
-    std::vector<data::Instance<DATATYPE_FEATURE>* >  lvectorptinst_instancesTest;
-
 #ifdef __INSTANCES_WITH_FREQUENCY
 
-    /*TYPE OF INSTANCES*/  
-    if ( linparam_ClusteringGA.getClassInstanceColumn()  &&
-	 linparam_ClusteringGA.getInstanceFrequencyColumn() ) {
-    
-      data::InstanceIterfazClass
-	<DATATYPE_INSTANCES_CLUSTER_K,DATATYPE_CLUSTERIDX>
-	::initialize();
-
-      lvectorptinst_instances = 
-	inout::instancesReadWithFreqClass
-	(linparam_ClusteringGA,
-	 false
-	 );
-
-      if ( linparam_ClusteringGA.getNumFilesInstanceTest() > 0 ) {
-
-	lvectorptinst_instances = 
-	  inout::instancesReadWithFreqClass
-	  (linparam_ClusteringGA,
-	   true
-	   );
-      }
-    }
-    else if ( linparam_ClusteringGA.getClassInstanceColumn() ) {
-
-      data::InstanceIterfazClass
-	<DATATYPE_INSTANCES_CLUSTER_K,DATATYPE_CLUSTERIDX>
-	::initialize();
-
-      lvectorptinst_instances = 
-	inout::instancesReadWithClass
-	(linparam_ClusteringGA,
-	 false
-	 );
-
-      if ( linparam_ClusteringGA.getNumFilesInstanceTest() > 0) {
-
-	lvectorptinst_instancesTest = 
-	  inout::instancesReadWithClass
-	  (linparam_ClusteringGA,
-	   true
-	   );
-
-      }
-
-    } 
-    else if ( linparam_ClusteringGA.getInstanceFrequencyColumn() ) {
-
-      lvectorptinst_instances = 
-	inout::instancesReadWithFreq
-	(linparam_ClusteringGA,
-	 false
-	 );
-
-      if ( linparam_ClusteringGA.getNumFilesInstanceTest() > 0) {
-
-	lvectorptinst_instancesTest = 
-	  inout::instancesReadWithFreq
-	  (linparam_ClusteringGA,
-	   true
-	   );
-      }
-    }
-    else {
-
-      lvectorptinst_instances = 
-	inout::instancesRead
-	(linparam_ClusteringGA,
-	 false
-	 );
-
-      if ( linparam_ClusteringGA.getNumFilesInstanceTest() > 0) {
-      
-	lvectorptinst_instancesTest = 
-	  inout::instancesRead
-	  (linparam_ClusteringGA,
-	   true
-	   );
-      }
-    }
-
+    auto lpairvec_dataset =  inout::dataSetReadWithFreq(linparam_ClusteringGA);
+ 
 #else /* INSTANCES WITHOUT FREQUENCY */
 
-    if ( linparam_ClusteringGA.getClassInstanceColumn() ) {
-
-      lvectorptinst_instances = 
-	inout::instancesReadWithClass
-	(linparam_ClusteringGA,
-	 false
-	 );
-
-      if ( linparam_ClusteringGA.getNumFilesInstanceTest() > 0) {
-      
-	lvectorptinst_instancesTest = 
-	  inout::instancesReadWithClass
-	  (linparam_ClusteringGA,
-	   true
-	   );
-      }
-
-    }
-    else { /*Instances*/
-
-      lvectorptinst_instances = 
-	inout::instancesRead
-	(linparam_ClusteringGA,
-	 false
-	 );
-
-      if ( linparam_ClusteringGA.getNumFilesInstanceTest() > 0) {
-
-	lvectorptinst_instancesTest = 
-	  inout::instancesRead
-	  (linparam_ClusteringGA,
-	   true
-	   );	
-      }
-    
-    }
+    auto lpairvec_dataset =  inout::dataSetRead(linparam_ClusteringGA);
+ 
 #endif /*__INSTANCES_WITH_FREQUENCY*/
 
     std::vector<std::string> 
@@ -1119,12 +1003,12 @@ int main(int argc, char **argv)
        );
     
     linparam_ClusteringGA.setNumInstances
-      ((uintidx) lvectorptinst_instances.size());
+      ((uintidx) lpairvec_dataset.first.size());
     linparam_ClusteringGA.setNumDimensionsInstances
       (data::Instance<DATATYPE_FEATURE>::getNumDimensions());
 
     linparam_ClusteringGA.setNumInstancesTest
-      ( (uintidx) lvectorptinst_instancesTest.size());
+      ( (uintidx) lpairvec_dataset.second.size());
 
     /*STATISTICS OF INSTANCES
      */  
@@ -1144,8 +1028,8 @@ int main(int argc, char **argv)
       const uintidx lui_numInstances = 
 	stats::sumFeacturesFreq
 	(larray_sumFeatureTmp,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 DATATYPE_FEATURE(0),
 	 [](const  data::Instance<DATATYPE_FEATURE>* linst_iter) ->
 	 const DATATYPE_INSTANCE_FREQUENCY
@@ -1168,8 +1052,8 @@ int main(int argc, char **argv)
       stats::sumFeacturesFreqSQ
 	(larray_sumFeatureTmp,
 	 larray_meanFeactures,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 [](const  data::Instance<DATATYPE_FEATURE>* linst_iter)
 	 -> const DATATYPE_INSTANCE_FREQUENCY
 	 {
@@ -1200,27 +1084,27 @@ int main(int argc, char **argv)
 
       stats::sumFeactures
 	(larray_sumFeatureTmp,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 DATATYPE_FEATURE(0)
 	 );
 
       stats::meanVector
 	(larray_meanFeactures,
-	 (DATATYPE_INSTANCES_CLUSTER_K) lvectorptinst_instances.size(),
+	 (DATATYPE_INSTANCES_CLUSTER_K) lpairvec_dataset.first.size(),
 	 larray_sumFeatureTmp
 	 );
     
       stats::sumFeacturesSQ
 	(larray_sumFeatureTmp,
 	 larray_meanFeactures,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end()
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end()
 	 );
 
       stats::meanVector
 	(larray_desvstdFeactures,
-	 (uintidx) lvectorptinst_instances.size()-1,
+	 (uintidx) lpairvec_dataset.first.size()-1,
 	 larray_sumFeatureTmp
 	 );
 
@@ -1277,8 +1161,8 @@ int main(int argc, char **argv)
       pfunct2p_distAlg = 
 	new dist::Induced<DATATYPE_REAL,DATATYPE_FEATURE>
 	( stats::getMatrixMahalonobis
-	  (lvectorptinst_instances.begin(),
-	   lvectorptinst_instances.end()
+	  (lpairvec_dataset.first.begin(),
+	   lpairvec_dataset.first.end()
 	   )
 	  );
       break;
@@ -1357,8 +1241,8 @@ int main(int argc, char **argv)
 	eac::gaclustering_fkcrispmatrix
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
     
@@ -1375,8 +1259,8 @@ int main(int argc, char **argv)
 
       mat::MatrixRow<DATATYPE_FEATURE>&& lmatrixT_y =
 	data::toMatrixRow
-	(lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end()
+	(lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end()
 	 );
 
       mat::MatrixRow<DATATYPE_FEATURE_SUM>
@@ -1408,8 +1292,8 @@ int main(int argc, char **argv)
 	eac::gaclustering_fklabel
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
     
@@ -1444,8 +1328,8 @@ int main(int argc, char **argv)
 	 lomatrixrowt_sumInstCluster,
 	 lovectort_numInstClusterK,
 	 lpartition_clusters,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end()
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end()
 	 );
       
 #endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996*/
@@ -1457,8 +1341,8 @@ int main(int argc, char **argv)
 	eac::cbga_fkcentroid
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
 
@@ -1473,7 +1357,7 @@ int main(int argc, char **argv)
 	<DATATYPE_CLUSTERIDX>
 	lpartition_clusters
 	(lchrom_best.getPartition().getMembersShip(),
-	 (uintidx) lvectorptinst_instances.size(),
+	 (uintidx) lpairvec_dataset.first.size(),
 	 linparam_ClusteringGA.getNumClusterK()
 	 );
        
@@ -1488,8 +1372,8 @@ int main(int argc, char **argv)
 	eac::gka_fklabel 
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
      
@@ -1525,8 +1409,8 @@ int main(int argc, char **argv)
 	 lomatrixrowt_sumInstCluster,
 	 lovectort_numInstClusterK,
 	 lpartition_clusters,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end()
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end()
 	 );
     
 #endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999*/
@@ -1545,7 +1429,7 @@ int main(int argc, char **argv)
 	 DATATYPE_INSTANCES_CLUSTER_K>
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances,
+	 lpairvec_dataset.first,
 	 *pfunct2p_distAlg
 	 );
 
@@ -1581,8 +1465,8 @@ int main(int argc, char **argv)
 	 lomatrixrowt_sumInstCluster,
 	 lovectort_numInstClusterK,
 	 lpartition_clusters,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end()
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end()
 	 );
 #endif /* ALG_FGKA_FKLABEL_LU_ETAL2004 */
 
@@ -1604,7 +1488,7 @@ int main(int argc, char **argv)
 	 DATATYPE_INSTANCES_CLUSTER_K>
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances,
+	 lpairvec_dataset.first,
 	 *pfunct2p_distAlg
 	 );
     
@@ -1630,8 +1514,8 @@ int main(int argc, char **argv)
 	eac::gas_fkcentroid
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
  	
@@ -1644,8 +1528,8 @@ int main(int argc, char **argv)
       auto lpartition_clusters = 
 	partition::makePartition
 	(lomatrixrowt_centroids,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 DATATYPE_CLUSTERIDX(lomatrixrowt_centroids.getNumRows()),
 	 *pfunct2p_distAlg
 	 );
@@ -1659,8 +1543,8 @@ int main(int argc, char **argv)
 	eac::kga_fkcentroid
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
  	
@@ -1673,8 +1557,8 @@ int main(int argc, char **argv)
       auto lpartition_clusters = 
 	partition::makePartition
 	(lomatrixrowt_centroids,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 DATATYPE_CLUSTERIDX(lomatrixrowt_centroids.getNumRows()),
 	 *pfunct2p_distAlg
 	 );
@@ -1689,8 +1573,8 @@ int main(int argc, char **argv)
 	eac::cga_vklabel
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
     
@@ -1726,8 +1610,8 @@ int main(int argc, char **argv)
 	 lomatrixrowt_sumInstCluster,
 	 lovectort_numInstClusterK,
 	 lpartition_clusters,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end()
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end()
 	 );
 #endif /*ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003*/
 
@@ -1741,8 +1625,8 @@ int main(int argc, char **argv)
 	eac::feca_vklabel
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
       
@@ -1785,8 +1669,8 @@ int main(int argc, char **argv)
 	eac::clustering_vksubclusterbinary
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
 
@@ -1824,8 +1708,8 @@ int main(int argc, char **argv)
 	eac::gaclustering_vktreebinary
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
 
@@ -1864,8 +1748,8 @@ int main(int argc, char **argv)
 	 lomatrixrowt_sumInstCluster,
 	 lovectort_numInstClusterK,
 	 lpartition_clusters,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end()
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end()
 	 );
 
 #endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
@@ -1878,8 +1762,8 @@ int main(int argc, char **argv)
 	eac::gcuk_vkcentroid
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
       mat::MatrixRow<DATATYPE_FEATURE>&  lchrom_best = lomatrixrowt_centroids;
@@ -1887,8 +1771,8 @@ int main(int argc, char **argv)
       auto lpartition_clusters = 
 	partition::makePartition
 	(lomatrixrowt_centroids,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 DATATYPE_CLUSTERIDX(lomatrixrowt_centroids.getNumRows()),
 	 *pfunct2p_distAlg
 	 );
@@ -1902,8 +1786,8 @@ int main(int argc, char **argv)
 	eac::tgca_vkcentroid
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
 
@@ -1916,8 +1800,8 @@ int main(int argc, char **argv)
       auto lpartition_clusters = 
 	partition::makePartition
 	(lomatrixrowt_centroids,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 DATATYPE_CLUSTERIDX(lomatrixrowt_centroids.getNumRows()),
 	 *pfunct2p_distAlg
 	 );
@@ -1931,8 +1815,8 @@ int main(int argc, char **argv)
 	eac::gga_vklabel
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
     
@@ -1940,7 +1824,7 @@ int main(int argc, char **argv)
 	<DATATYPE_CLUSTERIDX>
 	lpartition_clusters
 	(lchrom_best.getString(),
-	 (uintidx) lvectorptinst_instances.size(),/*String Size */
+	 (uintidx) lpairvec_dataset.first.size(),/*String Size */
 	 loop_outParamEAC.getNumClusterK()  
 	 );
 
@@ -1968,8 +1852,8 @@ int main(int argc, char **argv)
 	 lomatrixrowt_sumInstCluster,
 	 lovectort_numInstClusterK,
 	 lpartition_clusters,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end()
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end()
 	 );
 
     
@@ -1984,8 +1868,8 @@ int main(int argc, char **argv)
 	eac::gagr_fkcentroid 
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );      
 
@@ -1998,8 +1882,8 @@ int main(int argc, char **argv)
       auto lpartition_clusters = 
 	partition::makePartition
 	(lomatrixrowt_centroids,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 DATATYPE_CLUSTERIDX(lomatrixrowt_centroids.getNumRows()),
 	 *pfunct2p_distAlg
 	 );
@@ -2014,8 +1898,8 @@ int main(int argc, char **argv)
       mat::MatrixTriang<DATATYPE_REAL>&& 
 	lmatrixtriagT_dissimilarity = 
 	dist::getMatrixDissimilarity
-	(lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	(lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
     
@@ -2034,7 +1918,7 @@ int main(int argc, char **argv)
 
       clusteringop::initialize
 	(lomatrixrowt_centroids,
-	 lvectorptinst_instances.begin(),
+	 lpairvec_dataset.first.begin(),
 	 lchrom_best.begin()
 	 );
     
@@ -2060,8 +1944,8 @@ int main(int argc, char **argv)
       mat::MatrixTriang<DATATYPE_REAL>&& 
 	lmatrixtriagT_dissimilarity = 
 	dist::getMatrixDissimilarity
-	(lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	(lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
     
@@ -2080,7 +1964,7 @@ int main(int argc, char **argv)
 
       clusteringop::initialize
 	(lomatrixrowt_centroids,
-	 lvectorptinst_instances.begin(),
+	 lpairvec_dataset.first.begin(),
 	 lchrom_best.begin()
 	 );
 
@@ -2103,8 +1987,8 @@ int main(int argc, char **argv)
 	eac::gaprototypes_fkmedoid
 	(loop_outParamEAC,
 	 linparam_ClusteringGA,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
 
@@ -2119,15 +2003,15 @@ int main(int argc, char **argv)
 
       clusteringop::initialize
 	(lomatrixrowt_centroids,
-	 lvectorptinst_instances.begin(),
+	 lpairvec_dataset.first.begin(),
 	 listui_idxInst.begin()
 	 );
 
       auto lpartition_clusters = 
 	partition::makePartition
 	(lomatrixrowt_centroids,
-	 lvectorptinst_instances.begin(),
-	 lvectorptinst_instances.end(),
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
 	 DATATYPE_CLUSTERIDX(lomatrixrowt_centroids.getNumRows()),
 	 *pfunct2p_distAlg
 	 );
@@ -2170,8 +2054,8 @@ int main(int argc, char **argv)
 
 	  lmatchmatrix_confusion = 
 	    sm::getConfusionMatrix
-	    (lvectorptinst_instances.begin(),
-	     lvectorptinst_instances.end(),
+	    (lpairvec_dataset.first.begin(),
+	     lpairvec_dataset.first.end(),
 	     lpartition_clusters,
 	     [](const data::Instance<DATATYPE_FEATURE>* aiinst_iter )
 	     -> DATATYPE_INSTANCES_CLUSTER_K
@@ -2217,8 +2101,8 @@ int main(int argc, char **argv)
 
 	  lmatchmatrix_confusion =
 	    sm::getMatchingMatrix
-	    (lvectorptinst_instances.begin(),
-	     lvectorptinst_instances.end(),
+	    (lpairvec_dataset.first.begin(),
+	     lpairvec_dataset.first.end(),
 	     lpartition_clusters,
 	     [](const data::Instance<DATATYPE_FEATURE>* aiinst_iter )
 	     -> DATATYPE_INSTANCES_CLUSTER_K
@@ -2250,8 +2134,8 @@ int main(int argc, char **argv)
 
 	    lmatchmatrix_confusion = 
 	      sm::getConfusionMatrix
-	      (lvectorptinst_instances.begin(),
-	       lvectorptinst_instances.end(),
+	      (lpairvec_dataset.first.begin(),
+	       lpairvec_dataset.first.end(),
 	       lpartition_clusters,
 	       [](const data::Instance<DATATYPE_FEATURE>* aiinst_iter )
 	       -> DATATYPE_INSTANCES_CLUSTER_K
@@ -2282,8 +2166,8 @@ int main(int argc, char **argv)
 
 	    lmatchmatrix_confusion =
 	      sm::getMatchingMatrix
-	      (lvectorptinst_instances.begin(),
-	       lvectorptinst_instances.end(),
+	      (lpairvec_dataset.first.begin(),
+	       lpairvec_dataset.first.end(),
 	       lpartition_clusters,
 	       [](const data::Instance<DATATYPE_FEATURE>* aiinst_iter )
 	       -> DATATYPE_INSTANCES_CLUSTER_K
@@ -2324,8 +2208,8 @@ int main(int argc, char **argv)
       auto lpartition_clustersTest = 
 	partition::makePartition
 	(lomatrixrowt_centroids,
-	 lvectorptinst_instancesTest.begin(),
-	 lvectorptinst_instancesTest.end(),
+	 lpairvec_dataset.second.begin(),
+	 lpairvec_dataset.second.end(),
 	 DATATYPE_CLUSTERIDX(lomatrixrowt_centroids.getNumRows()),
 	 *pfunct2p_distAlg
 	 );
@@ -2354,8 +2238,8 @@ int main(int argc, char **argv)
 
 	    lmatchmatrix_confusionTest =
 	      sm::getConfusionMatrix
-	      (lvectorptinst_instancesTest.begin(),
-	       lvectorptinst_instancesTest.end(),
+	      (lpairvec_dataset.second.begin(),
+	       lpairvec_dataset.second.end(),
 	       lpartition_clustersTest,
 	       [](const data::Instance<DATATYPE_FEATURE>* aiinst_iter )
 	       -> DATATYPE_INSTANCES_CLUSTER_K
@@ -2400,8 +2284,8 @@ int main(int argc, char **argv)
 
 	    lmatchmatrix_confusionTest =
 	      sm::getMatchingMatrix
-	      (lvectorptinst_instancesTest.begin(),
-	       lvectorptinst_instancesTest.end(),
+	      (lpairvec_dataset.second.begin(),
+	       lpairvec_dataset.second.end(),
 	       lpartition_clustersTest,
 	       [](const data::Instance<DATATYPE_FEATURE>* aiinst_iter ) -> DATATYPE_INSTANCES_CLUSTER_K
 	       {
@@ -2427,8 +2311,8 @@ int main(int argc, char **argv)
 
 	    lmatchmatrix_confusionTest = 
 	      sm::getConfusionMatrix
-	      (lvectorptinst_instancesTest.begin(),
-	       lvectorptinst_instancesTest.end(),
+	      (lpairvec_dataset.second.begin(),
+	       lpairvec_dataset.second.end(),
 	       lpartition_clustersTest,
 	       [](const data::Instance<DATATYPE_FEATURE>* aiinst_iter )
 	       -> DATATYPE_INSTANCES_CLUSTER_K
@@ -2459,8 +2343,8 @@ int main(int argc, char **argv)
 
 	    lmatchmatrix_confusionTest =
 	      sm::getMatchingMatrix
-	      (lvectorptinst_instancesTest.begin(),
-	       lvectorptinst_instancesTest.end(),
+	      (lpairvec_dataset.second.begin(),
+	       lpairvec_dataset.second.end(),
 	       lpartition_clustersTest,
 	       [](const data::Instance<DATATYPE_FEATURE>* aiinst_iter ) -> DATATYPE_INSTANCES_CLUSTER_K
 	       {
@@ -2531,8 +2415,8 @@ int main(int argc, char **argv)
 	  <DATATYPE_CLUSTERIDX,DATATYPE_INSTANCES_CLUSTER_K>&&
 	  lpartlinknuminst_memberShip =
 	  ds::getPartitionLinkedNumInst
-	  (lvectorptinst_instances.begin(),
-	   lvectorptinst_instances.end(),
+	  (lpairvec_dataset.first.begin(),
+	   lpairvec_dataset.first.end(),
 	   lpartition_clusters,
 	   [&](data::Instance<DATATYPE_FEATURE>* liter_inst)
 	   {
@@ -2556,8 +2440,8 @@ int main(int argc, char **argv)
 	  std::pair<DATATYPE_REAL,bool> lpair_sse =
 	    um::SSE
 	    (lomatrixrowt_centroids,
-	     lvectorptinst_instances.begin(),
-	     lvectorptinst_instances.end(),
+	     lpairvec_dataset.first.begin(),
+	     lpairvec_dataset.first.end(),
 	     *pfunct2p_distEuclidean
 	     );
 	  lostream_outparam << "                      SSE: "
@@ -2573,8 +2457,8 @@ int main(int argc, char **argv)
 	    <<
 	    um::dbindex
 	    (lomatrixrowt_centroids,
-	     lvectorptinst_instances.begin(),
-	     lvectorptinst_instances.end(),
+	     lpairvec_dataset.first.begin(),
+	     lpairvec_dataset.first.end(),
 	     lpartition_clusters,
 	     *pfunct2p_distEuclidean
 	     )
@@ -2586,7 +2470,7 @@ int main(int argc, char **argv)
 	    << "               Silhouette: "	
 	    <<
 	    um::silhouette
-	    (lvectorptinst_instances.begin(),
+	    (lpairvec_dataset.first.begin(),
 	     lpartlinknuminst_memberShip,
 	     lpartlinknuminst_memberShip.getVectorNumInstClusterK(),
 	     *pfunct2p_distEuclidean
@@ -2600,8 +2484,8 @@ int main(int argc, char **argv)
 	    <<
 	    um::VRC
 	    (lomatrixrowt_centroids,
-	     lvectorptinst_instances.begin(),
-	     lvectorptinst_instances.end(),   
+	     lpairvec_dataset.first.begin(),
+	     lpairvec_dataset.first.end(),   
 	     lpartition_clusters,
 	     *pfunct2p_distEuclideanSq
 	     )
@@ -2613,7 +2497,7 @@ int main(int argc, char **argv)
 	    << "               CS measure: "
 	    <<
 	    um::CSmeasure
-	    (lvectorptinst_instances.begin(),
+	    (lpairvec_dataset.first.begin(),
 	     lomatrixrowt_centroids,
 	     lpartlinknuminst_memberShip,
 	     *pfunct2p_distEuclidean
@@ -2626,7 +2510,7 @@ int main(int argc, char **argv)
 	    << "             Dunn's index: "
 	    <<
 	    um::DunnIndex
-	    (lvectorptinst_instances.begin(),
+	    (lpairvec_dataset.first.begin(),
 	     lpartlinknuminst_memberShip,
 	     *pfunct2p_distEuclidean
 	     )
@@ -2639,8 +2523,8 @@ int main(int argc, char **argv)
 	    <DATATYPE_CLUSTERIDX,DATATYPE_INSTANCES_CLUSTER_K>&&
 	    lpartlinknuminst_memberShipTest =
 	    ds::getPartitionLinkedNumInst
-	    (lvectorptinst_instancesTest.begin(),
-	     lvectorptinst_instancesTest.end(),
+	    (lpairvec_dataset.second.begin(),
+	     lpairvec_dataset.second.end(),
 	     lpartition_clusters,
 	     [&](data::Instance<DATATYPE_FEATURE>* liter_inst)
 	     {
@@ -2651,8 +2535,8 @@ int main(int argc, char **argv)
 	  std::pair<DATATYPE_REAL,bool> lpair_sseTest =
 	    um::SSE
 	    (lomatrixrowt_centroids,
-	     lvectorptinst_instancesTest.begin(),
-	     lvectorptinst_instancesTest.end(),
+	     lpairvec_dataset.second.begin(),
+	     lpairvec_dataset.second.end(),
 	     *pfunct2p_distEuclidean
 	     );
 	  lostream_outparam << '\n';
@@ -2668,8 +2552,8 @@ int main(int argc, char **argv)
 	    <<
 	    um::dbindex
 	    (lomatrixrowt_centroids,
-	     lvectorptinst_instancesTest.begin(),
-	     lvectorptinst_instancesTest.end(),
+	     lpairvec_dataset.second.begin(),
+	     lpairvec_dataset.second.end(),
 	     lpartition_clusters,
 	     *pfunct2p_distEuclidean
 	     )
@@ -2679,7 +2563,7 @@ int main(int argc, char **argv)
 	    << "     Test data Silhouette: "	
 	    <<
 	    um::silhouette
-	    (lvectorptinst_instancesTest.begin(),
+	    (lpairvec_dataset.second.begin(),
 	     lpartlinknuminst_memberShipTest,
 	     lpartlinknuminst_memberShipTest.getVectorNumInstClusterK(),
 	     *pfunct2p_distEuclidean
@@ -2691,8 +2575,8 @@ int main(int argc, char **argv)
 	    <<
 	    um::VRC
 	    (lomatrixrowt_centroids,
-	     lvectorptinst_instancesTest.begin(),
-	     lvectorptinst_instancesTest.end(),   
+	     lpairvec_dataset.second.begin(),
+	     lpairvec_dataset.second.end(),   
 	     lpartition_clusters,
 	     *pfunct2p_distEuclideanSq
 	     )
@@ -2702,7 +2586,7 @@ int main(int argc, char **argv)
 	    << "     Test data CS measure: "
 	    <<
 	    um::CSmeasure
-	    (lvectorptinst_instancesTest.begin(),
+	    (lpairvec_dataset.second.begin(),
 	     lomatrixrowt_centroids,
 	     lpartlinknuminst_memberShipTest,
 	     *pfunct2p_distEuclidean
@@ -2714,7 +2598,7 @@ int main(int argc, char **argv)
 	    << "   Test data Dunn's index: "
 	    <<
 	    um::DunnIndex
-	    (lvectorptinst_instancesTest.begin(),
+	    (lpairvec_dataset.second.begin(),
 	     lpartlinknuminst_memberShipTest,
 	     *pfunct2p_distEuclidean
 	     )
@@ -3250,10 +3134,10 @@ int main(int argc, char **argv)
     delete [] larray_meanFeactures;
     delete [] larray_desvstdFeactures;
     
-    for ( auto  liter_instance: lvectorptinst_instances ) 
+    for ( auto  liter_instance: lpairvec_dataset.first ) 
       delete liter_instance;
 
-    for ( auto  liter_instanceTest: lvectorptinst_instancesTest ) 
+    for ( auto  liter_instanceTest: lpairvec_dataset.second ) 
       delete liter_instanceTest;
 
     delete pfunct2p_distAlg;
