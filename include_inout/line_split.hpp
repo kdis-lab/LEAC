@@ -44,7 +44,7 @@ public:
   { }
   
   LineSplit
-  (std::string  aistr_separator, 
+  (const std::string  aistr_separator, 
    std::string  aistr_selectColumns /*If NULL is the maximum*/
    )
     : _str_separator(aistr_separator)

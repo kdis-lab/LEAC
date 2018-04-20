@@ -1,4 +1,4 @@
-/*! \file outparam_eaclustering.hpp
+/*! \file outparam_gac.hpp
  *
  * \brief out parameters EA-clustering
  *
@@ -26,23 +26,23 @@
 namespace  inout {
 
   
-/*! \class OutParamEAClustering
+/*! \class OutParamGAC
   \brief Output Output parameters of the evolutionary algorithm
 */
 template < typename T_METRIC,
 	   typename T_CLUSTERIDX
 	  >
-class OutParamEAClustering:
+class OutParamGAC:
   public OutParamClustering<T_METRIC,T_CLUSTERIDX> {
 public:
-  OutParamEAClustering(const OutParamNameObjectiveFunc aienum_usedObjectiveFunc):
+  OutParamGAC(const OutParamNameObjectiveFunc aienum_usedObjectiveFunc):
   OutParamClustering<T_METRIC,T_CLUSTERIDX>
     ::OutParamClustering(aienum_usedObjectiveFunc)   
   {
     this->initialize(-1);
   }
 
-  virtual ~OutParamEAClustering() {}
+  virtual ~OutParamGAC() {}
 
   void initialize
   (int             aii_numRunAlgorithm)
@@ -94,7 +94,7 @@ protected:
   T_METRIC        t_fitness;             
   COMMON_IDOMAIN  t_numTotalGenerations; 
 
-}; /*OutParamEAClustering*/
+}; /*OutParamGAC*/
 
 } /*END namespace inout
    */

@@ -324,28 +324,7 @@ template<typename T_CLUSTERIDX,
    &aoipc_inParamClustering
    )
 #endif /*__INPARAM_GENWOCHGVK__*/
-
-
-#ifdef __INPARAM_PCPMVK__
-  template<typename T_CLUSTERIDX,
-	   typename T_REAL,
-	   typename T_FEATURE,         
-	   typename T_FEATURE_SUM,
-	   typename T_INSTANCES_CLUSTER_K
-	 > 
-  void 
-inparamclustering_usage
-(char *argv0, 
- InParamPcPmVk
- <T_CLUSTERIDX,
- T_REAL,
- T_FEATURE,
- T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K
- >
- &aoipc_inParamClustering
- )
-#endif /*__INPARAM_PCPMVK__*/
+  
 
 #ifdef __INPARAM_FEAC__
 template<typename T_FEATURE,
@@ -1288,10 +1267,7 @@ template<typename T_CLUSTERIDX,
 	    << "                                [NUMBER="
 	    << aoipc_inParamClustering.getProbMutation()
 	    << "]\n";
-#endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999
-	 ALG_IGKA_FKLABEL_LU_ETAL2004
-	 ALG_FGKA_FKLABEL_LU_ETAL2004
-       */
+#endif /*__INPARAM_PMFK__*/
 
 #ifdef  __INPARAM_ADAPTIVEPCPMFK__
   std::cout << "      --number-clusters[=NUMBER]\n"
@@ -1339,8 +1315,6 @@ inparamclustering_getParameter
  )
 #endif /* __INPARAM_STDVAR_MILLIGAN_COOPER1988__ */
   
-/*\cite Pearson:statistical:PCA:1901
-*/
 
 #ifdef  __INPARAM_PCA__
 
@@ -1660,27 +1634,6 @@ inparamclustering_getParameter
 #endif /*__INPARAM_ADAPTIVEPCPMFK__*/
 
 
-#ifdef  __INPARAM_PCPMVK__
-  template<typename T_CLUSTERIDX,
-           typename T_REAL,
-           typename T_FEATURE,         
-	   typename T_FEATURE_SUM,
-	   typename T_INSTANCES_CLUSTER_K
-  > 
-  void 
-  inparamclustering_getParameter
-  (InParamPcPmVk
-   <T_CLUSTERIDX,
-   T_REAL,
-   T_FEATURE,
-   T_FEATURE_SUM,
-   T_INSTANCES_CLUSTER_K>          &aoipc_inParamClustering,
-   int                             argc, 
-   char                            **argv
-   )  
-#endif /*__INPARAM_PCPMVK__*/
-
-
 #ifdef __INPARAM_TGCA__
   template<typename T_CLUSTERIDX,
 	   typename T_REAL,
@@ -1717,8 +1670,7 @@ inparamclustering_getParameter
    T_FEATURE,         
    T_FEATURE_SUM,
    T_INSTANCES_CLUSTER_K
-   >
-   &aoipc_inParamClustering,
+   >                                       &aoipc_inParamClustering,
    int                                     argc, 
    char                                    **argv
    )  
@@ -1941,19 +1893,6 @@ inparamclustering_getParameter
      (char *) NULL
     };
 #endif /*__INPARAM_GAPROTOTYPESFK__*/
-
-  
-#ifdef __INPARAM_PCPMVK__
-  const char   *las_optGpcpmrk[] = 
-    {"k-minimum",
-     "k-maximum",
-     "population-size", 
-     "crossover-probability", 
-     "mutation-probability", 
-     "generations", 
-     (char *) NULL
-    };
-#endif /*__INPARAM_PCPMVK__*/
 
 
 #ifdef __INPARAM_TGCA__
@@ -3185,10 +3124,11 @@ inparamclustering_getParameter
       }
 #endif /*__INPARAM_GAPROTOTYPESFK__*/
 
+
 #ifdef __INPARAM_PCPMVK__
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optGpcpmrk[0] ) == 0 ) 
+	    las_optPcPmVk[0] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMinimum;
 	  liss_stringstream.clear();
@@ -3198,7 +3138,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGpcpmrk[1] ) == 0 ) 
+		 las_optPcPmVk[1] ) == 0 ) 
 	{ 
 	  T_CLUSTERIDX lmcidxT_kMaximum;
 	  liss_stringstream.clear();
@@ -3208,7 +3148,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*Population-size*/
 		(long_options[option_index].name,
-		 las_optGpcpmrk[2]) == 0 
+		 las_optPcPmVk[2]) == 0 
 		) 
 	{
 	  liss_stringstream.clear();
@@ -3218,7 +3158,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp /*crossover-probability*/
 		(long_options[option_index].name,
-		 las_optGpcpmrk[3]) == 0 
+		 las_optPcPmVk[3]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityCrossover;
@@ -3230,7 +3170,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGpcpmrk[4]) == 0 
+		 las_optPcPmVk[4]) == 0 
 		) 
 	{
 	  T_REAL  lT_readProbabilityMutation;
@@ -3242,7 +3182,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optGpcpmrk[5]) == 0 
+		 las_optPcPmVk[5]) == 0 
 		) 
 	{
 	  COMMON_IDOMAIN lT_readNumMaxGenerations;
@@ -3256,10 +3196,10 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name,
-	   las_optGpcpmrk
+	   las_optPcPmVk
 	   );
       }
-#endif /*__INPARAM_PCPMVK__*/
+#endif  /*__INPARAM_PCPMVK__*/
 
 #ifdef __INPARAM_TGCA__
       else if ( strcmp /*k-minimum*/
@@ -3704,83 +3644,6 @@ inparamclustering_getParameter
       }
 
 #endif /*__INPARAM_GENWOCHGVK__*/
-
-#ifdef __INPARAM_PCPMVK__
-       
-      else if ( strcmp
-	   (long_options[option_index].name,
-	    las_optPcPmVk[0] ) == 0 ) 
-	{ 
-	  T_CLUSTERIDX lmcidxT_kMinimum;
-	  liss_stringstream.clear();
-	  liss_stringstream.str(optarg);
-	  liss_stringstream >> lmcidxT_kMinimum;
-	  aoipc_inParamClustering.setNumClusterKMinimum(lmcidxT_kMinimum);
-	}
-      else if ( strcmp
-		(long_options[option_index].name,
-		 las_optPcPmVk[1] ) == 0 ) 
-	{ 
-	  T_CLUSTERIDX lmcidxT_kMaximum;
-	  liss_stringstream.clear();
-	  liss_stringstream.str(optarg);
-	  liss_stringstream >> lmcidxT_kMaximum;
-	  aoipc_inParamClustering.setNumClusterKMaximum(lmcidxT_kMaximum);
-	}
-      else if ( strcmp
-		(long_options[option_index].name,
-		 las_optPcPmVk[2]) == 0 
-		) 
-	{
-	  liss_stringstream.clear();
-	  liss_stringstream.str(optarg);
-	  liss_stringstream >> luintidx_read;
-	  aoipc_inParamClustering.setSizePopulation(luintidx_read);
-	}
-      else if ( strcmp
-		(long_options[option_index].name,
-		 las_optPcPmVk[3]) == 0 
-		) 
-	{
-	  T_REAL  lT_readProbabilityCrossover;
-
-	  liss_stringstream.clear();
-	  liss_stringstream.str(optarg);
-	  liss_stringstream >> lT_readProbabilityCrossover;
-	  aoipc_inParamClustering.setProbCrossover(lT_readProbabilityCrossover);
-	}
-      else if ( strcmp
-		(long_options[option_index].name,
-		 las_optPcPmVk[4]) == 0 
-		) 
-	{
-	  T_REAL  lT_readProbabilityMutation;
-
-	  liss_stringstream.clear();
-	  liss_stringstream.str(optarg);
-	  liss_stringstream >> lT_readProbabilityMutation;
-	  aoipc_inParamClustering.setProbMutation(lT_readProbabilityMutation);
-	}
-      else if ( strcmp
-		(long_options[option_index].name,
-		 las_optPcPmVk[5]) == 0 
-		) 
-	{
-	  COMMON_IDOMAIN lT_readNumMaxGenerations;
-
-	  liss_stringstream.clear();
-	  liss_stringstream.str(optarg);
-	  liss_stringstream >> lT_readNumMaxGenerations;
-	  aoipc_inParamClustering.setNumMaxGenerations(lT_readNumMaxGenerations);
-	}
-      else {
-	aoipc_inParamClustering.errorArgument
-	  (argv[0],
-	   long_options[option_index].name,
-	   las_optPcPmVk
-	   );
-      }
-#endif /*__INPARAM_PCPMVK__*/
 
       
 #ifdef __INPARAM_FEAC__

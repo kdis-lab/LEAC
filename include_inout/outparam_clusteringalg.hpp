@@ -1,4 +1,4 @@
-/*! \file outparam_clasic_clustering.hpp
+/*! \file outparam_clusteringalg.hpp
  *
  * \brief outparam clasic clustering
  *
@@ -8,8 +8,8 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef OUT_PARAM_CLASIC_CLUSTERING_HPP
-#define OUT_PARAM_CLASIC_CLUSTERING_HPP
+#ifndef __OUT_PARAM_CLUSTERING_ALG_HPP__
+#define __OUT_PARAM_CLUSTERING_ALG_HPP__
 
 
 #include "outparam_clustering.hpp"
@@ -26,23 +26,23 @@
 
 namespace inout {
 
-/*! \class OutParamClusteringDBSCAN
+/*! \class OutParamDBSCAN
   \brief Output parameter for DBSCAN Algorithmo \cite Ester:Kriegel:Sander:Xu:Clustering:DBSCAN:1996
 */
 template < typename T_METRIC,
 	   typename T_MEMBERCLUSTER_IDX
 	   >
-class OutParamClusteringDBSCAN: 
+class OutParamDBSCAN: 
   public OutParamClustering<T_METRIC,T_MEMBERCLUSTER_IDX> {
 public:
-  OutParamClusteringDBSCAN(const OutParamNameObjectiveFunc aienum_usedObjectiveFunc):
+  OutParamDBSCAN(const OutParamNameObjectiveFunc aienum_usedObjectiveFunc):
   OutParamClustering<T_METRIC,T_MEMBERCLUSTER_IDX>
     ::OutParamClustering(aienum_usedObjectiveFunc)   
   {
     this->initialize(-1);
   }
 
-  virtual ~OutParamClusteringDBSCAN() { }
+  virtual ~OutParamDBSCAN() { }
 
   void initialize(int aii_numRunAlgorithm)
   {
@@ -71,26 +71,26 @@ protected:
 
   uint32_t _ui32t_numPointNoise;
 
-}; /*END class OutParamClusteringDBSCAN*/
+}; /*END class OutParamDBSCAN*/
 
 
-/*! \class OutParamClusteringClasic
+/*! \class OutParamClusteringAlg
   \brief Output parameter for Kmeans Algorithmo \cite MacQueen:ClusterAnalysis:KMeans:1967
  */
 template < typename T_METRIC,
 	   typename T_MEMBERCLUSTER_IDX
 	   >
-class OutParamClusteringClasic: 
+class OutParamClusteringAlg: 
   public OutParamClustering<T_METRIC,T_MEMBERCLUSTER_IDX> {
 public:
-  OutParamClusteringClasic(const OutParamNameObjectiveFunc aienum_usedObjectiveFunc):
+  OutParamClusteringAlg(const OutParamNameObjectiveFunc aienum_usedObjectiveFunc):
   OutParamClustering<T_METRIC,T_MEMBERCLUSTER_IDX>
     ::OutParamClustering(aienum_usedObjectiveFunc)   
   {
     this->initialize(-1);
   }
 
-  virtual ~OutParamClusteringClasic() { }
+  virtual ~OutParamClusteringAlg() { }
 
   void initialize(int aii_numRunAlgorithm)
   {
@@ -119,9 +119,9 @@ protected:
 
   uintidx  _uintidx_numThreshold;
 
-}; /*END class OutParamClusteringClasic*/
+}; /*END class OutParamClusteringAlg*/
 
 } /*END namespace inout
    */
 
-#endif /*OUT_PARAM_CLASIC_CLUSTERING_HPP*/
+#endif /*__OUT_PARAM_CLUSTERING_ALG_HPP__*/

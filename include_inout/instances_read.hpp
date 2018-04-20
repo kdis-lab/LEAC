@@ -949,7 +949,7 @@ dataSetReadWithFreq
 	 aiipri_inParamReadInstWithFreq.getInstanceFrequencyColumn() ) {
     
       data::InstanceIterfazClass
-	<DATATYPE_INSTANCES_CLUSTER_K,DATATYPE_CLUSTERIDX>
+	<T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 	::initialize();
 
       lovectorptinst_instances = 
@@ -970,7 +970,7 @@ dataSetReadWithFreq
     else if ( aiipri_inParamReadInstWithFreq.getClassInstanceColumn() ) {
 
       data::InstanceIterfazClass
-	<DATATYPE_INSTANCES_CLUSTER_K,DATATYPE_CLUSTERIDX>
+	<T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
 	::initialize();
 
       lovectorptinst_instances = 

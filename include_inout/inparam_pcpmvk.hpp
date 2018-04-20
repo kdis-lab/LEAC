@@ -29,7 +29,7 @@
 namespace  inout {
 
 /*! \class InParamPcPmVk
-  \brief Input parameter for GA with probability Pc, Pm and Range K 
+  \brief Input parameter for GA with probability Pc, Pm and Variable K 
 */
 template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
            typename T_REAL,
