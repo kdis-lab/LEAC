@@ -31,13 +31,13 @@
 
 #include <leac.hpp>
 #include "inparam_gaprototypesfk.hpp"
-#include "outparam_eaclustering.hpp"
+#include "outparam_gac.hpp"
 
 #include "plot_runtime_function.hpp"
 
 /*! \namespace eac
   \brief Evolutionary Algorithms for Clustering
-  \details Implementation of genetic and evolutionary algorithms used to solve the clustering problem 
+  \details Implementation of evolutionary algorithms used to solve the clustering problem 
   
   \version 1.0
   \date   2015-2017
@@ -46,11 +46,11 @@
 namespace eac {
   
 
-/*! \fn gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL> gaprototypes_fkmedoid(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamGAPrototypes<T_BITSIZE,T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamGAPrototypes, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE>   &aifunc2p_dist)
+/*! \fn gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL> gaprototypes_fkmedoid(inout::OutParamGAC<T_REAL,T_CLUSTERIDX> &aoop_outParamGAC, inout::InParamGAPrototypes<T_BITSIZE,T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamGAPrototypes, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE>   &aifunc2p_dist)
   \brief GA-Prototypes \cite Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997
   \details Implementation of the GA-Prototypes algorithm based on \cite Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997.
   \returns A partition of a data set, encoded in a binary chromosome, if the value of the gene is "1" in the i-th position the i-th instance is a medoid
-  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aoop_outParamGAC a inout::OutParamGAC with the output parameters of the algorithm
   \param aiinp_inParamGAPrototypes a inout::InParamGAPrototypes parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
@@ -66,9 +66,9 @@ template < typename T_BITSIZE,
 	   >
 gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>
 gaprototypes_fkmedoid
-(inout::OutParamEAClustering
+(inout::OutParamGAC
  <T_REAL,
- T_CLUSTERIDX>                  &aoop_outParamEAC,
+ T_CLUSTERIDX>                  &aoop_outParamGAC,
  inout::InParamGAPrototypesFk
  <T_BITSIZE,
  T_CLUSTERIDX,
@@ -119,8 +119,8 @@ gaprototypes_fkmedoid
       << "  IN(" << geiinparam_verbose << ")\n"
       << "\t(output lochrombitarray_best[" 
       << &lochrombitarray_best << "]\n"
-      << "\t output inout::OutParamEAClustering&: aoop_outParamEAC[" 
-      << &aoop_outParamEAC << "]\n"
+      << "\t output inout::OutParamGAC&: aoop_outParamGAC[" 
+      << &aoop_outParamGAC << "]\n"
       << "\t input  InParamClusteringGABezdek1994&: aiinp_inParamGAPrototypes[" 
       << &aiinp_inParamGAPrototypes << "]\n"
       << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
@@ -199,13 +199,13 @@ gaprototypes_fkmedoid
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
       (aiinp_inParamGAPrototypes.getFileNamePlotStatObjetiveFunc(),
        aiinp_inParamGAPrototypes.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
+      (aoop_outParamGAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
        std::ios::out | std::ios::app
        );
 
@@ -332,7 +332,7 @@ gaprototypes_fkmedoid
       
     }
 
-    aoop_outParamEAC.sumTotalInvalidOffspring
+    aoop_outParamGAC.sumTotalInvalidOffspring
       (ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES 
@@ -544,7 +544,7 @@ gaprototypes_fkmedoid
       
       }
 
-      aoop_outParamEAC.sumTotalInvalidOffspring
+      aoop_outParamGAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -618,9 +618,9 @@ gaprototypes_fkmedoid
 	  lochrombitarray_best = *lvectorchrom_population[0];
 	
 	  /*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
-	  aoop_outParamEAC.setIterationGetsBest
+	  aoop_outParamGAC.setIterationGetsBest
 	    (llfh_listFuntionHist.getDomainUpperBound());
-	  aoop_outParamEAC.setRunTimeGetsBest
+	  aoop_outParamGAC.setRunTimeGetsBest
 	    (runtime::elapsedTime(let_executionTime));
 
 #ifdef __VERBOSE_YES
@@ -751,15 +751,15 @@ gaprototypes_fkmedoid
   } /*END FREE MEMORY OF STRINGPOOL*/
   
   runtime::stop(let_executionTime);
-  aoop_outParamEAC.setNumClusterK
+  aoop_outParamGAC.setNumClusterK
     (T_CLUSTERIDX(lochrombitarray_best.getNumBitOn()));
-  aoop_outParamEAC.setMetricFuncRun
+  aoop_outParamGAC.setMetricFuncRun
     (lochrombitarray_best.getFitness());
-  aoop_outParamEAC.setFitness
+  aoop_outParamGAC.setFitness
     (lochrombitarray_best.getFitness());
-  aoop_outParamEAC.setAlgorithmRunTime
+  aoop_outParamGAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoop_outParamEAC.setNumTotalGenerations
+  aoop_outParamGAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
   
 

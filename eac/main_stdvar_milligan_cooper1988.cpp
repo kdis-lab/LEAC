@@ -21,7 +21,6 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#include "inparamclustering_getparameter.hpp"
 #include "instances_read.hpp"
 #include "datatype_instance_real.hpp"
 #include "outfilename.hpp"
@@ -29,6 +28,9 @@
 #include "stats_instances.hpp"
 #include "linear_algebra_level1.hpp"
 #include "linear_algebra_level2.hpp"
+
+#include "inparam_stdvar.hpp"
+#include "inparamclustering_getparameter.hpp"
 
 #include "verbose.hpp"
 

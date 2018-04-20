@@ -37,14 +37,14 @@
 #include "vector_utils.hpp"
 #include "container_out.hpp"
 #include "inparam_tgca.hpp"
-#include "outparam_eaclustering.hpp"
+#include "outparam_gac.hpp"
 
 #include "plot_runtime_function.hpp"
 
 
 /*! \namespace eac
   \brief Evolutionary Algorithms for Clustering
-  \details Implementation of genetic and evolutionary algorithms used to solve the clustering problem 
+  \details Implementation of evolutionary algorithms used to solve the clustering problem 
   
   \version 1.0
   \date   2015-2017
@@ -148,8 +148,8 @@ tgca_getKSegments
 } /* End */
 
 
-/*! \fn gaencode::ChromVariableLength<T_FEATURE,T_METRIC> tgca_vkcentroid(inout::OutParamEAClustering<T_METRIC,
- T_CLUSTERIDX> &aoop_outParamEAC,inout::InParamTGCA<T_CLUSTERIDX,T_METRIC,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamTGCA, const INPUT_ITERATOR  aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist)
+/*! \fn gaencode::ChromVariableLength<T_FEATURE,T_METRIC> tgca_vkcentroid(inout::OutParamGAC<T_METRIC,
+ T_CLUSTERIDX> &aoop_outParamGAC,inout::InParamTGCA<T_CLUSTERIDX,T_METRIC,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamTGCA, const INPUT_ITERATOR  aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist)
   \brief TGCA \cite He:Tan:GAclusteringVarK:TGCA:2012
   \details Implementation of the TGCA algorithm based on \cite He:Tan:GAclusteringVarK:TGCA:2012. Which automatically finds K cluster using the Variance Ratio Criterion (VRC).
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid. Base to following equation:
@@ -158,7 +158,7 @@ tgca_getKSegments
   \| x_i - \mu_k \|,\; j=1,2,..k,
   \f]
   where \f$m_j\f$, represents the medoid of cluster \f$C_j\f$
-  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aoop_outParamGAC a inout::OutParamGAC with the output parameters of the algorithm
   \param aiinp_inParamTGCA a inout::InParamTGCA parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
@@ -173,9 +173,9 @@ template < typename T_METRIC,
 	   >
 gaencode::ChromVariableLength<T_FEATURE,T_METRIC> 
 tgca_vkcentroid
-(inout::OutParamEAClustering
+(inout::OutParamGAC
  <T_METRIC,
- T_CLUSTERIDX>                         &aoop_outParamEAC,
+ T_CLUSTERIDX>                         &aoop_outParamGAC,
  inout::InParamTGCA
  <T_CLUSTERIDX,
  T_METRIC,
@@ -209,8 +209,8 @@ tgca_vkcentroid
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelAlgGA
 	      << "  IN(" << geiinparam_verbose << ")\n"
-	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
-	      << &aoop_outParamEAC << "]\n"
+	      << "\t(output inout::OutParamGAC&: aoop_outParamGAC[" 
+	      << &aoop_outParamGAC << "]\n"
 	      << "\t input  InParamClusteringGaProbFk&: aiinp_inParamTGCA[" 
 	      << &aiinp_inParamTGCA << "]\n"
               << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
@@ -271,13 +271,13 @@ tgca_vkcentroid
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
       (aiinp_inParamTGCA.getFileNamePlotStatObjetiveFunc(),
        aiinp_inParamTGCA.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
+      (aoop_outParamGAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
        std::ios::out | std::ios::app
        );
 
@@ -295,7 +295,7 @@ tgca_vkcentroid
  
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING
    */
-  aoop_outParamEAC.setTotalInvalidOffspring(0);
+  aoop_outParamGAC.setTotalInvalidOffspring(0);
 
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
 
@@ -753,7 +753,7 @@ tgca_vkcentroid
 	  }
 	  else {
 	    lchrom_iter->setValidString(false);
-	    aoop_outParamEAC.incTotalInvalidOffspring();
+	    aoop_outParamGAC.incTotalInvalidOffspring();
 	  }
 	   
 	  lchrom_iter->setObjetiveFunc(lT_VRC); 
@@ -824,9 +824,9 @@ tgca_vkcentroid
 	lochrom_best = *lit_chromMax;
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION
 	 */
-	aoop_outParamEAC.setIterationGetsBest
+	aoop_outParamGAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoop_outParamEAC.setRunTimeGetsBest
+	aoop_outParamGAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
 
 #ifdef __VERBOSE_YES
@@ -1582,7 +1582,7 @@ tgca_vkcentroid
 	      }
 	      else {
 		lchrom_iter->setValidString(false);
-		aoop_outParamEAC.incTotalInvalidOffspring();
+		aoop_outParamGAC.incTotalInvalidOffspring();
 	      }
 	   
 	      lchrom_iter->setObjetiveFunc(lT_VRC); 
@@ -1681,16 +1681,16 @@ tgca_vkcentroid
     delete liter_chrom;
   
   runtime::stop(let_executionTime);
-  aoop_outParamEAC.setNumClusterK
+  aoop_outParamGAC.setNumClusterK
     (T_CLUSTERIDX(lochrom_best.getStringSize() / data::Instance<T_FEATURE>::getNumDimensions())
      );
-  aoop_outParamEAC.setMetricFuncRun
+  aoop_outParamGAC.setMetricFuncRun
     (lochrom_best.getObjetiveFunc());
-  aoop_outParamEAC.setFitness
+  aoop_outParamGAC.setFitness
     (lochrom_best.getFitness());
-  aoop_outParamEAC.setAlgorithmRunTime
+  aoop_outParamGAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoop_outParamEAC.setNumTotalGenerations
+  aoop_outParamGAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
@@ -1701,7 +1701,7 @@ tgca_vkcentroid
     plot_funtionHist
       (llfh_listFuntionHist,
        aiinp_inParamTGCA,
-       aoop_outParamEAC
+       aoop_outParamGAC
        );  
   }
 

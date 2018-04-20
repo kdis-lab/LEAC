@@ -32,13 +32,13 @@
 #include <utility>      // std::pair
 #include <leac.hpp>
 #include "inparam_genwochgvk.hpp"
-#include "outparam_eaclustering.hpp"
+#include "outparam_gac.hpp"
 #include "container_out.hpp"
 #include "plot_runtime_function.hpp"
 
 /*! \namespace eac
   \brief Evolutionary Algorithms for Clustering
-  \details Implementation of genetic and evolutionary algorithms used to solve the clustering problem 
+  \details Implementation of evolutionary algorithms used to solve the clustering problem 
   
   \version 1.0
   \date   2015-2017
@@ -47,11 +47,11 @@
 
 namespace eac {
 
-/*! \fn std::pair<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>,std::vector<uintidx> > gaclustering_vktreebinary(inout::OutParamEAClustering <T_REAL, T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamGenWOChgVk<T_BITSIZE, T_CLUSTERIDX, T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamGenWOChgVk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn std::pair<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>,std::vector<uintidx> > gaclustering_vktreebinary(inout::OutParamGAC <T_REAL, T_CLUSTERIDX> &aoop_outParamGAC, inout::InParamGenWOChgVk<T_BITSIZE, T_CLUSTERIDX, T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamGenWOChgVk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief GA Clustering \cite Casillas:etal:GAclusteringVarK:GA:2003
   \details Implementation of GA algorithm based on \cite Casillas:etal:GAclusteringVarK:GA:2003. 
   \returns A partition of a data set, encoded on a chromosome with n − 1 binary genes and a minimum spanning Tree (MST) where each gene with value “0” means that this  edge remains and “1” means that this edge is eliminated. The number of elements with value “1” represents the value of k − 1.
-  \param aoop_outParamEAC a inout::OutParamEAClustering
+  \param aoop_outParamGAC a inout::OutParamGAC
   \param aiinp_inParamGenWOChgVk a inparam::InParamGenWOChgVk
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
@@ -67,9 +67,9 @@ template < typename T_BITSIZE,
 	   >
 std::pair<gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>,std::vector<uintidx> >
 gaclustering_vktreebinary
-(inout::OutParamEAClustering
+(inout::OutParamGAC
  <T_REAL,
- T_CLUSTERIDX>                          &aoop_outParamEAC,
+ T_CLUSTERIDX>                          &aoop_outParamGAC,
  inout::InParamGenWOChgVk
  <T_BITSIZE,
  T_CLUSTERIDX,
@@ -113,8 +113,8 @@ gaclustering_vktreebinary
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelAlgGA
 	      << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "\t(output OutParamClusteringGA&: aoop_outParamEAC[" 
-	      << &aoop_outParamEAC << "]\n"
+	      << "\t(output OutParamClusteringGA&: aoop_outParamGAC[" 
+	      << &aoop_outParamGAC << "]\n"
 	      << "\t input  InParamGenWOChgVk&: aiinp_inParamGenWOChgVk[" 
 	      << &aiinp_inParamGenWOChgVk << "]\n"
 	      << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
@@ -199,13 +199,13 @@ gaclustering_vktreebinary
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
       (aiinp_inParamGenWOChgVk.getFileNamePlotStatObjetiveFunc(),
        aiinp_inParamGenWOChgVk.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
+      (aoop_outParamGAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
        std::ios::out | std::ios::app
        );
 
@@ -223,7 +223,7 @@ gaclustering_vktreebinary
  
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING
    */
-  aoop_outParamEAC.setTotalInvalidOffspring(0);
+  aoop_outParamGAC.setTotalInvalidOffspring(0);
 
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
 
@@ -465,7 +465,7 @@ gaclustering_vktreebinary
 	  }
 	  else {
 	    lchrom_iter->setValidString(false);
-	    aoop_outParamEAC.incTotalInvalidOffspring();
+	    aoop_outParamGAC.incTotalInvalidOffspring();
 	  }
 
 	}
@@ -484,7 +484,7 @@ gaclustering_vktreebinary
 	   
       }
      
-      aoop_outParamEAC.sumTotalInvalidOffspring
+      aoop_outParamGAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -527,9 +527,9 @@ gaclustering_vktreebinary
 	 */
 	lit_iterNotChange =
 	  aiinp_inParamGenWOChgVk.getNumNotChangeStop();
-	aoop_outParamEAC.setIterationGetsBest
+	aoop_outParamGAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoop_outParamEAC.setRunTimeGetsBest
+	aoop_outParamGAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
 
 #ifdef __VERBOSE_YES   
@@ -939,15 +939,15 @@ gaclustering_vktreebinary
   } /*END FREE MEMORY OF STRINGPOOL*/ 
 
   runtime::stop(let_executionTime);
-  aoop_outParamEAC.setNumClusterK
+  aoop_outParamGAC.setNumClusterK
     ( (T_CLUSTERIDX) lochrom_best.getNumBitOn()+1);
-  aoop_outParamEAC.setMetricFuncRun
+  aoop_outParamGAC.setMetricFuncRun
     (lochrom_best.getObjetiveFunc());
-  aoop_outParamEAC.setFitness
+  aoop_outParamGAC.setFitness
     (lochrom_best.getFitness());
-  aoop_outParamEAC.setAlgorithmRunTime
+  aoop_outParamGAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoop_outParamEAC.setNumTotalGenerations
+  aoop_outParamGAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
@@ -958,7 +958,7 @@ gaclustering_vktreebinary
     plot_funtionHist
       (llfh_listFuntionHist,
        aiinp_inParamGenWOChgVk,
-       aoop_outParamEAC
+       aoop_outParamGAC
        );  
   }
 

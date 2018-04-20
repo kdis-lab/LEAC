@@ -33,13 +33,13 @@
 
 #include <leac.hpp>
 #include "inparam_cbga.hpp"
-#include "outparam_eaclustering.hpp"
+#include "outparam_gac.hpp"
 
 #include "plot_runtime_function.hpp"
 
 /*! \namespace eac
   \brief Evolutionary Algorithms for Clustering
-  \details Implementation of genetic and evolutionary algorithms used to solve the clustering problem 
+  \details Implementation of evolutionary algorithms used to solve the clustering problem 
   
   \version 1.0
   \date   2015-2017
@@ -447,11 +447,11 @@ iterateGLAAux
 }
 
 
-/*! \fn gaencode::ChromosomeCBGA <T_FEATURE, T_CLUSTERIDX, T_INSTANCE_FREQUENCY, _INSTANCES_CLUSTER_K, T_FEATURE_SUM, T_REAL>  cbga_fkcentroid (inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, const inout::InParamCBGA<T_CLUSTERIDX,T_REAL,T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K, T_INSTANCE_FREQUENCY> &aiinParam_CBGA, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn gaencode::ChromosomeCBGA <T_FEATURE, T_CLUSTERIDX, T_INSTANCE_FREQUENCY, _INSTANCES_CLUSTER_K, T_FEATURE_SUM, T_REAL>  cbga_fkcentroid (inout::OutParamGAC<T_REAL,T_CLUSTERIDX> &aoop_outParamGAC, const inout::InParamCBGA<T_CLUSTERIDX,T_REAL,T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K, T_INSTANCE_FREQUENCY> &aiinParam_CBGA, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief CBGA \cite Franti:etal:GAclustering:gafranti:1997
   \details Implementation of the CBGA algorithm based on \cite Franti:etal:GAclustering:gafranti:1997.  
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid or a codebook.
-  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aoop_outParamGAC a inout::OutParamGAC with the output parameters of the algorithm
   \param aiinParam_CBGA a inout::InParamGAClusteringPcPmFk parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
@@ -474,9 +474,9 @@ gaencode::ChromosomeCBGA
  T_REAL
  >
 cbga_fkcentroid
-(inout::OutParamEAClustering
+(inout::OutParamGAC
  <T_REAL,
- T_CLUSTERIDX>                      &aoop_outParamEAC,
+ T_CLUSTERIDX>                      &aoop_outParamGAC,
  const inout::InParamCBGA
  <T_CLUSTERIDX,
  T_REAL,
@@ -561,8 +561,8 @@ cbga_fkcentroid
 	      << ":  IN(" << geiinparam_verbose << ")\n"
               << "\t(output gaencode::ChromosomeCBGA: lochromcbga_best[" 
 	      << &lochromcbga_best << "]\n"
-	      << "\t output inout::OutParamEAClustering&: aoop_outParamEAC[" 
-	      << &aoop_outParamEAC << "]\n"
+	      << "\t output inout::OutParamGAC&: aoop_outParamGAC[" 
+	      << &aoop_outParamGAC << "]\n"
 	      << "\t input  InParamCBGA&: aiinParam_CBGA[" 
 	      << &aiinParam_CBGA << "]\n"
               << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
@@ -618,13 +618,13 @@ cbga_fkcentroid
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
       (aiinParam_CBGA.getFileNamePlotStatObjetiveFunc(),
        aiinParam_CBGA.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
+      (aoop_outParamGAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
        std::ios::out | std::ios::app
        );
     lfileout_plotStatObjetiveFunc.precision(COMMON_COUT_PRECISION);
@@ -638,7 +638,7 @@ cbga_fkcentroid
 #endif /*__WITHOUT_PLOT_STAT*/
    
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING*/
-  aoop_outParamEAC.setTotalInvalidOffspring(0);
+  aoop_outParamGAC.setTotalInvalidOffspring(0);
 
   runtime::ExecutionTime let_executionTime = runtime::start();
 
@@ -743,7 +743,7 @@ cbga_fkcentroid
     }    
     /*METRIC INVALID SOLUTION
      */
-    aoop_outParamEAC.sumTotalInvalidOffspring
+    aoop_outParamGAC.sumTotalInvalidOffspring
       (ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -854,9 +854,9 @@ cbga_fkcentroid
 
   /*ONLY FOR MEASURE NOT IS PART ALGORITHM*/
   auto lT_bestObjeticeFunc = lvectorchromcbga_populationNew.at(0)->getObjetiveFunc();
-  aoop_outParamEAC.setIterationGetsBest
+  aoop_outParamGAC.setIterationGetsBest
     (llfh_listFuntionHist.getDomainUpperBound());
-  aoop_outParamEAC.setRunTimeGetsBest
+  aoop_outParamGAC.setRunTimeGetsBest
     (runtime::elapsedTime(let_executionTime));
 
   /*MEASUREMENT NEW GENERATION: COMPUTING STATISTICAL AND METRIC OF THE--------- 
@@ -1102,7 +1102,7 @@ cbga_fkcentroid
 	}
 
       /*METRIC INVALID SOLUTION*/
-      aoop_outParamEAC.sumTotalInvalidOffspring
+      aoop_outParamGAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -1207,9 +1207,9 @@ cbga_fkcentroid
     /*ONLY FOR MEASURE NOT IS PART ALGORITHM*/
     if ( lvectorchromcbga_populationNew.at(0)->getObjetiveFunc() < lT_bestObjeticeFunc) {
       lT_bestObjeticeFunc =  lvectorchromcbga_populationNew.at(0)->getObjetiveFunc();
-      aoop_outParamEAC.setIterationGetsBest
+      aoop_outParamGAC.setIterationGetsBest
 	(llfh_listFuntionHist.getDomainUpperBound());
-      aoop_outParamEAC.setRunTimeGetsBest
+      aoop_outParamGAC.setRunTimeGetsBest
 	(runtime::elapsedTime(let_executionTime));
     }
 
@@ -1331,16 +1331,16 @@ cbga_fkcentroid
     delete literchrom_cbga;
          		
   runtime::stop(let_executionTime);
-  aoop_outParamEAC.setNumClusterK
+  aoop_outParamGAC.setNumClusterK
     (aiinParam_CBGA.getNumClusterK());
-  aoop_outParamEAC.setAlgorithmRunTime
+  aoop_outParamGAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoop_outParamEAC.setMetricFuncRun
+  aoop_outParamGAC.setMetricFuncRun
     (lochromcbga_best.getObjetiveFunc());
 
-  aoop_outParamEAC.setFitness
+  aoop_outParamGAC.setFitness
     (OUTPARAMCLUSTERING_FITNESS_NaN);
-  aoop_outParamEAC.setNumTotalGenerations
+  aoop_outParamGAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
@@ -1352,7 +1352,7 @@ cbga_fkcentroid
     plot_funtionHist
       (llfh_listFuntionHist,
        aiinParam_CBGA,
-       aoop_outParamEAC
+       aoop_outParamGAC
        );  
   }
 

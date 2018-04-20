@@ -32,13 +32,13 @@
 #include <leac.hpp>
 
 #include "inparam_pcpmfk.hpp"
-#include "outparam_eaclustering.hpp"
+#include "outparam_gac.hpp"
 
 #include "plot_runtime_function.hpp"
 
 /*! \namespace eac
   \brief Evolutionary Algorithms for Clustering
-  \details Implementation of genetic and evolutionary algorithms used to solve the clustering problem 
+  \details Implementation of evolutionary algorithms used to solve the clustering problem 
   
   \version 1.0
   \date   2015-2017
@@ -46,11 +46,11 @@
 */
 namespace eac {
   
-/*! \fn gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL> gaclustering_fklabel(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamGAClusteringPcPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinpcgaprobfixedk_inParamGA, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR  aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE>  &aifunc2p_dist)
+/*! \fn gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL> gaclustering_fklabel(inout::OutParamGAC<T_REAL,T_CLUSTERIDX> &aoop_outParamGAC, inout::InParamGAClusteringPcPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinpcgaprobfixedk_inParamGA, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR  aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE>  &aifunc2p_dist)
  \brief GA Clustering \cite Murthy:Chowdhury:GAclustering:GA:1996
  \details Implementation of GA algorithm based on  \cite Murthy:Chowdhury:GAclustering:GA:1996. 
  \returns A partition of a data set, encoded on a chromosome where each gene is the index of a cluster to which the instance belongs.
- \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+ \param aoop_outParamGAC a inout::OutParamGAC with the output parameters of the algorithm
  \param aiinpcgaprobfixedk_inParamGA a inparam::InParamGAClusteringPcPmFk parameters required by the algorithm
  \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
  \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
@@ -65,9 +65,9 @@ template < typename T_CLUSTERIDX,
 	   >
 gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL> 
 gaclustering_fklabel
-(inout::OutParamEAClustering
+(inout::OutParamGAC
  <T_REAL,
- T_CLUSTERIDX>                   &aoop_outParamEAC,
+ T_CLUSTERIDX>                   &aoop_outParamGAC,
  inout::InParamPcPmFk
  <T_CLUSTERIDX,
  T_REAL,
@@ -122,8 +122,8 @@ gaclustering_fklabel
 	      << ":  IN(" << geiinparam_verbose << ')'
 	      << "\t\n(output gaencode::ChromFixedLength: lochromfixleng_best[" 
 	      << &lochromfixleng_best << "]\n"
-	      << "\t output inout::OutParamEAClustering&: aoop_outParamEAC[" 
-	      << &aoop_outParamEAC << "]\n"
+	      << "\t output inout::OutParamGAC&: aoop_outParamGAC[" 
+	      << &aoop_outParamGAC << "]\n"
 	      << "\t input  InParamClusteringGaProbFk&: aiinpcgaprobfixedk_inParamGA[" 
 	      << &aiinpcgaprobfixedk_inParamGA << "]\n"
 	      << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
@@ -183,13 +183,13 @@ gaclustering_fklabel
     }
   
     //OPEN FILE STRORE FUNCTION 
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
       (aiinpcgaprobfixedk_inParamGA.getFileNamePlotStatObjetiveFunc(),
        aiinpcgaprobfixedk_inParamGA.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open   
-      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(), 
+      (aoop_outParamGAC.getFileNameOutPlotStatObjetiveFunc().c_str(), 
        std::ios::out | std::ios::app
        );
     lfileout_plotStatObjetiveFunc.precision(COMMON_COUT_PRECISION);
@@ -204,7 +204,7 @@ gaclustering_fklabel
 
  
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING*/
-  aoop_outParamEAC.setTotalInvalidOffspring(0);
+  aoop_outParamGAC.setTotalInvalidOffspring(0);
 
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
   runtime::ExecutionTime let_executionTime = runtime::start();
@@ -362,7 +362,7 @@ gaclustering_fklabel
 
       }
       
-      aoop_outParamEAC.sumTotalInvalidOffspring
+      aoop_outParamGAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -406,9 +406,9 @@ gaclustering_fklabel
        lochromfixleng_best  = *lchromfixleng_max;
     
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
-	aoop_outParamEAC.setIterationGetsBest
+	aoop_outParamGAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoop_outParamEAC.setRunTimeGetsBest
+	aoop_outParamGAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
 
       } //END IF lochromfixleng_best < lchrom_maxFitness
@@ -646,7 +646,7 @@ gaclustering_fklabel
        }
        );
 	
-      aoop_outParamEAC.sumTotalInvalidOffspring(ll_invalidOffspring);
+      aoop_outParamGAC.sumTotalInvalidOffspring(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
       if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -745,7 +745,7 @@ gaclustering_fklabel
 	     } /*END IF MUTATION*/
       }
       
-      aoop_outParamEAC.sumTotalInvalidOffspring(ll_invalidOffspring);
+      aoop_outParamGAC.sumTotalInvalidOffspring(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
       if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -839,7 +839,7 @@ gaclustering_fklabel
 #endif /*__WITHOUT_PLOT_STAT*/
 
       }
-      aoop_outParamEAC.sumTotalInvalidOffspring
+      aoop_outParamGAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -928,9 +928,9 @@ gaclustering_fklabel
 	lochromfixleng_best  = *lchromfixleng_max;
 	
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
-	aoop_outParamEAC.setIterationGetsBest
+	aoop_outParamGAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoop_outParamEAC.setRunTimeGetsBest
+	aoop_outParamGAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
       }
 
@@ -1046,17 +1046,17 @@ gaclustering_fklabel
   
   runtime::stop(let_executionTime);
   
-  aoop_outParamEAC.setNumClusterK
+  aoop_outParamGAC.setNumClusterK
     ((T_CLUSTERIDX)lounorderedset_numClusterK.size() );
-  aoop_outParamEAC.setEndingCondition
-    ( aiinpcgaprobfixedk_inParamGA.getNumClusterK() == aoop_outParamEAC.getNumClusterK() );
-  aoop_outParamEAC.setMetricFuncRun
+  aoop_outParamGAC.setEndingCondition
+    ( aiinpcgaprobfixedk_inParamGA.getNumClusterK() == aoop_outParamGAC.getNumClusterK() );
+  aoop_outParamGAC.setMetricFuncRun
     (lochromfixleng_best.getObjetiveFunc());
-  aoop_outParamEAC.setFitness
+  aoop_outParamGAC.setFitness
     (lochromfixleng_best.getFitness());
-  aoop_outParamEAC.setAlgorithmRunTime
+  aoop_outParamGAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoop_outParamEAC.setNumTotalGenerations
+  aoop_outParamGAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
         
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
@@ -1067,7 +1067,7 @@ gaclustering_fklabel
     plot_funtionHist
       (llfh_listFuntionHist,
        aiinpcgaprobfixedk_inParamGA,
-       aoop_outParamEAC
+       aoop_outParamGAC
        );  
   }
 

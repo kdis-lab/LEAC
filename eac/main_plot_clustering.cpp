@@ -20,12 +20,14 @@
 #include <vector>
 #include "matrix.hpp"
 #include "matrix_read.hpp"
-#include "inparamclustering_getparameter.hpp"
 #include "instances_read.hpp"
 #include "gnuplot_i.h"
 #include "transformation.hpp"
 #include "datatype_instance_real.hpp"
 #include "stats_instances.hpp"
+
+#include "inparam_plotclustering.hpp"
+#include "inparamclustering_getparameter.hpp"
 
 #include "verbose.hpp"
 

@@ -30,13 +30,13 @@
 
 #include <leac.hpp>
 #include "inparam_hka.hpp"
-#include "outparam_eaclustering.hpp"
+#include "outparam_gac.hpp"
 
 #include "plot_runtime_function.hpp"
 
 /*! \namespace eac
   \brief Evolutionary Algorithms for Clustering
-  \details Implementation of genetic and evolutionary algorithms used to solve the clustering problem 
+  \details Implementation of evolutionary algorithms used to solve the clustering problem 
   
   \version 1.0
   \date   2015-2017
@@ -45,11 +45,11 @@
 
 namespace eac {
   
-/*! \fn gaencode::ChromFixedLength<uintidx,T_REAL> hka_fkmedoid (inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamHKA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamHKA, mat::MatrixTriang<T_REAL> &aimatrixtriagrt_dissimilarity)
+/*! \fn gaencode::ChromFixedLength<uintidx,T_REAL> hka_fkmedoid (inout::OutParamGAC<T_REAL,T_CLUSTERIDX> &aoop_outParamGAC, inout::InParamHKA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamHKA, mat::MatrixTriang<T_REAL> &aimatrixtriagrt_dissimilarity)
   \brief HKA \cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004
   \details Implementation of the HKA algorithm based on \cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004, Find a partition based on the most representative instances, also called prototypes 
   \returns A chromosome with k genes, where each gene is the index of the most representative instance of each cluster
-  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aoop_outParamGAC a inout::OutParamGAC with the output parameters of the algorithm
   \param aiinp_inParamHKA a inout::InParamHKA parameters required by the algorithm
   \param aimatrixtriagrt_dissimilarity a triangular matrix with the distances between the instances
 */
@@ -61,9 +61,9 @@ template <typename T_CLUSTERIDX,
 	  >
 gaencode::ChromFixedLength<uintidx,T_REAL> 
 hka_fkmedoid
-(inout::OutParamEAClustering
+(inout::OutParamGAC
  <T_REAL,
- T_CLUSTERIDX>                          &aoop_outParamEAC,
+ T_CLUSTERIDX>                          &aoop_outParamGAC,
  inout::InParamHKA
  <T_CLUSTERIDX,
  T_REAL,
@@ -103,8 +103,8 @@ hka_fkmedoid
 	      << ":  IN(" << geiinparam_verbose << ")\n"
        	      << "\t(output Chromosome: lochromfixleng_best[" 
 	      << &lochromfixleng_best << "]\n"
-	      << "\t output inout::OutParamEAClustering&: aoop_outParamEAC[" 
-	      << &aoop_outParamEAC << "]\n"
+	      << "\t output inout::OutParamGAC&: aoop_outParamGAC[" 
+	      << &aoop_outParamGAC << "]\n"
 	      << "\t input  InParamHKA&: aiinp_inParamHKA[" 
 	      << &aiinp_inParamHKA << ']'
 	      << "\n\t\tNumClusterK = " 
@@ -161,13 +161,13 @@ hka_fkmedoid
     }
   
     //OPEN FILE STRORE FUNCTION 
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
       (aiinp_inParamHKA.getFileNamePlotStatObjetiveFunc(),
        aiinp_inParamHKA.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open   
-      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(), 
+      (aoop_outParamGAC.getFileNameOutPlotStatObjetiveFunc().c_str(), 
        std::ios::out | std::ios::app
        );
     lfileout_plotStatObjetiveFunc.precision(COMMON_COUT_PRECISION);
@@ -342,9 +342,9 @@ hka_fkmedoid
     if ( lochromfixleng_best.getFitness() <  lchrom_maxFitness->getFitness() ) {
       /*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
       lochromfixleng_best = *lchrom_maxFitness;	
-      aoop_outParamEAC.setIterationGetsBest
+      aoop_outParamGAC.setIterationGetsBest
 	(llfh_listFuntionHist.getDomainUpperBound());
-      aoop_outParamEAC.setRunTimeGetsBest
+      aoop_outParamGAC.setRunTimeGetsBest
 	(runtime::elapsedTime(let_executionTime));
     }
 
@@ -810,9 +810,9 @@ hka_fkmedoid
 	  /*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
 	  lochromfixleng_best = *lvectorchromfixleng_population[0];
 	 
-	  aoop_outParamEAC.setIterationGetsBest
+	  aoop_outParamGAC.setIterationGetsBest
 	    (llfh_listFuntionHist.getDomainUpperBound());
-	  aoop_outParamEAC.setRunTimeGetsBest
+	  aoop_outParamGAC.setRunTimeGetsBest
 	    (runtime::elapsedTime(let_executionTime));
 	}
 
@@ -921,15 +921,15 @@ hka_fkmedoid
   }/*END FREE MEMORY OF STRINGPOOL*/
   
   runtime::stop(let_executionTime);
-  aoop_outParamEAC.setNumClusterK
+  aoop_outParamGAC.setNumClusterK
     (aiinp_inParamHKA.getNumClusterK());
-  aoop_outParamEAC.setMetricFuncRun
+  aoop_outParamGAC.setMetricFuncRun
     (lochromfixleng_best.getObjetiveFunc());
-  aoop_outParamEAC.setFitness
+  aoop_outParamGAC.setFitness
     (lochromfixleng_best.getFitness());
-  aoop_outParamEAC.setAlgorithmRunTime
+  aoop_outParamGAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoop_outParamEAC.setNumTotalGenerations
+  aoop_outParamGAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
  
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
@@ -941,7 +941,7 @@ hka_fkmedoid
     plot_funtionHist
       (llfh_listFuntionHist,
        aiinp_inParamHKA,
-       aoop_outParamEAC
+       aoop_outParamGAC
        );  
   }
 

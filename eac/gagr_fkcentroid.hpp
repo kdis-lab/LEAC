@@ -28,13 +28,13 @@
 
 #include <leac.hpp>
 #include "inparam_adaptivepcpmfk.hpp"
-#include "outparam_eaclustering.hpp"
+#include "outparam_gac.hpp"
 
 #include "plot_runtime_function.hpp"
 
 /*! \namespace eac
   \brief Evolutionary Algorithms for Clustering
-  \details Implementation of genetic and evolutionary algorithms used to solve the clustering problem 
+  \details Implementation of evolutionary algorithms used to solve the clustering problem 
   
   \version 1.0
   \date   2015-2017
@@ -43,7 +43,7 @@
 
 namespace eac {
   
-/*! \fn gaencode::ChromFixedLength<T_FEATURE,T_REAL> gagr_fkcentroid(inout::OutParamEAClustering <T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, const inout::InParamAdaptivePcPm<T_CLUSTERIDX,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamProbAdaptive, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn gaencode::ChromFixedLength<T_FEATURE,T_REAL> gagr_fkcentroid(inout::OutParamGAC <T_REAL,T_CLUSTERIDX> &aoop_outParamGAC, const inout::InParamAdaptivePcPm<T_CLUSTERIDX,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamProbAdaptive, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief GAGR \cite Chang:etal:GAclustering:GAGR:2009  
   \details Implementation of GAGR algorithm based on \cite Chang:etal:GAclustering:GAGR:2009. 
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid. Base to following equation:
@@ -52,7 +52,7 @@ namespace eac {
   \| x_i - \mu_k \|,\; j=1,2,..k,
   \f]
   where \f$m_j\f$, represents the medoid of cluster \f$C_j\f$
-  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aoop_outParamGAC a inout::OutParamGAC with the output parameters of the algorithm
   \param aiinp_inParamProbAdaptive a inout::InParamAdaptivePcPm parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
@@ -67,9 +67,9 @@ template < typename T_FEATURE, //DATA TYPE OF A GENE,
 	   >
 gaencode::ChromFixedLength<T_FEATURE,T_REAL>  
 gagr_fkcentroid
-(inout::OutParamEAClustering
+(inout::OutParamGAC
  <T_REAL,
- T_CLUSTERIDX>                     &aoop_outParamEAC,
+ T_CLUSTERIDX>                     &aoop_outParamGAC,
  const inout::InParamAdaptivePcPmFk
  <T_CLUSTERIDX,
  T_FEATURE,
@@ -94,8 +94,8 @@ gagr_fkcentroid
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelAlgGA
 	      << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
-	      << &aoop_outParamEAC << "]\n"
+	      << "\t(output inout::OutParamGAC&: aoop_outParamGAC[" 
+	      << &aoop_outParamGAC << "]\n"
 	      << "\t input  InParamClusteringGAProbAdap&: aiinp_inParamProbAdaptive[" 
 	      << &aiinp_inParamProbAdaptive << "]\n"
 	      << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
@@ -147,13 +147,13 @@ gagr_fkcentroid
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
       (aiinp_inParamProbAdaptive.getFileNamePlotStatObjetiveFunc(),
        aiinp_inParamProbAdaptive.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),  
+      (aoop_outParamGAC.getFileNameOutPlotStatObjetiveFunc().c_str(),  
        std::ios::out | std::ios::app
        );
     lfileout_plotStatObjetiveFunc.precision(COMMON_COUT_PRECISION);
@@ -196,7 +196,7 @@ gagr_fkcentroid
   std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
   
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING*/
-  aoop_outParamEAC.setTotalInvalidOffspring(0);
+  aoop_outParamGAC.setTotalInvalidOffspring(0);
 
   runtime::ExecutionTime let_executionTime = runtime::start();
 
@@ -434,7 +434,7 @@ gagr_fkcentroid
 
     } //END std::for_each ObjetiveFunc
        
-    aoop_outParamEAC.sumTotalInvalidOffspring
+    aoop_outParamGAC.sumTotalInvalidOffspring
       (ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -478,9 +478,9 @@ gagr_fkcentroid
       /*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
       lochromfixleng_best  = *lchromfixleng_iterMax;
       
-      aoop_outParamEAC.setIterationGetsBest
+      aoop_outParamGAC.setIterationGetsBest
 	(llfh_listFuntionHist.getDomainUpperBound());
-      aoop_outParamEAC.setRunTimeGetsBest
+      aoop_outParamGAC.setRunTimeGetsBest
 	(runtime::elapsedTime(let_executionTime));
 
 #ifdef __VERBOSE_YES
@@ -749,7 +749,7 @@ gagr_fkcentroid
 	} /*END  While
 	   */
       
-      aoop_outParamEAC.sumTotalInvalidOffspring(ll_invalidOffspring);
+      aoop_outParamGAC.sumTotalInvalidOffspring(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
       if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -999,9 +999,9 @@ gagr_fkcentroid
       if (lochromfixleng_best.getFitness() < lchrom_maxFitness->getFitness() ) {
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
 	lochromfixleng_best = *lchrom_maxFitness;
-	aoop_outParamEAC.setIterationGetsBest
+	aoop_outParamGAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoop_outParamEAC.setRunTimeGetsBest
+	aoop_outParamGAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
 
 #ifdef __VERBOSE_YES
@@ -1204,16 +1204,16 @@ gagr_fkcentroid
   } /*END FREE MEMORY OF STRINGPOOL*/
   
   runtime::stop(let_executionTime);
-  aoop_outParamEAC.setNumClusterK
+  aoop_outParamGAC.setNumClusterK
     (aiinp_inParamProbAdaptive.getNumClusterK());
-  aoop_outParamEAC.setMetricFuncRun
+  aoop_outParamGAC.setMetricFuncRun
     (lochromfixleng_best.getObjetiveFunc());
-  aoop_outParamEAC.setAlgorithmRunTime
+  aoop_outParamGAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
 
-  aoop_outParamEAC.setFitness
+  aoop_outParamGAC.setFitness
     (lochromfixleng_best.getFitness());
-  aoop_outParamEAC.setNumTotalGenerations
+  aoop_outParamGAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
  
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
@@ -1225,7 +1225,7 @@ gagr_fkcentroid
     plot_funtionHist
       (llfh_listFuntionHist,
        aiinp_inParamProbAdaptive,
-       aoop_outParamEAC
+       aoop_outParamGAC
        );  
   }
 

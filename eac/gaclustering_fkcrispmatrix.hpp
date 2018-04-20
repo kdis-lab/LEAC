@@ -33,11 +33,11 @@
 
 #include "plot_runtime_function.hpp"
 #include "inparam_withoutpcpmfk.hpp"
-#include "outparam_eaclustering.hpp"
+#include "outparam_gac.hpp"
 
 /*! \namespace eac
   \brief Evolutionary Algorithms for Clustering
-  \details Implementation of genetic and evolutionary algorithms used to solve the clustering problem 
+  \details Implementation of evolutionary algorithms used to solve the clustering problem 
   
   \version 1.0
   \date   2015-2017
@@ -46,11 +46,11 @@
 
 namespace eac {
 
-/*! \fn gaencode::ChromosomeCrispMatrix<T_BITSIZE,T_CLUSTERIDX,T_REAL> gaclustering_fkcrispmatrix(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamWithoutPcPm<T_CLUSTERIDX,T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinpkbezdekga_inParam, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn gaencode::ChromosomeCrispMatrix<T_BITSIZE,T_CLUSTERIDX,T_REAL> gaclustering_fkcrispmatrix(inout::OutParamGAC<T_REAL,T_CLUSTERIDX> &aoop_outParamGAC, inout::InParamWithoutPcPm<T_CLUSTERIDX,T_BITSIZE,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinpkbezdekga_inParam, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief  gaclustering_fkcrispmatrix 
   \details GA clustering based on \cite Bezdek:etal:GAclustering:GA:1994. 
   \returns A crisp matrix, which encodes a partition of a data set, for a defined k. 
-  \param aoop_outParamEAC a inout::OutParamEAClustering that contains information relevant to program execution
+  \param aoop_outParamGAC a inout::OutParamGAC that contains information relevant to program execution
   \param aiinpkbezdekga_inParam a inout::InParamWithoutPcPm with the input parameters for the program configuration  
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
@@ -66,9 +66,9 @@ template < typename T_BITSIZE,
 	   >
 gaencode::ChromosomeCrispMatrix<T_BITSIZE,T_CLUSTERIDX,T_REAL> 
 gaclustering_fkcrispmatrix
-(inout::OutParamEAClustering
+(inout::OutParamGAC
  <T_REAL,
- T_CLUSTERIDX>                &aoop_outParamEAC,
+ T_CLUSTERIDX>                &aoop_outParamGAC,
  inout::InParamWithoutPcPmFk
  <T_CLUSTERIDX,
  T_BITSIZE,
@@ -91,8 +91,8 @@ gaclustering_fkcrispmatrix
     std::cout
       << lpc_labelAlgGA
       << "  IN(" << geiinparam_verbose << ")\n"
-      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
-      << &aoop_outParamEAC << "]\n"
+      << "\t(output inout::OutParamGAC&: aoop_outParamGAC[" 
+      << &aoop_outParamGAC << "]\n"
       << "\t input  InParamWithoutPcPm&: aiinp_inParamWithoutPcPmFk[" 
       << &aiinp_inParamWithoutPcPmFk << "]\n"
       << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
@@ -208,13 +208,13 @@ gaclustering_fkcrispmatrix
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
       (aiinp_inParamWithoutPcPmFk.getFileNamePlotStatObjetiveFunc(),
        aiinp_inParamWithoutPcPmFk.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
+      (aoop_outParamGAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
        std::ios::out | std::ios::app
        );
 
@@ -408,9 +408,9 @@ gaclustering_fkcrispmatrix
 	  *lvectorchrombitcrispmatrix_population[0];
 	 /*A better chromosome is found in this iteration
 	  */
-	aoop_outParamEAC.setIterationGetsBest
+	aoop_outParamGAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoop_outParamEAC.setRunTimeGetsBest
+	aoop_outParamGAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
       }
 
@@ -871,16 +871,16 @@ gaclustering_fkcrispmatrix
   }/*END FREE MEMORY OF POPULATION*/
 
   runtime::stop(let_executionTime);
-  aoop_outParamEAC.setNumClusterK
+  aoop_outParamGAC.setNumClusterK
     (aiinp_inParamWithoutPcPmFk.getNumClusterK());
-  aoop_outParamEAC.setMetricFuncRun
+  aoop_outParamGAC.setMetricFuncRun
     (lochrombitcrispmatrix_best.getObjetiveFunc());
-  aoop_outParamEAC.setAlgorithmRunTime
+  aoop_outParamGAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
  
-  aoop_outParamEAC.setFitness
+  aoop_outParamGAC.setFitness
     (lochrombitcrispmatrix_best.getObjetiveFunc());
-  aoop_outParamEAC.setNumTotalGenerations
+  aoop_outParamGAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
@@ -891,7 +891,7 @@ gaclustering_fkcrispmatrix
     plot_funtionHist
       (llfh_listFuntionHist,
        aiinp_inParamWithoutPcPmFk,
-       aoop_outParamEAC
+       aoop_outParamGAC
        );  
   }
 

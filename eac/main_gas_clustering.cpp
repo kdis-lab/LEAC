@@ -148,7 +148,6 @@
 #include <leac.hpp>
 #include "inparamclustering_getparameter.hpp"
 #include "instances_read.hpp"
-//#include "instances_classfrequency_read.hpp"
 #include "bar_progress.hpp"
 
  
@@ -184,10 +183,10 @@ int main(int argc, char **argv)
 
   /*OUT:
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::SSE);
+    loop_outParamGAC(inout::SSE);
   
 #endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996*/
 
@@ -216,10 +215,10 @@ int main(int argc, char **argv)
   linparam_ClusteringGA.setSizePopulation(8);      
   linparam_ClusteringGA.setProbMutation(0.01);
 
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::Distortion);
+    loop_outParamGAC(inout::Distortion);
     
 #endif /*ALG_CBGA_FKCENTROID_FRANTI_ETAL_1997*/
 
@@ -244,10 +243,10 @@ int main(int argc, char **argv)
   linparam_ClusteringGA.setSizePopulation(50);
   linparam_ClusteringGA.setProbMutation(0.05);
 
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::TWCV);
+    loop_outParamGAC(inout::TWCV);
 
 #endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999*/
 
@@ -271,10 +270,10 @@ int main(int argc, char **argv)
   linparam_ClusteringGA.setSizePopulation(50);
   linparam_ClusteringGA.setProbMutation(0.05);
 
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::TWCV);
+    loop_outParamGAC(inout::TWCV);
 #endif /*ALG_IGKA_FKLABEL_LU_ETAL2004*/
 
 #ifdef ALG_FGKA_FKLABEL_LU_ETAL2004 
@@ -297,10 +296,10 @@ int main(int argc, char **argv)
   linparam_ClusteringGA.setSizePopulation(50);
   linparam_ClusteringGA.setProbMutation(0.05);
 
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::TWCV);
+    loop_outParamGAC(inout::TWCV);
 #endif /*ALG_FGKA_FKLABEL_LU_ETAL2004*/
 
 
@@ -327,10 +326,10 @@ int main(int argc, char **argv)
   
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::SSE);
+    loop_outParamGAC(inout::SSE);
     
 #endif /*ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000*/
 
@@ -358,10 +357,10 @@ int main(int argc, char **argv)
  
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::SSE);
+    loop_outParamGAC(inout::SSE);
     
 #endif /*ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002*/
 
@@ -393,9 +392,9 @@ int main(int argc, char **argv)
 
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
-     DATATYPE_CLUSTERIDX>      loop_outParamEAC(inout::DBindex);
+     DATATYPE_CLUSTERIDX>      loop_outParamGAC(inout::DBindex);
 #endif /*ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002*/
   
 
@@ -443,9 +442,9 @@ int main(int argc, char **argv)
   linparam_ClusteringGA.setNumNotChangeStop(3);     
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
-     DATATYPE_CLUSTERIDX>      loop_outParamEAC(inout::VRC);
+     DATATYPE_CLUSTERIDX>      loop_outParamGAC(inout::VRC);
  
 #endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
 
@@ -486,9 +485,9 @@ int main(int argc, char **argv)
   
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
-     DATATYPE_CLUSTERIDX>      loop_outParamEAC(inout::IntraInterClust);
+     DATATYPE_CLUSTERIDX>      loop_outParamGAC(inout::IntraInterClust);
   
 
 #endif /*ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001*/
@@ -521,10 +520,10 @@ int main(int argc, char **argv)
   
   /*OUT:
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::Silhouette); 
+    loop_outParamGAC(inout::Silhouette); 
 #endif /*ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003*/
   
 #ifdef ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006
@@ -550,10 +549,10 @@ int main(int argc, char **argv)
   
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::SSilhouette);
+    loop_outParamGAC(inout::SSilhouette);
 #endif /*ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006*/
 
 
@@ -580,10 +579,10 @@ int main(int argc, char **argv)
   
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::SSilhouette);
+    loop_outParamGAC(inout::SSilhouette);
 #endif /*ALG_EACI_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006*/
 
 
@@ -610,10 +609,10 @@ int main(int argc, char **argv)
   
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::SSilhouette);
+    loop_outParamGAC(inout::SSilhouette);
 #endif /*ALG_EACII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006*/
 
 
@@ -640,10 +639,10 @@ int main(int argc, char **argv)
   
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::SSilhouette);
+    loop_outParamGAC(inout::SSilhouette);
 #endif /*ALG_EACIII_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006*/
 
 
@@ -670,10 +669,10 @@ int main(int argc, char **argv)
 
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::SSilhouette);
+    loop_outParamGAC(inout::SSilhouette);
 #endif /*ALG_FEAC_VKLABEL_ALVES_CAMPELLO_HRUSCHKA_2006*/
 
 #ifdef ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
@@ -734,11 +733,11 @@ int main(int argc, char **argv)
  
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX
      >
-    loop_outParamEAC(inout::VRC);
+    loop_outParamGAC(inout::VRC);
 #endif /*ALG_TGCA_VKCENTROID_HE_AND_TAN_2012*/
 
 #ifdef  ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012
@@ -760,10 +759,10 @@ int main(int argc, char **argv)
      );
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::DBindex);
+    loop_outParamGAC(inout::DBindex);
   
 #endif /*ALG_GGA_VKLABEL_DBINDEX_AGUSTIN_ETAL_2012*/
 
@@ -787,11 +786,11 @@ int main(int argc, char **argv)
   
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX
      >
-    loop_outParamEAC(inout::Silhouette);
+    loop_outParamGAC(inout::Silhouette);
 #endif /*ALG_GGA_VKLABEL_SILHOUETTE_AGUSTIN_ETAL_2012*/
   
 #ifdef  ALG_GAGR_FKCENTROID_CHANG_ETAL_2009
@@ -815,10 +814,10 @@ int main(int argc, char **argv)
   linparam_ClusteringGA.setSizePopulation(50);    
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>   
-    loop_outParamEAC(inout::TWCV);    
+    loop_outParamGAC(inout::TWCV);    
 #endif /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
 
 
@@ -849,10 +848,10 @@ int main(int argc, char **argv)
 
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::SSE);
+    loop_outParamGAC(inout::SSE);
   
 #endif /*ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993*/
 
@@ -881,10 +880,10 @@ int main(int argc, char **argv)
   linparam_ClusteringGA.setAlpha(10.0);
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::J1);
+    loop_outParamGAC(inout::J1);
 #endif /*ALG_GAPROTOTYPES_FKMEDOID_KUNCHEVA_BEZDEK_1997*/
   
 
@@ -918,10 +917,10 @@ int main(int argc, char **argv)
 
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamEAC(inout::SSE);
+    loop_outParamGAC(inout::SSE);
 #endif /*ALG_HKA_FKMEDOID_SHENG_LUI2004*/
 
 #ifdef ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
@@ -947,10 +946,10 @@ int main(int argc, char **argv)
 
   /*OUT
    */
-  inout::OutParamEAClustering
+  inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX> 
-    loop_outParamEAC(inout::J1);
+    loop_outParamGAC(inout::J1);
 #endif /*ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994*/
   
   /*READ PARAMETER*/
@@ -1190,7 +1189,7 @@ int main(int argc, char **argv)
        
       }
 
-      loop_outParamEAC.initialize(li_l);
+      loop_outParamGAC.initialize(li_l);
     
       { /*BEGIN PRINT PARAMETERS
 	 */
@@ -1204,7 +1203,7 @@ int main(int argc, char **argv)
 	  << "           Based on: "
 	  << linparam_ClusteringGA.getAlgorithmoAuthor() << '\n'
 	  << "        Metric used: "
-	  << loop_outParamEAC.getNameUsedObjetiveFunc()
+	  << loop_outParamGAC.getNameUsedObjetiveFunc()
 	  << "\n\n"
 	  
 	  << "           Data set: "
@@ -1239,7 +1238,7 @@ int main(int argc, char **argv)
 	<DATATYPE_BITSIZE,DATATYPE_CLUSTERIDX,DATATYPE_REAL>&&
 	lchrom_best =  
 	eac::gaclustering_fkcrispmatrix
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1290,7 +1289,7 @@ int main(int argc, char **argv)
 
       gaencode::ChromFixedLength<DATATYPE_CLUSTERIDX,DATATYPE_REAL>&& lchrom_best = 
 	eac::gaclustering_fklabel
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1339,7 +1338,7 @@ int main(int argc, char **argv)
       
       auto lchrom_best = 
 	eac::cbga_fkcentroid
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1370,7 +1369,7 @@ int main(int argc, char **argv)
     
       gaencode::ChromFixedLength<DATATYPE_CLUSTERIDX,DATATYPE_REAL>&& lchrom_best = 
 	eac::gka_fklabel 
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1427,7 +1426,7 @@ int main(int argc, char **argv)
 	 DATATYPE_FEATURE,
 	 DATATYPE_FEATURE_SUM,
 	 DATATYPE_INSTANCES_CLUSTER_K>
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first,
 	 *pfunct2p_distAlg
@@ -1486,7 +1485,7 @@ int main(int argc, char **argv)
 	 DATATYPE_FEATURE,
 	 DATATYPE_FEATURE_SUM,
 	 DATATYPE_INSTANCES_CLUSTER_K>
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first,
 	 *pfunct2p_distAlg
@@ -1512,7 +1511,7 @@ int main(int argc, char **argv)
 
       gaencode::ChromFixedLength<DATATYPE_FEATURE,DATATYPE_REAL>&& lchrom_best = 
 	eac::gas_fkcentroid
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1541,7 +1540,7 @@ int main(int argc, char **argv)
 #ifdef ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002 
       gaencode::ChromFixedLength<DATATYPE_FEATURE,DATATYPE_REAL>&& lchrom_best = 
 	eac::kga_fkcentroid
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1571,7 +1570,7 @@ int main(int argc, char **argv)
     
       gaencode::ChromFixedLength<DATATYPE_CLUSTERIDX,DATATYPE_REAL>&& lchrom_best = 
 	eac::cga_vklabel
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1583,25 +1582,25 @@ int main(int argc, char **argv)
 	lpartition_clusters
 	(lchrom_best.getString(),
 	 lchrom_best.getStringSize(),
-	 loop_outParamEAC.getNumClusterK()
+	 loop_outParamGAC.getNumClusterK()
 	 );
 
       mat::MatrixRow<DATATYPE_FEATURE> 
 	lomatrixrowt_centroids
-	((uintidx) loop_outParamEAC.getNumClusterK(), 
+	((uintidx) loop_outParamGAC.getNumClusterK(), 
 	 data::Instance<DATATYPE_FEATURE>::getNumDimensions() 
 	 );
 
       mat::MatrixRow<DATATYPE_FEATURE_SUM>       
 	lomatrixrowt_sumInstCluster
-	((uintidx) loop_outParamEAC.getNumClusterK(), 
+	((uintidx) loop_outParamGAC.getNumClusterK(), 
 	 data::Instance<DATATYPE_FEATURE>::getNumDimensions(),
 	 DATATYPE_FEATURE_SUM(0)
 	 );
 	
       std::vector<DATATYPE_INSTANCES_CLUSTER_K> 
 	lovectort_numInstClusterK
-	((uintidx) loop_outParamEAC.getNumClusterK(),
+	((uintidx) loop_outParamGAC.getNumClusterK(),
 	 DATATYPE_INSTANCES_CLUSTER_K(0)
 	 );
 
@@ -1623,7 +1622,7 @@ int main(int argc, char **argv)
 
       auto lchrom_best =
 	eac::feca_vklabel
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1639,7 +1638,7 @@ int main(int argc, char **argv)
 	lpartition_clusters
 	(lchrom_best.getString(),
 	 lchrom_best.getStringSize(),
-	 loop_outParamEAC.getNumClusterK()
+	 loop_outParamGAC.getNumClusterK()
 	 );
 
 #endif /*ALG_EAC_VKLABEL_HRUSCHKA_CAMPELLO_CASTRO_2006) ||	\
@@ -1667,14 +1666,14 @@ int main(int argc, char **argv)
     
       std::tie(lchrom_best,lmatrixrowt_Vi,lvectort_numInstBi,lmembclassdisjsets_Bi) =
 	eac::clustering_vksubclusterbinary
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
 
-      if ( loop_outParamEAC.getEndingCondition() ) {
+      if ( loop_outParamGAC.getEndingCondition() ) {
       
 	std::tie(lomatrixrowt_centroids,lmembclassdisjsets_BkinCi,lvectort_numInstCi) =
 	  clusteringop::getClusters
@@ -1696,7 +1695,7 @@ int main(int argc, char **argv)
 	<DATATYPE_CLUSTERIDX>
 	lpartition_clusters
 	(lovectormmidx_memberShip,
-	 loop_outParamEAC.getNumClusterK()
+	 loop_outParamGAC.getNumClusterK()
 	 );
 
 #endif /*ALG_CLUSTERING_VKSUBCLUSTERBINARY_TSENG_YANG_2001*/
@@ -1706,7 +1705,7 @@ int main(int argc, char **argv)
 
       auto lpair_chrombestPiMST =
 	eac::gaclustering_vktreebinary
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1726,20 +1725,20 @@ int main(int argc, char **argv)
      
       mat::MatrixRow<DATATYPE_FEATURE> 
 	lomatrixrowt_centroids
-	((uintidx) loop_outParamEAC.getNumClusterK(), 
+	((uintidx) loop_outParamGAC.getNumClusterK(), 
 	 data::Instance<DATATYPE_FEATURE>::getNumDimensions() 
 	 );
 
       mat::MatrixRow<DATATYPE_FEATURE_SUM>       
 	lomatrixrowt_sumInstCluster
-	((uintidx) loop_outParamEAC.getNumClusterK(), 
+	((uintidx) loop_outParamGAC.getNumClusterK(), 
 	 data::Instance<DATATYPE_FEATURE>::getNumDimensions(),
 	 DATATYPE_FEATURE_SUM(0)
 	 );
 	
       std::vector<DATATYPE_INSTANCES_CLUSTER_K> 
 	lovectort_numInstClusterK
-	((uintidx) loop_outParamEAC.getNumClusterK(),
+	((uintidx) loop_outParamGAC.getNumClusterK(),
 	 DATATYPE_INSTANCES_CLUSTER_K(0)
 	 );
 
@@ -1760,7 +1759,7 @@ int main(int argc, char **argv)
       mat::MatrixRow<DATATYPE_FEATURE> 
 	lomatrixrowt_centroids =
 	eac::gcuk_vkcentroid
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1784,7 +1783,7 @@ int main(int argc, char **argv)
       gaencode::ChromVariableLength<DATATYPE_FEATURE,DATATYPE_REAL>
 	lchrom_best =
 	eac::tgca_vkcentroid
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1813,7 +1812,7 @@ int main(int argc, char **argv)
    
       gaencode::ChromosomeGGA<DATATYPE_CLUSTERIDX,DATATYPE_REAL>&& lchrom_best =
 	eac::gga_vklabel
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1825,25 +1824,25 @@ int main(int argc, char **argv)
 	lpartition_clusters
 	(lchrom_best.getString(),
 	 (uintidx) lpairvec_dataset.first.size(),/*String Size */
-	 loop_outParamEAC.getNumClusterK()  
+	 loop_outParamGAC.getNumClusterK()  
 	 );
 
       mat::MatrixRow<DATATYPE_FEATURE> 
 	lomatrixrowt_centroids
-	((uintidx) loop_outParamEAC.getNumClusterK(), 
+	((uintidx) loop_outParamGAC.getNumClusterK(), 
 	 data::Instance<DATATYPE_FEATURE>::getNumDimensions() 
 	 );
 
       mat::MatrixRow<DATATYPE_FEATURE_SUM>       
 	lomatrixrowt_sumInstCluster
-	((uintidx) loop_outParamEAC.getNumClusterK(), 
+	((uintidx) loop_outParamGAC.getNumClusterK(), 
 	 data::Instance<DATATYPE_FEATURE>::getNumDimensions(),
 	 DATATYPE_FEATURE_SUM(0)
 	 );
 	
       std::vector<DATATYPE_INSTANCES_CLUSTER_K> 
 	lovectort_numInstClusterK
-	((uintidx) loop_outParamEAC.getNumClusterK(),
+	((uintidx) loop_outParamGAC.getNumClusterK(),
 	 DATATYPE_INSTANCES_CLUSTER_K(0)
 	 );
 
@@ -1866,7 +1865,7 @@ int main(int argc, char **argv)
 
       gaencode::ChromFixedLength<DATATYPE_FEATURE,DATATYPE_REAL>&& lchrom_best = 
 	eac::gagr_fkcentroid 
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -1905,7 +1904,7 @@ int main(int argc, char **argv)
     
       gaencode::ChromFixedLength<uintidx,DATATYPE_REAL>&& lchrom_best =
 	eac::gca_fkmedoid
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lmatrixtriagT_dissimilarity
 	 );
@@ -1951,7 +1950,7 @@ int main(int argc, char **argv)
     
       gaencode::ChromFixedLength<uintidx,DATATYPE_REAL>&& lchrom_best = 
 	eac::hka_fkmedoid
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lmatrixtriagT_dissimilarity
 	 );
@@ -1985,7 +1984,7 @@ int main(int argc, char **argv)
 
       gaencode::ChromosomeBitArray<DATATYPE_BITSIZE,DATATYPE_REAL>&& lchrom_best =
 	eac::gaprototypes_fkmedoid
-	(loop_outParamEAC,
+	(loop_outParamGAC,
 	 linparam_ClusteringGA,
 	 lpairvec_dataset.first.begin(),
 	 lpairvec_dataset.first.end(),
@@ -2372,15 +2371,15 @@ int main(int argc, char **argv)
 
 	    /*CHECK CONDITION END
 	     */
-	    loop_outParamEAC.setNumClusterKTest
+	    loop_outParamGAC.setNumClusterKTest
 	      (DATATYPE_CLUSTERIDX(lvectort_numInstClusterKTest.size())
 	       - DATATYPE_CLUSTERIDX(li_matrixPartitionClusterNullTest)
 	       );
 	    if ( li_matrixPartitionClusterNullTest != 0 )  {
-	      loop_outParamEAC.setEndingConditionTest(false);
+	      loop_outParamGAC.setEndingConditionTest(false);
 	    }
 	    else  {
-	      loop_outParamEAC.setEndingConditionTest(true);
+	      loop_outParamGAC.setEndingConditionTest(true);
 	    }
 #ifdef __VERBOSE_YES
 	    if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -2431,12 +2430,12 @@ int main(int argc, char **argv)
 	lostream_outparam << "\n\n";
 
 	lostream_outparam << "       Cluster number (K): "
-			  << loop_outParamEAC.getNumClusterK() << "\n"
+			  << loop_outParamGAC.getNumClusterK() << "\n"
 			  <<  std::right << std::setw(25)
-			  <<  loop_outParamEAC.getNameUsedObjetiveFunc() << ": "
-			  << loop_outParamEAC.getObjetiveFuncRun() << "\n";
+			  <<  loop_outParamGAC.getNameUsedObjetiveFunc() << ": "
+			  << loop_outParamGAC.getObjetiveFuncRun() << "\n";
 
-	if ( loop_outParamEAC.getUsedObjetiveFunc() != inout::SSE ) {
+	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::SSE ) {
 	  std::pair<DATATYPE_REAL,bool> lpair_sse =
 	    um::SSE
 	    (lomatrixrowt_centroids,
@@ -2451,7 +2450,7 @@ int main(int argc, char **argv)
 	  lostream_outparam << '\n';
 	}
 
-	if ( loop_outParamEAC.getUsedObjetiveFunc() != inout::DBindex ) {
+	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::DBindex ) {
 	  lostream_outparam
 	    << "                 DB-index: "
 	    <<
@@ -2465,7 +2464,7 @@ int main(int argc, char **argv)
 	    << '\n';
 	}
 
-	if ( loop_outParamEAC.getUsedObjetiveFunc() != inout::Silhouette ) {
+	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::Silhouette ) {
 	  lostream_outparam
 	    << "               Silhouette: "	
 	    <<
@@ -2478,7 +2477,7 @@ int main(int argc, char **argv)
 	    << '\n';
 	}
 
-	if ( loop_outParamEAC.getUsedObjetiveFunc() != inout::VRC ) {
+	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::VRC ) {
 	  lostream_outparam
 	    << "                      VRC: "	
 	    <<
@@ -2492,7 +2491,7 @@ int main(int argc, char **argv)
 	    << '\n';
 	}
       
-	if ( loop_outParamEAC.getUsedObjetiveFunc() != inout::CSmeasure ) {
+	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::CSmeasure ) {
 	  lostream_outparam
 	    << "               CS measure: "
 	    <<
@@ -2505,7 +2504,7 @@ int main(int argc, char **argv)
 	    << '\n';
 	}
       
-	if ( loop_outParamEAC.getUsedObjetiveFunc() != inout::DunnIndex ) {
+	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::DunnIndex ) {
 	  lostream_outparam
 	    << "             Dunn's index: "
 	    <<
@@ -2606,9 +2605,9 @@ int main(int argc, char **argv)
 	}
       
 	lostream_outparam << "     Execution time (seg): "
-			  << loop_outParamEAC.getAlgorithmRunTime() << '\n'
+			  << loop_outParamGAC.getAlgorithmRunTime() << '\n'
 			  << "Generations find the best: "
-			  << loop_outParamEAC.getIterationGetsBest() << '\n';
+			  << loop_outParamGAC.getIterationGetsBest() << '\n';
     
 	lostream_outparam << std::endl;
 
@@ -2675,7 +2674,7 @@ int main(int argc, char **argv)
 	  lostrstream_labelCentroids
 	    << lofn_filenamecentroids.getDelim() 
 	    << "_number run" << lofn_filenamecentroids.getDelim() 
-	    << loop_outParamEAC.getNumRunningAlgorithm();
+	    << loop_outParamGAC.getNumRunningAlgorithm();
 	  lostrstream_labelCentroids
 	    << lofn_filenamecentroids.getDelim() 
 	    << "_times run"  << lofn_filenamecentroids.getDelim() 
@@ -2734,7 +2733,7 @@ int main(int argc, char **argv)
 			      << linparam_ClusteringGA.getRunningTimeId();
 	  lostrstream_labelVi << lofn_filenamecentroids.getDelim() 
 			      << "_number run" << lofn_filenamecentroids.getDelim() 
-			      << loop_outParamEAC.getNumRunningAlgorithm();
+			      << loop_outParamGAC.getNumRunningAlgorithm();
 	  lostrstream_labelVi << lofn_filenamecentroids.getDelim() 
 			      << "_times run"  << lofn_filenamecentroids.getDelim() 
 			      << linparam_ClusteringGA.getTimesRunAlgorithm();
@@ -2786,7 +2785,7 @@ int main(int argc, char **argv)
 	lostrstream_labelMemberTraining
 	  << lofn_filenamemembership.getDelim() 
 	  << "_number run" << lofn_filenamemembership.getDelim() 
-	  << loop_outParamEAC.getNumRunningAlgorithm();
+	  << loop_outParamGAC.getNumRunningAlgorithm();
 	  
 	lostrstream_labelMemberTraining
 	  << lofn_filenamemembership.getDelim() 
@@ -2795,7 +2794,7 @@ int main(int argc, char **argv)
 	lostrstream_labelMemberTraining
 	  << lofn_filenamemembership.getDelim() 
 	  << "_number run" << lofn_filenamemembership.getDelim() 
-	  << loop_outParamEAC.getNumRunningAlgorithm();
+	  << loop_outParamGAC.getNumRunningAlgorithm();
 	lostrstream_labelMemberTraining
 	  << lofn_filenamemembership.getDelim() 
 	  << "_times run"  << lofn_filenamemembership.getDelim() 
@@ -2843,7 +2842,7 @@ int main(int argc, char **argv)
 	lostrstream_labelMemberBi
 	  << lofn_filenamemembership.getDelim() 
 	  << "_number run" << lofn_filenamemembership.getDelim() 
-	  << loop_outParamEAC.getNumRunningAlgorithm();
+	  << loop_outParamGAC.getNumRunningAlgorithm();
 	  
 	lostrstream_labelMemberBi
 	  << lofn_filenamemembership.getDelim() 
@@ -2852,7 +2851,7 @@ int main(int argc, char **argv)
 	lostrstream_labelMemberBi
 	  << lofn_filenamemembership.getDelim() 
 	  << "_number run" << lofn_filenamemembership.getDelim() 
-	  << loop_outParamEAC.getNumRunningAlgorithm();
+	  << loop_outParamGAC.getNumRunningAlgorithm();
 	lostrstream_labelMemberBi
 	  << lofn_filenamemembership.getDelim() 
 	  << "_times run"  << lofn_filenamemembership.getDelim() 
@@ -2900,7 +2899,7 @@ int main(int argc, char **argv)
 	  lostrstream_labelMemberTest
 	    << lofn_filenamemembership.getDelim() 
 	    << "_number run" << lofn_filenamemembership.getDelim() 
-	    << loop_outParamEAC.getNumRunningAlgorithm();
+	    << loop_outParamGAC.getNumRunningAlgorithm();
 	  lostrstream_labelMemberTest
 	    << lofn_filenamemembership.getDelim() 
 	    << "_times run"  << lofn_filenamemembership.getDelim() 
@@ -2958,7 +2957,7 @@ int main(int argc, char **argv)
 	    << lofn_filenametablepartition.getDelim() << linparam_ClusteringGA.getRunningTimeId()
 	    << lofn_filenametablepartition.getDelim() << "number run"
 	    << lofn_filenametablepartition.getDelim()
-	    << loop_outParamEAC.getNumRunningAlgorithm()
+	    << loop_outParamGAC.getNumRunningAlgorithm()
 	    << lofn_filenametablepartition.getDelim() << "times run"
 	    << lofn_filenametablepartition.getDelim() << linparam_ClusteringGA.getTimesRunAlgorithm();
 	
@@ -3011,7 +3010,7 @@ int main(int argc, char **argv)
 	      << lofn_filenametablepartition.getDelim() << "runnig date"
 	      << lofn_filenametablepartition.getDelim() << linparam_ClusteringGA.getRunningTimeId()
 	      << lofn_filenametablepartition.getDelim() << "number run"
-	      << lofn_filenametablepartition.getDelim() << loop_outParamEAC.getNumRunningAlgorithm()
+	      << lofn_filenametablepartition.getDelim() << loop_outParamGAC.getNumRunningAlgorithm()
 	      << lofn_filenametablepartition.getDelim() << "times run"
 	      << lofn_filenametablepartition.getDelim() << linparam_ClusteringGA.getTimesRunAlgorithm();
 	
@@ -3073,7 +3072,7 @@ int main(int argc, char **argv)
 	lostrstream_labelGraph
 	  << lofn_filenamegraph.getDelim() 
 	  << "_number run" << lofn_filenamegraph.getDelim() 
-	  << loop_outParamEAC.getNumRunningAlgorithm();
+	  << loop_outParamGAC.getNumRunningAlgorithm();
 	lostrstream_labelGraph
 	  << lofn_filenamegraph.getDelim() 
 	  << "_times run"  << lofn_filenamegraph.getDelim() 

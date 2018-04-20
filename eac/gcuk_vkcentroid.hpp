@@ -30,13 +30,13 @@
 
 #include <leac.hpp>
 #include "inparam_pcpmvk.hpp"
-#include "outparam_eaclustering.hpp"
+#include "outparam_gac.hpp"
 
 #include "plot_runtime_function.hpp"
 
 /*! \namespace eac
   \brief Evolutionary Algorithms for Clustering
-  \details Implementation of genetic and evolutionary algorithms used to solve the clustering problem 
+  \details Implementation of evolutionary algorithms used to solve the clustering problem 
   
   \version 1.0
   \date   2015-2017
@@ -45,7 +45,7 @@
 
 namespace eac {
   
-/*! \fn mat::MatrixRow<T_FEATURE> gcuk_vkcentroid(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamPcPmVk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamPcPmVk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist) 
+/*! \fn mat::MatrixRow<T_FEATURE> gcuk_vkcentroid(inout::OutParamGAC<T_REAL,T_CLUSTERIDX> &aoop_outParamGAC, inout::InParamPcPmVk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamPcPmVk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist) 
   \brief GCUK \cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002
   \details Implementation of the GCUK algorithm based on \cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002. Which automatically finds K cluster using the Davies–Bouldin index.
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid. Base to following equation:
@@ -54,7 +54,7 @@ namespace eac {
   \| x_i - \mu_k \|,\; j=1,2,..k,
   \f]
   where \f$mu_j\f$, represents the centroid of cluster \f$C_j\f$
-  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aoop_outParamGAC a inout::OutParamGAC with the output parameters of the algorithm
   \param aiinp_inParamPcPmVk a inout::InParamPcPmVk parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
@@ -69,9 +69,9 @@ template < typename T_FEATURE,      //T_STRING,
 	   >
 mat::MatrixRow<T_FEATURE>
 gcuk_vkcentroid
-(inout::OutParamEAClustering
+(inout::OutParamGAC
  <T_REAL,
- T_CLUSTERIDX>                                &aoop_outParamEAC,
+ T_CLUSTERIDX>                                &aoop_outParamGAC,
  inout::InParamPcPmVk
  <T_CLUSTERIDX,
  T_REAL,
@@ -108,8 +108,8 @@ gcuk_vkcentroid
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelAlgGA
 	      << "  IN(" << geiinparam_verbose << ")\n"
-	      << "\t(output inout::OutParamEAClustering&: aoop_outParamEAC[" 
-	      << &aoop_outParamEAC << "]\n"
+	      << "\t(output inout::OutParamGAC&: aoop_outParamGAC[" 
+	      << &aoop_outParamGAC << "]\n"
 	      << "\t input  InParamClusteringGaProbFk&: aiinp_inParamPcPmVk[" 
 	      << &aiinp_inParamPcPmVk << "]\n"
 	      << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
@@ -173,13 +173,13 @@ gcuk_vkcentroid
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
       (aiinp_inParamPcPmVk.getFileNamePlotStatObjetiveFunc(),
        aiinp_inParamPcPmVk.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
+      (aoop_outParamGAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
        std::ios::out | std::ios::app
        );
 
@@ -197,7 +197,7 @@ gcuk_vkcentroid
  
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING
    */
-  aoop_outParamEAC.setTotalInvalidOffspring(0);
+  aoop_outParamGAC.setTotalInvalidOffspring(0);
 
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
 
@@ -388,7 +388,7 @@ gcuk_vkcentroid
 		liter_iChrom.setValidString(true);
 	      }
 	      else {
-		aoop_outParamEAC.incTotalInvalidOffspring();
+		aoop_outParamGAC.incTotalInvalidOffspring();
 		liter_iChrom.setValidString(false);
 	      }
 		 
@@ -402,7 +402,7 @@ gcuk_vkcentroid
 	      T_REAL lrt_dbindex =  measuare_undefDBindex(T_REAL);
 	      liter_iChrom.setObjetiveFunc(lrt_dbindex); 
 	      liter_iChrom.setFitness(1.0 / lrt_dbindex);
-	      aoop_outParamEAC.incTotalInvalidOffspring();
+	      aoop_outParamGAC.incTotalInvalidOffspring();
 	      liter_iChrom.setValidString(false); 
 	    }
 	  }
@@ -411,7 +411,7 @@ gcuk_vkcentroid
 	    T_REAL lrt_dbindex = std::numeric_limits<T_REAL>::max();
 	    liter_iChrom.setObjetiveFunc(lrt_dbindex); 
 	    liter_iChrom.setFitness(1.0 / lrt_dbindex);
-	    aoop_outParamEAC.incTotalInvalidOffspring();
+	    aoop_outParamGAC.incTotalInvalidOffspring();
 	    liter_iChrom.setValidString(false); 
 	  }
 	}
@@ -454,9 +454,9 @@ gcuk_vkcentroid
 	lochrom_best = *lit_chromMax;
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION
 	 */
-	aoop_outParamEAC.setIterationGetsBest
+	aoop_outParamGAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoop_outParamEAC.setRunTimeGetsBest
+	aoop_outParamGAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
 
 #ifdef __VERBOSE_YES
@@ -719,15 +719,15 @@ gcuk_vkcentroid
     lochrom_best.getMatrix();
   
   runtime::stop(let_executionTime);
-  aoop_outParamEAC.setNumClusterK
+  aoop_outParamGAC.setNumClusterK
     ((T_CLUSTERIDX)lochrom_best.getNumRows());
-  aoop_outParamEAC.setMetricFuncRun
+  aoop_outParamGAC.setMetricFuncRun
     (lochrom_best.getObjetiveFunc());
-  aoop_outParamEAC.setFitness
+  aoop_outParamGAC.setFitness
     (lochrom_best.getFitness());
-  aoop_outParamEAC.setAlgorithmRunTime
+  aoop_outParamGAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoop_outParamEAC.setNumTotalGenerations
+  aoop_outParamGAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
   /*FREE: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM
@@ -738,7 +738,7 @@ gcuk_vkcentroid
     plot_funtionHist
       (llfh_listFuntionHist,
        aiinp_inParamPcPmVk,
-       aoop_outParamEAC
+       aoop_outParamGAC
        );  
   }
 

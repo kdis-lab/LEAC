@@ -30,13 +30,13 @@
 
 #include <leac.hpp>
 #include "inparam_pcpmfk.hpp"
-#include "outparam_eaclustering.hpp"
+#include "outparam_gac.hpp"
 
 #include "plot_runtime_function.hpp"
 
 /*! \namespace eac
   \brief Evolutionary Algorithms for Clustering
-  \details Implementation of genetic and evolutionary algorithms used to solve the clustering problem 
+  \details Implementation of evolutionary algorithms used to solve the clustering problem 
   
   \version 1.0
   \date   2015-2017
@@ -45,7 +45,7 @@
 
 namespace eac {
   
-/*! \fn gaencode::ChromFixedLength<T_FEATURE,T_REAL> kga_fkcentroid (inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamPcPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamPcPmFk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn gaencode::ChromFixedLength<T_FEATURE,T_REAL> kga_fkcentroid (inout::OutParamGAC<T_REAL,T_CLUSTERIDX> &aoop_outParamGAC, inout::InParamPcPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamPcPmFk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief  KGA \cite Bandyopadhyay:Maulik:GAclustering:KGA:2002
   \details Implementation of the KGA algorithm based on \cite Bandyopadhyay:Maulik:GAclustering:KGA:2002. 
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid. Base to following equation:
@@ -54,7 +54,7 @@ namespace eac {
   \| x_i - \mu_k \|,\; j=1,2,..k,
   \f]
   where \f$mu_j\f$, represents the centroid of cluster \f$C_j\f$
-  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aoop_outParamGAC a inout::OutParamGAC with the output parameters of the algorithm
   \param aiinp_inParamPcPmFk a inout::InParamPcPmFk parameters required by the algorithm
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
@@ -69,9 +69,9 @@ template < typename T_FEATURE,
 	   >
 gaencode::ChromFixedLength<T_FEATURE,T_REAL> 
 kga_fkcentroid
-(inout::OutParamEAClustering
+(inout::OutParamGAC
  <T_REAL,
- T_CLUSTERIDX>                       &aoop_outParamEAC,
+ T_CLUSTERIDX>                       &aoop_outParamGAC,
  inout::InParamPcPmFk
  <T_CLUSTERIDX,
  T_REAL,
@@ -125,9 +125,9 @@ kga_fkcentroid
       << ":  IN(" << geiinparam_verbose << ")\n"
       << "\t(output Chromosome: lochromfixleng_best[" 
       << &lochromfixleng_best << "]\n"
-      << "\t output inout::OutParamEAClustering&: "
-      << "aoop_outParamEAC[" 
-      << &aoop_outParamEAC << "]\n"
+      << "\t output inout::OutParamGAC&: "
+      << "aoop_outParamGAC[" 
+      << &aoop_outParamGAC << "]\n"
       << "\t input  InParamPcPmFk&: "
       <<"aiinp_inParamPcPmFk[" 
       << &aiinp_inParamPcPmFk << "]\n"
@@ -187,13 +187,13 @@ kga_fkcentroid
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
       (aiinp_inParamPcPmFk.getFileNamePlotStatObjetiveFunc(),
        aiinp_inParamPcPmFk.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
+      (aoop_outParamGAC.getFileNameOutPlotStatObjetiveFunc().c_str(),
        std::ios::out | std::ios::app
        );
 
@@ -209,7 +209,7 @@ kga_fkcentroid
   
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING
    */
-  aoop_outParamEAC.setTotalInvalidOffspring(0);
+  aoop_outParamGAC.setTotalInvalidOffspring(0);
 
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
   runtime::ExecutionTime let_executionTime = runtime::start();
@@ -428,7 +428,7 @@ kga_fkcentroid
 
       } 
         
-      aoop_outParamEAC.sumTotalInvalidOffspring
+      aoop_outParamGAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -525,9 +525,9 @@ kga_fkcentroid
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
 	lochromfixleng_best  = *lchromfixleng_iterMax;
        
-	aoop_outParamEAC.setIterationGetsBest
+	aoop_outParamGAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoop_outParamEAC.setRunTimeGetsBest
+	aoop_outParamGAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
       }
 
@@ -754,7 +754,7 @@ kga_fkcentroid
 	 }
 	 );
 	 
-      aoop_outParamEAC.sumTotalInvalidOffspring
+      aoop_outParamGAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -855,15 +855,15 @@ kga_fkcentroid
   delete [] larray_minFeactures;
     
   runtime::stop(let_executionTime);
-  aoop_outParamEAC.setNumClusterK
+  aoop_outParamGAC.setNumClusterK
     (aiinp_inParamPcPmFk.getNumClusterK());
-  aoop_outParamEAC.setMetricFuncRun
+  aoop_outParamGAC.setMetricFuncRun
     (lochromfixleng_best.getObjetiveFunc());
-  aoop_outParamEAC.setAlgorithmRunTime
+  aoop_outParamGAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoop_outParamEAC.setFitness
+  aoop_outParamGAC.setFitness
     (lochromfixleng_best.getFitness());
-  aoop_outParamEAC.setNumTotalGenerations
+  aoop_outParamGAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
  
 #ifndef __WITHOUT_PLOT_STAT
@@ -872,7 +872,7 @@ kga_fkcentroid
     runtime::plot_funtionHist
       (llfh_listFuntionHist,
        aiinp_inParamPcPmFk,
-       aoop_outParamEAC
+       aoop_outParamGAC
        );  
   }
 

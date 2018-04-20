@@ -35,7 +35,7 @@
 #include <limits>       // std::numeric_limits
 
 #include <leac.hpp>
-#include "outparam_eaclustering.hpp"
+#include "outparam_gac.hpp"
 #include "inparam_pmfk.hpp"
 
 #include "plot_runtime_function.hpp"
@@ -43,7 +43,7 @@
 
 /*! \namespace eac
   \brief Evolutionary Algorithms for Clustering
-  \details Implementation of genetic and evolutionary algorithms used to solve the clustering problem 
+  \details Implementation of evolutionary algorithms used to solve the clustering problem 
   
   \version 1.0
   \date   2015-2017
@@ -51,10 +51,10 @@
 */
 namespace eac {
 
-/*! \fn  gaencode::ChromosomeIGKA <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> igka_fklabel(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamPmFk, std::vector<data::Instance<T_FEATURE>* > &aivectorptinst_instances, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn  gaencode::ChromosomeIGKA <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> igka_fklabel(inout::OutParamGAC<T_REAL,T_CLUSTERIDX> &aoop_outParamGAC, inout::InParamPmFk<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiinp_inParamPmFk, std::vector<data::Instance<T_FEATURE>* > &aivectorptinst_instances, dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief IGKA \cite Lu:etal:GAclusteringLabel:IGKA:2004 and FGKA \cite Lu:etal:GAclusteringLabel:FGKA:2004 
   \details 
-  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aoop_outParamGAC a inout::OutParamGAC with the output parameters of the algorithm
   \param aiinp_inParamPmFk a inout::InParamPmFk parameters required by the algorithm
   \param aivectorptinst_instances a std::vector<data::Instance<T_FEATURE>* >
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
@@ -77,9 +77,9 @@ gaencode::ChromosomeIGKA
  T_INSTANCES_CLUSTER_K>
 #endif /*ALG_IGKA_FKLABEL_LU_ETAL2004*/
 igka_fklabel
-(inout::OutParamEAClustering
+(inout::OutParamGAC
  <T_REAL,
- T_CLUSTERIDX>                   &aoop_outParamEAC, 
+ T_CLUSTERIDX>                   &aoop_outParamGAC, 
  inout::InParamPmFk
  <T_CLUSTERIDX,
  T_REAL,
@@ -162,8 +162,8 @@ igka_fklabel
 	      << ":  IN(" << geiinparam_verbose << ')'
 	      << "\t\n(output gaencode::ChromosomeIGKA: lochromigka_best[" 
 	      << &lochromigka_best << "]\n"
-	      << "\t output inout::OutParamEAClustering&: aoop_outParamEAC[" 
-	      << &aoop_outParamEAC << "]\n"
+	      << "\t output inout::OutParamGAC&: aoop_outParamGAC[" 
+	      << &aoop_outParamGAC << "]\n"
 	      << "\t input  InParamPmFk&: aiinp_inParamPmFk[" 
 	      << &aiinp_inParamPmFk << "]\n"
 	      << "\t input  std::vector<Instance>: aivectorptinst_instances[" 
@@ -229,13 +229,13 @@ igka_fklabel
     }
   
     //OPEN FILE STRORE FUNCTION
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
       (aiinp_inParamPmFk.getFileNamePlotStatObjetiveFunc(),
        aiinp_inParamPmFk.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open
-      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(),  
+      (aoop_outParamGAC.getFileNameOutPlotStatObjetiveFunc().c_str(),  
        std::ios::out | std::ios::app
        );
     lfileout_plotStatObjetiveFunc.precision(COMMON_COUT_PRECISION);
@@ -249,7 +249,7 @@ igka_fklabel
 #endif  /*__WITHOUT_PLOT_STAT*/
 
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING*/
-  aoop_outParamEAC.setTotalInvalidOffspring(0);
+  aoop_outParamGAC.setTotalInvalidOffspring(0);
 
   runtime::ExecutionTime lexetime_time = runtime::start();
  
@@ -397,7 +397,7 @@ igka_fklabel
       
     }
    
-    aoop_outParamEAC.sumTotalInvalidOffspring
+    aoop_outParamGAC.sumTotalInvalidOffspring
       (ll_invalidOffspring);
   
 #ifdef __VERBOSE_YES
@@ -979,7 +979,7 @@ igka_fklabel
 	
       }//FOR 
 
-      aoop_outParamEAC.sumTotalInvalidOffspring
+      aoop_outParamGAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -1074,7 +1074,7 @@ igka_fklabel
 	  ++ll_invalidOffspring;
       }
        
-      aoop_outParamEAC.sumTotalInvalidOffspring
+      aoop_outParamGAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
 
 #ifdef __VERBOSE_YES
@@ -1137,9 +1137,9 @@ igka_fklabel
 	{/*BEGIN IF FIN std::min_element*/
 	  lochromigka_best = *loch_minChromosomeIGKA;
 	  /*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
-	  aoop_outParamEAC.setIterationGetsBest
+	  aoop_outParamGAC.setIterationGetsBest
 	    (llfh_listFuntionHist.getDomainUpperBound());
-	  aoop_outParamEAC.setRunTimeGetsBest
+	  aoop_outParamGAC.setRunTimeGetsBest
 	    (runtime::elapsedTime(lexetime_time));
 
 	} /*END IF FIN std::min_element*/
@@ -1234,15 +1234,15 @@ igka_fklabel
 #endif /*__VERBOSE_YES*/
  
   runtime::stop(lexetime_time);
-  aoop_outParamEAC.setNumClusterK
+  aoop_outParamGAC.setNumClusterK
     (aiinp_inParamPmFk.getNumClusterK());
-  aoop_outParamEAC.setMetricFuncRun
+  aoop_outParamGAC.setMetricFuncRun
     ( lochromigka_best.getObjetiveFunc() );
-  aoop_outParamEAC.setFitness
+  aoop_outParamGAC.setFitness
     (lochromigka_best.getFitness());
-  aoop_outParamEAC.setAlgorithmRunTime
+  aoop_outParamGAC.setAlgorithmRunTime
     (runtime::getTime(lexetime_time));
-  aoop_outParamEAC.setNumTotalGenerations
+  aoop_outParamGAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
    
 #ifndef __WITHOUT_PLOT_STAT
@@ -1250,7 +1250,7 @@ igka_fklabel
     plot_funtionHist
       (llfh_listFuntionHist,
        aiinp_inParamPmFk,
-       aoop_outParamEAC
+       aoop_outParamGAC
        );  
   }
 #endif /*__WITHOUT_PLOT_STAT*/

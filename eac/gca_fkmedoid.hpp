@@ -30,14 +30,14 @@
 #include <iterator>
 
 #include <leac.hpp>
-#include "outparam_eaclustering.hpp"
+#include "outparam_gac.hpp"
 #include "inparam_gca.hpp"
 
 #include "plot_runtime_function.hpp"
 
 /*! \namespace eac
   \brief Evolutionary Algorithms for Clustering
-  \details Implementation of genetic and evolutionary algorithms used to solve the clustering problem 
+  \details Implementation of evolutionary algorithms used to solve the clustering problem 
   
   \version 1.0
   \date   2015-2017
@@ -46,11 +46,11 @@
 
 namespace eac {
   
-/*! \fn gaencode::ChromFixedLength<uintidx,T_REAL> gca_fkmedoid(inout::OutParamEAClustering<T_REAL,T_CLUSTERIDX> &aoop_outParamEAC, inout::InParamGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiipcgagca_inParamGCA, const mat::MatrixTriang<T_REAL> &aimatrixtriagrt_dissimilarity)
+/*! \fn gaencode::ChromFixedLength<uintidx,T_REAL> gca_fkmedoid(inout::OutParamGAC<T_REAL,T_CLUSTERIDX> &aoop_outParamGAC, inout::InParamGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K> &aiipcgagca_inParamGCA, const mat::MatrixTriang<T_REAL> &aimatrixtriagrt_dissimilarity)
   \brief  GCA \cite Lucasius:etal:GAclusteringMedoid:GCA:1993  
   \details Implementation of the GCA algorithm based on \cite Lucasius:etal:GAclusteringMedoid:GCA:1993
   \returns A chromosome with k genes, where each gene is the index of the most representative instance of each cluster
-  \param aoop_outParamEAC a inout::OutParamEAClustering with the output parameters of the algorithm
+  \param aoop_outParamGAC a inout::OutParamGAC with the output parameters of the algorithm
   \param aiipcgagca_inParamGCA a inout::InParamGCA parameters required by the algorithm
   \param aimatrixtriagrt_dissimilarity a triangular matrix with the distances between the instances
 */
@@ -62,9 +62,9 @@ template <typename T_CLUSTERIDX,
 	  >
 gaencode::ChromFixedLength<uintidx,T_REAL> 
 gca_fkmedoid
-(inout::OutParamEAClustering
+(inout::OutParamGAC
  <T_REAL,
- T_CLUSTERIDX>                         &aoop_outParamEAC,
+ T_CLUSTERIDX>                         &aoop_outParamGAC,
  inout::InParamGCA
  <T_CLUSTERIDX,
  T_REAL,
@@ -102,8 +102,8 @@ gca_fkmedoid
       << "  IN(" << geiinparam_verbose << ")\n"
       << "\t(output Chromosome: lochromfixleng_best[" 
       << &lochromfixleng_best << "]\n"
-      << "\t output inout::OutParamEAClustering&: aoop_outParamEAC[" 
-      << &aoop_outParamEAC << "]\n"
+      << "\t output inout::OutParamGAC&: aoop_outParamGAC[" 
+      << &aoop_outParamGAC << "]\n"
       << "\t input  InParamClusteringGALucasius&: aiinp_inParamGCA[" 
       << &aiinp_inParamGCA << ']'
       << "\n\t\tPopulation size = " 
@@ -158,13 +158,13 @@ gca_fkmedoid
     }
   
     //OPEN FILE STRORE FUNCTION 
-    aoop_outParamEAC.setFileNameOutPlotStatObjetiveFunc
+    aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
       (aiinp_inParamGCA.getFileNamePlotStatObjetiveFunc(),
        aiinp_inParamGCA.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open   
-      (aoop_outParamEAC.getFileNameOutPlotStatObjetiveFunc().c_str(), 
+      (aoop_outParamGAC.getFileNameOutPlotStatObjetiveFunc().c_str(), 
        std::ios::out | std::ios::app
        );
     lfileout_plotStatObjetiveFunc.precision(COMMON_COUT_PRECISION);
@@ -178,7 +178,7 @@ gca_fkmedoid
 #endif /*__WITHOUT_PLOT_STAT*/
 
   /*WHEN CAN MEASURE STARTS AT ZERO INVALID OFFSPRING*/
-  aoop_outParamEAC.setTotalInvalidOffspring(0);
+  aoop_outParamGAC.setTotalInvalidOffspring(0);
 
   runtime::ExecutionTime let_executionTime  = runtime::start();
 
@@ -346,9 +346,9 @@ gca_fkmedoid
 	/*CHROMOSOME ONE WAS FOUND IN THIS ITERATION*/
 	lochromfixleng_best = *lchromfixleng_maxFitness;
     
-	aoop_outParamEAC.setIterationGetsBest
+	aoop_outParamGAC.setIterationGetsBest
 	  (llfh_listFuntionHist.getDomainUpperBound());
-	aoop_outParamEAC.setRunTimeGetsBest
+	aoop_outParamGAC.setRunTimeGetsBest
 	  (runtime::elapsedTime(let_executionTime));
       }
 
@@ -675,15 +675,15 @@ gca_fkmedoid
     
   
   runtime::stop(let_executionTime);
-  aoop_outParamEAC.setNumClusterK
+  aoop_outParamGAC.setNumClusterK
     (aiinp_inParamGCA.getNumClusterK());
-  aoop_outParamEAC.setMetricFuncRun
+  aoop_outParamGAC.setMetricFuncRun
     (lochromfixleng_best.getObjetiveFunc());
-  aoop_outParamEAC.setAlgorithmRunTime
+  aoop_outParamGAC.setAlgorithmRunTime
     (runtime::getTime(let_executionTime));
-  aoop_outParamEAC.setFitness
+  aoop_outParamGAC.setFitness
     (lochromfixleng_best.getFitness());
-  aoop_outParamEAC.setNumTotalGenerations
+  aoop_outParamGAC.setNumTotalGenerations
     (llfh_listFuntionHist.getDomainUpperBound());
 
 
@@ -693,7 +693,7 @@ gca_fkmedoid
     plot_funtionHist
       (llfh_listFuntionHist,
        aiinp_inParamGCA,
-       aoop_outParamEAC
+       aoop_outParamGAC
        );  
   }
 
