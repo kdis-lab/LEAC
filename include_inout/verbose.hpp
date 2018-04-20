@@ -31,7 +31,7 @@ int        geiinparam_verbose     =  0;
   that the task is being performed
 */
 uintidx    geverboseui_idproc     =  0;
-const char *geverbosepc_labelstep;
+const char *geverbosepc_labelstep = "main";
 #endif /*__VERBOSE_YES*/
 
 

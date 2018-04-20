@@ -1813,16 +1813,6 @@ inparamclustering_getParameter
 
 { /*BEGIN inparamclustering_getParameter*/
 
-#ifdef __VERBOSE_YES
-  const char* lpc_labelFunc = "inout::inparamclustering_getParameter";
-  ++geiinparam_verbose;
-  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc 
-              << ":  IN(" << geiinparam_verbose << ')'
-	      << std::endl;
-  }
-#endif /*__VERBOSE_YES*/
-
   const char   *larray_opFormatFile[] = INPARAMCLUSTERING_FORMATINSTANCEFILE;
 
 #ifdef __ALG_CLUSTERING__ /* ONLY CLUSTERING */
@@ -4561,6 +4551,17 @@ inparamclustering_getParameter
       aoipc_inParamClustering.setFileInstanceTest(lptstr_fileInstanceTest);
     }
     }
+
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "inout::inparamclustering_getParameter";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc 
+              << ":  IN(" << geiinparam_verbose << ')'
+	      << std::endl;
+  }
+#endif /*__VERBOSE_YES*/
+
 #ifdef __VERBOSE_YES
 
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {

@@ -24,6 +24,7 @@
 #include <utility>      // std::pair, std::make_pair
 #include <stddef.h>
 #include <string.h>
+#include <tuple>        // std::tuple, std::get, std::tie, std::ignore
 #include "instance_class.hpp"
 #include "instance_frequency.hpp"
 #include "instance_class_frequency.hpp"
@@ -273,7 +274,7 @@ template <typename T_FEATURE,
 std::vector<data::Instance<T_FEATURE>* > 
 instancesRead
 (inout::InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX> &aiipri_inParamReadInst,
- const    bool          aib_fileTest = false         
+ const bool          aib_fileTest = false         
  ) 
 {
   const std::string lstr_fileInstance
@@ -828,6 +829,213 @@ instancesReadWithFreqClass
 
 } /*END instancesReadWithFreqClass*/
 
+
+/*! \fn std::pair< std::vector<data::Instance<T_FEATURE>* >, std::vector<data::Instance<T_FEATURE>* > > dataSetRead (inout::InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX> &aiipri_inParamReadInst)
+    \brief Read a data set
+    \details 
+    \param aiipri_inParamReadInst a inout::InParamReadInst with the necessary parameters to read a data set file
+    \return a pair of vectors, the first with the training instances and the second with the test instances
+ */
+template <typename T_FEATURE,         
+	  typename T_INSTANCES_CLUSTER_K,
+	  typename T_CLUSTERIDX 
+	  >
+std::pair< std::vector<data::Instance<T_FEATURE>* >, std::vector<data::Instance<T_FEATURE>* > > 
+dataSetRead
+(inout::InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>   &aiipri_inParamReadInst)
+{
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "inout::dataSetRead";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc 
+	      << ":  IN(" << geiinparam_verbose << ')'
+	      << "\n\t(input inout::InParamReadInst[" 
+	      << &aiipri_inParamReadInst << "]"
+	      << "\n\t)"
+	      << std::endl;
+  }
+#endif //__VERBOSE_YES
+
+  std::vector<data::Instance<T_FEATURE>* >  lovectorptinst_instances;
+  std::vector<data::Instance<T_FEATURE>* >  lovectorptinst_instancesTest;
+
+  if ( aiipri_inParamReadInst.getClassInstanceColumn() ) {
+
+     data::InstanceIterfazClass
+	<T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
+	::initialize();
+
+    lovectorptinst_instances = 
+      inout::instancesReadWithClass
+      (aiipri_inParamReadInst,
+       false
+       );
+
+    if ( aiipri_inParamReadInst.getNumFilesInstanceTest() > 0) {
+      
+      lovectorptinst_instancesTest = 
+	inout::instancesReadWithClass
+	(aiipri_inParamReadInst,
+	 true
+	 );
+    }
+  }
+  else { /*Instances*/
+
+    lovectorptinst_instances = 
+      inout::instancesRead
+      (aiipri_inParamReadInst,
+       false
+       );
+
+    if ( aiipri_inParamReadInst.getNumFilesInstanceTest() > 0) {
+
+      lovectorptinst_instancesTest = 
+	inout::instancesRead
+	(aiipri_inParamReadInst,
+	 true
+	 );	
+    }
+  }
+    
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ": OUT(" << geiinparam_verbose << ')'
+	      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif //__VERBOSE_YES
+
+  return std::make_pair( lovectorptinst_instances, lovectorptinst_instancesTest);
+}
+
+
+/*! \fn std::pair< std::vector<data::Instance<T_FEATURE>* >, std::vector<data::Instance<T_FEATURE>* > > 
+dataSetReadWithFreq(inout::InParamReadInstFreq<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX,T_INSTANCE_FREQUENCY> &aiipri_inParamReadInstWithFreq)
+    \brief Read a data set where the instances have the frequency of occurrence
+    \details 
+    \param aiipri_inParamReadInstWithFreq a inout::InParamReadInstFreq with the necessary parameters to read a data set file
+    \return a pair of vectors, the first with the training instances and the second with the test instances
+ */
+template <typename T_FEATURE,         
+	  typename T_INSTANCES_CLUSTER_K,
+	  typename T_CLUSTERIDX,
+	  typename T_INSTANCE_FREQUENCY
+	  > 
+std::pair< std::vector<data::Instance<T_FEATURE>* >, std::vector<data::Instance<T_FEATURE>* > > 
+dataSetReadWithFreq
+(inout::InParamReadInstFreq<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX,T_INSTANCE_FREQUENCY> &aiipri_inParamReadInstWithFreq)
+{
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "inout::dataSetRead";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc 
+	      << ":  IN(" << geiinparam_verbose << ')'
+	      << "\n\t(input inout::InParamReadInst[" 
+	      << &aiipri_inParamReadInstWithFreq << "]"
+	      << "\n\t)"
+	      << std::endl;
+  }
+#endif //__VERBOSE_YES
+
+  std::vector<data::Instance<T_FEATURE>* >  lovectorptinst_instances;
+  std::vector<data::Instance<T_FEATURE>* >  lovectorptinst_instancesTest;
+
+  /*TYPE OF INSTANCES*/  
+    if ( aiipri_inParamReadInstWithFreq.getClassInstanceColumn()  &&
+	 aiipri_inParamReadInstWithFreq.getInstanceFrequencyColumn() ) {
+    
+      data::InstanceIterfazClass
+	<DATATYPE_INSTANCES_CLUSTER_K,DATATYPE_CLUSTERIDX>
+	::initialize();
+
+      lovectorptinst_instances = 
+	inout::instancesReadWithFreqClass
+	(aiipri_inParamReadInstWithFreq,
+	 false
+	 );
+
+      if ( aiipri_inParamReadInstWithFreq.getNumFilesInstanceTest() > 0 ) {
+
+	lovectorptinst_instances = 
+	  inout::instancesReadWithFreqClass
+	  (aiipri_inParamReadInstWithFreq,
+	   true
+	   );
+      }
+    }
+    else if ( aiipri_inParamReadInstWithFreq.getClassInstanceColumn() ) {
+
+      data::InstanceIterfazClass
+	<DATATYPE_INSTANCES_CLUSTER_K,DATATYPE_CLUSTERIDX>
+	::initialize();
+
+      lovectorptinst_instances = 
+	inout::instancesReadWithClass
+	(aiipri_inParamReadInstWithFreq,
+	 false
+	 );
+
+      if ( aiipri_inParamReadInstWithFreq.getNumFilesInstanceTest() > 0) {
+
+	lovectorptinst_instancesTest = 
+	  inout::instancesReadWithClass
+	  (aiipri_inParamReadInstWithFreq,
+	   true
+	   );
+
+      }
+
+    } 
+    else if ( aiipri_inParamReadInstWithFreq.getInstanceFrequencyColumn() ) {
+
+      lovectorptinst_instances = 
+	inout::instancesReadWithFreq
+	(aiipri_inParamReadInstWithFreq,
+	 false
+	 );
+
+      if ( aiipri_inParamReadInstWithFreq.getNumFilesInstanceTest() > 0) {
+
+	lovectorptinst_instancesTest = 
+	  inout::instancesReadWithFreq
+	  (aiipri_inParamReadInstWithFreq,
+	   true
+	   );
+      }
+    }
+    else {
+
+      lovectorptinst_instances = 
+	inout::instancesRead
+	(aiipri_inParamReadInstWithFreq,
+	 false
+	 );
+
+      if ( aiipri_inParamReadInstWithFreq.getNumFilesInstanceTest() > 0) {
+      
+	lovectorptinst_instancesTest = 
+	  inout::instancesRead
+	  (aiipri_inParamReadInstWithFreq,
+	   true
+	   );
+      }
+    }
+  
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ": OUT(" << geiinparam_verbose << ')'
+	      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif //__VERBOSE_YES
+
+  return std::make_pair(lovectorptinst_instances, lovectorptinst_instancesTest);
+}
 
 
 } /*END namespace inout
