@@ -96,13 +96,13 @@ kga_fkcentroid
   /*VARIABLE NEED FOR POPULATION AND MATINGPOOL GENETIC
    */
    
-  /*POPULATION CREATE------------------------------------------------------------
+  /*POPULATION CREATE
    */
   std::vector<gaencode::ChromFixedLength<T_FEATURE,T_REAL> >
     lvectorchromfixleng_population
     (aiinp_inParamPcPmFk.getSizePopulation());
 
-  /*CREATE SPACE FOR STORE MATINGPOOL--------------------------------------------
+  /*CREATE SPACE FOR STORE MATINGPOOL
    */
   std::vector<gaencode::ChromFixedLength<T_FEATURE,T_REAL> >
     lvectorchromfixleng_matingPool
@@ -232,8 +232,7 @@ kga_fkcentroid
      aiiterator_instlast
      );
   
-  /*INITIALIZE POPULATION--------------------------------------------------------
-    3.1.1 POPULATION INITIALIZATION 
+  /*3.1.1 Population initialization 
     Chosen distict points from the data set are used to initialize 
     the K cluster centers encoded in each choromosome.
     This is similar to the initialization od the centers 
@@ -296,8 +295,8 @@ kga_fkcentroid
      */
     llfh_listFuntionHist.increaseDomainUpperBound();
 
-    /*CLUSTERING----------------------------------------------------------
-      Un this step, the cluster are formed according to the center 
+    /*CLUSTERING
+      In this step, the cluster are formed according to the center 
       encoded in the chromosome. This is done by assigning each 
       point x_i,i=1,2,...,n to one of the clusters Cj with center z_i* 
       such that ||x_i-z_j|| <= ||x_i-z_p||, p=1,2,...,K, and p != j.
@@ -307,7 +306,7 @@ kga_fkcentroid
 
       z_i^* = 1/n_i \sum_{x_j\inC_j} x_j, i=1,2,...,K,
       where ni is the number of points in cluster C_i . These z^* 
-      now replace the preious zi s in the chromosome.
+      now replace the preious zi's in the chromosome.
       \cite{Bandyopadhyay:Maulik:GAclustering:KGA:2002}
     */
     {/*BEGIN CLUSTERING*/
@@ -370,7 +369,7 @@ kga_fkcentroid
     } /*END CLUSTERING*/
 
     
-    /*FITNESS FUNCTION----------------------------------------------------------
+    /*FITNESS FUNCTION
       3.1.3 FITNESS COMPUTATION 
       For each chromosome, the clusters formed in the previous 
       step are utilized computing the clustering metric, M, as 
@@ -426,7 +425,7 @@ kga_fkcentroid
 	  (lchromfixleng_iter.getObjetiveFunc());
 #endif /*__WITHOUT_PLOT_STAT*/
 
-      } 
+      } //End for
         
       aoop_outParamGAC.sumTotalInvalidOffspring
 	(ll_invalidOffspring);
@@ -444,7 +443,7 @@ kga_fkcentroid
     } /*END COMPUTED METRIC M AND FITNESS*/
 
 
-    /*ELITISM-------------------------------------------------------------------
+    /*ELITISM
       Elitism has been implemented in each generation by 
       replacing the worst chromosome of the population with 
       the best one seen up to the previous generation.
@@ -561,7 +560,7 @@ kga_fkcentroid
     }
 #endif /*__WITHOUT_PLOT_STAT*/
 
-    /*TERMINATION CRITERION-----------------------------------------------------
+    /*TERMINATION CRITERION
       3.1.5 TERMINATION CRITERION 
       \cite{Bandyopadhyay:Maulik:GAclustering:KGA:2002}
     */
@@ -589,7 +588,7 @@ kga_fkcentroid
       \cite{Bandyopadhyay:Maulik:GAclustering:KGA:2002}
     */
 
-    /*SELECTION------------------------------------------------------------------
+    /*SELECTION
       Selection. The selection process selects chromosomes from the 
       mating pool directed by the survival of the fittest concept 
       of natural genetic systems. In the proportional selection 
@@ -621,7 +620,7 @@ kga_fkcentroid
 	 }
 	 );
       
-      /*COPY POPULATION TO STRING POOL FOR ROULETTE WHEEL--------------------------
+      /*COPY POPULATION TO STRING POOL FOR ROULETTE WHEEL
        */ 
       for ( auto& lchromfixleng_iter: lvectorchromfixleng_matingPool ) {
 	
@@ -646,7 +645,7 @@ kga_fkcentroid
 
     } /*END SELECTION*/
 
-    /*CROSSOVER------------------------------------------------------------------     
+    /*CROSSOVER
       Crossover. Crossover is a probabilistic process that 
       exchanges information between two parent chromosomes 
       for generating two offspring. Here, single-point 
@@ -769,7 +768,7 @@ kga_fkcentroid
       
     } /*END CROSSOVER*/
     
-      /*MUTATION----------------------------------------------------------------
+      /*MUTATION
 	Mutation. Each chromosome undergoes mutation with 
         a fixed probability $\mu_c$. Let $M_min$ and $M_max$ 
         be the minimum and maximum values of the clustering 
@@ -818,7 +817,7 @@ kga_fkcentroid
       for ( auto& lchromfixleng_iter: lvectorchromfixleng_population ) {
 	if ( uniformdis_real01(gmt19937_eng)
 	     < aiinp_inParamPcPmFk.getProbMutation() ) 
-	  { //IF BEGIN  MUTATION	
+	  { //IF MUTATION	
 	    gaclusteringop::biDirectionHMutation
 	      (lchromfixleng_iter,
 	       lrt_minClusteringMetric,
@@ -830,7 +829,7 @@ kga_fkcentroid
 	      (-std::numeric_limits<T_REAL>::max());  
 	    lchromfixleng_iter.setObjetiveFunc
 	      (std::numeric_limits<T_REAL>::max());
-	  } //END BEGIN  MUTATION
+	  } //END IF MUTATION
       }
 
 

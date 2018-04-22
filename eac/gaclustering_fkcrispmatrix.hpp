@@ -522,7 +522,6 @@ gaclustering_fkcrispmatrix
     /*Selection
       R matrices with the lowest J_1, values are choses to reproduce. 
      */
-    
     {/*BEGIN SELECTION
       */
       auto ichrom_population = lvectorchrombitcrispmatrix_population.begin();
