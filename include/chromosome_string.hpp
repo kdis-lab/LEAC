@@ -99,7 +99,11 @@ public:
   virtual const T_GENE getGene(const uintidx aiuintidx_idxGene) const = 0;
  
   virtual void setGene(uintidx aiuintidx_idxGene, T_GENE aiT_newGene) = 0; 
-   
+ 
+  virtual T_GENE* begin() = 0;
+ 
+  virtual T_GENE* end() = 0;
+
   
 protected:
 

@@ -249,6 +249,16 @@ public:
     this->_pts_string[aiuintidx_idxGene] = ait_newGene;
   }
 
+  inline T_GENE* begin()
+  {
+    return this->_pts_string;
+  }
+
+  inline T_GENE* end()
+  {
+    return this->_pts_string + _uintidx_stringSize;
+  }
+
   virtual void  print
   (std::ostream &os=std::cout,
    const char* aipc_label   = "",
