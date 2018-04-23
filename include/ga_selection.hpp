@@ -13,11 +13,10 @@
 #ifndef GASELECTION_HPP
 #define GASELECTION_HPP
 
-#include <random>
 #include <vector>
 #include <iterator>
 #include "common.hpp" //uintidx
-
+#include "random_ext.hpp"
 #include "verbose_global.hpp"
 
 extern StdMT19937 gmt19937_eng;
