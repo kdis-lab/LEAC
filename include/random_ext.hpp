@@ -51,7 +51,16 @@ std::random_device grd_randomdevice;
 #endif
 
 /*! A global variable of type mersenne_twister_engine is a random number engine based on Mersenne Twister algorithm. It produces high quality unsigned integer random numbers of type UIntType on the interval \f$[0, 2w-1]\f$.*/
-std::mt19937       gmt19937_eng;
+//std::mersenne_twister_engine gmt19937_eng;
+
+#if defined(__LP64__) || defined(_WIN64) || (defined(__x86_64__) && !defined(__ILP32__) ) || defined(_M_X64) || defined(__ia64) || defined (_M_IA64) || defined(__aarch64__) || defined(__powerpc64__)
+#define __STD_MT19937_64
+typedef std::mt19937_64 StdMT19937;
+#else
+typedef std::mt19937 StdMT19937;
+#endif
+
+StdMT19937 gmt19937_eng;
 
 /*! \namespace randomext
   \brief Functions to generate random numbers

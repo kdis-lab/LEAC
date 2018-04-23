@@ -34,7 +34,7 @@
 
 #include "verbose_global.hpp"
 
-extern std::mt19937       gmt19937_eng;
+extern StdMT19937  gmt19937_eng;
 
 /*! \namespace clusteringop
   \brief Clustering operators

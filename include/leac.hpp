@@ -11,6 +11,8 @@
 
 //Headers Domain of the problem
 
+#include <random_ext.hpp>
+
 #include <matrix.hpp>
 
 #include <clustering_operator_centroids.hpp>
@@ -60,7 +62,6 @@
 
 //Headers Other tools
 
-#include <random_ext.hpp>
 #include <verbose.hpp> //Headers To check correct, use the directive -D __VERBOSE_YES
 
 #include <graph_utils.hpp>

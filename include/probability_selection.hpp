@@ -21,9 +21,7 @@
 #include "verbose_global.hpp"
 #include "insertion_operator.hpp"
 
-//#include "container_out.hpp"
-
-extern std::mt19937       gmt19937_eng;
+extern StdMT19937 gmt19937_eng;
 
 /*! \namespace prob
   \brief functions for get randon number 
