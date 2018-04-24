@@ -684,12 +684,11 @@ bitMutation
 }
 
 
-/*! \fn void eachBitArrayMutation(gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>  &aiobitarray_chrom, const T_REAL airt_probMutation, const FUNCTION function)
+/*! \fn void eachBitArrayMutation(gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>  &aiobitarray_chrom, const T_REAL airt_probMutation)
     \brief Toggle bits
     \details Each bit of each offspring chromosome mutates with a predefined probability (mutation rate airt_probMutation).
     \param aiobitarray_chrom a gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>
     \param airt_probMutation a real number with mutation rate
-    \param function a function generate number with probability distribution
     
     \code{.cpp}
 
@@ -697,11 +696,7 @@ bitMutation
       
          gabinaryop::eachBitArrayMutation
 	  (*lchrombitarray_iter,
-	   aiinpkkunchevabezdek_inParamGA.getProbMutation(),
-	   [&]() 
-	   {
-	     return uniformdis_real01(gmt19937_eng);
-	   }
+	   aiinpkkunchevabezdek_inParamGA.getProbMutation()
 	  );
       }
       
@@ -709,12 +704,11 @@ bitMutation
 
     \note Use by \cite Kuncheva:Bezdek:GAMedoid:GAPrototypes:1997 
 */
-template <typename T_BITSIZE, typename T_REAL, typename FUNCTION >
+template <typename T_BITSIZE, typename T_REAL>
 void
 eachBitArrayMutation
 (gaencode::ChromosomeBitArray<T_BITSIZE,T_REAL>  &aiobitarray_chrom,
- const T_REAL                          airt_probMutation,
- const FUNCTION                        function
+ const T_REAL                                    airt_probMutation
  )
 {
 #ifdef __VERBOSE_YES
@@ -732,8 +726,10 @@ eachBitArrayMutation
   }
 #endif /*__VERBOSE_YES*/
 
+  static std::uniform_real_distribution<T_REAL> lsuniformdis_real01(0.0,1.0);
+
   for (uintidx li_j = 0; li_j < aiobitarray_chrom.size(); li_j++) {
-      if ( function() <= airt_probMutation ) {
+      if ( lsuniformdis_real01(gmt19937_eng) <= airt_probMutation ) {
 	aiobitarray_chrom.toggleBit(li_j);
       }
   }
