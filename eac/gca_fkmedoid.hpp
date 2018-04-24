@@ -555,27 +555,13 @@ gca_fkmedoid
 
 	if ( uniformdis_real01(gmt19937_eng) 
 	     < aiinp_inParamGCA.getProbMutation() ) 
-	  {	 
-	    std::unordered_set<uintidx> lunorderedset_medoids
-	      (lchromfixleng_iter->begin(),
-	       lchromfixleng_iter->end()
+	  {
+	    gaintegerop::mutationD_PM
+	      (*lchromfixleng_iter,
+	       aiinp_inParamGCA.getNumInstances()
 	       );
-	    uintidx luintidx_medoidRand =
-	      prob::getRandSetUnlike
-	      (lunorderedset_medoids,
-	       [&]()
-	       {
-		 return uniformdis_idxInstances(gmt19937_eng);
-	       }
-	       );
-
-	    uintidx lui_positionGene = uniformdis_uiMutation0N(gmt19937_eng); 
-     
-	    lchromfixleng_iter->setGene(lui_positionGene,luintidx_medoidRand);
-	    
 	  }
       }
-
 
 #ifdef __VERBOSE_YES
       if ( geiinparam_verbose <= geiinparam_verboseMax ) {

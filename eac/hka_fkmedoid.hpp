@@ -519,28 +519,10 @@ hka_fkmedoid
 	if ( uniformdis_real01(gmt19937_eng) 
 	     < aiinp_inParamHKA.getProbMutation() ) 
 	  {
-
-	    std::unordered_set<uintidx>
-	      lunorderedset_idxInstances
-	      (ichrom_newoffspring->begin(),
-	       ichrom_newoffspring->end()
-	       );
-
-	    uintidx luintidx_newMedoid =
-	      prob::getRandSetUnlike
-	      (lunorderedset_idxInstances,
-	       [&]()
-	       {
-		 return uniformdis_idxInstances(gmt19937_eng);
-	       }
-	       );
-
-	    uintidx lui_positionGene =
-	      uniformdis_uiMutation0N(gmt19937_eng);
-	    
-	    ichrom_newoffspring->setGene(lui_positionGene,luintidx_newMedoid);
-	    
-	    
+	    gaintegerop::mutationD_PM
+	      (*ichrom_newoffspring,
+	       aiinp_inParamHKA.getNumInstances()
+	       );  
 	  } 
       }
        
