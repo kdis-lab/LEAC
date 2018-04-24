@@ -14,7 +14,9 @@
 
 #include <algorithm>    // std::find
 #include <iterator>
-#include <random>
+#include <unordered_set>
+
+#include "random_ext.hpp"
 #include "chromosome_fixedlength.hpp"
 #include "linear_algebra_level1.hpp"
 #include "vector_utils.hpp"
@@ -169,26 +171,17 @@ oneChangelabel
 /*--------------------------------------------------------------------------------
   CROSSOVER
   -------------------------------------------------------------------------------*/
-
-/*recombinationD_MX
   
-
-  In general, many recombination operators, in-
-  cluding D_MX, when applied to two parent
-  strings (P_1, P_2), produce two child strings
-  (C_1, C_2):
+/*! \fn void recombinationD_MX(gaencode::ChromosomeString<uintidx,T_REAL> &aochrom_child1, gaencode::ChromosomeString<uintidx,T_REAL> &aochrom_child2, const gaencode::ChromosomeString<uintidx,T_REAL> &aichrom_parent1, const gaencode::ChromosomeString<uintidx,T_REAL> &aichrom_parent2, const uintidx aiui_maximumValueToMutate, const T_REAL airt_mixMutationProb)
+  \brief  recombination D_MX
+  \details In general, many recombination operators, including D_MX, when applied to two parent strings   (P_1, P_2), produce two child strings (C_1, C_2)
             D_MX
-  P_1, P_2  ---->  C_1, C_2
-*/
-  
-/*! \fn void recombinationD_MX(gaencode::ChromosomeString<uintidx,T_REAL> &aochrom_child1, gaencode::ChromosomeString<uintidx,T_REAL> &aochrom_child2, const gaencode::ChromosomeString<uintidx,T_REAL> &aichrom_parent1, const gaencode::ChromosomeString<uintidx,T_REAL> &aichrom_parent2, const uintidx aiidxinst_numInstances, const T_REAL airt_mixMutationProb)
-  \brief recombination D_MX
-  \details \cite Lucasius:etal:GAclusteringMedoid:GCA:1993
+  P_1, P_2  ---->  C_1, C_2 \cite Lucasius:etal:GAclusteringMedoid:GCA:1993
   \param aochrom_child1 a gaencode::ChromosomeString<uintidx,T_REAL>
   \param aochrom_child2 a gaencode::ChromosomeString<uintidx,T_REAL>
   \param aichrom_parent1 a gaencode::ChromosomeString<uintidx,T_REAL>
   \param aichrom_parent2 a gaencode::ChromosomeString<uintidx,T_REAL>
-  \param aiidxinst_numInstances a numeber with numero of instances 
+  \param aiui_maximumValueToMutate a numeber with numero of instances 
   \param airt_mixMutationProb a real number mutation probability mix
  */
 template <typename T_REAL>
@@ -198,7 +191,7 @@ recombinationD_MX
  gaencode::ChromosomeString<uintidx,T_REAL>       &aochrom_child2, 
  const gaencode::ChromosomeString<uintidx,T_REAL> &aichrom_parent1, 
  const gaencode::ChromosomeString<uintidx,T_REAL> &aichrom_parent2,
- const uintidx                                    aiidxinst_numInstances, 
+ const uintidx                                    aiui_maximumValueToMutate, 
  const T_REAL                                     airt_mixMutationProb
  )
 {
@@ -206,22 +199,23 @@ recombinationD_MX
   const char* lpc_labelFunc = "gaintegerop::recombinationD_MX"; 
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax  ) {
-    std::cout << lpc_labelFunc
-	      << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "(output gaencode::ChromosomeString: aochrom_child1[" << &aochrom_child1 << ']'
-	      << "\n output gaencode::ChromosomeString: aochrom_child2[" << &aochrom_child2 << ']'
-	      << "\n input  gaencode::ChromosomeString: aichrom_parent1[" << &aichrom_parent1 << ']'
-	      << "\n input  gaencode::ChromosomeString: aichrom_parent2[" << &aichrom_parent2 << ']'
-	      << "\n input  uintidx: aiidxinst_numInstances = "  
-	      << aiidxinst_numInstances
-	      << "\n\t input  T_REAL: airt_mixMutationProb = " 
-	      << airt_mixMutationProb
-	      << "\n)"
-	      << std::endl;
+    std::cout 
+      << lpc_labelFunc
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "(output gaencode::ChromosomeString: aochrom_child1[" << &aochrom_child1 << ']'
+      << "\n output gaencode::ChromosomeString: aochrom_child2[" << &aochrom_child2 << ']'
+      << "\n input  gaencode::ChromosomeString: aichrom_parent1[" << &aichrom_parent1 << ']'
+      << "\n input  gaencode::ChromosomeString: aichrom_parent2[" << &aichrom_parent2 << ']'
+      << "\n input  uintidx: aiui_maximumValueToMutate = "  
+      << aiui_maximumValueToMutate
+      << "\n\t input  T_REAL: airt_mixMutationProb = " 
+      << airt_mixMutationProb
+      << "\n)"
+      << std::endl;
   }
 #endif /*__VERBOSE_YES*/
 
-  std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
+  static std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
   uintidx luintidx_sizeQ = aichrom_parent1.getStringSize() + aichrom_parent2.getStringSize();
   std::vector<uintidx> lvectoridxinst_stringQ(luintidx_sizeQ);
   
@@ -284,11 +278,11 @@ recombinationD_MX
     Note that in this example, 2 of the k trials
     succeeded (at the first and third position).
    */
-  std::uniform_int_distribution<uintidx> uniformdis_ui0M
-    (0,aiidxinst_numInstances-1);
+  std::uniform_int_distribution<uintidx> uniformdis_rangeToMutate
+    (0,aiui_maximumValueToMutate-1);
   for ( uintidx luintidx_i = 0; luintidx_i < aichrom_parent1.getStringSize(); luintidx_i++) {
     if ( uniformdis_real01(gmt19937_eng) < airt_mixMutationProb ) {
-      lvectoridxinst_stringQ[luintidx_i] = uniformdis_ui0M(gmt19937_eng);
+      lvectoridxinst_stringQ[luintidx_i] = uniformdis_rangeToMutate(gmt19937_eng);
       
 #ifdef __VERBOSE_YES
       ++geiinparam_verbose;
@@ -409,36 +403,82 @@ recombinationD_MX
 /*--------------------------------------------------------------------------------
   MUTATION
   -------------------------------------------------------------------------------*/
+/*! \fn void mutationD_PM(gaencode::ChromosomeString<T_INTEGER,T_METRIC>  &aochrom_offspring, const uintidx aiui_maximumValueToMutate) 
+  \brief Mutate a integer gene 
+  \details One element in a child string C is selected randomly with a predetermined probability, Pm.point, and, upon success, replaced by a copy of an element indicated randomly in the complementary subset to produce C' \cite Lucasius:etal:GAclusteringMedoid:GCA:1993
+  \param aochrom_offspring a gaencode::ChromosomeString<T_INTEGER,T_METRIC>
+  \param aiui_maximumValueToMutate  a unsigned integer specifies the the maximum value to change from [0, aiui_maximumValueToMutate-1]
+ */
+template < typename T_INTEGER,
+	   typename T_METRIC
+	   >
+void
+mutationD_PM 
+(gaencode::ChromosomeString<T_INTEGER,T_METRIC>  &aochrom_offspring,
+ const uintidx                                   aiui_maximumValueToMutate
+ )
+{
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "gaintegerop::mutationD_PM";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout 
+      << lpc_labelFunc
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "(output Chromosome<uintidx>: aochrom_offspring[" << &aochrom_offspring << "]\n"
+      << "\n input  uintidx: aiui_maximumValueToMutate = "  
+      << aiui_maximumValueToMutate
+      << "\n)"
+      << std::endl;
+  }
+#endif //__VERBOSE_YES
 
-/*geneticopie_mutationLucasius:
-  \cite{Lucasius:etal:GAclusteringMedoid:GCA:1993}
+  std::uniform_int_distribution<uintidx> uniformdis_uiMutation0N
+    (0,aochrom_offspring.getStringSize()-1);
+  std::uniform_int_distribution<uintidx> uniformdis_rangeToMutate
+    (0,aiui_maximumValueToMutate-1);
 
-  Mutation. Besides the built-in mutation, a point
-  mutation operator, D_PM, is independently ap-
-  plied to all strings in the population: one element
-  in a child string C is selected randomly with a
-  predetermined probability, Pm.point, and, upon
-  success, replaced by a copy of an element indi-
-  cated randomly in the complementary subset to
-  produce C':
+  std::unordered_set<uintidx> lunorderedset_medoids
+    (aochrom_offspring.begin(),
+     aochrom_offspring.end()
+     );
 
-     D_PM
-  C ----> C'
+     uintidx lui_newGene =
+     prob::getRandSetUnlike
+     (lunorderedset_medoids,
+      [&]()
+      {
+	return uniformdis_rangeToMutate(gmt19937_eng);
+      }
+      );
 
-  where, for instance, C = 3, 6, 8 and C' = 3, 4, 8. (In-
-  cidentally, D_PM is the equivalent of one itera-
-  tion in D_TM, trade mutation, described in
-  [57,581.)
+      uintidx lui_positionGene = uniformdis_uiMutation0N(gmt19937_eng); 
+     
+     aochrom_offspring.setGene(lui_positionGene,lui_newGene);
 
-*/
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ": OUT(" << geiinparam_verbose << ")\n";
+    std::ostringstream lostrstream_labelOffspring;
+    lostrstream_labelOffspring 
+      << lpc_labelFunc
+      << "lui_randPositionGene = " 
+      << lui_positionGene
+      << "lui_newGene = " 
+      << lui_newGene;
+    aochrom_offspring.print(std::cout,lostrstream_labelOffspring.str().c_str());	 
+    std::cout << std::endl;
+  }
+  --geiinparam_verbose;
+#endif //__VERBOSE_YES
+}
 
 
-  
-/*! \fn void mutation(gaencode::ChromosomeString<T_INTEGER,T_METRIC> &aochrom_offspring, const uintidx aiui_randPositionGene, FUNCTION function)
+/*! \fn std::pair<uintidx,T_INTEGER> mutation(gaencode::ChromosomeString<T_INTEGER,T_METRIC> &aochrom_offspring, FUNCTION function)
   \brief Mutate a integer gene 
   \details
   \param aochrom_offspring a gaencode::ChromosomeString<T_INTEGER,T_METRIC>
-  \param aiui_randPositionGene a unsigned integer
   \param function a function evaluate a gene
  */
 template < typename T_INTEGER,
@@ -447,8 +487,7 @@ template < typename T_INTEGER,
 	   >
 std::pair<uintidx,T_INTEGER>
 mutation 
-(gaencode::ChromFixedLength<T_INTEGER,T_METRIC>  &aochrom_offspring,
- //const uintidx                                   aiui_randPositionGene,
+(gaencode::ChromosomeString<T_INTEGER,T_METRIC>  &aochrom_offspring,
  FUNCTION                                        function
  )
 {
@@ -459,7 +498,6 @@ mutation
     std::cout << lpc_labelFunc
 	      << ":  IN(" << geiinparam_verbose << ")\n"
 	      << "(output Chromosome<uintidx>: aochrom_offspring[" << &aochrom_offspring << "]\n"
-      //<< " input  uintidx&: aiui_randPositionGene = " << aiui_randPositionGene 
 	      << "\n)"
 	      << std::endl;
   }
@@ -493,10 +531,7 @@ mutation
 #endif //__VERBOSE_YES
 
   return lopair_previousGene;
-  //return louintidx_positionGene;
 }
-
-
 
 /*! \fn bool  isNotValid(gaencode::ChromosomeString<T_INTEGER,T_METRIC>  &aichrom_chromosome, const T_INTEGER aiit_lowerRangeGenes, const T_INTEGER aiit_upperRangeGenes)
   \brief Check if not valid string

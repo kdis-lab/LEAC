@@ -13,7 +13,7 @@
 #ifndef __CLUSTERING_OPERATOR_FUZZY_HPP
 #define __CLUSTERING_OPERATOR_FUZZY_HPP
 
-#include <random>
+#include "random_ext.hpp"
 #include "matrix_operation.hpp"
 #include "verbose_global.hpp"
 

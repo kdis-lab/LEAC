@@ -12,7 +12,7 @@
 #ifndef GA_REAL_OPERATOR_HPP
 #define GA_REAL_OPERATOR_HPP
 
-#include <random>
+#include "random_ext.hpp"
 #include "chromosome_string.hpp"
 #include "linear_algebra_level1.hpp"
 

@@ -12,8 +12,8 @@
 #ifndef GA_GENERIC_OPERATOR_HPP
 #define GA_GENERIC_OPERATOR_HPP
 
-#include <random>
 #include <iterator>
+#include "random_ext.hpp"
 #include "chromosome_string.hpp"
 #include "chromosome_fixedlength.hpp"
 #include "chromosome_variablelength.hpp"

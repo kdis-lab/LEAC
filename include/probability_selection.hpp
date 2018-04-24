@@ -12,11 +12,12 @@
 #ifndef PROBABILITY_SELECTION_HPP
 #define PROBABILITY_SELECTION_HPP
 
-#include <random>
+
 #include <unordered_set>
 #include <utility>        //std::pair
 #include <algorithm>      // std::find
 
+#include "random_ext.hpp"
 #include "ga_selection.hpp"
 #include "verbose_global.hpp"
 #include "insertion_operator.hpp"

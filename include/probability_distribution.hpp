@@ -19,7 +19,8 @@
 #include <iterator>     // std::distance
 #include <type_traits>
 #include <typeinfo>
-#include <random>
+
+#include "random_ext.hpp"
 #include "probability_selection.hpp"
 #include "vector_utils.hpp"
 #include "container_out.hpp"

@@ -13,13 +13,14 @@
 #ifndef __CLUSTERING_OPERATOR_CENTROIDS_HPP
 #define __CLUSTERING_OPERATOR_CENTROIDS_HPP
 
-#include <random>
 #include <iostream>
 #include <stdio.h>
 #include <vector>
 #include <utility>      // std::move
 #include <stdexcept>
 #include <unordered_set>
+
+#include "random_ext.hpp"
 #include "instance_frequency.hpp"
 #include "matrix.hpp"
 #include "nearestinstance_operator.hpp"
