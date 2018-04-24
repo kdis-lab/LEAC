@@ -453,11 +453,7 @@ gaprototypes_fkmedoid
       
 	gabinaryop::eachBitArrayMutation
 	  (*lchrombitarray_iter,
-	   aiinp_inParamGAPrototypes.getProbMutation(),
-	   [&]() 
-	   {
-	     return uniformdis_real01(gmt19937_eng);
-	   }
+	   aiinp_inParamGAPrototypes.getProbMutation()
 	   );
     
       }
