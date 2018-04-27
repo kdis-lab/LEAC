@@ -83,7 +83,7 @@ kga_fkcentroid
  const dist::Dist<T_REAL,T_FEATURE>  &aifunc2p_dist
  )
 {  
-  const uintidx lconstui_numClusterFk =
+   uintidx lconstui_numClusterFk =
     (uintidx) aiinp_inParamPcPmFk.getNumClusterK();
 
   /*ASSIGN SIZE FOR ALL CHROMOSOMES
