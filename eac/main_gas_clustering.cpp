@@ -1116,7 +1116,12 @@ int main(int argc, char **argv)
 #endif /*END STATISTICS OF INSTANCES__INSTANCES_WITHOUT_FREQUENCY
 	*/
 
-    /*DISTANCE
+    /*Declaration of a reference to a generic object 
+       of type of dist::Dist.
+       DATATYPE_REAL is the type of data obtained when 
+         calculating the distance.
+       DATATYPE_FEATURE is the data type of the dimensions 
+         of the instances or objects
      */
     dist::Dist<DATATYPE_REAL,DATATYPE_FEATURE>
       *pfunct2p_distAlg = NULL;
@@ -1127,6 +1132,9 @@ int main(int argc, char **argv)
       *pfunct2p_distEuclideanSq =
       new dist::EuclideanSquared<DATATYPE_REAL,DATATYPE_FEATURE>();
     
+    /*Create a dist::Dist object based on the parameter provided 
+         by the user, which will have a polymorphic behavior
+     */
     switch ( linparam_ClusteringGA.getOpDistance() ) {
   
     case INPARAMCLUSTERING_DISTANCE_EUCLIDEAN:
