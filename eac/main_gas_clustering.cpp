@@ -186,7 +186,7 @@ int main(int argc, char **argv)
   inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamGAC(inout::SSE);
+    loop_outParamGAC(inout::SED);
   
 #endif /*ALG_GA_CLUSTERING_LABELBASED_MURTHY_AND_CHOWDHURY_1996*/
 
@@ -246,7 +246,7 @@ int main(int argc, char **argv)
   inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamGAC(inout::TWCV);
+    loop_outParamGAC(inout::SSE);
 
 #endif /*ALG_GKA_FKLABEL_KRISHNA_AND_MURTY_1999*/
 
@@ -273,7 +273,7 @@ int main(int argc, char **argv)
   inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamGAC(inout::TWCV);
+    loop_outParamGAC(inout::SSE);
 #endif /*ALG_IGKA_FKLABEL_LU_ETAL2004*/
 
 #ifdef ALG_FGKA_FKLABEL_LU_ETAL2004 
@@ -299,7 +299,7 @@ int main(int argc, char **argv)
   inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamGAC(inout::TWCV);
+    loop_outParamGAC(inout::SSE);
 #endif /*ALG_FGKA_FKLABEL_LU_ETAL2004*/
 
 
@@ -329,7 +329,7 @@ int main(int argc, char **argv)
   inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamGAC(inout::SSE);
+    loop_outParamGAC(inout::SED);
     
 #endif /*ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000*/
 
@@ -360,7 +360,7 @@ int main(int argc, char **argv)
   inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamGAC(inout::SSE);
+    loop_outParamGAC(inout::SED);
     
 #endif /*ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002*/
 
@@ -817,7 +817,7 @@ int main(int argc, char **argv)
   inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>   
-    loop_outParamGAC(inout::TWCV);    
+    loop_outParamGAC(inout::SSE);    
 #endif /*ALG_GAGR_FKCENTROID_CHANG_ETAL_2009*/
 
 
@@ -851,7 +851,7 @@ int main(int argc, char **argv)
   inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamGAC(inout::SSE);
+    loop_outParamGAC(inout::SED);
   
 #endif /*ALG_GCA_FKMEDOID_LUCASIUS_ETAL1993*/
 
@@ -920,7 +920,7 @@ int main(int argc, char **argv)
   inout::OutParamGAC
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
-    loop_outParamGAC(inout::SSE);
+    loop_outParamGAC(inout::SED);
 #endif /*ALG_HKA_FKMEDOID_SHENG_LUI2004*/
 
 #ifdef ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
@@ -2443,17 +2443,17 @@ int main(int argc, char **argv)
 			  <<  loop_outParamGAC.getNameUsedObjetiveFunc() << ": "
 			  << loop_outParamGAC.getObjetiveFuncRun() << "\n";
 
-	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::SSE ) {
-	  std::pair<DATATYPE_REAL,bool> lpair_sse =
+	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::SED ) {
+	  std::pair<DATATYPE_REAL,bool> lpair_sed =
 	    um::SSE
 	    (lomatrixrowt_centroids,
 	     lpairvec_dataset.first.begin(),
 	     lpairvec_dataset.first.end(),
 	     *pfunct2p_distEuclidean
 	     );
-	  lostream_outparam << "                      SSE: "
-			    << lpair_sse.first;
-	  if ( lpair_sse.second == false ) 
+	  lostream_outparam << "                      SED: "
+			    << lpair_sed.first;
+	  if ( lpair_sed.second == false ) 
 	    lostream_outparam << " Has group without objects";
 	  lostream_outparam << '\n';
 	}
@@ -2539,7 +2539,7 @@ int main(int argc, char **argv)
 	     }
 	     );
 	 
-	  std::pair<DATATYPE_REAL,bool> lpair_sseTest =
+	  std::pair<DATATYPE_REAL,bool> lpair_sedTest =
 	    um::SSE
 	    (lomatrixrowt_centroids,
 	     lpairvec_dataset.second.begin(),
@@ -2548,9 +2548,9 @@ int main(int argc, char **argv)
 	     );
 	  lostream_outparam << '\n';
 	  lostream_outparam
-	    << "            Test data SSE: "
-	    << lpair_sseTest.first;
-	  if ( lpair_sseTest.second == false ) 
+	    << "            Test data SED: "
+	    << lpair_sedTest.first;
+	  if ( lpair_sedTest.second == false ) 
 	    lostream_outparam << " Has group without objects";
 	  lostream_outparam << '\n';
 
