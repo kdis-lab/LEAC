@@ -43,8 +43,8 @@ namespace  inout {
 
 const char *garray_nameObjetiveFunc[] = {
   
-  /*0*/ "SSE",
-  /*1*/ "TWCV",
+  /*0*/ "SED",  
+  /*1*/ "SSE", /*EQ SSE TWCV*/ 
   /*2*/ "Distortion", /*\cite Franti:etal:GAclustering:gafranti:1997*/
   /*3*/ "J1",
  
@@ -82,8 +82,8 @@ const char *garray_nameObjetiveFunc[] = {
   
 typedef enum {
   
-  SSE=0,
-  TWCV=1,
+  SED=0,
+  SSE=1,
   Distortion=2, 
   J1=3,
   
@@ -555,14 +555,10 @@ public:
    
   }
 protected:
-  /*sum of squared error (SSE) metric (clustering metric)*/
-  /*within group sum of squares (WGSS) or minimum variance payoff 
-   J_1:M_c x L_c --> R \cite{Bezdek:etal:GAclustering:GA:1994} */
+
   OutParamNameObjectiveFunc _enum_usedObjectiveFunc;
  
   T_METRIC                  _rt_objetiveFuncRun;
-  //T_METRIC                  *_arrayrt_metricFunc;
-  //T_METRIC                  *_arrayrt_metricFuncTest;
   COMMON_IDOMAIN           _it_iterationGetsBest;
   runtime::ExecutionTime    et_runTimeGetsBest;
   T_CLUSTERIDX             _idxK_numClusterK; //-1, 0, 1, .., K, K ALGORITHMS SEEK TO OTHERWISE THAT K EQUAL THE INPUT OUTPUT
@@ -570,13 +566,7 @@ protected:
   std::string               s_fileNameOutPlotStatObjetiveFunc;  
   
   long                      _l_totalInvalidOffspring;
-  
-  /*std::string               _str_percentageSensitivity;
-  std::string               _str_percentageSensitivityTest;
-  std::string               _str_percentageSpecificity;
-  std::string               _str_percentageSpecificityTest;
-  */
-  
+    
 }; /*END clas OutParamClustering*/
 
 
@@ -584,18 +574,11 @@ protected:
   \brief Output parameters for a generic clustering algorithm 
 */
 template < typename T_METRIC
-	   //, typename T_CLUSTERIDX
 	   >
 class OutParamClusteringMetric
-    // public OutParamClustering
 {
 public:
-   OutParamClusteringMetric() :
-  // (const OutParamNameObjectiveFunc aienum_usedObjectiveFunc):
-    //OutParamClustering()
-     //, _enum_usedObjectiveFunc(aienum_usedObjectiveFunc)
-     //, s_fileNameOutPlotStatObjetiveFunc()
-     
+   OutParamClusteringMetric() :     
       _str_percentageSensitivity()
     , _str_percentageSensitivityTest()
     , _str_percentageSpecificity()
@@ -632,83 +615,17 @@ public:
 
   void initialize(int aii_numRunAlgorithm)
   {
-   
-    //OutParamClustering::initialize(aii_numRunAlgorithm);
-
     uintidx  luintidx_numObjetiveFunc  = this->getNumObjetiveFunc();
-
-    //_rt_objetiveFuncRun = OUTPARAMCLUSTERING_METRIC_NaN;
-   
     for (uintidx lui_i = 0; lui_i < luintidx_numObjetiveFunc; ++lui_i) {
       this->_arrayrt_metricFunc[lui_i] = OUTPARAMCLUSTERING_METRIC_NaN;
       this->_arrayrt_metricFuncTest[lui_i] = OUTPARAMCLUSTERING_METRIC_NaN;
     }
-   
-    /*this->_it_iterationGetsBest  = 0; 
-    this->et_runTimeGetsBest    = 0.0;
-   
-    this->_l_totalInvalidOffspring = 
-    this->_idxK_numClusterK   = OUTPARAMCLUSTERING_INT_NaN;
-    this->_idxK_numClusterKTest  = OUTPARAMCLUSTERING_INT_NaN;
-    */
     _str_percentageSensitivity = "";
     _str_percentageSensitivityTest = "";
     _str_percentageSpecificity = "";
     _str_percentageSpecificityTest = "";
   }
 
-  /*
-  inline void setRunTimeGetsBest(runtime::ExecutionTime aiet_runTimeGetsBest)  
-  {
-    this->et_runTimeGetsBest = aiet_runTimeGetsBest;
-  }
-  
-  inline void setIterationGetsBest(COMMON_IDOMAIN aiit_iterationGetsBest) 
-  {
-    this->_it_iterationGetsBest = aiit_iterationGetsBest;
-  }
-
-  inline runtime::ExecutionTime getRunTimeGetsBest()
-  {
-    return this->et_runTimeGetsBest;
-  }
-
-  inline COMMON_IDOMAIN getIterationGetsBest()
-  {
-    return this->_it_iterationGetsBest;
-  }
-
-  void setTotalInvalidOffspring(long ail_totalInvalidOffspring) 
-  {
-    this->_l_totalInvalidOffspring = ail_totalInvalidOffspring;
-  }
-
-  void incTotalInvalidOffspring() 
-  {
-    ++this->_l_totalInvalidOffspring;
-  }
-
-  void sumTotalInvalidOffspring(long ail_invalidOffspring ) 
-  {
-    this->_l_totalInvalidOffspring += ail_invalidOffspring;
-  }
-
-  long getTotalInvalidOffspring() 
-  {
-    return this->_l_totalInvalidOffspring;
-  }
-
-  inline void setMetricFuncRun
-  (T_METRIC  ait_objetiveFuncRun)	
-  {
-    _rt_objetiveFuncRun = ait_objetiveFuncRun;
-  }
-
-  inline const  T_METRIC getObjetiveFuncRun() const	
-  {
-    return _rt_objetiveFuncRun;
-  }
-  */
   inline void setMetricFunc
   (OutParamNameObjectiveFunc aienum_usedObjectiveFunc, 
    T_METRIC            ait_objetiveFunc)	
@@ -744,70 +661,6 @@ public:
   {
     return this->_enum_usedObjectiveFunc;
   }
-
-  /*
-  void  setFileNameOutPlotStatObjetiveFunc
-  (const char* aipstr_fileNamePlot,
-   const int   aii_timesRunAlgorithm
-   )
-  {
-    char ls_fileNameOutPlotStatObjetiveFunc[OUTPARAMCLUSTERING_MAX_SIZE_NAME_FILE];
-    
-    sprintf(ls_fileNameOutPlotStatObjetiveFunc,
-            "%s_%02d_%02d.dat",
-	    aipstr_fileNamePlot, 
-            this->i_numRunAlgorithm,
-            aii_timesRunAlgorithm
-            );
-
-    s_fileNameOutPlotStatObjetiveFunc.assign(ls_fileNameOutPlotStatObjetiveFunc);
-  }
-
-  void  setFileNameOutPlotStatObjetiveFunc
-   (const char*       aipstr_fileNamePlot,
-    const int          aii_timesRunAlgorithm,
-   const std::string& aistr_prefix
-   )
-  {
-    char ls_fileNameOutPlotStatObjetiveFunc[OUTPARAMCLUSTERING_MAX_SIZE_NAME_FILE];
-    
-    sprintf(ls_fileNameOutPlotStatObjetiveFunc,
-            "%s_%s_%02d_%02d.dat",
-	    aipstr_fileNamePlot,
-	    aistr_prefix.c_str(),
-            aii_timesRunAlgorithm
-            );
-
-    s_fileNameOutPlotStatObjetiveFunc.assign(ls_fileNameOutPlotStatObjetiveFunc);
-  }
-  
-  inline const std::string getFileNameOutPlotStatObjetiveFunc()
-  {
-    return s_fileNameOutPlotStatObjetiveFunc;
-  }
-  */
-
-  /*
-  inline void setNumClusterK(T_CLUSTERIDX aiidxK_numClusterK) 
-  {
-    this->_idxK_numClusterK = aiidxK_numClusterK;
-  }
-
-  inline const T_CLUSTERIDX getNumClusterK() 
-  {
-    return this->_idxK_numClusterK; 
-  }
-
-  inline void setNumClusterKTest(T_CLUSTERIDX aiidxK_numClusterKTest) 
-  {
-    this->_idxK_numClusterKTest = aiidxK_numClusterKTest;
-  }
-
-  inline const T_CLUSTERIDX getNumClusterKTest() 
-  {
-    return this->_idxK_numClusterKTest; 
-  }
-  */
  
   inline void setPercentageSensitivity(std::string aistr_percentageSensitivity) 
   {
@@ -828,7 +681,6 @@ public:
   {
     return _str_percentageSensitivityTest;
   }
-
   
   inline void setPercentageSpecificity(std::string aistr_percentageSpecificity) 
   {
@@ -853,18 +705,6 @@ public:
   
   virtual void  print(std::ostream& aipf_outFile=std::cout, const char aic_separator=',') const
   {
-    
-    // OutParamClustering::print(aipf_outFile,aic_separator);
-    /* aipf_outFile << aic_separator << "_file name plot funtion hist";
-    if ( s_fileNameOutPlotStatObjetiveFunc.length() > 0 ) {  
-      aipf_outFile << aic_separator << this->s_fileNameOutPlotStatObjetiveFunc << ".plot";
-    }
-    else {
-      aipf_outFile << aic_separator << "none";
-    }
-    aipf_outFile << aic_separator << "_metric used" 
-		 << aic_separator << garray_nameObjetiveFunc[_enum_usedObjectiveFunc];
-    */
     uintidx  luintidx_numObjetiveFunc  = this->getNumObjetiveFunc();
     for (uintidx lui_i = 0; lui_i < luintidx_numObjetiveFunc; ++lui_i) {
       aipf_outFile <<  aic_separator << "_" << garray_nameObjetiveFunc[lui_i]
@@ -882,28 +722,12 @@ public:
 		   << aic_separator << this->_arrayrt_metricFuncTest[lui_i];
     }
 
-    /* aipf_outFile << aic_separator << "_iterations need" 
-		 << aic_separator << this->_it_iterationGetsBest;
-    aipf_outFile << aic_separator << "_time seconds need best" 
-		 << aic_separator << this->et_runTimeGetsBest;
-    aipf_outFile << aic_separator << "_outK"   
-		 << aic_separator << this->_idxK_numClusterK;
-    aipf_outFile << aic_separator << ":outK"   
-		 << aic_separator << this->_idxK_numClusterKTest;
-   
-    aipf_outFile << aic_separator << "_solution overridden in the run of the algorithm" 
-		 << aic_separator << this->_l_totalInvalidOffspring;
-    */    
-
     aipf_outFile << aic_separator << ":sensitivity"   
 		 << aic_separator << _str_percentageSensitivityTest;
     
     aipf_outFile << aic_separator << ":specificity"   
 		 << aic_separator <<  _str_percentageSpecificityTest;
 
-    /* aipf_outFile << aic_separator << "_objetivefuncrun"
-		  << aic_separator << _rt_objetiveFuncRun;
-    */
    
   }
 
@@ -915,25 +739,9 @@ public:
   }
   
 protected:
-  /*sum of squared error (SSE) metric (clustering metric)*/
-  /*within group sum of squares (WGSS) or minimum variance payoff 
-   J_1:M_c x L_c --> R \cite{Bezdek:etal:GAclustering:GA:1994} */
-  //OutParamNameObjectiveFunc _enum_usedObjectiveFunc;
- 
-  //T_METRIC                  _rt_objetiveFuncRun;
+
   T_METRIC                  *_arrayrt_metricFunc;
-  T_METRIC                  *_arrayrt_metricFuncTest;
-  //COMMON_IDOMAIN           _it_iterationGetsBest;
-  //runtime::ExecutionTime    et_runTimeGetsBest;
-  /*-1, 0, 1, .., K, K ALGORITHMS SEEK TO OTHERWISE
-    THAT K EQUAL THE INPUT OUTPUT
-  */
-  //T_CLUSTERIDX             _idxK_numClusterK; 
-  //T_CLUSTERIDX             _idxK_numClusterKTest;
-  //std::string              s_fileNameOutPlotStatObjetiveFunc;  
-  
-  //long                      _l_totalInvalidOffspring;
-  
+  T_METRIC                  *_arrayrt_metricFuncTest;  
   std::string               _str_percentageSensitivity;
   std::string               _str_percentageSensitivityTest;
   std::string               _str_percentageSpecificity;
