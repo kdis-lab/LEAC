@@ -1216,7 +1216,7 @@ template<typename T_CLUSTERIDX,
 	    << aoipc_inParamClustering.getProbMutation()
 	    << "]\n";
  
-  std::cout << "      --select-method[=NAME]           ";
+  std::cout << "      --select-method[=NAME] ";
   li_i = 0;
   while (las_opSelectMethod[li_i+1] !=  NULL) {
     std::cout << las_opSelectMethod[li_i] << ", ";
@@ -1972,8 +1972,7 @@ inparamclustering_getParameter
 
 #ifdef  __INPARAM_GCA__
   const char   *las_optGCA[] = 
-    {"k-minimum",
-     "k-maximum",
+    {"number-clusters",
      "population-size",               /*Population size                x2*/
      "mix-recombination-probability", /*Mix recombination probability  x7 
 					(crossover-probability)*/ 

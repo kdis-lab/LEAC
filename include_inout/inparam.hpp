@@ -82,7 +82,7 @@ public:
     if  (aas_arguments[li_i] != NULL)
       std::cerr << ", ";
   }  
-  std::cerr << "\nTry `ls --" << apc_command << "' for more information." << std::endl;
+  std::cerr << "\nTry " << apc_command << "' --help for more information." << std::endl;
   exit(-1);                           
   }
    
