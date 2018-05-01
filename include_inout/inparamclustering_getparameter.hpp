@@ -829,31 +829,6 @@ template<typename T_CLUSTERIDX,
 	    << "]\n";
 #endif /*__INPARAM_PCPMFK__*/
 
-#ifdef __INPARAM_PCPMVK__
-  std::cout << "      --k-minimum[=NUMBER]    number of clusters  by default [NUMBER=" 
-	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
-  std::cout << "      --k-maximum[=NUMBER]    number of clusters [NUMBER=" 
-	    << aoipc_inParamClustering.getNumClusterKMaximum() << "]\n";
-  std::cout << "      --generations[=NUMBER]  number of generations or iterations\n"
-	    << "                                [NUMBER="
-	    << aoipc_inParamClustering.getNumMaxGenerations()
-	    << "]\n";
-  std::cout << "      --population-size[=NUMBER]\n"
-	    << "                              size of population [NUMBER="
-	    << aoipc_inParamClustering.getSizePopulation()
-	    << "]\n";
-  std::cout << "      --crossover-probability[=NUMBER]\n"
-	    << "                              real number in the interval [0.25, 1]\n"
-	    << "                                [NUMBER="
-	    << aoipc_inParamClustering.getProbCrossover() 
-	    << "]\n";
-  std::cout << "      --mutation-probability[=NUMBER]\n"
-	    << "                              real number in the interval [0, 0.5]\n"
-	    << "                                [NUMBER="
-	    << aoipc_inParamClustering.getProbMutation()
-	    << "]\n";
-#endif /*__INPARAM_PCPMVK__*/
-
   
 #ifdef __INPARAM_TGCA__
   std::cout << "      --k-minimum[=NUMBER]    number of clusters  by default [NUMBER=" 
@@ -895,10 +870,10 @@ template<typename T_CLUSTERIDX,
 
   
 #ifdef __INPARAM_GGA__
-  std::cout << "      --k-minimum[=NUMBER]    number of clusters  by default\n"
+  std::cout << "      --k-minimum[=NUMBER]    minimum number of clusters per search\n"
 	    << "                                [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
-  std::cout << "      --k-maximum[=NUMBER]    number of clusters if eq -1\n"
+  std::cout << "      --k-maximum[=NUMBER]    maximum number of clusters per if eq -1\n"
 	    << "                                k-maximum = N^1/2 [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMaximum() << "]\n";
   std::cout << "      --sub-population-size[=NUMBER]\n"
@@ -984,15 +959,6 @@ template<typename T_CLUSTERIDX,
 
 #ifdef __INPARAM_GENWOCHGVK__
 
-#ifdef _INITIATES_KMIN_KMAX_POPULATION_
-  std::cout << "      --k-minimum[=NUMBER]    number of clusters  by default 2\n"
-	    << "                                [NUMBER=" 
-	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
-  std::cout << "      --k-maximum[=NUMBER]    number of clusters if eq -1\n"
-	    << "                                k-maximum = (N-1)/2 +1 [NUMBER=" 
-	    << aoipc_inParamClustering.getNumClusterKMaximum() << "]\n";
-#endif //_INITIATES_KMIN_KMAX_POPULATION_
-
   std::cout << "      --notchangestop[=NUMBER]\n"
 	    << "                              after a number x of iteratios,\n"
 	    << "                                the best chromosome does\n"
@@ -1024,13 +990,15 @@ template<typename T_CLUSTERIDX,
 	    << "]\n";
 #endif /*__INPARAM_GENWOCHGVK__*/
 
+
   
 #ifdef __INPARAM_PCPMVK__
-  std::cout << "      --k-minimum[=NUMBER]    minimum number of clusters to find by\n"
+  std::cout << "      --k-minimum[=NUMBER]    minimum number of clusters per search\n"
 	    << "                                default [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
-  std::cout << "      --k-maximum[=NUMBER]    maximum number of clusters to find by\n"
-	    << "                                default N/2 [NUMBER=" 
+  std::cout << "      --k-maximum[=NUMBER]    maximum number of clusters per search\n"
+            << "                                NUMBER = -1, depends on the algorithm,\n"
+	    << "                                for example  N/2 or N^1/2. [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMaximum() << "]\n";
   std::cout << "      --generations[=NUMBER]  number of generations or iterations\n"
 	    << "                                [NUMBER="
@@ -1090,10 +1058,11 @@ template<typename T_CLUSTERIDX,
 	*/
 
 #ifdef __INPARAM_FEAC__
-  std::cout << "      --k-minimum[=NUMBER]    number of clusters  by default [NUMBER=" 
+   std::cout << "      --k-minimum[=NUMBER]    minimum number of clusters per search\n"
+	    << "                                default [NUMBER="
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
-  std::cout << "      --k-maximum[=NUMBER]    number of clusters if eq -1\n"
-	    << "                                k-maximum = N^1/2 [NUMBER=" 
+  std::cout << "      --k-maximum[=NUMBER]     maximum number of clusters per search,\n"
+	    << "                                if eq -1, k-maximum = N^1/2 [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMaximum() << "]\n";
   std::cout << "      --population-size[=NUMBER]\n"
 	    << "                              size of population [NUMBER="
