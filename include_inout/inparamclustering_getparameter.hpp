@@ -871,7 +871,7 @@ template<typename T_CLUSTERIDX,
 
   
 #ifdef __INPARAM_GGA__
-    std::cout << "    --k-minimum[=NUMBER]    minimum number of clusters per search\n"
+  std::cout << "    --k-minimum[=NUMBER]      minimum number of clusters per search\n"
 	    << "                                [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
   std::cout << "      --k-maximum[=NUMBER]    maximum number of clusters per search\n" 
@@ -1059,7 +1059,7 @@ template<typename T_CLUSTERIDX,
 	*/
 
 #ifdef __INPARAM_FEAC__
-   std::cout << "      --k-minimum[=NUMBER]   minimum number of clusters per search\n"
+  std::cout << "      --k-minimum[=NUMBER]    minimum number of clusters per search\n"
 	    << "                                 [NUMBER="
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
   std::cout << "      --k-maximum[=NUMBER]    maximum number of clusters per search,\n"
