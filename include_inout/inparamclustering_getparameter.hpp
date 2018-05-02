@@ -91,8 +91,8 @@ template < typename T_FEATURE,
    InParamPCAtransmatrix<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>  &aoipc_inParamClustering
    )
 #endif /* __INPARAM_PCATRANSMATRIX__ */
-
-#ifdef  __INPARAM_STVAR_MILLIGAN_COOPER1988__
+       
+#ifdef  __INPARAM_STDVAR_MILLIGAN_COOPER1988__
 template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
