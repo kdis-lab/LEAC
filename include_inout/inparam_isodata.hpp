@@ -8,8 +8,8 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef IN_PARAM_CLUSTERING_ISODATA_HPP
-#define IN_PARAM_CLUSTERING_ISODATA_HPP
+#ifndef __IN_PARAM_ISODATA_HPP__
+#define __IN_PARAM_ISODATA_HPP__
 
 #include "inparam_clustering_max_iter.hpp"
 #include "inparam_fixedk.hpp"
@@ -97,4 +97,4 @@ protected:
 } /*END namespace inparam 
    */
 
-#endif /*IN_PARAM_CLUSTERING_ISODATA_HPP*/
+#endif /*__IN_PARAM_ISODATA_HPP__*/

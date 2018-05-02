@@ -10,9 +10,10 @@
 
 #ifndef __IN_PARAM_PCA_HPP__
 #define __IN_PARAM_PCA_HPP__
-
+ 
 #include "inparam.hpp"
-
+#include "inparam_readinst.hpp"
+         
 #define  __INPARAM_PCA__ 
 
 /*! \namespace inout

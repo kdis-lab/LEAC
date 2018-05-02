@@ -232,43 +232,13 @@ public:
      OutParamAlgorithm()
     , _enum_usedObjectiveFunc(aienum_usedObjectiveFunc)
     , s_fileNameOutPlotStatObjetiveFunc()
-     
-     //  , _str_percentageSensitivity()
-     //, _str_percentageSensitivityTest()
-     //, _str_percentageSpecificity()
-     //, _str_percentageSpecificityTest()
-     
   {
-   
-    //uintidx  luintidx_numObjetiveFunc  = this->getNumObjetiveFunc();
-
-    // _arrayrt_metricFunc     = new T_METRIC[luintidx_numObjetiveFunc];
-    //_arrayrt_metricFuncTest = new T_METRIC[luintidx_numObjetiveFunc];
   }
  
   virtual ~OutParamClustering()
   {
-    //delete[] _arrayrt_metricFunc;
-    //delete[] _arrayrt_metricFuncTest;
   }
 
-  /*
-  const uintidx getNumObjetiveFunc() const
-  {
-    uintidx  luintidx_numObjetiveFunc;
-
-    luintidx_numObjetiveFunc = 0;
-    while ( garray_nameObjetiveFunc[luintidx_numObjetiveFunc] !=  NULL ) {
-      ++luintidx_numObjetiveFunc;
-      }
-    --luintidx_numObjetiveFunc; //FOR NOT USE METRIC
-
-    return luintidx_numObjetiveFunc;
-
-  }
-
-  */
-  
   void initialize(int aii_numRunAlgorithm)
   {
    
@@ -282,17 +252,6 @@ public:
     this->_l_totalInvalidOffspring = OUTPARAMCLUSTERING_INT_NaN;
     this->_idxK_numClusterK     = OUTPARAMCLUSTERING_INT_NaN;
     this->_idxK_numClusterKTest = OUTPARAMCLUSTERING_INT_NaN;
-
-    /*uintidx  luintidx_numObjetiveFunc  = this->getNumObjetiveFunc();
-    for (uintidx lui_i = 0; lui_i < luintidx_numObjetiveFunc; ++lui_i) {
-      this->_arrayrt_metricFunc[lui_i] = OUTPARAMCLUSTERING_METRIC_NaN;
-      this->_arrayrt_metricFuncTest[lui_i] = OUTPARAMCLUSTERING_METRIC_NaN;
-    }
-    _str_percentageSensitivity = "";
-    _str_percentageSensitivityTest = "";
-    _str_percentageSpecificity = "";
-    _str_percentageSpecificityTest = "";
-    */
   }
                                                                     
   inline void setRunTimeGetsBest(runtime::ExecutionTime aiet_runTimeGetsBest)  
@@ -346,42 +305,6 @@ public:
     return _rt_objetiveFuncRun;
   }
 
-  /*
-  inline void setMetricFunc
-  (OutParamNameObjectiveFunc aienum_usedObjectiveFunc, 
-   T_METRIC            ait_objetiveFunc)	
-  {
-    this->_arrayrt_metricFunc[aienum_usedObjectiveFunc] = ait_objetiveFunc;
-  }
-
-  inline void setMetricFuncTest
-  (OutParamNameObjectiveFunc aienum_usedObjectiveFunc, 
-   T_METRIC            ait_objetiveFuncTest)	
-  {
-    this->_arrayrt_metricFuncTest[aienum_usedObjectiveFunc] = ait_objetiveFuncTest;
-  }
-  
-
-  inline T_METRIC getObjetiveFunc
-  (OutParamNameObjectiveFunc aienum_metricFunc)	
-  {
-    return this->_arrayrt_metricFunc[aienum_metricFunc];
-  }
-
-  inline T_METRIC getObjetiveFuncTest
-  (OutParamNameObjectiveFunc aienum_metricFunc)	
-  {
-    return this->_arrayrt_metricFuncTest[aienum_metricFunc];
-  }
-  
-  
-  inline void setUsedObjetiveFunc(const OutParamNameObjectiveFunc aienum_usedObjectiveFunc)
-  {
-    this->_enum_usedObjectiveFunc = aienum_usedObjectiveFunc;
-  }
-
-  */
-  
   inline const OutParamNameObjectiveFunc getUsedObjetiveFunc()
   {
     return this->_enum_usedObjectiveFunc;
@@ -451,50 +374,6 @@ public:
   {
     return this->_idxK_numClusterKTest; 
   }
-
-
-  /*
-  inline void setPercentageSensitivity(std::string aistr_percentageSensitivity) 
-  {
-    _str_percentageSensitivity = aistr_percentageSensitivity;
-  }
-
-  inline const std::string& getPercentageSensitivity() 
-  {
-    return _str_percentageSensitivity;
-  }
-
-  inline void setPercentageSensitivityTest(std::string aistr_percentageSensitivityTest) 
-  {
-    _str_percentageSensitivityTest = aistr_percentageSensitivityTest;
-  }
-
-  inline const std::string& getPercentageSensitivityTest() 
-  {
-    return _str_percentageSensitivityTest;
-  }
-
-  
-  inline void setPercentageSpecificity(std::string aistr_percentageSpecificity) 
-  {
-    _str_percentageSpecificity = aistr_percentageSpecificity;
-  }
-
-  inline const std::string& getPercentageSpecificity() 
-  {
-    return _str_percentageSpecificity;
-  }
-
-  inline void setPercentageSpecificityTest(std::string aistr_percentageSpecificityTest) 
-  {
-    _str_percentageSpecificityTest = aistr_percentageSpecificityTest;
-  }
-
-  inline const std::string& getPercentageSpecificityTest() 
-  {
-    return _str_percentageSpecificityTest;
-  }
-  */
   
   virtual void  print(std::ostream& aipf_outFile=std::cout, const char aic_separator=',') const
   {
@@ -513,19 +392,6 @@ public:
 		 << aic_separator
 		 << garray_nameObjetiveFunc[_enum_usedObjectiveFunc];
 
-    /*
-    uintidx  luintidx_numObjetiveFunc  = this->getNumObjetiveFunc();
-    for (uintidx lui_i = 0; lui_i < luintidx_numObjetiveFunc; ++lui_i) {
-      aipf_outFile <<  aic_separator << "_" << garray_nameObjetiveFunc[lui_i]
-		   << aic_separator << this->_arrayrt_metricFunc[lui_i];
-    }
-
-    for (uintidx lui_i = 0; lui_i < luintidx_numObjetiveFunc; ++lui_i) {
-      aipf_outFile << aic_separator << ":" << garray_nameObjetiveFunc[lui_i]
-		   << aic_separator << this->_arrayrt_metricFuncTest[lui_i];
-    }
-    */
-
     aipf_outFile << aic_separator << "_iterations need" 
 		 << aic_separator << this->_it_iterationGetsBest;
     aipf_outFile << aic_separator << "_time seconds need best" 
@@ -537,19 +403,7 @@ public:
    
     aipf_outFile << aic_separator << "_solution overridden in the run of the algorithm" 
 		 << aic_separator << this->_l_totalInvalidOffspring;
-    
-    //aipf_outFile << aic_separator << "_sensitivity"   
-    //		 << aic_separator << _str_percentageSensitivity;
-    
-    //aipf_outFile << aic_separator << "_specificity"   
-    //		 << aic_separator <<  _str_percentageSpecificity;
-
-    //aipf_outFile << aic_separator << ":sensitivity"   
-    //		 << aic_separator << _str_percentageSensitivityTest;
-    
-    //aipf_outFile << aic_separator << ":specificity"   
-    //		 << aic_separator <<  _str_percentageSpecificityTest;
-
+   
      aipf_outFile << aic_separator << "_objetivefuncrun"
 		  << aic_separator << _rt_objetiveFuncRun;
    

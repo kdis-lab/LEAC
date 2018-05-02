@@ -12,6 +12,7 @@
 #define __IN_PARAM_PCA_TRANS_MATRIX_HPP__
 
 #include "inparam.hpp"
+#include "inparam_readinst.hpp"
 
 #define  __INPARAM_PCATRANSMATRIX__
 

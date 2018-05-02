@@ -92,7 +92,7 @@ template < typename T_FEATURE,
    )
 #endif /* __INPARAM_PCATRANSMATRIX__ */
 
-#ifdef  __INPARAM_STDVAR_MILLIGAN_COOPER1988__
+#ifdef  __INPARAM_STVAR_MILLIGAN_COOPER1988__
 template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
@@ -835,7 +835,8 @@ template<typename T_CLUSTERIDX,
 	    << "                                [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
   std::cout << "      --k-maximum[=NUMBER]    maximum number of clusters per search\n" 
-	    << "                                if eq -1, k-maximum = N^1/2 [NUMBER="
+	    << "                                if eq -1, k-maximum = N^1/2, where N is\n"
+	    << "                                number of instances. [NUMBER="
 	    << aoipc_inParamClustering.getNumClusterKMaximum() << "]\n";
   std::cout << "      --population-size[=NUMBER]\n"
 	    << "                              size of population [NUMBER="
@@ -874,8 +875,9 @@ template<typename T_CLUSTERIDX,
   std::cout << "    --k-minimum[=NUMBER]      minimum number of clusters per search\n"
 	    << "                                [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
-  std::cout << "      --k-maximum[=NUMBER]    maximum number of clusters per search\n" 
-	    << "                                if eq -1, k-maximum = N^1/2 [NUMBER="
+  std::cout << "      --k-maximum[=NUMBER]    maximum number of clusters per search\n"
+	    << "                                if eq -1, k-maximum = N^1/2, where N is\n"
+	    << "                                number of instances. [NUMBER="
 	    << aoipc_inParamClustering.getNumClusterKMaximum() << "]\n";
   std::cout << "      --sub-population-size[=NUMBER]\n"
 	    << "                              size of sub-populations (islands)\n"
@@ -999,7 +1001,8 @@ template<typename T_CLUSTERIDX,
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
   std::cout << "      --k-maximum[=NUMBER]    maximum number of clusters per search\n"
             << "                                NUMBER = -1, depends on the algorithm,\n"
-	    << "                                for example  N/2 or N^1/2. [NUMBER=" 
+	    << "                                for example  N/2 or N^1/2, where N is\n"
+	    << "                                number of instances. [NUMBER="   
 	    << aoipc_inParamClustering.getNumClusterKMaximum() << "]\n";
   std::cout << "      --generations[=NUMBER]  number of generations or iterations\n"
 	    << "                                [NUMBER="
@@ -1060,10 +1063,11 @@ template<typename T_CLUSTERIDX,
 
 #ifdef __INPARAM_FEAC__
   std::cout << "      --k-minimum[=NUMBER]    minimum number of clusters per search\n"
-	    << "                                 [NUMBER="
+	    << "                                [NUMBER="
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
   std::cout << "      --k-maximum[=NUMBER]    maximum number of clusters per search,\n"
-	    << "                                 if eq -1, k-maximum = N^1/2 [NUMBER=" 
+	    << "                                if eq -1, k-maximum = N^1/2, where N is\n"
+	    << "                                number of instances. [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMaximum() << "]\n";
   std::cout << "      --population-size[=NUMBER]\n"
 	    << "                              size of population [NUMBER="
@@ -1287,8 +1291,6 @@ inparamclustering_getParameter
   
 
 #ifdef  __INPARAM_PCA__
-
-#include "inparam_pca.hpp"
 template < typename T_FEATURE,
 	   typename T_INSTANCES_CLUSTER_K,
 	   typename T_CLUSTERIDX
@@ -1809,7 +1811,7 @@ inparamclustering_getParameter
 #endif /*__INPARAM_ISODATA__*/
 
 #ifdef  __INPARAM_DBSCAN__
-  const char   *las_optAlgDBSCANEsterKriegelSanderXuClustering1996[] = 
+  const char   *las_optAlgDBSCAN[] = 
     {"epsilon", 
      "min-pts", 
      "buffer-capacity",
@@ -2856,7 +2858,7 @@ inparamclustering_getParameter
 
       else if ( strcmp
 	   (long_options[option_index].name,
-	    las_optAlgDBSCANEsterKriegelSanderXuClustering1996[0] ) == 0 ) 
+	    las_optAlgDBSCAN[0] ) == 0 ) 
 	{ 
 	  double lrt_eps;
 	  liss_stringstream.clear();
@@ -2866,7 +2868,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgDBSCANEsterKriegelSanderXuClustering1996[1]) == 0 
+		 las_optAlgDBSCAN[1]) == 0 
 		) 
 	{ 
 	  uint32_t lui32t_minPts;
@@ -2878,7 +2880,7 @@ inparamclustering_getParameter
       
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgDBSCANEsterKriegelSanderXuClustering1996[2]) == 0 
+		 las_optAlgDBSCAN[2]) == 0 
 		) 
 	{ 
 	  uint32_t  lrtreeui32t_bufferCapacity; 
@@ -2889,7 +2891,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgDBSCANEsterKriegelSanderXuClustering1996[3]) == 0 
+		 las_optAlgDBSCAN[3]) == 0 
 		) 
 	{
 	  double lrtreed_fillFactor;
@@ -2900,7 +2902,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgDBSCANEsterKriegelSanderXuClustering1996[4]) == 0 
+		 las_optAlgDBSCAN[4]) == 0 
 		) 
 	{
 	  uint32_t  lrtreeui32t_indexCapacity;
@@ -2912,7 +2914,7 @@ inparamclustering_getParameter
 	}
       else if ( strcmp
 		(long_options[option_index].name,
-		 las_optAlgDBSCANEsterKriegelSanderXuClustering1996[5]) == 0 
+		 las_optAlgDBSCAN[5]) == 0 
 		) 
 	{
 	  uint32_t lrtreeui32t_leafCapacity; /*tree-leaf-capacity*/
@@ -2926,7 +2928,7 @@ inparamclustering_getParameter
 	aoipc_inParamClustering.errorArgument
 	  (argv[0],
 	   long_options[option_index].name, 
-	   las_optAlgDBSCANEsterKriegelSanderXuClustering1996
+	   las_optAlgDBSCAN
 	   );
       }
 
