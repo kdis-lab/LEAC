@@ -69,6 +69,8 @@ namespace um {
 #define measuare_undefXieBeniIndex(T_METRIC) std::numeric_limits<T_METRIC>::max()
 #define measuare_undefEntropy(T_METRIC) (T_METRIC) std::numeric_limits<T_METRIC>::max()
 #define measuare_undefPartitionCoefficient(T_METRIC) (T_METRIC) 0.0
+
+#define measuare_undefWBIndex(T_METRIC) (T_METRIC) std::numeric_limits<T_METRIC>::max()
   
 /*! \fn T_METRIC maxDistCjCjp(const mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist)
     \brief Find the maximum distance beteen the centroids
@@ -1477,6 +1479,146 @@ VRC
 }
 
 
+/*! \fn T_METRIC T_METRIC WBIndex(const mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const partition::Partition<T_CLUSTERIDX> &aipartition_clusters, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_squaredDist)
+    \brief  WB-Index \cite Zhao:Xu:Franti:ClusterMeasure:WBIndex:2009 \cite Zhao:Franti:ClusterMeasure:WBIndex:2014
+    \details WB-Index 
+    \f[ 
+     WBIndex_k= k \times \frac{SS_B}{SS_W}
+    \f]
+    Where \f$SS_B\f$ is the overall between-cluster variance, \f$SS_W\f$ is the overall  within-cluster variance, \f$k\f$ is the number of clusters, and $n$ is the number of instances. The minimum value of \f$WBIndex_k\f$ determine the best cluster number.
+    \cite Zhao:Xu:Franti:ClusterMeasure:WBIndex:2009 \cite Zhao:Franti:ClusterMeasure:WBIndex:2014
+
+    \param aimatrixt_centroids a mat::MatrixRow with centroids clusters
+    \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+    \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
+    \param aipartition_clusters a partition::Partition of instances in clusters
+    \param aifunc2p_squaredDist an object of type dist::Dist to calculate distances
+
+    \code{.cpp}
+    
+        lT_WBIndex =
+	  um::WBIndex
+	  (lmatrixrowt_centroids,
+	   larray_centroid1,
+	   aivectorptinst_instances.begin(),
+	   aivectorptinst_instances.end(),
+	   lipartitionDisjSets_clusters,
+	   aifunc2p_squaredDist
+	  );
+
+    \endcode
+*/   
+template < typename INPUT_ITERATOR,
+           typename T_FEATURE,
+	   typename T_CLUSTERIDX,
+	   typename T_METRIC  
+	   >
+T_METRIC
+WBIndex
+(const mat::MatrixRow<T_FEATURE>       &aimatrixt_centroids,
+ INPUT_ITERATOR                        aiiterator_instfirst,
+ const INPUT_ITERATOR                  aiiterator_instlast,
+ partition::Partition<T_CLUSTERIDX>    &aipartition_clusters,
+ const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_squaredDist
+ )
+{
+  const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
+  
+  static T_FEATURE *larray_centroid1 =
+    new T_FEATURE[data::Instance<T_FEATURE>::getNumDimensions()];
+
+  static utils::RunOnce runOnce ([&]() {
+      decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
+	*larray_sumFeatureTmp =
+	new decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
+	[data::Instance<T_FEATURE>::getNumDimensions()];
+
+      stats::sumFeactures
+	(larray_sumFeatureTmp,
+	 aiiterator_instfirst,
+	 aiiterator_instlast,
+	 T_FEATURE(0)
+	 );
+  
+      stats::meanVector
+	(larray_centroid1,
+	 lui_numInstances,
+	 larray_sumFeatureTmp
+	 );
+
+      delete [] larray_sumFeatureTmp;
+    }
+    );
+  
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "um::WBIndex";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc 
+	      << ":  IN(" << geiinparam_verbose << ')'
+	      << "\n\t(input mat::MatrixRow<T_FEATURE>& aimatrixt_centroids[" 
+	      << &aimatrixt_centroids << "]\n"
+	      << "\t input  partition::Partition<>&: aipartition_clusters[" 
+	      << &aipartition_clusters << "]\n"
+	      << "\t input  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_squaredDist[" 
+	      << &aifunc2p_squaredDist << ']'
+	      << "\n\t)"
+	      << std::endl;
+  }
+#endif //__VERBOSE_YES
+
+  T_METRIC  lometric_WBIndex = measuare_undefWBIndex(T_METRIC);
+ 
+  std::vector<T_METRIC> lvectorrt_sumDistInstCentInK;
+  std::vector<uintidx>  lvectorui_numInstClusterK;
+  
+  std::tie
+    (lvectorrt_sumDistInstCentInK,
+     lvectorui_numInstClusterK) =
+    sumDistInstCentInK
+    (aimatrixt_centroids,
+     aiiterator_instfirst,
+     aiiterator_instlast,
+     aipartition_clusters,
+     aifunc2p_squaredDist
+     );
+
+   T_METRIC lmetrict_SSb =
+      ssb
+      (aimatrixt_centroids,
+       larray_centroid1,
+       lvectorui_numInstClusterK,
+       aifunc2p_squaredDist
+       );
+
+  if  ( lmetrict_SSb > 0.0 ) {
+
+   T_METRIC lmetrict_SSw = 
+    interfacesse::sum
+    (lvectorrt_sumDistInstCentInK.data(),
+     (uintidx) lvectorrt_sumDistInstCentInK.size()
+     );
+
+    lometric_WBIndex = (lmetrict_SSw / lmetrict_SSb) *
+      (T_METRIC) ( aimatrixt_centroids.getNumRows() -1 );    
+  }
+    
+	  
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ": OUT(" << geiinparam_verbose << ')'
+	      << " lometric_WBIndex = " << lometric_WBIndex
+	      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif //__VERBOSE_YES
+
+  return lometric_WBIndex;
+    
+}
+
+
 /*! \fn T_METRIC scoreFunction(const mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, partition::Partition<T_CLUSTERIDX> &aipartition_clusters, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist)
     \brief Score function (\f$SF\f$)
     \cite Sandro:Benny:IanF:ClusteringMeasure:2007
@@ -2064,7 +2206,7 @@ simplifiedDunnIndex
 }
 
   
-/*! \fn T_METRIC T_METRIC CSmeasure(INPUT_ITERATOR aiiterator_instfirst, const mat::MatrixRow<T_FEATURE>  &aimatrixt_centroids, const ds::PartitionLinkedNumInst<T_CLUSTERIDX,T_INSTANCES_CLUSTER_K> &aipartlink_memberShip, const dist::Dist<T_METRIC,T_FEATURE>   &aifunc2p_dist)
+/*! \fn T_METRIC T_METRIC CSmeasure(INPUT_ITERATOR aiiterator_instfirst, const mat::MatrixRow<T_FEATURE>  &aimatrixt_centroids, const ds::PartitionLinkedNumInst<T_CLUSTERIDX,T_INSTANCES_CLUSTER_K> &aipartlinknuminst_memberShip, const dist::Dist<T_METRIC,T_FEATURE>   &aifunc2p_dist)
     \brief CS measure \cite Chou:Su:Lai:ClusterMeasure:CS:2004 \cite Das:Abraham:Konar:GAclusteringLabelKVar:ACDE:2008
     \details CS measure is a function of the ratio of the sum of within-cluster scatter to between-cluster separation. The smallest \f$CS(C)\f$ indicates a valid optimal partition.
 
@@ -2085,7 +2227,7 @@ simplifiedDunnIndex
 
     \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
     \param aimatrixt_centroids a mat::MatrixRow with centroids clusters
-    \param aipartlink_memberShip a clusters partition in a ds::PartitionLinkedNumInst data structure   
+    \param aipartlinknuminst_memberShip a clusters partition in a ds::PartitionLinkedNumInst data structure   
     \param aifunc2p_dist an object of type dist::Dist to calculate distances 
  */
 template < typename INPUT_ITERATOR,
@@ -2099,7 +2241,7 @@ CSmeasure
 (INPUT_ITERATOR                         aiiterator_instfirst,
  const mat::MatrixRow<T_FEATURE>        &aimatrixt_centroids,
  const ds::PartitionLinkedNumInst
- <T_CLUSTERIDX,T_INSTANCES_CLUSTER_K>   &aipartlink_memberShip,
+ <T_CLUSTERIDX,T_INSTANCES_CLUSTER_K>   &aipartlinknuminst_memberShip,
  const dist::Dist<T_METRIC,T_FEATURE>   &aifunc2p_dist
  )
 { //BEGIN CSmeasure
@@ -2111,7 +2253,7 @@ CSmeasure
               << ":  IN(" << geiinparam_verbose << ")\n"
 	      << "(input aiiterator_instfirst[" << &aiiterator_instfirst << "]\n"
 	      << " input const aimatrixt_centroids[" << &aimatrixt_centroids << "]\n"
-	      << " input const &aipartlink_memberShip[" << &aipartlink_memberShip << "]\n"
+	      << " input const &aipartlinknuminst_memberShip[" << &aipartlinknuminst_memberShip << "]\n"
               << " input const &aifunc2p_dist[" << &aifunc2p_dist << "]\n"
 	      << ')'
 	      << std::endl;
@@ -2132,12 +2274,12 @@ CSmeasure
       lvectort_diameterClusterK =
       diameterClusterK
       (aiiterator_instfirst,
-       aipartlink_memberShip,
+       aipartlinknuminst_memberShip,
        aifunc2p_dist
        );
 
     const std::vector<T_INSTANCES_CLUSTER_K>  &lvectorit_numInstClusterK =
-      aipartlink_memberShip.getVectorNumInstClusterK();
+      aipartlinknuminst_memberShip.getVectorNumInstClusterK();
     
     lort_CSmeasure = 0.0;
     
@@ -2305,15 +2447,15 @@ silhouette
   
 }
 
-/*! \fn T_METRIC silhouette(INPUT_ITERATOR aiiterator_instfirst, ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip, const std::vector<T_INSTANCES_CLUSTER_K> &aivectorit_numInstClusterK, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist) 
+
+/*! \fn T_METRIC silhouette (INPUT_ITERATOR aiiterator_instfirst, ds::PartitionLinkedNumInst<T_CLUSTERIDX,T_INSTANCES_CLUSTER_K> &aipartlinknuminst_memberShip, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist)
     \brief Silhouette \cite Kaufman:Rousseeuw:Book:ClusterAnalysis:1990
     \details Calculate the average of Silhouette for the instances
     \f[
        s(x_i)=\frac{b(x_i)-a(x_i)}{\max\left\{a(x_i),b(x_i)\right\} }
     \f]
     \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
-    \param aipartlink_memberShip a clusters partition in a ds::PartitionLinked data structure
-    \param aivectorit_numInstClusterK a vector with the number of instances per cluster
+    \param aipartlinknuminst_memberShip a clusters partition in a ds::PartitionLinkedNumInst data structure
     \param aifunc2p_dist an object of type dist::Dist to calculate distances
  */
 template < typename INPUT_ITERATOR,
@@ -2324,52 +2466,48 @@ template < typename INPUT_ITERATOR,
 	   >
 T_METRIC
 silhouette
-(INPUT_ITERATOR                           aiiterator_instfirst,
- ds::PartitionLinked<T_CLUSTERIDX>        &aipartlink_memberShip,
- const std::vector<T_INSTANCES_CLUSTER_K> &aivectorit_numInstClusterK,
- const dist::Dist<T_METRIC,T_FEATURE>     &aifunc2p_dist
+(INPUT_ITERATOR                          aiiterator_instfirst,
+ ds::PartitionLinkedNumInst
+ <T_CLUSTERIDX,T_INSTANCES_CLUSTER_K>    &aipartlinknuminst_memberShip,
+ const dist::Dist<T_METRIC,T_FEATURE>    &aifunc2p_dist
  ) 
 {
-  const T_CLUSTERIDX lcidx_numClusterK = aipartlink_memberShip.getNumPartitions();
+  const T_CLUSTERIDX lcidx_numClusterK = aipartlinknuminst_memberShip.getNumPartitions();
 
   const T_CLUSTERIDX lcidx_numNullCluster =
-    (T_CLUSTERIDX)
+    aipartlinknuminst_memberShip.getNumNullCluster();
+    /*   (T_CLUSTERIDX)
     std::count_if
     (aivectorit_numInstClusterK.begin(),
      aivectorit_numInstClusterK.end(),
      [] (const T_INSTANCES_CLUSTER_K aiit_num) {return aiit_num == T_INSTANCES_CLUSTER_K(0);}
      );
-  
+    */
 #ifdef __VERBOSE_YES
   const char* lpc_labelFunc = "um::silhouette";
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc
-	      << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "(input  PartitionLinked&: aipartlink_memberShip[" 
-	      << &aipartlink_memberShip << "]\n"
-	      << "aivectorit_numInstClusterK[" << &aivectorit_numInstClusterK << "]\n"; 
-    inout::containerprint
-      (aivectorit_numInstClusterK.begin(),
-       aivectorit_numInstClusterK.end(),
-       std::cout,
-       lpc_labelFunc,
-       ','
-       );
-    std::cout << "\ninput  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist[" 
-	      << &aifunc2p_dist << "]\n"
-	      << "lcidx_numClusterK =  " << lcidx_numClusterK
-	      << "\nlcidx_numNullCluster =  " << lcidx_numNullCluster 
-	      << "\n)"
-	      << std::endl;
+    std::cout 
+      << lpc_labelFunc
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "(input  PartitionLinked&: aipartlinknuminst_memberShip[" 
+      << &aipartlinknuminst_memberShip << "]\n";
+    aipartlinknuminst_memberShip.print();
+    std::cout 
+      << "\ninput  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist[" 
+      << &aifunc2p_dist << "]\n"
+      << "lcidx_numClusterK =  " << lcidx_numClusterK
+      << "\nlcidx_numNullCluster =  " << lcidx_numNullCluster 
+      << "\n)"
+      << std::endl;
   }
 #endif /*__VERBOSE_YES*/
    
   T_METRIC  lort_silhouette = measuare_undefSilhouette(T_METRIC); 
   ds::IteratorPartitionLinked <T_CLUSTERIDX>
-    literpart_i(&aipartlink_memberShip);
+    literpart_i(&aipartlinknuminst_memberShip);
   ds::IteratorPartitionLinked <T_CLUSTERIDX>
-    literpart_ip(&aipartlink_memberShip);
+    literpart_ip(&aipartlinknuminst_memberShip);
 
   if ( (lcidx_numClusterK - lcidx_numNullCluster) > 1)  {
    
@@ -2379,7 +2517,8 @@ silhouette
     for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) { 
       
       /*INSTANCE NOT IS OUTLIER*/
-      if ( aivectorit_numInstClusterK.at(lcidx_Ck) > 1 ) {
+      //if ( aivectorit_numInstClusterK.at(lcidx_Ck) > 1 ) {
+      if ( aipartlinknuminst_memberShip.getNumInstClusterK(lcidx_Ck) > 1 ) {
 	  
 	for ( literpart_i.begin(lcidx_Ck); literpart_i.end(); literpart_i.next() ) {
       
@@ -2408,7 +2547,7 @@ silhouette
 #endif //__VERBOSE_YES
 	      
 	  }
-	  T_METRIC lt_ai = lt_sumai / T_METRIC(aivectorit_numInstClusterK.at(lcidx_Ck) -1);
+	  T_METRIC lt_ai = lt_sumai / T_METRIC(aipartlinknuminst_memberShip.getNumInstClusterK(lcidx_Ck) -1);
 
 
 	  T_METRIC lt_bi = std::numeric_limits<T_METRIC>::max();  
@@ -2425,7 +2564,7 @@ silhouette
 		   data::Instance<T_FEATURE>::getNumDimensions()
 		   );
 	      }
-	      T_METRIC lt_diC = lt_sumbi / aivectorit_numInstClusterK.at(lcidx_Ckp);
+	      T_METRIC lt_diC = lt_sumbi / aipartlinknuminst_memberShip.getNumInstClusterK(lcidx_Ckp);
 	      if ( lt_diC < lt_bi ) lt_bi = lt_diC;
 	    }	
 	  }
@@ -2443,7 +2582,7 @@ silhouette
     
 	} //FOR OBJETO I
 
-	lort_silhouette = lrt_sumSilhouette / (T_METRIC) aipartlink_memberShip.getNumInstances();
+	lort_silhouette = lrt_sumSilhouette / (T_METRIC) aipartlinknuminst_memberShip.getNumInstances();
 	
       }  
 
@@ -2572,6 +2711,7 @@ silhouette
   return lort_silhouette;
   
 }
+
 
 /*! \fn std::vector<T_METRIC> simplifiedSilhouette(const mat::MatrixBase<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, partition::Partition<T_CLUSTERIDX> &aipartition_clusters, const std::vector<T_INSTANCES_CLUSTER_K> &aivectorit_numInstClusterK, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist)
     \brief Simplified Silhouette \cite Alves:etal:GAclusteringLabelKVar:FEAC:2006 
@@ -3628,7 +3768,7 @@ SSEMedoid
 }
 
 
-/*! \fn T_METRIC indexI (const mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, partition::Partition<T_CLUSTERIDX>    &aipartition_clusters, const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist, const T_METRIC airt_p = 2.0)
+/*! \fn T_METRIC indexI (const mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, partition::Partition<T_CLUSTERIDX>    &aipartition_clusters, const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist, const T_METRIC airt_p = 2.0)   
   \brief Validity index I \cite Maulik:Bandyopadhyay:GAclustering:IndexI:2002 \cite Bandyopadhuay:Maulik:GAclustering:MO:2007.
   \details The \a validity \a index \a I or simply \a Index \a I. It is used as a metric to measure clustering performance. It was proposed as a measure to indicate the (goodness) validity of the solution in the cluster. It is defined as follows:
 
