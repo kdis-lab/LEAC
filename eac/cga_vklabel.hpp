@@ -353,7 +353,6 @@ cga_vklabel
 	    (um::silhouette
 	     (aiiterator_instfirst,
 	      lpartlink_memberShip,
-	      lpartlink_memberShip.getVectorNumInstClusterK(),
 	      aifunc2p_dist
 	      )
 	     );
