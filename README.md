@@ -1,5 +1,6 @@
+<img align="right" width="100" height="100" src="leac_logo.png">
 # LEAC - Library Evolutionary Algorithms for Clustering
-<img align="left" width="50" height="50" src="leac_logo.png">
+
 
 Library Evolutionary Algorithms for Clustering (**LEAC**) is a library for the implementation
 of evolutionary and genetic algorithms to solve the problem of *partition clustering*.
