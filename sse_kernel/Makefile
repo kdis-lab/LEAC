@@ -21,7 +21,7 @@ ifndef BINARY64
 $(info   BINARY           ... 32bit)
 else
 $(info   BINARY           ... 64bit)
-PFLAGS    += -I$(TOPDIR) -m128bit-long-double  -m64 -fPIC
+CFLAGS    += -I$(TOPDIR) -m128bit-long-double  -m64 
 endif
 $(info   Number of cores  ... $(NUM_CORES))
 $(info   Multi threaded; Max num-threads is $(NUM_THREADS))
@@ -32,6 +32,7 @@ $(info   Fortran compiler ... $(F_COMPILER)  (command line : $(FC)))
 $(info   CFLAGS           ... $(CFLAGS))
 
 DNAME   =  $(LIBNAME).so
+
 LDFLAGS =  
 LDLIBS  = 
 
