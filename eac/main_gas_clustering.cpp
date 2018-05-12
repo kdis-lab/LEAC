@@ -2571,7 +2571,6 @@ int main(int argc, char **argv)
 	    um::silhouette
 	    (lpairvec_dataset.second.begin(),
 	     lpartlinknuminst_memberShipTest,
-	     lpartlinknuminst_memberShipTest.getVectorNumInstClusterK(),
 	     *pfunct2p_distEuclidean
 	     )
 	    << '\n';
