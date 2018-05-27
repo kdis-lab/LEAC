@@ -168,6 +168,11 @@ public:
     return this->_s_runTimeId;
   }
 
+  inline void setRunningTimeId(const std::string aistr_runTimeId)
+  {
+    this->_s_runTimeId = aistr_runTimeId;
+  }
+
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {  
     aipf_outFile << "_algorithmo" 
