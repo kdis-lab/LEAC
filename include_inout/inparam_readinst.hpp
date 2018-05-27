@@ -94,6 +94,11 @@ public:
 
   ~InParamReadInst() {}
 
+  inline void clearVectorFilesInstance()
+  {
+    _vectorstr_filesInstance.clear();
+  }
+
   const std::vector<std::string>& getVectorFilesInstance() const
   {
     return _vectorstr_filesInstance;
@@ -136,9 +141,19 @@ public:
     this->_vectorstr_filesInstance.push_back(std::string(aips_nameFile)); 
   }
 
+  inline void setFileInstance(const std::string aistr_nameFile)
+  {
+    this->_vectorstr_filesInstance.push_back(aistr_nameFile); 
+  }
+
   inline void setFileInstanceTest(const char *aips_nameFileTest)
   {
     this->_vectorstr_filesInstanceTest.push_back(std::string(aips_nameFileTest)); 
+  }
+
+  inline void setFileInstanceTest(const std::string aistr_nameFileTest)
+  {
+    this->_vectorstr_filesInstanceTest.push_back(aistr_nameFileTest); 
   }
 
   inline const std::string& getCurrentFileInstance() const
