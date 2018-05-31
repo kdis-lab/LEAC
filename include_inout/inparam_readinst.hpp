@@ -323,6 +323,10 @@ public:
 		 << aic_separator << this->getNumInstances();
     aipf_outFile << aic_separator << "_d" 
 		 << aic_separator << this->getNumDimensionsInstances();
+    aipf_outFile << aic_separator << "_select-attributes" 
+		 << aic_separator << _ps_selectAttributes;
+    aipf_outFile << aic_separator << "_class-column" 
+		 << aic_separator << _ui_classInstanceColumn;
     
     if ( this->_vectorstr_filesInstanceTest.size() > 0 ) {
       aipf_outFile << aic_separator << ":dataset test" 
