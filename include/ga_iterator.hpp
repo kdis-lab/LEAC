@@ -113,6 +113,91 @@ crossover
 }
 
 
+/*! \fn void crossoverFirstLast(INPUT_ITERATOR aiiterator_instfirstParent, const INPUT_ITERATOR aiiterator_instlastParent, INPUT_ITERATOR aiiterator_instfirstChild, const INPUT_ITERATOR aiiterator_instlastChild, const GENETIC_OPERATOR genetic_operator) 
+    \brief Pairs crossover iterator 
+    \details Function to iterate over two containers, selected pairs consecutively to apply a crossover operator
+    \param aiiterator_instfirstParent an iterator
+    \param aiiterator_instlastParent  a const iterator
+    \param aiiterator_instfirstChild  an iterator
+    \param aiiterator_instlastChild   a const iterator
+    \param genetic_operator a crossover function  
+
+    \code{.cpp}
+
+    gaiterator::crossoverFirstLast
+    (lvec_matingPool.begin(),
+     lvec_matingPool.end(),
+     lvec_population.begin(),
+     lvec_population.end(),
+     [&](const gaencode::ChromFixedLength<double,double>& aichrom_parent1,
+	 const gaencode::ChromFixedLength<double,double>& aichrom_parent2,
+	 gaencode::ChromFixedLength<double,double>&  aochrom_child1, 
+	 gaencode::ChromFixedLength<double,double>&  aochrom_child2
+	 ) -> bool
+     {
+
+       bool lb_appliesCrossover =
+	 (uniformdis_real01(gmt19937_eng) < lr_crossoverProbability);
+	 
+       if ( lb_appliesCrossover  ) {
+		     
+	   gatplop::onePointCrossover
+	     (aochrom_child1,
+	      aochrom_child2,
+	      aichrom_parent1,
+	      aichrom_parent2,
+	      uniformdis_uiCrossover1l_1(gmt19937_eng)
+	      );
+	}// End IF Crossover
+       
+       return lb_appliesCrossover; 
+     }
+     );
+ */
+template<typename INPUT_ITERATOR, typename GENETIC_OPERATOR>
+void
+crossoverFirstLast
+(INPUT_ITERATOR         aiiterator_instfirstParent,
+ INPUT_ITERATOR         aiiterator_instlastParent,
+ INPUT_ITERATOR         aiiterator_instfirstChild,
+ const INPUT_ITERATOR   aiiterator_instlastChild,
+ const GENETIC_OPERATOR genetic_operator
+ )
+{
+  const uintidx lui_sizePopulation
+    (uintidx(std::distance(aiiterator_instfirstParent,aiiterator_instlastParent)));
+
+  if ( ( lui_sizePopulation % 2 ) != 0 ) {
+    *aiiterator_instfirstChild = *aiiterator_instfirstParent;
+    ++aiiterator_instfirstChild;
+    ++aiiterator_instfirstParent;
+  }
+  while ( (aiiterator_instfirstChild != aiiterator_instlastChild )
+	  && (aiiterator_instfirstParent != aiiterator_instlastParent) )
+    {
+       --aiiterator_instlastParent;
+	     
+      INPUT_ITERATOR lchrom_parent1  = aiiterator_instfirstParent; 
+      ++aiiterator_instfirstParent;
+      INPUT_ITERATOR lchrom_parent2  = aiiterator_instlastParent; 
+     
+      INPUT_ITERATOR lchrom_child1  = aiiterator_instfirstChild; 
+      ++aiiterator_instfirstChild;
+      INPUT_ITERATOR lchrom_child2  = aiiterator_instfirstChild; 
+      ++aiiterator_instfirstChild;
+
+      genetic_operator
+	(*lchrom_parent1,
+	 *lchrom_parent2,
+	 *lchrom_child1,
+	 *lchrom_child2
+	 );
+	   
+    }
+
+}
+
+
 /*! \fn void crossoverRandSelect(INPUT_ITERATOR aiiterator_instfirstParent, const INPUT_ITERATOR aiiterator_instlastParent, INPUT_ITERATOR aiiterator_instfirstChild, const INPUT_ITERATOR aiiterator_instlastChild, const GENETIC_OPERATOR genetic_operator) 
     \brief Random crossover iterator 
     \details Function to iterate over two containers, selected pairs randomly to apply a crossover operator
