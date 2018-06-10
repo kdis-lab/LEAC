@@ -28,7 +28,7 @@
 
 #include <leac.hpp>
 
-#include "inparam_pcpmvk.hpp"
+#include "inparam_withoutpcpmvk.hpp"
 #include "outparam_gac.hpp"
 
 #include "plot_runtime_function.hpp"
@@ -45,15 +45,15 @@
 
 namespace eac {
   
-/*! \fn gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL> cga_vklabel(inout::OutParamGAC <T_REAL, T_CLUSTERIDX> &aoop_outParamGAC, inout::InParamPcPmVk <T_CLUSTERIDX, T_REAL, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinpcgaprobfixedk_inParamGA, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
- \brief CGA \cite Hruschka:Ebecken:GAClusteringLabelKVar:CGA:2003 
- \details Implementation of CGA algorithm based on \cite Hruschka:Ebecken:GAClusteringLabelKVar:CGA:2003. 
- \returns A partition of a data set, encoded on a chromosome where each gene is the index of a cluster to which the instance belongs.
- \param aoop_outParamGAC a inout::OutParamGAC with the output parameters of the algorithm
- \param aiinpcgaprobfixedk_inParamGA a inout::InParamPcPmVk parameters required by the algorithm
- \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
- \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
- \param aifunc2p_dist an object of type dist::Dist to calculate distances
+/*! \fn gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL> cga_vklabel(inout::OutParamGAC <T_REAL, T_CLUSTERIDX> &aoop_outParamGAC, inout::InParamWithoutPcPmVk <T_CLUSTERIDX, T_REAL, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K> &aiinp_inParamWithoutPcPmVk, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+  \brief CGA \cite Hruschka:Ebecken:GAClusteringLabelKVar:CGA:2003 
+  \details Implementation of CGA algorithm based on \cite Hruschka:Ebecken:GAClusteringLabelKVar:CGA:2003. 
+  \returns A partition of a data set, encoded on a chromosome where each gene is the index of a cluster to which the instance belongs.
+  \param aoop_outParamGAC a inout::OutParamGAC with the output parameters of the algorithm
+  \param aiinp_inParamWithoutPcPmVk a inout::InParamWithoutPcPmVk parameters required by the algorithm
+  \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+  \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
+  \param aifunc2p_dist an object of type dist::Dist to calculate distances
 */
 template < typename T_CLUSTERIDX,  //DATATYPE OF CHROMOSOME*/
 	   typename T_REAL,        //OBJETIVE FUNCTION, FITNESS AND CLUSTERING_METRIC 
@@ -67,12 +67,12 @@ cga_vklabel
 (inout::OutParamGAC
  <T_REAL,
  T_CLUSTERIDX>                      &aoop_outParamGAC,
- inout::InParamPcPmVk
+ inout::InParamWithoutPcPmVk
  <T_CLUSTERIDX,
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
- T_INSTANCES_CLUSTER_K>             &aiinp_inParamPcPmVk,
+ T_INSTANCES_CLUSTER_K>             &aiinp_inParamWithoutPcPmVk,
  const INPUT_ITERATOR               aiiterator_instfirst,
  const INPUT_ITERATOR               aiiterator_instlast,
  const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist
@@ -81,26 +81,26 @@ cga_vklabel
   const uintidx  lui_numInstances =
     uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
   
-  if ( aiinp_inParamPcPmVk.getNumClusterKMaximum() == 
+  if ( aiinp_inParamWithoutPcPmVk.getNumClusterKMaximum() == 
        INPARAMCLUSTERING_DEFAULT_CLUSTERK_UNDEFINED )
-    aiinp_inParamPcPmVk.setNumClusterKMaximum
+    aiinp_inParamWithoutPcPmVk.setNumClusterKMaximum
       ((T_CLUSTERIDX) lui_numInstances/2 );
      
   gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>::setStringSize
     ((uintidx) lui_numInstances + 1);
-
-  std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
   
   gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL> lochromfixleng_best;
-  lochromfixleng_best.setObjetiveFunc(-std::numeric_limits<T_REAL>::max());
+  lochromfixleng_best.setObjetiveFunc(measuare_lowerValueSilhouette(T_REAL));
   
-  std::vector<gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>* >  
-    lvectorchromfixleng_population;
+  /*POPULATION CREATE------------------------------------------------------------
+   */
+  std::vector<gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL> >  
+    lvectorchromfixleng_population(aiinp_inParamWithoutPcPmVk.getSizePopulation());
 
-  /*SPACE FOR STORE MATINGPOOL*/
-  std::vector<gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>* >  
-    lvectorchromfixleng_matingPool;
-
+  /*CREATE SPACE FOR STORE MATINGPOOL--------------------------------------------
+   */
+  std::vector<gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL> >  
+    lvectorchromfixleng_matingPool(aiinp_inParamWithoutPcPmVk.getSizePopulation());
  
 #ifdef __VERBOSE_YES
 
@@ -117,17 +117,15 @@ cga_vklabel
 	      << &lochromfixleng_best << "]\n"
 	      << "\t output inout::OutParamGAC&: aoop_outParamGAC[" 
 	      << &aoop_outParamGAC << "]\n"
-	      << "\t input  InParamClusteringGaProbFk&: aiinp_inParamPcPmVk[" 
-	      << &aiinp_inParamPcPmVk << "]\n"
+	      << "\t input  InParamClusteringGaProbFk&: aiinp_inParamWithoutPcPmVk[" 
+	      << &aiinp_inParamWithoutPcPmVk << "]\n"
               << "\t input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
 	      << "\t input aiiterator_instlast[" <<  *aiiterator_instlast << "]\n"
 	      << "\t input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\nGA parameters: "
-	      << "\tPopulation size = " << aiinp_inParamPcPmVk.getSizePopulation()
-	      << "\tProbCrossover = "   << aiinp_inParamPcPmVk.getProbCrossover() 
-	      << "\tProbMutation  = "   << aiinp_inParamPcPmVk.getProbMutation()
-	      << "\tKinitial = " << aiinp_inParamPcPmVk.getNumClusterKMaximum()
+	      << "\tPopulation size = " << aiinp_inParamWithoutPcPmVk.getSizePopulation()
+	      << "\tKinitial = " << aiinp_inParamWithoutPcPmVk.getNumClusterKMaximum()
 	      << "\n\t)"
 	      << std::endl;
   }
@@ -136,7 +134,7 @@ cga_vklabel
 
   runtime::ListRuntimeFunction<COMMON_IDOMAIN> 
     llfh_listFuntionHist
-    (aiinp_inParamPcPmVk.getNumMaxGenerations(), "Iterations", "Clustering metrics");
+    (aiinp_inParamWithoutPcPmVk.getNumMaxGenerations(), "Iterations", "Clustering metrics");
 
  
   /*DECLARATION OF VARIABLES: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM*/
@@ -145,16 +143,16 @@ cga_vklabel
   std::ofstream lfileout_plotStatObjetiveFunc;
   runtime::RuntimeFunctionValue<T_REAL> *lofh_SSE = NULL;
   runtime::RuntimeFunctionStat<T_REAL>  *lofhs_statObjectiveFunc[STATISTICAL_ALL_MEASURES];
-  std::vector<T_REAL>       lvectorT_statfuncObjetiveFunc;
+  std::vector<T_REAL> lvectorT_statfuncObjetiveFunc;
   
-  if ( aiinp_inParamPcPmVk.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamWithoutPcPmVk.getWithPlotStatObjetiveFunc() ) {  
 
     lvectorT_statfuncObjetiveFunc.reserve
-      (aiinp_inParamPcPmVk.getSizePopulation());  
+      (aiinp_inParamWithoutPcPmVk.getSizePopulation());  
     //DEFINE FUNCTION
     lofh_SSE  = new runtime::RuntimeFunctionValue<T_REAL>
       ("SSE", 
-       aiinp_inParamPcPmVk.getAlgorithmoName(),
+       aiinp_inParamWithoutPcPmVk.getAlgorithmoName(),
        RUNTIMEFUNCTION_NOT_STORAGE
        );
 
@@ -165,7 +163,7 @@ cga_vklabel
       lofhs_statObjectiveFunc[li_i] = 
 	new runtime::RuntimeFunctionStat<T_REAL>
 	( (char) li_i,
-	  aiinp_inParamPcPmVk.getAlgorithmoName(),
+	  aiinp_inParamWithoutPcPmVk.getAlgorithmoName(),
 	  RUNTIMEFUNCTION_NOT_STORAGE
 	  );
       llfh_listFuntionHist.addFuntion(lofhs_statObjectiveFunc[li_i]);
@@ -173,8 +171,8 @@ cga_vklabel
   
     //OPEN FILE STRORE FUNCTION 
     aoop_outParamGAC.setFileNameOutPlotStatObjetiveFunc
-      (aiinp_inParamPcPmVk.getFileNamePlotStatObjetiveFunc(),
-       aiinp_inParamPcPmVk.getTimesRunAlgorithm()
+      (aiinp_inParamWithoutPcPmVk.getFileNamePlotStatObjetiveFunc(),
+       aiinp_inParamWithoutPcPmVk.getTimesRunAlgorithm()
        );
 
     lfileout_plotStatObjetiveFunc.open   
@@ -198,35 +196,18 @@ cga_vklabel
   /*OUT: GENETIC ALGORITHM CHARACTERIZATION*/
   
   runtime::ExecutionTime let_executionTime = runtime::start();
-  
 
-  /*POPULATION CREATE------------------------------------------------------------
+  /*calculate matrix dissimilarity
    */
-  lvectorchromfixleng_population.reserve
-    (aiinp_inParamPcPmVk.getSizePopulation());
-  for (uintidx luintidx_i = 0; 
-       luintidx_i < aiinp_inParamPcPmVk.getSizePopulation(); 
-       luintidx_i++) 
-    {
-      lvectorchromfixleng_population.push_back
-	( new gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>() );
-    }
- 
-  /*CREATE SPACE FOR STORE MATINGPOOL--------------------------------------------
-   */
-  lvectorchromfixleng_matingPool.reserve
-    (aiinp_inParamPcPmVk.getSizePopulation());
-  for (uintidx luintidx_i = 0; 
-       luintidx_i < aiinp_inParamPcPmVk.getSizePopulation(); 
-       luintidx_i++) 
-    {
-      lvectorchromfixleng_matingPool.push_back
-	( new gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>() );
-    }
- 
-  /*POPULATION INITIAL-----------------------------------------------------------
-   */
-  { /*BEGIN INITIALIZATION*/
+  mat::MatrixTriang<T_REAL>&&
+    lmatrixtriagT_dissimilarity = 
+    dist::getMatrixDissimilarity
+    (aiiterator_instfirst,
+     aiiterator_instlast,
+     aifunc2p_dist
+     );
+
+  { /*BEGIN INITIALIZE A POPULATION*/
    
 #ifdef __VERBOSE_YES
     geverbosepc_labelstep = "1. INITIALIZE A POPULATION OF RANDOM GENOTYPES;";
@@ -239,12 +220,11 @@ cga_vklabel
 #endif /*__VERBOSE_YES*/  
 
     std::uniform_int_distribution<T_CLUSTERIDX> uniformdis_kMinMax
-      ( aiinp_inParamPcPmVk.getNumClusterKMinimum(),
-	aiinp_inParamPcPmVk.getNumClusterKMaximum()
-      );
+      ( aiinp_inParamWithoutPcPmVk.getNumClusterKMinimum(),
+	aiinp_inParamWithoutPcPmVk.getNumClusterKMaximum()
+	);
 
-    
-    for (auto lchromfixleng_iter :lvectorchromfixleng_population) {
+    for (auto& lchromfixleng_iter :lvectorchromfixleng_population) {
 
       T_CLUSTERIDX lcidx_Kini = 
 	uniformdis_kMinMax(gmt19937_eng);
@@ -253,21 +233,21 @@ cga_vklabel
 	(0,lcidx_Kini-1);
       
       gagenericop::initializeGenes
-	(lchromfixleng_iter->begin(),
-	 lchromfixleng_iter->end()-1,
+	(lchromfixleng_iter.begin(),
+	 lchromfixleng_iter.end()-1,
 	 [&]() 
 	 {
 	   return uniformdis_cidxKini(gmt19937_eng);
 	 }
 	 );
       
-      lchromfixleng_iter->setGene
+      lchromfixleng_iter.setGene
 	(gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>::stcgetStringSize()-1,
 	 lcidx_Kini
 	 );
 				   
-      lchromfixleng_iter->setObjetiveFunc(-std::numeric_limits<T_REAL>::max());
-      lchromfixleng_iter->setFitness(-std::numeric_limits<T_REAL>::max());
+      lchromfixleng_iter.setObjetiveFunc(measuare_lowerValueSilhouette(T_REAL)); // -std::numeric_limits<T_REAL>::max());
+      lchromfixleng_iter.setFitness(0.0);
       
     }
        
@@ -280,110 +260,22 @@ cga_vklabel
     --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
 
-  } /*END INITIALIZATION*/
+  } /*END INITIALIZE A POPULATION**/
 
 
   while ( ( llfh_listFuntionHist.getDomainUpperBound() <= 
-	    aiinp_inParamPcPmVk.getNumMaxGenerations() )
+	    aiinp_inParamWithoutPcPmVk.getNumMaxGenerations() )
           && ( runtime::elapsedTime(let_executionTime)
-	       < aiinp_inParamPcPmVk.getMaxExecutiontime() )
+	       < aiinp_inParamWithoutPcPmVk.getMaxExecutiontime() )
 	  ) {
    
     llfh_listFuntionHist.increaseDomainUpperBound();
 
 
- 
-  /*COMPUTING CLUSTERING METRIC AND FITNESS COMPUTATION------------------------
-   */
-
-  { /*BEGIN FITNESS COMPUTATION*/
+    { /*BEGIN FITNESS COMPUTATION*/
 
 #ifdef __VERBOSE_YES
-    geverbosepc_labelstep = "2. EVALUATE EACH GENOTYPE ACCORDING TO ITS SILHOUETTE;";
-    ++geiinparam_verbose;
-    if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-      std::cout << geverbosepc_labelstep  
-		<< ": IN(" << geiinparam_verbose << ')'
-		<< std::endl;
-    }
-#endif /*__VERBOSE_YES*/
-
-  
-    for (auto lchromfixleng_iter :lvectorchromfixleng_population) {
-
-      if ( lchromfixleng_iter->getObjetiveFunc() == -std::numeric_limits<T_REAL>::max() ) {
-
-	partition::PartitionLabel
-	  <T_CLUSTERIDX>
-	  lpartition_clusters
-	  (lchromfixleng_iter->getString(),
-	   (uintidx) lui_numInstances,
-	   lchromfixleng_iter->getGene
-	   (gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>::stcgetStringSize()-1)
-	   );
-
-	ds::PartitionLinkedNumInst<T_CLUSTERIDX,T_INSTANCES_CLUSTER_K>
-	  &&lpartlink_memberShip =
-	  ds::getPartitionLinkedNumInst
-	  (aiiterator_instfirst,
-	   aiiterator_instlast,
-	   lpartition_clusters,
-	   [&](data::Instance<T_FEATURE>* liter_inst)
-	   {
-	     return T_INSTANCES_CLUSTER_K(1);
-	   }
-	   );
-
-	auto li_clusterNull =
-	  std::count_if
-	  (lpartlink_memberShip.getVectorNumInstClusterK().begin(),
-	   lpartlink_memberShip.getVectorNumInstClusterK().end(),
-	   [](T_INSTANCES_CLUSTER_K liter_numClusterK)
-	   {return liter_numClusterK == 0;}
-	   );
-
-	if ( li_clusterNull != 0 ) {
-	  lchromfixleng_iter->setObjetiveFunc(measuare_lowerValueSilhouette(T_REAL));
-	  lchromfixleng_iter->setValidString(false);
-	  aoop_outParamGAC.incTotalInvalidOffspring();
-	}
-	else {
-	
-	  lchromfixleng_iter->setObjetiveFunc
-	    (um::silhouette
-	     (aiiterator_instfirst,
-	      lpartlink_memberShip,
-	      aifunc2p_dist
-	      )
-	     );
-	  lchromfixleng_iter->setValidString(true);
-	}   
-      }
-      
-#ifndef __WITHOUT_PLOT_STAT
-      lvectorT_statfuncObjetiveFunc.push_back(lchromfixleng_iter->getObjetiveFunc());
-#endif /*__WITHOUT_PLOT_STAT*/
-
-    }
-      
-#ifdef __VERBOSE_YES
-    if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-      std::cout << geverbosepc_labelstep
-		<< ": OUT(" << geiinparam_verbose << ')'
-		<< std::endl;
-    }
-    --geiinparam_verbose;
-#endif /*__VERBOSE_YES*/
-
-  } /*END FITNESS COMPUTATION*/
-     
-  /*(a) COPY THE BEST STRING TO S0-----------------------------------------------
-   */
-
-  { /*BEGIN (a) COPY THE BEST STRING TO S0*/
-
-#ifdef __VERBOSE_YES
-    geverbosepc_labelstep = "COPY THE BEST STRING";
+      geverbosepc_labelstep = "2. EVALUATE EACH GENOTYPE ACCORDING TO ITS SILHOUETTE;";
       ++geiinparam_verbose;
       if ( geiinparam_verbose <= geiinparam_verboseMax ) {
 	std::cout << geverbosepc_labelstep  
@@ -392,16 +284,106 @@ cga_vklabel
       }
 #endif /*__VERBOSE_YES*/
 
-      gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>* lchromfixleng_max = 
-	*(std::max_element
-	  (lvectorchromfixleng_population.begin(), 
-	   lvectorchromfixleng_population.end(), 
-	   [](const gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>* x, 
-	      const gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>* y
-	      ) 
-	       {  return x->getObjetiveFunc() < y->getObjetiveFunc(); }
-	   )
-	  );
+  
+      for (auto& lchromfixleng_iter :lvectorchromfixleng_population) {
+
+
+	if ( (gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>::stcgetStringSize()-1) >= 2 ) {
+
+	  partition::PartitionLabel
+	    <T_CLUSTERIDX>
+	    lpartition_clusters
+	    (lchromfixleng_iter.getString(),
+	     (uintidx) lui_numInstances,
+	     lchromfixleng_iter.getGene
+	     (gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>::stcgetStringSize()-1)
+	     );
+
+	  ds::PartitionLinkedNumInst<T_CLUSTERIDX,T_INSTANCES_CLUSTER_K>
+	    &&lpartlinknuminst_memberShip =
+	    ds::getPartitionLinkedNumInst
+	    (aiiterator_instfirst,
+	     aiiterator_instlast,
+	     lpartition_clusters,
+	     [&](data::Instance<T_FEATURE>* liter_inst)
+	     {
+	       return T_INSTANCES_CLUSTER_K(1);
+	     }
+	     );
+
+	  auto li_clusterNull =
+	    std::count_if
+	    (lpartlinknuminst_memberShip.getVectorNumInstClusterK().begin(),
+	     lpartlinknuminst_memberShip.getVectorNumInstClusterK().end(),
+	     [](T_INSTANCES_CLUSTER_K liter_numClusterK)
+	     {return liter_numClusterK == 0;}
+	     );
+
+	  if ( li_clusterNull != 0 ) {
+	    lchromfixleng_iter.setObjetiveFunc(measuare_lowerValueSilhouette(T_REAL));
+	    lchromfixleng_iter.setFitness(0.0);
+	    lchromfixleng_iter.setValidString(false);
+	    aoop_outParamGAC.incTotalInvalidOffspring();
+	  }
+	  else {
+	
+	    lchromfixleng_iter.setObjetiveFunc
+	      (um::silhouette
+	       (lmatrixtriagT_dissimilarity,
+		lpartlinknuminst_memberShip
+		)
+	       );
+
+	    lchromfixleng_iter.setFitness(lchromfixleng_iter.getObjetiveFunc()+1.0);
+	    lchromfixleng_iter.setValidString(true);
+
+	  }   
+	} else {
+
+	  lchromfixleng_iter.setObjetiveFunc(measuare_lowerValueSilhouette(T_REAL));
+	  lchromfixleng_iter.setFitness(0.0);
+      
+	}
+      
+#ifndef __WITHOUT_PLOT_STAT
+	lvectorT_statfuncObjetiveFunc.push_back(lchromfixleng_iter.getObjetiveFunc());
+#endif /*__WITHOUT_PLOT_STAT*/
+
+      }
+      
+#ifdef __VERBOSE_YES
+      if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+	std::cout << geverbosepc_labelstep
+		  << ": OUT(" << geiinparam_verbose << ')'
+		  << std::endl;
+      }
+      --geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
+
+    } /*END FITNESS COMPUTATION*/
+     
+  
+    { /*BEGIN GET BEST CHROMOSOME*/
+
+#ifdef __VERBOSE_YES
+      geverbosepc_labelstep = "GET BEST CHROMOSOME";
+      ++geiinparam_verbose;
+      if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+	std::cout << geverbosepc_labelstep  
+		  << ": IN(" << geiinparam_verbose << ')'
+		  << std::endl;
+      }
+#endif /*__VERBOSE_YES*/
+
+      auto lchromfixleng_max = 
+	std::max_element
+	(lvectorchromfixleng_population.begin(), 
+	 lvectorchromfixleng_population.end(), 
+	 [](const gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>& x, 
+	    const gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>& y
+	    ) 
+	 {  return x.getObjetiveFunc() < y.getObjetiveFunc(); }
+	 );
     
       if ( lochromfixleng_best.getObjetiveFunc() <  lchromfixleng_max->getObjetiveFunc() ) {
 	lochromfixleng_best  = *lchromfixleng_max;
@@ -415,7 +397,7 @@ cga_vklabel
     
 
 #ifdef __VERBOSE_YES
-     if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+      if ( geiinparam_verbose <= geiinparam_verboseMax ) {
 	std::cout << geverbosepc_labelstep
 		  << ": OUT(" << geiinparam_verbose << ')'
 		  << std::endl;
@@ -423,29 +405,25 @@ cga_vklabel
       --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
  
-  } /*END (a) COPY THE BEST STRING TO S0*/
+    } /*END GET BEST CHROMOSOME*/
 
 
-  /*INITIAL MEASUREMENT: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM-------
-   */
+    /*INITIAL MEASUREMENT: COMPUTING STATISTICAL AND METRIC OF THE ALGORITHM-------
+     */
 #ifndef __WITHOUT_PLOT_STAT  
-  if ( aiinp_inParamPcPmVk.getWithPlotStatObjetiveFunc() ) {  
-    lofh_SSE->setValue(lochromfixleng_best.getObjetiveFunc());
-    functionhiststat_evaluateAll
-      (lofhs_statObjectiveFunc,
-       lvectorT_statfuncObjetiveFunc
-       );
-    lfileout_plotStatObjetiveFunc << llfh_listFuntionHist;
-    lvectorT_statfuncObjetiveFunc.clear();
-  }
+    if ( aiinp_inParamWithoutPcPmVk.getWithPlotStatObjetiveFunc() ) {  
+      lofh_SSE->setValue(lochromfixleng_best.getObjetiveFunc());
+      functionhiststat_evaluateAll
+	(lofhs_statObjectiveFunc,
+	 lvectorT_statfuncObjetiveFunc
+	 );
+      lfileout_plotStatObjetiveFunc << llfh_listFuntionHist;
+      lvectorT_statfuncObjetiveFunc.clear();
+    }
 #endif  /*__WITHOUT_PLOT_STAT */
 
   
-    /*SELECTION------------------------------------------------------------------
-     */
-
-    { //BEGIN SELECTION
-
+    { //BEGIN SELECTION    
 #ifdef __VERBOSE_YES
       geverbosepc_labelstep = "3. APPLY A LINEAR NORMALIZATION (RANKING);";
       ++geiinparam_verbose;
@@ -454,20 +432,20 @@ cga_vklabel
 		  << ": IN(" << geiinparam_verbose << ')'
 		  << std::endl;
       }
-#endif /*__VERBOSE_YES*/
-
-	prob::linearNormalization
+#endif //__VERBOSE_YES
+      
+      prob::linearNormalization
 	(lvectorchromfixleng_population.begin(),
 	 lvectorchromfixleng_population.end(),
-	 [](const gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>* liter_iChrom) -> T_REAL
+	 [](const gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>& liter_iChrom) -> T_REAL
 	 {
-	   return liter_iChrom->getObjetiveFunc();
+	   return liter_iChrom.getObjetiveFunc();
 	 },
-	 [](gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>* liter_iChrom,
+	 [](gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>& liter_iChrom,
 	    T_REAL airt_funcFitnessLineal
 	    )
 	 {
-	   liter_iChrom->setFitness(airt_funcFitnessLineal);
+	   liter_iChrom.setFitness(airt_funcFitnessLineal);
 	 },
 	 T_REAL(1.0)
 	 );
@@ -476,10 +454,9 @@ cga_vklabel
 	prob::makeDistRouletteWheel
 	(lvectorchromfixleng_population.begin(),
 	 lvectorchromfixleng_population.end(),
-	 [](const gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>* liter_iChrom) -> T_REAL
+	 [](const gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>& liter_iChrom) -> T_REAL
 	 {
-	   return liter_iChrom->getFitness();
-
+	   return liter_iChrom.getFitness();
 	 }
 	 );
 
@@ -490,7 +467,7 @@ cga_vklabel
 		  << std::endl;
       }
       --geiinparam_verbose;
-#endif /*__VERBOSE_YES*/
+#endif //__VERBOSE_YES
       
 
 #ifdef __VERBOSE_YES
@@ -502,20 +479,28 @@ cga_vklabel
 		  << std::endl;
       }
 #endif /*__VERBOSE_YES*/
-	      
+
+      /*ELITIST STRATEGY THE BEST INDIVIDUAL IS COPIED INTO THE SUCCEEDING 
+	GENERATION
+       */
+      auto lchromfixleng_iterMatilPool = lvectorchromfixleng_matingPool.begin();
+
+      *lchromfixleng_iterMatilPool = lochromfixleng_best;
+      lchromfixleng_iterMatilPool++;
+
       /*COPY POPULATION TO MATING POOL FOR ROULETTE WHEEL--------------------------
        */
-      for ( auto lchromfixleng_iter: lvectorchromfixleng_matingPool) {
-	
+      for ( ;lchromfixleng_iterMatilPool != lvectorchromfixleng_matingPool.end();
+	    lchromfixleng_iterMatilPool++) {
 	uintidx luiidx_chrom = 
 	  gaselect::getIdxRouletteWheel
 	  (lvectorT_probDistRouletteWheel,
 	   uintidx(0)
 	   );
 	
-	*lchromfixleng_iter = *lvectorchromfixleng_population.at(luiidx_chrom);
+	*lchromfixleng_iterMatilPool = lvectorchromfixleng_population.at(luiidx_chrom);
       }
-         
+               
 #ifdef __VERBOSE_YES
       if ( geiinparam_verbose <= geiinparam_verboseMax ) {
 	std::cout << geverbosepc_labelstep
@@ -528,6 +513,9 @@ cga_vklabel
 
     } /*END SELECTION*/
 
+    const auto it_matilPoolG2 = std::next(lvectorchromfixleng_matingPool.begin(),lvectorchromfixleng_matingPool.size() / 2);
+    const auto it_populationG2 = std::next(lvectorchromfixleng_population.begin(),lvectorchromfixleng_population.size() / 2);
+    const auto it_matilPool3G4 = std::next(lvectorchromfixleng_matingPool.begin(),3 * lvectorchromfixleng_matingPool.size() / 4);
 
     /*CROSSOVER------------------------------------------------------------------
      */
@@ -542,73 +530,52 @@ cga_vklabel
 		  << std::endl;
       }
 #endif /*__VERBOSE_YES*/
-      
-      //long ll_invalidOffspring = 0;
-      auto ichrom_newoffspring = lvectorchromfixleng_population.begin();
-      auto jchrom_matingPool = lvectorchromfixleng_matingPool.begin();
-
-      if ( ( lvectorchromfixleng_population.size() % 2 ) != 0 ) {
-	*(*ichrom_newoffspring) = *(*jchrom_matingPool);
-	++ichrom_newoffspring;
-	++jchrom_matingPool;
-      }
-      while ( (ichrom_newoffspring != lvectorchromfixleng_population.end() )
-	      && (jchrom_matingPool != lvectorchromfixleng_matingPool.end()) )
-	{
-	  auto lchrom_child1  = ichrom_newoffspring;
-	  ++ichrom_newoffspring;
-	  auto lchrom_child2  = ichrom_newoffspring;
-	  ++ichrom_newoffspring;
-
-	  auto lchrom_parent1  = jchrom_matingPool;
-	  ++jchrom_matingPool;
-	  auto lchrom_parent2  = jchrom_matingPool;
-	  ++jchrom_matingPool;
-
-	  if ( uniformdis_real01(gmt19937_eng) 
-	       < aiinp_inParamPcPmVk.getProbCrossover() ) {
-
-	    mat::MatrixRow<T_FEATURE>          lmatrixrowt_centroids;
-	    mat::MatrixRow<T_FEATURE_SUM>    lmatrixrowt_sumInstCluster;
-	    std::vector<T_INSTANCES_CLUSTER_K> lvectort_numInstClusterK;
+            
+      gaiterator::crossoverFirstLast
+	(lvectorchromfixleng_matingPool.begin(),
+	 it_matilPoolG2,
+	 lvectorchromfixleng_population.begin(),
+	 it_populationG2,
+	 [&](gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>&
+	     aichrom_parent1,
+	     gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>&
+	     aichrom_parent2,
+	     gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>&
+	     aochrom_child1, 
+	     gaencode::ChromFixedLength<T_CLUSTERIDX,T_REAL>&
+	     aochrom_child2
+	     )
+	 {
+	   mat::MatrixRow<T_FEATURE>          lmatrixrowt_centroids;
+	   mat::MatrixRow<T_FEATURE_SUM>    lmatrixrowt_sumInstCluster;
+	   std::vector<T_INSTANCES_CLUSTER_K> lvectort_numInstClusterK;
 	      
-	    gaclusteringop::crossoverCGA
-	      (*(*lchrom_child1),
-	       *(*lchrom_parent1),
-	       *(*lchrom_parent2),
-	       lmatrixrowt_centroids,
-	       lmatrixrowt_sumInstCluster,
-	       lvectort_numInstClusterK,
-	       aiiterator_instfirst,
-	       aiiterator_instlast,
-	       aifunc2p_dist
-	       );
+	   gaclusteringop::crossoverCGA
+	     (aochrom_child1,
+	      aichrom_parent1,
+	      aichrom_parent2,
+	      lmatrixrowt_centroids,
+	      lmatrixrowt_sumInstCluster,
+	      lvectort_numInstClusterK,
+	      aiiterator_instfirst,
+	      aiiterator_instlast,
+	      aifunc2p_dist
+	      );
 
-	    gaclusteringop::crossoverCGA
-	      (*(*lchrom_child2),
-	       *(*lchrom_parent2),
-	       *(*lchrom_parent1),
-	       lmatrixrowt_centroids,
-	       lmatrixrowt_sumInstCluster,
-	       lvectort_numInstClusterK,
-	       aiiterator_instfirst,
-	       aiiterator_instlast,
-	       aifunc2p_dist
-	       );
-	    
-	    (*lchrom_child1)->setObjetiveFunc
-	      (-std::numeric_limits<T_REAL>::max());
-	    (*lchrom_child2)->setObjetiveFunc
-	      (-std::numeric_limits<T_REAL>::max());
-	   
-	 	  
-	  } //if  Crossover
-	  else {
-	    *(*lchrom_child1) = *(*lchrom_parent1);
-	    *(*lchrom_child2) = *(*lchrom_parent2);
-	   
-	  }
-	} /*END FOR*/
+	   gaclusteringop::crossoverCGA
+	     (aochrom_child2,
+	      aichrom_parent2,
+	      aichrom_parent1,
+	      lmatrixrowt_centroids,
+	      lmatrixrowt_sumInstCluster,
+	      lvectort_numInstClusterK,
+	      aiiterator_instfirst,
+	      aiiterator_instlast,
+	      aifunc2p_dist
+	      );
+	  
+	 }
+	 );
 	
 #ifdef __VERBOSE_YES
       if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -621,8 +588,6 @@ cga_vklabel
       
     } /*END CROSSOVER*/
 
-    /*MUTATION-------------------------------------------------------------------
-     */
     { /*BEGIN MUTATION*/
 
 #ifdef __VERBOSE_YES
@@ -635,49 +600,42 @@ cga_vklabel
       }
 #endif /*__VERBOSE_YES*/
 
-       
-      for (auto lchromfixleng_iter :lvectorchromfixleng_population) {
-	
-	if ( uniformdis_real01(gmt19937_eng) <
-	     aiinp_inParamPcPmVk.getProbMutation()  ) 
-	  {
-
-	    mat::MatrixRow<T_FEATURE>          lmatrixrowt_centroids;
-	    mat::MatrixRow<T_FEATURE_SUM>      lmatrixrowt_sumInstCluster;
-	    std::vector<T_INSTANCES_CLUSTER_K> lvectort_numInstClusterK;
-	    
-	    gaclusteringop::MO1
-	      (*lchromfixleng_iter,
-	       lmatrixrowt_centroids,
-	       lmatrixrowt_sumInstCluster,
-	       lvectort_numInstClusterK,
-	       aiiterator_instfirst,
-	       aiiterator_instlast,
-	       aifunc2p_dist
-	       );
-	   
-	    lchromfixleng_iter->setObjetiveFunc
-	      (-std::numeric_limits<T_REAL>::max());
-	    
-	  } /*IF FOR MUTATION*/
-
-	if ( uniformdis_real01(gmt19937_eng) <
-	     aiinp_inParamPcPmVk.getProbMutation()  ) 
-	  {
-	    gaclusteringop::MO2
-	      (*lchromfixleng_iter,
-	       aiiterator_instfirst,
-	       aifunc2p_dist
-	       );
-	   
-	    lchromfixleng_iter->setObjetiveFunc
-	      (-std::numeric_limits<T_REAL>::max());
-	    
-	  } /*IF FOR MUTATION*/
-	   	       
-      } /*END FOR MUTATION*/
+      auto lchromfixleng_iterPopulation = it_populationG2;
+      auto lchromfixleng_iterMatilPool  = it_matilPoolG2;
+ 
+      for ( ;lchromfixleng_iterMatilPool != it_matilPool3G4; 
+	    lchromfixleng_iterMatilPool++, lchromfixleng_iterPopulation++) {       
       
-     
+	*lchromfixleng_iterPopulation = *lchromfixleng_iterMatilPool;
+	
+	mat::MatrixRow<T_FEATURE>          lmatrixrowt_centroids;
+	mat::MatrixRow<T_FEATURE_SUM>      lmatrixrowt_sumInstCluster;
+	std::vector<T_INSTANCES_CLUSTER_K> lvectort_numInstClusterK;
+	    
+	gaclusteringop::MO1
+	  (*lchromfixleng_iterPopulation,
+	   lmatrixrowt_centroids,
+	   lmatrixrowt_sumInstCluster,
+	   lvectort_numInstClusterK,
+	   aiiterator_instfirst,
+	   aiiterator_instlast,
+	   aifunc2p_dist
+	   );
+      }
+
+      for ( ;lchromfixleng_iterMatilPool != lvectorchromfixleng_matingPool.end();
+	    lchromfixleng_iterMatilPool++, lchromfixleng_iterPopulation++) {
+
+	*lchromfixleng_iterPopulation = *lchromfixleng_iterMatilPool;
+
+	gaclusteringop::MO2
+	  (*lchromfixleng_iterPopulation,
+	   aiiterator_instfirst,
+	   aifunc2p_dist
+	   );
+    
+      } /*FOR*/
+	   	        
 #ifdef __VERBOSE_YES
       if ( geiinparam_verbose <= geiinparam_verboseMax ) {
 	std::cout << geverbosepc_labelstep
@@ -705,62 +663,6 @@ cga_vklabel
 #endif /*__VERBOSE_YES*/
 
   } /*END While*/
-
-  /*FREE MEMORY*/
-  {/*BEGIN FREE MEMORY OF POPULATION*/ 
-    
-#ifdef __VERBOSE_YES
-    geverbosepc_labelstep = "DELETEPOPULATION";
-    ++geiinparam_verbose;
-    if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-      std::cout <<  geverbosepc_labelstep
-		<< ":  IN(" << geiinparam_verbose << ')'
-		<< std::endl;
-    }
-#endif /*__VERBOSE_YES*/
-
-    for (uintidx lui_i = 0; lui_i < lvectorchromfixleng_population.size(); ++lui_i) {
-      delete lvectorchromfixleng_population[lui_i];
-    }
-
-#ifdef __VERBOSE_YES
-    if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-      std::cout << geverbosepc_labelstep
-		<< ": OUT(" << geiinparam_verbose << ')'
-		<< std::endl;
-    }
-    --geiinparam_verbose;
-#endif /*__VERBOSE_YES*/
-
-  }/*END FREE MEMORY OF POPULATION*/
-    
-  
-  {/*BEGIN FREE MEMORY OF STRINGPOOL*/ 
-    
-#ifdef __VERBOSE_YES
-    geverbosepc_labelstep = "DELETESTRINGPOOL";
-    ++geiinparam_verbose;
-    if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-      std::cout <<  geverbosepc_labelstep
-		<< ":  IN(" << geiinparam_verbose << ')'
-		<< std::endl;
-    }
-#endif /*__VERBOSE_YES*/
-    
-    for (uintidx lui_i = 0; lui_i < lvectorchromfixleng_matingPool.size(); ++lui_i) {
-      delete lvectorchromfixleng_matingPool[lui_i];
-    }
-
-#ifdef __VERBOSE_YES
-    if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-      std::cout << geverbosepc_labelstep
-		<< ": OUT(" << geiinparam_verbose << ')'
-		<< std::endl;
-    }
-    --geiinparam_verbose;
-#endif /*__VERBOSE_YES*/
-
-  } /*END FREE MEMORY OF STRINGPOOL*/ 
     
   runtime::stop(let_executionTime);
   aoop_outParamGAC.setNumClusterK
@@ -776,10 +678,10 @@ cga_vklabel
     (llfh_listFuntionHist.getDomainUpperBound());
         
 #ifndef __WITHOUT_PLOT_STAT
-  if ( aiinp_inParamPcPmVk.getWithPlotStatObjetiveFunc() ) {  
+  if ( aiinp_inParamWithoutPcPmVk.getWithPlotStatObjetiveFunc() ) {  
     plot_funtionHist
       (llfh_listFuntionHist,
-       aiinp_inParamPcPmVk,
+       aiinp_inParamWithoutPcPmVk,
        aoop_outParamGAC
        );  
   }
