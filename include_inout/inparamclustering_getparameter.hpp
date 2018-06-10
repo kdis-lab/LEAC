@@ -343,6 +343,23 @@ inparamclustering_usage
 #endif /*__INPARAM_FEAC__*/
 
 
+#ifdef __INPARAM_WITHOUTPCPMVK__
+template<typename T_CLUSTERIDX,
+	 typename T_REAL,
+	 typename T_FEATURE,         
+	 typename T_FEATURE_SUM,
+	 typename T_INSTANCES_CLUSTER_K
+	 > 
+void 
+inparamclustering_usage
+(char *argv0, 
+ InParamWithoutPcPmVk
+ <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+ &aoipc_inParamClustering
+ )
+#endif /*__INPARAM_WITHOUTPCPMVK__*/
+
+
 #ifdef __INPARAM_WITHOUTPCPMFK__
 template<typename T_CLUSTERIDX,
 	 typename T_BITSIZE,
@@ -1224,6 +1241,27 @@ template<typename T_CLUSTERIDX,
 	    << "]\n";
 #endif  /*__INPARAM_WITHOUTPCPMFK__*/
 
+
+#ifdef __INPARAM_WITHOUTPCPMVK__
+  std::cout << "      --k-minimum[=NUMBER]    minimum number of clusters per search\n"
+	    << "                                [NUMBER=" 
+	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
+  std::cout << "      --k-maximum[=NUMBER]    maximum number of clusters per search\n"
+            << "                                NUMBER = -1, depends on the algorithm,\n"
+	    << "                                for example  N/2 or N^1/2, where N is\n"
+	    << "                                number of instances. [NUMBER="   
+	    << aoipc_inParamClustering.getNumClusterKMaximum() << "]\n";
+  std::cout << "      --generations[=NUMBER]  number of generations or iterations\n"
+	    << "                               [NUMBER="
+	    << aoipc_inParamClustering.getNumMaxGenerations()
+	    << "]\n";
+  std::cout << "      --population-size[=NUMBER]\n"
+	    << "                               size of population [NUMBER="
+	    << aoipc_inParamClustering.getSizePopulation()
+	    << "]\n";
+#endif  /*__INPARAM_WITHOUTPCPMVK__*/
+
+
 #ifdef __INPARAM_PMFK__
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
@@ -1456,6 +1494,24 @@ template < typename T_FEATURE,
    char                                    **argv
    )
 #endif /*__INPARAM_WITHOUTPCPMFK__*/
+
+
+#ifdef  __INPARAM_WITHOUTPCPMVK__
+  template<typename T_CLUSTERIDX,
+           typename T_REAL,
+           typename T_FEATURE,         
+	   typename T_FEATURE_SUM,
+	   typename T_INSTANCES_CLUSTER_K
+          > 
+  void 
+  inparamclustering_getParameter
+  (InParamWithoutPcPmVk
+   <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+   &aoipc_inParamClustering,
+   int                                     argc, 
+   char                                    **argv
+   )
+#endif /*__INPARAM_WITHOUTPCPMVK__*/
 
   
 #ifdef __INPARAM_PCPMFK__
@@ -2015,6 +2071,18 @@ inparamclustering_getParameter
     };
 #endif /*__INPARAM_WITHOUTPCPMFK__*/
 
+
+#ifdef __INPARAM_WITHOUTPCPMVK__
+  const char   *las_optInparamWithoutPcPmVk[] = 
+    {"k-minimum",
+     "k-maximum",
+     "population-size", 
+     "generations",
+     (char *) NULL 
+    };
+#endif /*__INPARAM_WITHOUTPCPMVK__
+       */
+
 #ifdef __ALG_CLUSTERING__ /* ONLY CLUSTERING */
   
   const char   *las_opGeneral[] = {"centroids-format", "table-format",  (char *) NULL };
@@ -2176,6 +2244,15 @@ inparamclustering_getParameter
       {"mutation-probability",    required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
 #endif /*__INPARAM_PCPMVK__*/
+
+
+#ifdef __INPARAM_WITHOUTPCPMVK__
+      {"k-minimum",               required_argument, 0, 0},
+      {"k-maximum",               required_argument, 0, 0},
+      {"population-size",         required_argument, 0, 0},
+      {"generations",             required_argument, 0, 0},
+#endif /*__INPARAM_WITHOUTPCPMVK__*/
+
 
 #ifdef __INPARAM_TGCA__
       {"k-minimum",               required_argument, 0, 0},
@@ -3171,6 +3248,59 @@ inparamclustering_getParameter
 	   );
       }
 #endif  /*__INPARAM_PCPMVK__*/
+
+
+#ifdef __INPARAM_WITHOUTPCPMVK__
+      else if ( strcmp
+	   (long_options[option_index].name,
+	    las_optInparamWithoutPcPmVk[0] ) == 0 ) 
+	{ 
+	  T_CLUSTERIDX lmcidxT_kMinimum;
+	  liss_stringstream.clear();
+	  liss_stringstream.str(optarg);
+	  liss_stringstream >> lmcidxT_kMinimum;
+	  aoipc_inParamClustering.setNumClusterKMinimum(lmcidxT_kMinimum);
+	}
+      else if ( strcmp
+		(long_options[option_index].name,
+		 las_optInparamWithoutPcPmVk[1] ) == 0 ) 
+	{ 
+	  T_CLUSTERIDX lmcidxT_kMaximum;
+	  liss_stringstream.clear();
+	  liss_stringstream.str(optarg);
+	  liss_stringstream >> lmcidxT_kMaximum;
+	  aoipc_inParamClustering.setNumClusterKMaximum(lmcidxT_kMaximum);
+	}
+      else if ( strcmp /*Population-size*/
+		(long_options[option_index].name,
+		 las_optInparamWithoutPcPmVk[2]) == 0 
+		) 
+	{
+	  liss_stringstream.clear();
+	  liss_stringstream.str(optarg);
+	  liss_stringstream >> luintidx_read;
+	  aoipc_inParamClustering.setSizePopulation(luintidx_read);
+	}
+      else if ( strcmp
+		(long_options[option_index].name,
+		 las_optInparamWithoutPcPmVk[3]) == 0 
+		) 
+	{
+	  COMMON_IDOMAIN lT_readNumMaxGenerations;
+
+	  liss_stringstream.clear();
+	  liss_stringstream.str(optarg);
+	  liss_stringstream >> lT_readNumMaxGenerations;
+	  aoipc_inParamClustering.setNumMaxGenerations(lT_readNumMaxGenerations);
+	}
+      else {
+	aoipc_inParamClustering.errorArgument
+	  (argv[0],
+	   long_options[option_index].name,
+	   las_optInparamWithoutPcPmVk
+	   );
+      }
+#endif  /*__INPARAM_WITHOUTPCPMVK__*/
 
 #ifdef __INPARAM_TGCA__
       else if ( strcmp /*k-minimum*/
