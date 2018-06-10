@@ -494,7 +494,7 @@ int main(int argc, char **argv)
 
 #ifdef ALG_CGA_VKLABEL_HRUSCHKA_EBECKEN_2003   
   /*INPUT: PARAMETER*/
-  inout::InParamPcPmVk
+  inout::InParamWithoutPcPmVk
     <DATATYPE_CLUSTERIDX,
      DATATYPE_REAL,
      DATATYPE_FEATURE,
@@ -510,13 +510,11 @@ int main(int argc, char **argv)
   linparam_ClusteringGA.setNumClusterKMaximum
     (INPARAMCLUSTERING_DEFAULT_CLUSTERK_UNDEFINED);
   
-  linparam_ClusteringGA.setNumMaxGenerations(10000);
+  linparam_ClusteringGA.setNumMaxGenerations(200);
   
   /*Populations formed by 20 genotypes
    */
   linparam_ClusteringGA.setSizePopulation(20);
-  linparam_ClusteringGA.setProbCrossover(0.5);
-  linparam_ClusteringGA.setProbMutation(0.25);
   
   /*OUT:
    */
