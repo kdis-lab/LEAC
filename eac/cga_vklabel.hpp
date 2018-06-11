@@ -219,15 +219,10 @@ cga_vklabel
     }
 #endif /*__VERBOSE_YES*/  
 
-    std::uniform_int_distribution<T_CLUSTERIDX> uniformdis_kMinMax
-      ( aiinp_inParamWithoutPcPmVk.getNumClusterKMinimum(),
-	aiinp_inParamWithoutPcPmVk.getNumClusterKMaximum()
-	);
+    T_CLUSTERIDX lcidx_Kini = 
+      aiinp_inParamWithoutPcPmVk.getNumClusterKMinimum();
 
     for (auto& lchromfixleng_iter :lvectorchromfixleng_population) {
-
-      T_CLUSTERIDX lcidx_Kini = 
-	uniformdis_kMinMax(gmt19937_eng);
 
       std::uniform_int_distribution<T_CLUSTERIDX> uniformdis_cidxKini
 	(0,lcidx_Kini-1);
@@ -246,8 +241,10 @@ cga_vklabel
 	 lcidx_Kini
 	 );
 				   
-      lchromfixleng_iter.setObjetiveFunc(measuare_lowerValueSilhouette(T_REAL)); // -std::numeric_limits<T_REAL>::max());
+      lchromfixleng_iter.setObjetiveFunc(measuare_lowerValueSilhouette(T_REAL)); 
       lchromfixleng_iter.setFitness(0.0);
+
+      ++lcidx_Kini;
       
     }
        
@@ -262,15 +259,13 @@ cga_vklabel
 
   } /*END INITIALIZE A POPULATION**/
 
+  llfh_listFuntionHist.increaseDomainUpperBound();
 
   while ( ( llfh_listFuntionHist.getDomainUpperBound() <= 
 	    aiinp_inParamWithoutPcPmVk.getNumMaxGenerations() )
           && ( runtime::elapsedTime(let_executionTime)
 	       < aiinp_inParamWithoutPcPmVk.getMaxExecutiontime() )
 	  ) {
-   
-    llfh_listFuntionHist.increaseDomainUpperBound();
-
 
     { /*BEGIN FITNESS COMPUTATION*/
 
@@ -661,6 +656,8 @@ cga_vklabel
     }
     --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
+
+    llfh_listFuntionHist.increaseDomainUpperBound();
 
   } /*END While*/
     
