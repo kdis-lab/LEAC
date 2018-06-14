@@ -172,6 +172,9 @@ fuzzyPartition
 	 linst_features_i,
 	 data::Instance<T_FEATURE>::getNumDimensions()
 	 );
+
+      if ( lrt_Dik == T_REAL(0.0) ) 
+	lrt_Dik = std::numeric_limits<T_REAL>::epsilon();
   
       lrt_DikU = 1.0 / std::pow(lrt_Dik, lrt_p);
       lrt_sumDjkU = 0.0;
@@ -185,6 +188,10 @@ fuzzyPartition
 	   linst_features_i,
 	   data::Instance<T_FEATURE>::getNumDimensions()
 	   );
+
+	if ( lrt_Djk == T_REAL(0.0) ) 
+	  lrt_Djk = std::numeric_limits<T_REAL>::epsilon();
+
 	lrt_sumDjkU += 1.0 / std::pow(lrt_Djk, lrt_p);
       } /*END for lui_l*/
       lmrt_uRow_j[lui_i] = lrt_DikU / lrt_sumDjkU;
