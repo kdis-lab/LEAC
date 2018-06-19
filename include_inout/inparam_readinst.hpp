@@ -97,6 +97,7 @@ public:
   inline void clearVectorFilesInstance()
   {
     _vectorstr_filesInstance.clear();
+    _vectorstr_filesInstanceTest.clear();
   }
 
   const std::vector<std::string>& getVectorFilesInstance() const

@@ -404,13 +404,13 @@ instancesReadWithClass
   std::vector<data::Instance<T_FEATURE>* >  lovectorptinst_instances;
 
   std::istringstream                      liss_stringstream;
- 
-  LineSplit
+
+   LineSplit
     lls_lineSplit
     (aiipri_inParamReadInst.getSeparateAttributes(),
      aiipri_inParamReadInst.getSelectAttributes()
      );
-  
+
 #ifdef __VERBOSE_YES 
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -421,10 +421,17 @@ instancesReadWithClass
 	      << lstr_fileInstance
 	      << "\n\t input  inout::InParamReadInst: &aiipri_inParamReadInst[" 
 	      << &aiipri_inParamReadInst << ']'
+              << "\n\t         Separate Attributes: " 
+	      << aiipri_inParamReadInst.getSeparateAttributes()
+              << "\n\t         Select Attributes: " 
+	      << aiipri_inParamReadInst.getSelectAttributes()
+              << "\n\t         lls_lineSplit.getNumSelectColumns: " 
+	      << lls_lineSplit.getNumSelectColumns()
 	      << "\n\t)"
 	      << std::endl;
   }
 #endif /*__VERBOSE_YES*/
+
 
   std::pair<uintidx,uintidx> lpair_dimInstance =
     readNumInstances
