@@ -1482,42 +1482,45 @@ VRC
 
   T_METRIC  lometric_VRC = measuare_undefVRC(T_METRIC);
  
-  std::vector<T_METRIC> lvectorrt_sumDistInstCentInK;
-  std::vector<uintidx>  lvectorui_numInstClusterK;
-  
-  std::tie
-    (lvectorrt_sumDistInstCentInK,
-     lvectorui_numInstClusterK) =
-    sumDistInstCentInK
-    (aimatrixt_centroids,
-     aiiterator_instfirst,
-     aiiterator_instlast,
-     aipartition_clusters,
-     aifunc2p_squaredDist
-     );
-   
-  T_METRIC lmetrict_SSw = 
-    interfacesse::sum
-    (lvectorrt_sumDistInstCentInK.data(),
-     (uintidx) lvectorrt_sumDistInstCentInK.size()
-     );
+  if ( aimatrixt_centroids.getNumRows() > 1 ) {
 
-  if  ( lmetrict_SSw > 0.0 ) {
-    
-    T_METRIC lmetrict_SSb =
-      ssb
+    std::vector<T_METRIC> lvectorrt_sumDistInstCentInK;
+    std::vector<uintidx>  lvectorui_numInstClusterK;
+  
+    std::tie
+      (lvectorrt_sumDistInstCentInK,
+       lvectorui_numInstClusterK) =
+      sumDistInstCentInK
       (aimatrixt_centroids,
-       larray_centroid1,
-       lvectorui_numInstClusterK,
+       aiiterator_instfirst,
+       aiiterator_instlast,
+       aipartition_clusters,
        aifunc2p_squaredDist
        );
+   
+    T_METRIC lmetrict_SSw = 
+      interfacesse::sum
+      (lvectorrt_sumDistInstCentInK.data(),
+       (uintidx) lvectorrt_sumDistInstCentInK.size()
+       );
 
-    lometric_VRC =
-      (lmetrict_SSb  * (T_METRIC) (lui_numInstances - aimatrixt_centroids.getNumRows() ))
-      / (lmetrict_SSw * (T_METRIC) ( aimatrixt_centroids.getNumRows() -1 ));
+    if  ( lmetrict_SSw > 0.0 ) {
+    
+      T_METRIC lmetrict_SSb =
+	ssb
+	(aimatrixt_centroids,
+	 larray_centroid1,
+	 lvectorui_numInstClusterK,
+	 aifunc2p_squaredDist
+	 );
+
+      lometric_VRC =
+	(lmetrict_SSb  * (T_METRIC) (lui_numInstances - aimatrixt_centroids.getNumRows() ))
+	/ (lmetrict_SSw * (T_METRIC) ( aimatrixt_centroids.getNumRows() -1 ));
+    
+    }
     
   }
-    
 	  
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -1564,68 +1567,74 @@ VRCreeval
 	      << std::endl;
   }
 #endif //__VERBOSE_YES
-  const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
-  
-  T_FEATURE *larray_centroid1 =
-    new T_FEATURE[data::Instance<T_FEATURE>::getNumDimensions()];
-
-  decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
-    *larray_sumFeatureTmp =
-    new decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
-    [data::Instance<T_FEATURE>::getNumDimensions()];
-
-  stats::sumFeactures
-    (larray_sumFeatureTmp,
-     aiiterator_instfirst,
-     aiiterator_instlast,
-     T_FEATURE(0)
-     );
-  
-  stats::meanVector
-    (larray_centroid1,
-     lui_numInstances,
-     larray_sumFeatureTmp
-     );
-
 
   T_METRIC  lometric_VRC = measuare_undefVRC(T_METRIC);
- 
-  std::vector<T_METRIC> lvectorrt_sumDistInstCentInK;
-  std::vector<uintidx>  lvectorui_numInstClusterK;
-  
-  std::tie
-    (lvectorrt_sumDistInstCentInK,
-     lvectorui_numInstClusterK) =
-    sumDistInstCentInK
-    (aimatrixt_centroids,
-     aiiterator_instfirst,
-     aiiterator_instlast,
-     aipartition_clusters,
-     aifunc2p_squaredDist
-     );
-   
-  T_METRIC lmetrict_SSw = 
-    interfacesse::sum
-    (lvectorrt_sumDistInstCentInK.data(),
-     (uintidx) lvectorrt_sumDistInstCentInK.size()
-     );
 
-  if  ( lmetrict_SSw > 0.0 ) {
-    
-    T_METRIC lmetrict_SSb =
-      ssb
+  if ( aimatrixt_centroids.getNumRows() > 1 ) {
+
+    const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
+  
+    T_FEATURE *larray_centroid1 =
+      new T_FEATURE[data::Instance<T_FEATURE>::getNumDimensions()];
+
+    decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
+      *larray_sumFeatureTmp =
+      new decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
+      [data::Instance<T_FEATURE>::getNumDimensions()];
+
+    stats::sumFeactures
+      (larray_sumFeatureTmp,
+       aiiterator_instfirst,
+       aiiterator_instlast,
+       T_FEATURE(0)
+       );
+  
+    stats::meanVector
+      (larray_centroid1,
+       lui_numInstances,
+       larray_sumFeatureTmp
+       );
+ 
+    std::vector<T_METRIC> lvectorrt_sumDistInstCentInK;
+    std::vector<uintidx>  lvectorui_numInstClusterK;
+  
+    std::tie
+      (lvectorrt_sumDistInstCentInK,
+       lvectorui_numInstClusterK) =
+      sumDistInstCentInK
       (aimatrixt_centroids,
-       larray_centroid1,
-       lvectorui_numInstClusterK,
+       aiiterator_instfirst,
+       aiiterator_instlast,
+       aipartition_clusters,
        aifunc2p_squaredDist
        );
+   
+    T_METRIC lmetrict_SSw = 
+      interfacesse::sum
+      (lvectorrt_sumDistInstCentInK.data(),
+       (uintidx) lvectorrt_sumDistInstCentInK.size()
+       );
 
-    lometric_VRC =
-      (lmetrict_SSb  * (T_METRIC) (lui_numInstances - aimatrixt_centroids.getNumRows() ))
-      / (lmetrict_SSw * (T_METRIC) ( aimatrixt_centroids.getNumRows() -1 ));
+    if  ( lmetrict_SSw > 0.0 ) {
+    
+      T_METRIC lmetrict_SSb =
+	ssb
+	(aimatrixt_centroids,
+	 larray_centroid1,
+	 lvectorui_numInstClusterK,
+	 aifunc2p_squaredDist
+	 );
+
+      lometric_VRC =
+	(lmetrict_SSb  * (T_METRIC) (lui_numInstances - aimatrixt_centroids.getNumRows() ))
+	/ (lmetrict_SSw * (T_METRIC) ( aimatrixt_centroids.getNumRows() -1 ));
+    
+    }
+
+    delete [] larray_centroid1;
+    delete [] larray_sumFeatureTmp;
     
   }
-    
 	  
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -1636,9 +1645,6 @@ VRCreeval
   }
   --geiinparam_verbose;
 #endif //__VERBOSE_YES
-
-  delete [] larray_centroid1;
-  delete [] larray_sumFeatureTmp;
 
   return lometric_VRC;
     
@@ -1734,41 +1740,44 @@ WBIndex
 #endif //__VERBOSE_YES
 
   T_METRIC  lometric_WBIndex = measuare_undefWBIndex(T_METRIC);
- 
-  std::vector<T_METRIC> lvectorrt_sumDistInstCentInK;
-  std::vector<uintidx>  lvectorui_numInstClusterK;
+
+  if ( aimatrixt_centroids.getNumRows() > 1 ) { 
+
+    std::vector<T_METRIC> lvectorrt_sumDistInstCentInK;
+    std::vector<uintidx>  lvectorui_numInstClusterK;
   
-  std::tie
-    (lvectorrt_sumDistInstCentInK,
-     lvectorui_numInstClusterK) =
-    sumDistInstCentInK
-    (aimatrixt_centroids,
-     aiiterator_instfirst,
-     aiiterator_instlast,
-     aipartition_clusters,
-     aifunc2p_squaredDist
-     );
-
-  T_METRIC lmetrict_SSb =
-    ssb
-    (aimatrixt_centroids,
-     larray_centroid1,
-     lvectorui_numInstClusterK,
-     aifunc2p_squaredDist
-     );
-
-  if  ( lmetrict_SSb > 0.0 ) {
-
-    T_METRIC lmetrict_SSw = 
-      interfacesse::sum
-      (lvectorrt_sumDistInstCentInK.data(),
-       (uintidx) lvectorrt_sumDistInstCentInK.size()
+    std::tie
+      (lvectorrt_sumDistInstCentInK,
+       lvectorui_numInstClusterK) =
+      sumDistInstCentInK
+      (aimatrixt_centroids,
+       aiiterator_instfirst,
+       aiiterator_instlast,
+       aipartition_clusters,
+       aifunc2p_squaredDist
        );
 
-    lometric_WBIndex = (lmetrict_SSw / lmetrict_SSb) *
-      (T_METRIC) ( aimatrixt_centroids.getNumRows() -1 );    
-  }
+    T_METRIC lmetrict_SSb =
+      ssb
+      (aimatrixt_centroids,
+       larray_centroid1,
+       lvectorui_numInstClusterK,
+       aifunc2p_squaredDist
+       );
+
+    if  ( lmetrict_SSb > 0.0 ) {
+
+      T_METRIC lmetrict_SSw = 
+	interfacesse::sum
+	(lvectorrt_sumDistInstCentInK.data(),
+	 (uintidx) lvectorrt_sumDistInstCentInK.size()
+	 );
+
+      lometric_WBIndex = (lmetrict_SSw / lmetrict_SSb) *
+	(T_METRIC) ( aimatrixt_centroids.getNumRows() -1 );    
+    }
     
+  }
 	  
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -1817,65 +1826,71 @@ WBIndexreeval
   }
 #endif //__VERBOSE_YES
 
-  const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
-  
-  T_FEATURE *larray_centroid1 =
-    new T_FEATURE[data::Instance<T_FEATURE>::getNumDimensions()];
-
-  decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
-    *larray_sumFeatureTmp =
-    new decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
-    [data::Instance<T_FEATURE>::getNumDimensions()];
-
-  stats::sumFeactures
-    (larray_sumFeatureTmp,
-     aiiterator_instfirst,
-     aiiterator_instlast,
-     T_FEATURE(0)
-     );
-  
-  stats::meanVector
-    (larray_centroid1,
-     lui_numInstances,
-     larray_sumFeatureTmp
-     );
-                
   T_METRIC  lometric_WBIndex = measuare_undefWBIndex(T_METRIC);
- 
-  std::vector<T_METRIC> lvectorrt_sumDistInstCentInK;
-  std::vector<uintidx>  lvectorui_numInstClusterK;
+
+  if ( aimatrixt_centroids.getNumRows() > 1 ) {
+
+    const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
   
-  std::tie
-    (lvectorrt_sumDistInstCentInK,
-     lvectorui_numInstClusterK) =
-    sumDistInstCentInK
-    (aimatrixt_centroids,
-     aiiterator_instfirst,
-     aiiterator_instlast,
-     aipartition_clusters,
-     aifunc2p_squaredDist
-     );
+    T_FEATURE *larray_centroid1 =
+      new T_FEATURE[data::Instance<T_FEATURE>::getNumDimensions()];
 
-  T_METRIC lmetrict_SSb =
-    ssb
-    (aimatrixt_centroids,
-     larray_centroid1,
-     lvectorui_numInstClusterK,
-     aifunc2p_squaredDist
-     );
+    decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
+      *larray_sumFeatureTmp =
+      new decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
+      [data::Instance<T_FEATURE>::getNumDimensions()];
 
-  if  ( lmetrict_SSb > 0.0 ) {
-
-    T_METRIC lmetrict_SSw = 
-      interfacesse::sum
-      (lvectorrt_sumDistInstCentInK.data(),
-       (uintidx) lvectorrt_sumDistInstCentInK.size()
+    stats::sumFeactures
+      (larray_sumFeatureTmp,
+       aiiterator_instfirst,
+       aiiterator_instlast,
+       T_FEATURE(0)
+       );
+  
+    stats::meanVector
+      (larray_centroid1,
+       lui_numInstances,
+       larray_sumFeatureTmp
+       );
+                
+    std::vector<T_METRIC> lvectorrt_sumDistInstCentInK;
+    std::vector<uintidx>  lvectorui_numInstClusterK;
+  
+    std::tie
+      (lvectorrt_sumDistInstCentInK,
+       lvectorui_numInstClusterK) =
+      sumDistInstCentInK
+      (aimatrixt_centroids,
+       aiiterator_instfirst,
+       aiiterator_instlast,
+       aipartition_clusters,
+       aifunc2p_squaredDist
        );
 
-    lometric_WBIndex = (lmetrict_SSw / lmetrict_SSb) *
-      (T_METRIC) ( aimatrixt_centroids.getNumRows() -1 );    
+    T_METRIC lmetrict_SSb =
+      ssb
+      (aimatrixt_centroids,
+       larray_centroid1,
+       lvectorui_numInstClusterK,
+       aifunc2p_squaredDist
+       );
+
+    if  ( lmetrict_SSb > 0.0 ) {
+
+      T_METRIC lmetrict_SSw = 
+	interfacesse::sum
+	(lvectorrt_sumDistInstCentInK.data(),
+	 (uintidx) lvectorrt_sumDistInstCentInK.size()
+	 );
+
+      lometric_WBIndex = (lmetrict_SSw / lmetrict_SSb) *
+	(T_METRIC) ( aimatrixt_centroids.getNumRows() -1 );    
+    }
+
+    delete [] larray_centroid1;
+    delete [] larray_sumFeatureTmp;
+
   }
-    
 	  
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
@@ -1886,9 +1901,6 @@ WBIndexreeval
   }
   --geiinparam_verbose;
 #endif //__VERBOSE_YES
-
-  delete [] larray_centroid1;
-  delete [] larray_sumFeatureTmp;
 
   return lometric_WBIndex;
     
