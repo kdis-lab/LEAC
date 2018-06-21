@@ -531,6 +531,7 @@ tgca_vkcentroid
   } /*END INITIALIZATION*/
 
 
+   llfh_listFuntionHist.increaseDomainUpperBound();
   while ( 1 ) {
 
     /*2. Evaluation of individuals
@@ -595,7 +596,6 @@ tgca_vkcentroid
 	     (T_CLUSTERIDX) lui_numClusterK 
 	     );
 	       
-	  T_CLUSTERIDX  lmcidx_numClusterNull;
 	  uintidx       luintidx_numThreshold;
 
 	  mat::MatrixRow<T_FEATURE_SUM>       
@@ -629,8 +629,6 @@ tgca_vkcentroid
 	    
 	    /*STEP UPDATE
 	     */
-
-	    lmcidx_numClusterNull =
 	      clusteringop::getCentroids
 	      (lmatrixrowt_centroidsChrom,
 	       lmatrixrowt_sumInstCluster,
@@ -646,9 +644,6 @@ tgca_vkcentroid
 	      ((luintidx_numThreshold > aiinp_inParamTGCA.getKmeansMinThreshold()) &&
 	       ( lit_numMaxIter  <  aiinp_inParamTGCA.getKmeansNumMaxIter() )
 	       );
-	  
-	  lchrom_iter->setValidString(lmcidx_numClusterNull > 0?false:true);
-
 
 #ifdef __DELETE_EMPTY_CLUSTER__
 
@@ -717,9 +712,9 @@ tgca_vkcentroid
 
 	uintidx lui_numClusterK = 
 	  lchrom_iter->getStringSize() / data::Instance<T_FEATURE>::getNumDimensions();
-	
-	if (  lchrom_iter->getValidString() &&  lui_numClusterK > 1 ) {
-	     
+	    
+	if ( lui_numClusterK > 1 ) {
+
 	  /*DECODE CHROMOSOME*/
 	  mat::MatrixRow<T_FEATURE> 
 	    lmatrixrowt_centroidsChrom
@@ -759,6 +754,12 @@ tgca_vkcentroid
 	  lchrom_iter->setObjetiveFunc(lT_VRC); 
 	  lchrom_iter->setFitness(lT_VRC);
 	    
+	}
+	else {
+	  lchrom_iter->setValidString(false);
+	  aoop_outParamGAC.incTotalInvalidOffspring();
+	  lchrom_iter->setObjetiveFunc(measuare_undefVRC(T_METRIC));
+	  lchrom_iter->setFitness(measuare_undefVRC(T_METRIC));
 	}
 	     
 #ifndef __WITHOUT_PLOT_STAT
