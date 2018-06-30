@@ -422,7 +422,7 @@ instancesReadWithClass
 	      << "\n\t input  inout::InParamReadInst: &aiipri_inParamReadInst[" 
 	      << &aiipri_inParamReadInst << ']'
               << "\n\t         Separate Attributes: " 
-	      << aiipri_inParamReadInst.getSeparateAttributes()
+	      << "'" <<aiipri_inParamReadInst.getSeparateAttributes() << "'"
               << "\n\t         Select Attributes: " 
 	      << aiipri_inParamReadInst.getSelectAttributes()
               << "\n\t         lls_lineSplit.getNumSelectColumns: " 
@@ -952,8 +952,7 @@ dataSetReadWithFreq
   std::vector<data::Instance<T_FEATURE>* >  lovectorptinst_instancesTest;
 
   /*TYPE OF INSTANCES*/  
-    if ( aiipri_inParamReadInstWithFreq.getClassInstanceColumn()  &&
-	 aiipri_inParamReadInstWithFreq.getInstanceFrequencyColumn() ) {
+  if ( aiipri_inParamReadInstWithFreq.getClassInstanceColumn() ) {
     
       data::InstanceIterfazClass
 	<T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
@@ -967,37 +966,14 @@ dataSetReadWithFreq
 
       if ( aiipri_inParamReadInstWithFreq.getNumFilesInstanceTest() > 0 ) {
 
-	lovectorptinst_instances = 
+        lovectorptinst_instancesTest = 
 	  inout::instancesReadWithFreqClass
 	  (aiipri_inParamReadInstWithFreq,
 	   true
 	   );
       }
-    }
-    else if ( aiipri_inParamReadInstWithFreq.getClassInstanceColumn() ) {
-
-      data::InstanceIterfazClass
-	<T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>
-	::initialize();
-
-      lovectorptinst_instances = 
-	inout::instancesReadWithClass
-	(aiipri_inParamReadInstWithFreq,
-	 false
-	 );
-
-      if ( aiipri_inParamReadInstWithFreq.getNumFilesInstanceTest() > 0) {
-
-	lovectorptinst_instancesTest = 
-	  inout::instancesReadWithClass
-	  (aiipri_inParamReadInstWithFreq,
-	   true
-	   );
-
-      }
-
     } 
-    else if ( aiipri_inParamReadInstWithFreq.getInstanceFrequencyColumn() ) {
+    else { 
 
       lovectorptinst_instances = 
 	inout::instancesReadWithFreq
@@ -1009,23 +985,6 @@ dataSetReadWithFreq
 
 	lovectorptinst_instancesTest = 
 	  inout::instancesReadWithFreq
-	  (aiipri_inParamReadInstWithFreq,
-	   true
-	   );
-      }
-    }
-    else {
-
-      lovectorptinst_instances = 
-	inout::instancesRead
-	(aiipri_inParamReadInstWithFreq,
-	 false
-	 );
-
-      if ( aiipri_inParamReadInstWithFreq.getNumFilesInstanceTest() > 0) {
-      
-	lovectorptinst_instancesTest = 
-	  inout::instancesRead
 	  (aiipri_inParamReadInstWithFreq,
 	   true
 	   );
