@@ -47,7 +47,8 @@ endif
 INCLUDE = -I$(TOPDIR) -I$(LEAC) -I ../include_inout
 
 ifeq ($(WITH_OPEN_BLAS),yes)
-OPEN_BLAS_FLAG = -D __WITH_OPEN_BLAS -static
+#If it is necessary to include the '-static' option 
+OPEN_BLAS_FLAG = -D __WITH_OPEN_BLAS 
 LIBRARIES +=  $(OPENBLAS)/liblapacke.a $(OPENBLAS)/liblapack.a $(OPENBLAS)/libcblas.a $(OPENBLAS)/libopenblas.a  $(SSEKERNEL)/libssekernel.a -lgfortran -lquadmath
 INCLUDE += -I$(OPENBLAS) -I$(SSEKERNEL)
 else	
@@ -68,7 +69,7 @@ ifeq ($(OS),Windows_NT)
     SEPARATOR = &&
     DESBIN = ..\\bin\\
 else 
-    LIBRARIES +=  -lstdc++
+    LIBRARIES += -lstdc++
     COPY   = cp
    SEPARATOR = ;
     DESBIN = ../bin/
