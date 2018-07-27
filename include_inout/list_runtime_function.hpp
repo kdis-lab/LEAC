@@ -121,7 +121,7 @@ public:
   
   inline uintidx getNumberFuntions()	
   {
-    return (uintidx)  this->_vector_ptRuntimeFunction->size();
+    return (uintidx)  this->_vector_ptRuntimeFunction.size();
   }
 
   
