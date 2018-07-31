@@ -6,6 +6,8 @@ The tools is free and open source, under the GNU General Public
 [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html) 
 [\[License file\]](../../LICENSE),
 for Windows&reg;, GNU/Linux&reg; and Mac OS X&reg;.
+For more details see <a href="https://github.com/kdis-lab/leac/tree/master/doc/leac-userManual.pdf">user
+manual</a>.
 
 Clustering is useful in several exploratory *pattern-analysis*,
 *grouping*, *decision-making*, and *machine-learning situations*,
