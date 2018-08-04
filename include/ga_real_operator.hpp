@@ -287,12 +287,6 @@ BLXalphaCrossover
 	      << std::endl; 
   }
 #endif //__VERBOSE_YES
-  /*
-  const T_GENE* lstr_parentX; // =  aochrom_childX.getString(),
-  const T_GENE* lstr_parentY; // =  aochrom_childY.getString(),
-  T_GENE* lstr_childX; // =  aochrom_childX.getString(),
-  T_GENE* lstr_childY; // =  aochrom_childY.getString(),
-  */
   
   const T_GENE* lstr_parentX = aichrom_parentX.getString();
   const T_GENE* lstr_parentY = aichrom_parentY.getString();
@@ -301,10 +295,8 @@ BLXalphaCrossover
 
   const T_GENE* lstr_end(lstr_parentX + aichrom_parentX.getStringSize());
     
-  //for (uintidx lui_i = 0; lui_i <  aichrom_parentX.getStringSize(); lui_i++) {
   while ( lstr_parentX != lstr_end ) { 
-    //const T_GENE lgeneX = aichrom_parentX.getGene(lui_i);
-    //const T_GENE lgeneY = aichrom_parentY.getGene(lui_i);
+  
     T_GENE lt_cmax = std::max(*lstr_parentX ,*lstr_parentY);
     T_GENE lt_cmin = std::min(*lstr_parentX ,*lstr_parentY);
     T_GENE lt_I = lt_cmax - lt_cmin;
@@ -312,8 +304,7 @@ BLXalphaCrossover
       uniformdis_I(lt_cmin-lt_I*airt_alpha,lt_cmax+lt_I*airt_alpha);
     *lstr_childX = uniformdis_I(gmt19937_eng);
     *lstr_childY = uniformdis_I(gmt19937_eng);
-    //aochrom_childX.setGene(lui_i,uniformdis_I(gmt19937_eng));
-    //aochrom_childY.setGene(lui_i,uniformdis_I(gmt19937_eng));
+
     lstr_parentX++;
     lstr_parentY++;
     lstr_childX++;
