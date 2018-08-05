@@ -7,7 +7,7 @@ The tools is free and open source, under the GNU General Public
 [\[License file\]](../../LICENSE),
 for Windows&reg;, GNU/Linux&reg; and Mac OS X&reg;.
 For more details see <a href="https://github.com/kdis-lab/leac/tree/master/leac-userManual.pdf">user
-manual</a> and <a href="https://hbrobles.github.io/APILeac/index.html">API</a> or locally, the API can be found in the document directory
+manual</a> and <a href="https://hbrobles.github.io/APILeac/index.html">API</a> or locally, the API can be found in the 'docs' directory
 
 Clustering is useful in several exploratory *pattern-analysis*,
 *grouping*, *decision-making*, and *machine-learning situations*,
