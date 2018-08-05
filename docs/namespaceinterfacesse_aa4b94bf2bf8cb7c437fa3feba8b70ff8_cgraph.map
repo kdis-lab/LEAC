@@ -1,0 +1,9 @@
+<map id="interfacesse::copya" name="interfacesse::copya">
+<area shape="rect" id="node2" href="$namespaceinterfacesse.html#a925f44ed84d40e9af5050fa0e1373396" title="copy array aoarrayt_x in aoarrayt_y of type T " alt="" coords="193,5,325,32"/>
+<area shape="rect" id="node3" href="$namespaceinterfacesse.html#afaa45a2a27710ea2dfa979289cf4961d" title="swap items of aoarrayt_y to aiarrayt_x " alt="" coords="373,5,508,32"/>
+<area shape="rect" id="node4" href="$namespaceinterfacesse.html#a2f42addf86fc8b9cd0c6620217b8a2db" title="swap items of aoarrayt_y to aiarrayt_x " alt="" coords="556,5,679,32"/>
+<area shape="rect" id="node5" href="$namespaceinterfacesse.html#a25f6950d589b92fd5bcf2007fb3fae19" title="interfacesse::sum" alt="" coords="727,5,855,32"/>
+<area shape="rect" id="node6" href="$namespaceinterfacesse.html#a9dd5fb43ad8a83ee5cb2f5ba1bb2085b" title="interfacesse::axpy" alt="" coords="903,5,1035,32"/>
+<area shape="rect" id="node7" href="$namespaceinterfacesse.html#ae3f94c42a59db65b2941dbfc9f449ea1" title="function xAXPY of blas for doubles vectors " alt="" coords="1083,5,1232,32"/>
+<area shape="rect" id="node8" href="$namespaceinterfacesse.html#a144ebf70bf38495c3de1aca2c8365e08" title="scal items of the array of type T " alt="" coords="1280,5,1408,32"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classds_1_1_disj_sets.html" title="Disjoint&#45;set. " alt="" coords="31,13,126,39"/>
+<area shape="rect" id="node2" href="$classpartition_1_1_partition_disj_sets.html" title="Partition of instances in base DisjSets data structure. " alt="" coords="247,5,422,47"/>
+<area shape="rect" id="node3" href="$classpartition_1_1_partition.html" title="Definition of the abstract class Partition, to build a cluster of a dataset. " alt="" coords="5,215,152,256"/>
+<area shape="rect" id="node4" href="$classpartition_1_1_partition_centroids.html" title="Partition of instances in base to following equation: &#160;where , represents the medoid of cluster ..." alt="" coords="222,70,447,126"/>
+<area shape="rect" id="node5" href="$classpartition_1_1_partition_crisp_matrix.html" title="Partition of instances with bit crisp matrix. " alt="" coords="205,149,464,191"/>
+<area shape="rect" id="node6" href="$classpartition_1_1_partition_fuzzy.html" title="Partition of instances with fuzzy matrix &#160;. " alt="" coords="244,215,425,256"/>
+<area shape="rect" id="node7" href="$classpartition_1_1_partition_label.html" title="Partition of instances with label string assigned previous. " alt="" coords="256,280,413,321"/>
+<area shape="rect" id="node8" href="$classpartition_1_1_partition_label_vector.html" title="Partition of instances with label vector assigned previous. " alt="" coords="241,345,428,387"/>
+<area shape="rect" id="node9" href="$classpartition_1_1_partition_medoids.html" title="Partition of instances with closest medoids &#160;where , represents the medoid of cluster ..." alt="" coords="200,410,469,466"/>
+</map>

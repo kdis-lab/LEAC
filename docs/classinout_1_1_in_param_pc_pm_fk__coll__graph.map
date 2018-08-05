@@ -1,0 +1,11 @@
+<map id="inout::InParamPcPmFk&lt; T_CLUSTERIDX, T_REAL, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;" name="inout::InParamPcPmFk&lt; T_CLUSTERIDX, T_REAL, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;">
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_pc_pm.html" title="Input parameter for GA with probability crossover (Pc) and mutation (Pm) " alt="" coords="83,1383,235,1577"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_g_a_clustering.html" title="Input parameter for genetic algorithm. " alt="" coords="65,1153,253,1333"/>
+<area shape="rect" id="node4" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm. " alt="" coords="38,726,281,1067"/>
+<area shape="rect" id="node5" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos. " alt="" coords="5,344,185,612"/>
+<area shape="rect" id="node6" title="STL class. " alt="" coords="285,160,365,237"/>
+<area shape="rect" id="node9" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances. " alt="" coords="335,689,563,1104"/>
+<area shape="rect" id="node7" title="STL class. " alt="" coords="261,5,388,97"/>
+<area shape="rect" id="node8" href="$classinout_1_1_in_param_fk.html" title="Input parameter for algorithms with Fixed K. " alt="" coords="260,1405,411,1555"/>
+<area shape="rect" id="node11" title="STL class. " alt="" coords="596,160,715,237"/>
+</map>

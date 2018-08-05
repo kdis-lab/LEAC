@@ -1,0 +1,29 @@
+<map id="include/unsupervised_measures.hpp" name="include/unsupervised_measures.hpp">
+<area shape="rect" id="node11" href="$matrix_8hpp.html" title="matrix " alt="" coords="3032,319,3115,345"/>
+<area shape="rect" id="node22" href="$verbose__global_8hpp.html" title="verbose global " alt="" coords="2313,468,2452,495"/>
+<area shape="rect" id="node27" href="$bit__matrix_8hpp.html" title="bit matrix " alt="" coords="827,244,930,271"/>
+<area shape="rect" id="node32" href="$vector__utils_8hpp.html" title="Operations for vector manipulation. " alt="" coords="1678,393,1791,420"/>
+<area shape="rect" id="node33" href="$partition_8hpp.html" title="partition " alt="" coords="1291,393,1383,420"/>
+<area shape="rect" id="node34" href="$partition__linked__numinst_8hpp.html" title="Linked partition data structure with number of instances. " alt="" coords="1787,95,1973,121"/>
+<area shape="rect" id="node40" href="$container__out_8hpp.html" title="container out " alt="" coords="1403,244,1530,271"/>
+<area shape="rect" id="node44" href="$leac__utils_8hpp.html" title="LEAC utils. " alt="" coords="4150,393,4253,420"/>
+<area shape="rect" id="node46" href="$stats__instances_8hpp.html" title="Statistics for instances. " alt="" coords="3437,95,3576,121"/>
+<area shape="rect" id="node19" href="$matrix__base_8hpp.html" title="matrix base " alt="" coords="2750,393,2869,420"/>
+<area shape="rect" id="node23" href="$linear__algebra__level1_8hpp.html" title="linear algebra level1 " alt="" coords="3797,393,3973,420"/>
+<area shape="rect" id="node25" href="$line__split_8hpp.html" title="line split " alt="" coords="2222,393,2319,420"/>
+<area shape="rect" id="node20" href="$common_8hpp.html" title="common " alt="" coords="1932,468,2031,495"/>
+<area shape="rect" id="node24" href="$interface__level1_8hpp.html" title="Interface_level 1. " alt="" coords="3815,468,3956,495"/>
+<area shape="rect" id="node29" href="$bit__container_8hpp.html" title="bit container " alt="" coords="651,393,773,420"/>
+<area shape="rect" id="node31" href="$bit__array_8hpp.html" title="bit array " alt="" coords="774,319,871,345"/>
+<area shape="rect" id="node35" href="$nearestinstance__operator_8hpp.html" title="nearest instance operator " alt="" coords="1989,244,2187,271"/>
+<area shape="rect" id="node39" href="$partition__linked_8hpp.html" title="Linked partition data structure. " alt="" coords="2219,169,2354,196"/>
+<area shape="rect" id="node36" href="$instance_8hpp.html" title="Module for the handling of instances or also called objects or points. " alt="" coords="2565,319,2661,345"/>
+<area shape="rect" id="node37" href="$matrix__triangular_8hpp.html" title="matrix triangular " alt="" coords="1408,393,1552,420"/>
+<area shape="rect" id="node38" href="$dist_8hpp.html" title="operations for the calculation of distances between objects " alt="" coords="2019,319,2085,345"/>
+<area shape="rect" id="node42" href="$insertion__operator_8hpp.html" title="insertion operator " alt="" coords="961,319,1114,345"/>
+<area shape="rect" id="node43" href="$outfilename_8hpp.html" title="out file name " alt="" coords="1051,393,1165,420"/>
+<area shape="rect" id="node47" href="$container__instance_8hpp.html" title="container utilities for instances " alt="" coords="2994,244,3153,271"/>
+<area shape="rect" id="node48" href="$linear__algebra__level2_8hpp.html" title="linear algebra level 2 " alt="" coords="3293,169,3469,196"/>
+<area shape="rect" id="node50" href="$matrix__operation_8hpp.html" title="matrix operation " alt="" coords="3950,169,4095,196"/>
+<area shape="rect" id="node49" href="$interface__level2_8hpp.html" title="Interface_level 2. " alt="" coords="3311,244,3452,271"/>
+</map>

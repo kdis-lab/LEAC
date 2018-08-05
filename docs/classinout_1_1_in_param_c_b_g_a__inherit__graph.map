@@ -1,0 +1,9 @@
+<map id="inout::InParamCBGA&lt; T_CLUSTERIDX, T_REAL, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K, T_INSTANCE_FREQUENCY &gt;" name="inout::InParamCBGA&lt; T_CLUSTERIDX, T_REAL, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K, T_INSTANCE_FREQUENCY &gt;">
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_pm.html" title="Input parameter for GA with only probability mutation (Pm) " alt="" coords="51,1232,202,1383"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_g_a_clustering.html" title="Input parameter for genetic algorithm. " alt="" coords="33,894,221,1074"/>
+<area shape="rect" id="node4" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm. " alt="" coords="5,380,248,736"/>
+<area shape="rect" id="node5" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos. " alt="" coords="37,5,217,332"/>
+<area shape="rect" id="node6" href="$classinout_1_1_in_param_fk.html" title="Input parameter for algorithms with Fixed K. " alt="" coords="226,1232,377,1383"/>
+<area shape="rect" id="node7" href="$classinout_1_1_in_param_read_inst_freq.html" title="Input parameter for read instances with frequency. " alt="" coords="401,1239,621,1375"/>
+<area shape="rect" id="node8" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances. " alt="" coords="397,784,625,1184"/>
+</map>

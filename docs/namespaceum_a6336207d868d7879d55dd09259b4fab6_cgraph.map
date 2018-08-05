@@ -1,0 +1,51 @@
+<map id="um::VRCreeval" name="um::VRCreeval">
+<area shape="rect" id="node2" href="$classdata_1_1_instance.html#a90d1eaeb66cc1470bbfdb95434fdb761" title="data::Instance::getNumDimensions" alt="" coords="3220,1167,3452,1194"/>
+<area shape="rect" id="node3" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title="mat::MatrixBase::getNumRows" alt="" coords="3699,1522,3907,1548"/>
+<area shape="rect" id="node4" href="$namespacestats.html#a61ea16e97e098fc1598f4a2975cb0a24" title="￼Calculate average of a vector " alt="" coords="1319,2712,1449,2739"/>
+<area shape="rect" id="node12" href="$namespaceinterfacesse.html#a25f6950d589b92fd5bcf2007fb3fae19" title="interfacesse::sum" alt="" coords="3964,3396,4092,3423"/>
+<area shape="rect" id="node14" href="$namespacestats.html#a706b4964413c76c4c7d34ab17985e9e4" title="Add the instances by attributes. " alt="" coords="1529,1851,1672,1878"/>
+<area shape="rect" id="node29" href="$namespaceum.html#a3d80a7d08b3df236552d73f457543a36" title="The overall between&#45;cluster variance ssb. " alt="" coords="907,3092,976,3119"/>
+<area shape="rect" id="node32" href="$namespaceum.html#aaccb7dacc3cb2d8cd7349517387c6dfb" title="Computes the overall between&#45;cluster variance &#160;and the number of instances in each cluster..." alt="" coords="1303,590,1465,616"/>
+<area shape="rect" id="node36" href="$namespaceum.html#a87db67beee15dca61595892f84a94315" title="um::WBIndex" alt="" coords="168,1227,271,1254"/>
+<area shape="rect" id="node5" href="$namespaceinterfacesse.html#ae3f94c42a59db65b2941dbfc9f449ea1" title="function xAXPY of blas for doubles vectors " alt="" coords="4320,2472,4469,2499"/>
+<area shape="rect" id="node7" href="$namespaceinout.html#a0c10a45877a347dec0d4ec4e5b05b828" title="inout::containerprint" alt="" coords="3267,2256,3405,2283"/>
+<area shape="rect" id="node8" href="$namespaceinterfacesse.html#aa4b94bf2bf8cb7c437fa3feba8b70ff8" title="Initializes the array with a constant . " alt="" coords="2585,2547,2725,2574"/>
+<area shape="rect" id="node6" href="$namespaceinterfacesse.html#a144ebf70bf38495c3de1aca2c8365e08" title="scal items of the array of type T " alt="" coords="4517,2472,4645,2499"/>
+<area shape="rect" id="node9" href="$namespaceinterfacesse.html#a925f44ed84d40e9af5050fa0e1373396" title="copy array aoarrayt_x in aoarrayt_y of type T " alt="" coords="3270,2535,3402,2562"/>
+<area shape="rect" id="node10" href="$namespaceinterfacesse.html#afaa45a2a27710ea2dfa979289cf4961d" title="swap items of aoarrayt_y to aiarrayt_x " alt="" coords="3503,2535,3638,2562"/>
+<area shape="rect" id="node11" href="$namespaceinterfacesse.html#a2f42addf86fc8b9cd0c6620217b8a2db" title="swap items of aoarrayt_y to aiarrayt_x " alt="" coords="3741,2560,3864,2587"/>
+<area shape="rect" id="node13" href="$namespaceinterfacesse.html#a9dd5fb43ad8a83ee5cb2f5ba1bb2085b" title="interfacesse::axpy" alt="" coords="4140,1648,4272,1675"/>
+<area shape="rect" id="node15" href="$classdata_1_1_instance.html#aa6ee19c383a86228b3d134e42bdb6830" title="data::Instance::getFeatures" alt="" coords="3243,1800,3429,1827"/>
+<area shape="rect" id="node16" href="$namespacestats.html#a613d1db29f5e2b636315f547fb1ba89a" title="Add the instances with frequency by attributes. " alt="" coords="1736,1876,1907,1903"/>
+<area shape="rect" id="node17" href="$namespacestats.html#a9997daae39cbd737fb66c52d182e8e6b" title="Obtiene un vector con la media de una matriz por columnas. " alt="" coords="1955,2383,2073,2410"/>
+<area shape="rect" id="node18" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title="mat::MatrixBase::getNumColumns" alt="" coords="3689,3042,3916,3068"/>
+<area shape="rect" id="node19" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title="mat::MatrixRow::getRow" alt="" coords="3718,2915,3887,2942"/>
+<area shape="rect" id="node20" href="$namespacestats.html#a6b3be9207e48f3af2c75ad45db17ac70" title="Gets the sum of the difference of the instances with the mean and the result square. " alt="" coords="2125,2231,2287,2258"/>
+<area shape="rect" id="node21" href="$namespacestats.html#a2f3cfb3a90ba9b5bdfe177054cdbde56" title="Gets the sum of the difference of the instances with the mean and the result square. For instances frequently. " alt="" coords="2339,2231,2529,2258"/>
+<area shape="rect" id="node22" href="$namespacestats.html#a27785e3066801ac0756112211985c941" title="Obtain the standard deviation given the variance. " alt="" coords="2583,2346,2726,2372"/>
+<area shape="rect" id="node23" href="$namespacestats.html#ad05deabf843908b6a0be813c39a346cd" title="Obtain the minimum attributes of the instances. " alt="" coords="2783,2307,2915,2334"/>
+<area shape="rect" id="node27" href="$namespacestats.html#a09587632e3c4855da191bc7439c593f0" title="Make a transformation to the instances. " alt="" coords="3013,2636,3126,2663"/>
+<area shape="rect" id="node24" href="$namespacestats.html#a61fb958f0ffbfa6d41efd10f6e71f062" title="Obtain the maximum attributes of the instances. " alt="" coords="3001,2332,3138,2359"/>
+<area shape="rect" id="node25" href="$namespacestats.html#a91d3e4bd49b1fdf4eaf355092becd6bc" title="Get covariance matrix, only for T_FEATURE real. " alt="" coords="3261,2940,3411,2967"/>
+<area shape="rect" id="node26" href="$namespaceinterfacesse.html#a47f4a833d2730f3a501bbb9b2b095e62" title="interfacesse::gemm" alt="" coords="3500,2940,3641,2967"/>
+<area shape="rect" id="node28" href="$namespaceinterfacesse.html#a20b4ab13ada231e7ba92e3d98c4cd602" title="interfacesse::gemv" alt="" coords="3267,2839,3405,2866"/>
+<area shape="rect" id="node30" href="$namespaceum.html#a68fe0b2b154800cd10afb48bb8b33eb1" title="um::ssbreeval" alt="" coords="1024,2991,1131,3018"/>
+<area shape="rect" id="node31" href="$namespaceum.html#a02c5655fb5595af79e18a1462114be29" title="um::VRC" alt="" coords="1179,1990,1255,2016"/>
+<area shape="rect" id="node33" href="$classpartition_1_1_partition.html#acb8de7c890e05872858fb7a7aa53b657" title="partition::Partition\l::begin" alt="" coords="1539,473,1663,514"/>
+<area shape="rect" id="node34" href="$classmat_1_1_matrix_base.html#ae3b1c4b8e9cb7e7685d7bc129f875dcd" title="mat::MatrixBase::getRow" alt="" coords="1513,539,1688,566"/>
+<area shape="rect" id="node35" href="$classpartition_1_1_partition.html#a96660ce61740ab0287189b21833eccdf" title="partition::Partition\l::next" alt="" coords="1539,408,1663,449"/>
+<area shape="rect" id="node37" href="$namespaceum.html#aaa61fb14db29fe31548da280b92eb35f" title="um::WBIndexreeval" alt="" coords="319,1812,460,1839"/>
+<area shape="rect" id="node38" href="$namespaceum.html#a2dbfacd88668ea38547ceb1521d758b0" title="Score function ( ) . " alt="" coords="508,1812,640,1839"/>
+<area shape="rect" id="node39" href="$namespaceum.html#a31ab0871217029a7b79267bd81735914" title="um::scoreFunctionreeval" alt="" coords="688,1787,859,1814"/>
+<area shape="rect" id="node40" href="$namespaceum.html#a00ec8c8958c649a61b3094ffe6547b10" title="Distance min intra cluster. " alt="" coords="2121,987,2291,1014"/>
+<area shape="rect" id="node41" href="$classds_1_1_iterator_partition_linked.html#ad171cb96653fadaec272389381a4f8b4" title="ds::IteratorPartitionLinked\l::begin" alt="" coords="2982,832,3157,873"/>
+<area shape="rect" id="node42" href="$namespaceum.html#a5079e5e39be0feefeda22a8033fd28be" title="um::diameterClusterK" alt="" coords="2358,987,2510,1014"/>
+<area shape="rect" id="node44" href="$classds_1_1_iterator_partition_linked.html#af0e179fae69c0d4f047082ee44783613" title="ds::IteratorPartitionLinked::end" alt="" coords="2967,715,3172,742"/>
+<area shape="rect" id="node45" href="$classds_1_1_iterator_partition_linked.html#a1a031c033d0d2d1c6982ced4e0473831" title="ds::IteratorPartitionLinked\l::getValue" alt="" coords="2982,1000,3157,1041"/>
+<area shape="rect" id="node46" href="$classds_1_1_iterator_partition_linked.html#a83b887be41c97dc0bdfc47a02abbc383" title="ds::IteratorPartitionLinked\l::next" alt="" coords="2982,766,3157,808"/>
+<area shape="rect" id="node50" href="$classds_1_1_partition_linked.html#a696f58c4d25fd41adf281d1468440dc9" title="ds::PartitionLinked\l::getNumPartitions" alt="" coords="3003,649,3136,690"/>
+<area shape="rect" id="node43" href="$namespaceum.html#ac9c4b9777bb97ada898b3d1bc2621996" title="um::diameterClusterKj" alt="" coords="2577,1048,2732,1075"/>
+<area shape="rect" id="node49" href="$namespaceum.html#aa66fd9714651a71aaa33964fa0ab7012" title="The Dunn Index (DI) &#160;. " alt="" coords="2793,863,2905,890"/>
+<area shape="rect" id="node47" href="$namespaceum.html#acbada65717c92ac0a22d2f71c61526d1" title="Radius of Clusterj. " alt="" coords="2780,1066,2919,1092"/>
+<area shape="rect" id="node48" href="$namespaceum.html#a659ac7560d0d7b1243dd9ef479e2f80f" title="um::D2" alt="" coords="3036,1522,3103,1548"/>
+</map>

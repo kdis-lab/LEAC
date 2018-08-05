@@ -1,0 +1,51 @@
+<map id="include/instance.hpp" name="include/instance.hpp">
+<area shape="rect" id="node2" href="$nearestinstance__operator_8hpp.html" title="nearest instance operator " alt="" coords="1405,80,1569,121"/>
+<area shape="rect" id="node5" href="$chromosome__cbga_8hpp.html" title="chromosome CBGA " alt="" coords="971,437,1119,479"/>
+<area shape="rect" id="node28" href="$chromosome__igka_8hpp.html" title="chromosome IGKA &#160;and &#160;" alt="" coords="1653,437,1801,479"/>
+<area shape="rect" id="node33" href="$clustering__operator__medoids_8hpp.html" title="clustering operator medoids " alt="" coords="845,259,1007,300"/>
+<area shape="rect" id="node38" href="$container__instance_8hpp.html" title="container utilities for instances " alt="" coords="574,177,779,203"/>
+<area shape="rect" id="node43" href="$instance__frequency_8hpp.html" title="instance with frequency " alt="" coords="229,177,439,203"/>
+<area shape="rect" id="node46" href="$instance__class_8hpp.html" title="instance with class " alt="" coords="377,266,560,293"/>
+<area shape="rect" id="node47" href="$dist__euclidean_8hpp.html" title="Euclidean distance. " alt="" coords="1821,87,2001,114"/>
+<area shape="rect" id="node48" href="$graph__utils_8hpp.html" title="algorithms and utilities for graphs " alt="" coords="2035,87,2193,114"/>
+<area shape="rect" id="node49" href="$instance__weight_8hpp.html" title="instance with weight " alt="" coords="2235,87,2425,114"/>
+<area shape="rect" id="node3" href="$partition__linked_8hpp.html" title="Linked partition data structure. " alt="" coords="1231,177,1413,203"/>
+<area shape="rect" id="node27" href="$clustering__operator__centroids_8hpp.html" title="clustering operator centroids " alt="" coords="1246,348,1411,389"/>
+<area shape="rect" id="node29" href="$clustering__operator__crispmatrix_8hpp.html" title="clustering operator crispmatrix " alt="" coords="1352,437,1527,479"/>
+<area shape="rect" id="node31" href="$partition__linked__numinst_8hpp.html" title="Linked partition data structure with number of instances. " alt="" coords="1083,259,1241,300"/>
+<area shape="rect" id="node34" href="$partition__disjsets_8hpp.html" title="Partition based on structure of disjoint joint data. " alt="" coords="1550,266,1742,293"/>
+<area shape="rect" id="node36" href="$partition__centroids_8hpp.html" title="Partition based on centroids. " alt="" coords="1701,534,1903,561"/>
+<area shape="rect" id="node37" href="$partition__medoids_8hpp.html" title="Partition based on centroids medoids. " alt="" coords="1927,534,2125,561"/>
+<area shape="rect" id="node4" href="$partition__linked__stats_8hpp.html" title="Linked partition data structure with statistics. " alt="" coords="1265,259,1424,300"/>
+<area shape="rect" id="node6" href="$ga__clustering__operator_8hpp.html" title="genetic operators oriented to clustering " alt="" coords="1077,527,1226,568"/>
+<area shape="rect" id="node7" href="$leac_8hpp.html" title="LEAC. " alt="" coords="1500,616,1619,643"/>
+<area shape="rect" id="node8" href="$cbga__fkcentroid_8hpp.html" title="CBGA . " alt="" coords="1857,691,2025,717"/>
+<area shape="rect" id="node9" href="$cga__vklabel_8hpp.html" title="CGA &#160;&#160;. " alt="" coords="2049,691,2195,717"/>
+<area shape="rect" id="node10" href="$clustering__vksubclusterbinary_8hpp.html" title="CLUSTERING . " alt="" coords="2220,691,2467,717"/>
+<area shape="rect" id="node11" href="$feac__vklabel_8hpp.html" title="EAC, EACI, EACII, EACIII and FEAC &#160;and . " alt="" coords="2490,691,2639,717"/>
+<area shape="rect" id="node12" href="$gaclustering__fkcrispmatrix_8hpp.html" title="GA CLUSTERING . " alt="" coords="2663,691,2890,717"/>
+<area shape="rect" id="node13" href="$gaclustering__fklabel_8hpp.html" title="GA Clustering . " alt="" coords="2914,691,3106,717"/>
+<area shape="rect" id="node14" href="$gaclustering__vktreebinary_8hpp.html" title="GA Clustering &#160;x. " alt="" coords="3130,691,3357,717"/>
+<area shape="rect" id="node15" href="$gagr__fkcentroid_8hpp.html" title="GAGR . " alt="" coords="3381,691,3548,717"/>
+<area shape="rect" id="node16" href="$gaprototypes__fkmedoid_8hpp.html" title="GA&#45;Prototypes . " alt="" coords="3572,691,3787,717"/>
+<area shape="rect" id="node17" href="$gas__fkcentroid_8hpp.html" title="GAS . " alt="" coords="392,691,553,717"/>
+<area shape="rect" id="node18" href="$gca__fkmedoid_8hpp.html" title="GCA . " alt="" coords="577,691,736,717"/>
+<area shape="rect" id="node19" href="$gcuk__vkcentroid_8hpp.html" title="GCUK . " alt="" coords="761,691,931,717"/>
+<area shape="rect" id="node20" href="$gga__vklabel_8hpp.html" title="GGA . " alt="" coords="955,691,1102,717"/>
+<area shape="rect" id="node21" href="$gka__fklabel_8hpp.html" title="GKA Clustering . " alt="" coords="225,691,368,717"/>
+<area shape="rect" id="node22" href="$hka__fkmedoid_8hpp.html" title="HKA . " alt="" coords="1127,691,1285,717"/>
+<area shape="rect" id="node23" href="$igka__fklabel_8hpp.html" title="IGKA &#160;and FGKA . " alt="" coords="1309,691,1455,717"/>
+<area shape="rect" id="node24" href="$kga__fkcentroid_8hpp.html" title="KGA . " alt="" coords="1479,691,1640,717"/>
+<area shape="rect" id="node25" href="$main__gas__clustering_8cpp.html" title="Main program of Evolutionary Algorithms. " alt="" coords="5,691,201,717"/>
+<area shape="rect" id="node26" href="$tgca__vkcentroid_8hpp.html" title="TGCA . " alt="" coords="1665,691,1833,717"/>
+<area shape="rect" id="node30" href="$ga__integer__operator_8hpp.html" title="genetic integer operators " alt="" coords="1143,437,1277,479"/>
+<area shape="rect" id="node32" href="$unsupervised__measures_8hpp.html" title="Unsupervised measures. " alt="" coords="858,348,1007,389"/>
+<area shape="rect" id="node35" href="$clustering__operator__label_8hpp.html" title="clustering operator label " alt="" coords="1437,527,1575,568"/>
+<area shape="rect" id="node39" href="$stats__instances_8hpp.html" title="Statistics for instances. " alt="" coords="584,266,769,293"/>
+<area shape="rect" id="node40" href="$transformation_8hpp.html" title="Transformation operations with matrices. " alt="" coords="459,355,636,382"/>
+<area shape="rect" id="node41" href="$main__plot__clustering_8cpp.html" title="Main program for plot clustering. " alt="" coords="579,445,774,471"/>
+<area shape="rect" id="node42" href="$main__stdvar__milligan__cooper1988_8cpp.html" title="Main program for the standardization of instances . " alt="" coords="291,437,465,479"/>
+<area shape="rect" id="node44" href="$instance__class__frequency_8hpp.html" title="instance class with frequency " alt="" coords="143,259,301,300"/>
+<area shape="rect" id="node45" href="$instances__read_8hpp.html" title="instances read " alt="" coords="160,348,321,389"/>
+<area shape="rect" id="node50" href="$instance__weight__class_8hpp.html" title="instance with weight and class " alt="" coords="2250,169,2415,211"/>
+</map>

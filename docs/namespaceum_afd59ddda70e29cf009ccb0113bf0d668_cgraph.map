@@ -1,0 +1,9 @@
+<map id="um::Dintra" name="um::Dintra">
+<area shape="rect" id="node2" href="$namespaceum.html#ae447a0558845df2a5f208de33081c167" title="Dinter . " alt="" coords="136,153,219,180"/>
+<area shape="rect" id="node5" href="$classdata_1_1_instance.html#a90d1eaeb66cc1470bbfdb95434fdb761" title="data::Instance::getNumDimensions" alt="" coords="523,102,755,129"/>
+<area shape="rect" id="node6" href="$classpartition_1_1_partition.html#ae8db479b240da90b4058e35ffce182ac" title="partition::Partition\l::getClusterIdx" alt="" coords="309,36,433,78"/>
+<area shape="rect" id="node7" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title="mat::MatrixBase::getNumRows" alt="" coords="267,204,475,230"/>
+<area shape="rect" id="node8" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title="mat::MatrixRow::getRow" alt="" coords="286,254,455,281"/>
+<area shape="rect" id="node3" href="$namespaceum.html#a826858480b2fb93f9bd133725866b3d9" title="e1 &#160;" alt="" coords="339,153,403,180"/>
+<area shape="rect" id="node4" href="$classdata_1_1_instance.html#aa6ee19c383a86228b3d134e42bdb6830" title="data::Instance::getFeatures" alt="" coords="545,153,732,180"/>
+</map>

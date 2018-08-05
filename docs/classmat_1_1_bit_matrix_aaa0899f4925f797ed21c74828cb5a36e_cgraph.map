@@ -1,0 +1,10 @@
+<map id="mat::BitMatrix::copyAligned" name="mat::BitMatrix::copyAligned">
+<area shape="rect" id="node2" href="$classds_1_1_bit_container.html#acf7b867d95ea6ee5083cb8d0ce404a43" title="ds::BitContainer::copyAligned" alt="" coords="240,56,441,83"/>
+<area shape="rect" id="node5" href="$classmat_1_1_bit_matrix.html#ae23601eca8a5adfbed3749b163f0d5d6" title="mat::BitMatrix::getNumRows" alt="" coords="499,107,690,133"/>
+<area shape="rect" id="node6" href="$classmat_1_1_bit_matrix.html#a5607bb84d71c58751390be62e798dd11" title="mat::BitMatrix::getRow" alt="" coords="516,208,673,235"/>
+<area shape="rect" id="node7" href="$classmat_1_1_bit_matrix.html#ab66a697bd20fd702cb32494da920b1af" title="mat::BitMatrix::print" alt="" coords="273,157,408,184"/>
+<area shape="rect" id="node9" href="$classds_1_1_bit_container.html#a8c05ab649dca2fc2c0e62aba6e24d7a9" title="ds::BitContainer::setArray" alt="" coords="253,259,429,285"/>
+<area shape="rect" id="node3" href="$classds_1_1_bit_container.html#ac411be8a6a028077107ab9c7a60b5546" title="ds::BitContainer::getBit" alt="" coords="515,56,675,83"/>
+<area shape="rect" id="node4" href="$classds_1_1_bit_container.html#addd9b30d11f1d2f871337a05c9cc65b6" title="ds::BitContainer::print" alt="" coords="519,5,670,32"/>
+<area shape="rect" id="node8" href="$classmat_1_1_bit_matrix.html#acb0438a8816d82379fab71120540fcd1" title="mat::BitMatrix::getNumColumns" alt="" coords="489,157,700,184"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="dist::kernelEuclidean" name="dist::kernelEuclidean">
+<area shape="rect" id="node2" href="$namespacedist.html#a7fc2d2b171f5568e3296e28e724ff142" title="Gets the square Euclidean distance of two double n&#45;dimensional points with SSE. " alt="" coords="200,5,399,32"/>
+<area shape="rect" id="node3" href="$namespacedist.html#a32fc945efb8cbd2bd1d65eac5cd3668c" title="Gets the Euclidean distance of two double n&#45;dimensional points with SSE. " alt="" coords="447,5,593,32"/>
+</map>

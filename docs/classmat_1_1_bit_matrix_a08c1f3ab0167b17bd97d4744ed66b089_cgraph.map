@@ -1,0 +1,6 @@
+<map id="mat::BitMatrix::opXor" name="mat::BitMatrix::opXor">
+<area shape="rect" id="node2" href="$classmat_1_1_bit_matrix.html#ab66a697bd20fd702cb32494da920b1af" title="mat::BitMatrix::print" alt="" coords="200,56,335,83"/>
+<area shape="rect" id="node3" href="$classmat_1_1_bit_matrix.html#acb0438a8816d82379fab71120540fcd1" title="mat::BitMatrix::getNumColumns" alt="" coords="383,5,593,32"/>
+<area shape="rect" id="node4" href="$classmat_1_1_bit_matrix.html#ae23601eca8a5adfbed3749b163f0d5d6" title="mat::BitMatrix::getNumRows" alt="" coords="393,56,583,83"/>
+<area shape="rect" id="node5" href="$classmat_1_1_bit_matrix.html#a5607bb84d71c58751390be62e798dd11" title="mat::BitMatrix::getRow" alt="" coords="409,107,567,133"/>
+</map>

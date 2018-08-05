@@ -1,0 +1,51 @@
+<map id="include/verbose_global.hpp" name="include/verbose_global.hpp">
+<area shape="rect" id="node2" href="$bit__container_8hpp.html" title="bit container " alt="" coords="429,87,597,114"/>
+<area shape="rect" id="node5" href="$unsupervised__measures_8hpp.html" title="Unsupervised measures. " alt="" coords="771,527,921,568"/>
+<area shape="rect" id="node6" href="$chromosome__bitarray_8hpp.html" title="chromosome bitarray " alt="" coords="49,259,197,300"/>
+<area shape="rect" id="node7" href="$ga__binary__operator_8hpp.html" title="traditional genetic binary operators " alt="" coords="19,355,228,382"/>
+<area shape="rect" id="node8" href="$clustering__operator__centroids_8hpp.html" title="clustering operator centroids " alt="" coords="1573,527,1738,568"/>
+<area shape="rect" id="node9" href="$chromosome__cbga_8hpp.html" title="chromosome CBGA " alt="" coords="1432,616,1580,657"/>
+<area shape="rect" id="node10" href="$ga__clustering__operator_8hpp.html" title="genetic operators oriented to clustering " alt="" coords="3869,705,4018,747"/>
+<area shape="rect" id="node11" href="$clustering__operator__crispmatrix_8hpp.html" title="clustering operator crispmatrix " alt="" coords="1688,616,1863,657"/>
+<area shape="rect" id="node12" href="$ga__integer__operator_8hpp.html" title="genetic integer operators " alt="" coords="4045,616,4178,657"/>
+<area shape="rect" id="node13" href="$vector__utils_8hpp.html" title="Operations for vector manipulation. " alt="" coords="2943,177,3103,203"/>
+<area shape="rect" id="node14" href="$nearestinstance__operator_8hpp.html" title="nearest instance operator " alt="" coords="1648,259,1812,300"/>
+<area shape="rect" id="node15" href="$partition__linked_8hpp.html" title="Linked partition data structure. " alt="" coords="1125,355,1308,382"/>
+<area shape="rect" id="node16" href="$partition__linked__stats_8hpp.html" title="Linked partition data structure with statistics. " alt="" coords="1427,437,1585,479"/>
+<area shape="rect" id="node17" href="$partition__linked__numinst_8hpp.html" title="Linked partition data structure with number of instances. " alt="" coords="1192,437,1351,479"/>
+<area shape="rect" id="node18" href="$clustering__operator__medoids_8hpp.html" title="clustering operator medoids " alt="" coords="1005,437,1167,479"/>
+<area shape="rect" id="node19" href="$partition__disjsets_8hpp.html" title="Partition based on structure of disjoint joint data. " alt="" coords="2386,355,2578,382"/>
+<area shape="rect" id="node20" href="$partition__centroids_8hpp.html" title="Partition based on centroids. " alt="" coords="1384,355,1585,382"/>
+<area shape="rect" id="node22" href="$chromosome__feac_8hpp.html" title="chromosome FEAC &#160;and &#160;" alt="" coords="3188,259,3336,300"/>
+<area shape="rect" id="node23" href="$probability__distribution_8hpp.html" title="probability distribution " alt="" coords="3816,348,3945,389"/>
+<area shape="rect" id="node24" href="$inparamclustering__getparameter_8hpp.html" title="inparam clustering get parameter " alt="" coords="2751,259,2960,300"/>
+<area shape="rect" id="node25" href="$instances__read_8hpp.html" title="instances read " alt="" coords="3360,259,3521,300"/>
+<area shape="rect" id="node27" href="$matrix__base_8hpp.html" title="matrix base " alt="" coords="1836,87,2003,114"/>
+<area shape="rect" id="node29" href="$container__instance_8hpp.html" title="container utilities for instances " alt="" coords="975,266,1181,293"/>
+<area shape="rect" id="node30" href="$stats__instances_8hpp.html" title="Statistics for instances. " alt="" coords="744,445,929,471"/>
+<area shape="rect" id="node32" href="$matching__matrix_8hpp.html" title="matching matrix " alt="" coords="2152,266,2343,293"/>
+<area shape="rect" id="node33" href="$supervised__measures_8hpp.html" title="Supervised measures. " alt="" coords="2203,348,2337,389"/>
+<area shape="rect" id="node34" href="$matop__openblaslapacke_8hpp.html" title="Matrix operations with OpenBlas and Lapacke. " alt="" coords="1887,266,2127,293"/>
+<area shape="rect" id="node37" href="$line__split_8hpp.html" title="line split " alt="" coords="1482,87,1626,114"/>
+<area shape="rect" id="node39" href="$graph__utils_8hpp.html" title="algorithms and utilities for graphs " alt="" coords="3738,266,3895,293"/>
+<area shape="rect" id="node40" href="$chromosome__base_8hpp.html" title="chromosome base " alt="" coords="100,80,248,121"/>
+<area shape="rect" id="node41" href="$chromosome__crispmatrix_8hpp.html" title="chromosome crispmatrix " alt="" coords="151,169,299,211"/>
+<area shape="rect" id="node42" href="$disjsets_8hpp.html" title="disjoint sets " alt="" coords="3659,87,3798,114"/>
+<area shape="rect" id="node43" href="$clustering__operator__hierarchical_8hpp.html" title="Clustering operator hierarchical. " alt="" coords="3525,169,3703,211"/>
+<area shape="rect" id="node44" href="$ga__selection_8hpp.html" title="chromosome selection method in genetic algorithms " alt="" coords="4082,177,4253,203"/>
+<area shape="rect" id="node45" href="$probability__selection_8hpp.html" title="probability selection " alt="" coords="4021,259,4151,300"/>
+<area shape="rect" id="node46" href="$chromosome__fixedlength_8hpp.html" title="chromosome fixed length " alt="" coords="4216,80,4364,121"/>
+<area shape="rect" id="node47" href="$chromosome__gga_8hpp.html" title="chromosome GGA &#160;" alt="" coords="4328,169,4476,211"/>
+<area shape="rect" id="node48" href="$ga__generic__operator_8hpp.html" title="genetic operators independent of the data type " alt="" coords="4500,169,4637,211"/>
+<area shape="rect" id="node49" href="$clustering__operator__fuzzy_8hpp.html" title="clustering operator fuzzy " alt="" coords="4713,80,4854,121"/>
+<area shape="rect" id="node50" href="$ga__real__operator_8hpp.html" title="genetic real operators " alt="" coords="4879,87,5075,114"/>
+<area shape="rect" id="node3" href="$bit__array_8hpp.html" title="bit array " alt="" coords="374,177,518,203"/>
+<area shape="rect" id="node4" href="$bit__matrix_8hpp.html" title="bit matrix " alt="" coords="447,266,597,293"/>
+<area shape="rect" id="node21" href="$matrix__inverse__lup_8hpp.html" title="Reverse of a matrix by the LUP method. " alt="" coords="2367,259,2523,300"/>
+<area shape="rect" id="node26" href="$tgca__vkcentroid_8hpp.html" title="TGCA . " alt="" coords="3546,266,3714,293"/>
+<area shape="rect" id="node28" href="$matrix_8hpp.html" title="matrix " alt="" coords="1545,177,1675,203"/>
+<area shape="rect" id="node35" href="$matrix__resizablerow_8hpp.html" title="Matrix with resizable number of rows. " alt="" coords="1813,355,2026,382"/>
+<area shape="rect" id="node36" href="$matrix__withrownull_8hpp.html" title="Matrix with null of rows. " alt="" coords="1888,177,2089,203"/>
+<area shape="rect" id="node31" href="$matrix__read_8hpp.html" title="read a matrix " alt="" coords="1408,266,1572,293"/>
+<area shape="rect" id="node38" href="$instance_8hpp.html" title="Module for the handling of instances or also called objects or points. " alt="" coords="1265,177,1408,203"/>
+</map>

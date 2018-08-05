@@ -1,0 +1,6 @@
+<map id="runtime::RuntimeFunctionStat::evaluate" name="runtime::RuntimeFunctionStat::evaluate">
+<area shape="rect" id="node2" href="$classruntime_1_1_runtime_function_stat.html#a35e34b6691d2a7a164f09f9a757f8ffd" title="runtime::RuntimeFunction\lStat::_avg" alt="" coords="661,107,832,148"/>
+<area shape="rect" id="node3" href="$classruntime_1_1_runtime_function_stat.html#a9bee34a93ac9b17526be2d50664f35c4" title="runtime::RuntimeFunction\lStat::_sum" alt="" coords="880,136,1051,177"/>
+<area shape="rect" id="node4" href="$classruntime_1_1_runtime_function_stat.html#aad475aabfa66179c6b67e0ef42ce5f1f" title="runtime::RuntimeFunction\lStat::_devstd" alt="" coords="224,5,395,47"/>
+<area shape="rect" id="node5" href="$classruntime_1_1_runtime_function_stat.html#aaedb87785d4b040e89f2bb55420ebf15" title="runtime::RuntimeFunction\lStat::_var" alt="" coords="443,56,613,97"/>
+</map>

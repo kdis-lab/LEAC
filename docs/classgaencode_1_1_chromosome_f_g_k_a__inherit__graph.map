@@ -1,0 +1,7 @@
+<map id="gaencode::ChromosomeFGKA&lt; T_CLUSTERIDX, T_METRIC &gt;" name="gaencode::ChromosomeFGKA&lt; T_CLUSTERIDX, T_METRIC &gt;">
+<area shape="rect" id="node2" href="$classgaencode_1_1_chrom_fixed_length.html" title="{gaencode::ChromFixedLength\l\&lt; T_CLUSTERIDX, T_METRIC \&gt;\n|# _pts_string\l# _stcui_stringSize\l|+ ChromFixedLength()\l+ ChromFixedLength()\l+ ChromFixedLength()\l+ ChromFixedLength()\l+ ~ChromFixedLength()\l+ operator=()\l+ operator=()\l+ getStringSize()\l+ setString()\l+ getString()\land 6 more...\l+ setStringSize()\l+ stcgetStringSize()\l}" alt="" coords="75,1087,297,1369"/>
+<area shape="rect" id="node3" href="$classgaencode_1_1_chromosome_string.html" title="{gaencode::ChromosomeString\l\&lt; T_CLUSTERIDX, T_METRIC \&gt;\n||+ ChromosomeString()\l+ ChromosomeString()\l+ ChromosomeString()\l+ ChromosomeString()\l+ ~ChromosomeString()\l+ operator=()\l+ operator=()\l+ getStringSize()\l+ setString()\l+ getString()\l+ getString()\l+ getGene()\l+ setGene()\l+ begin()\l+ end()\l}" alt="" coords="5,727,228,1024"/>
+<area shape="rect" id="node4" href="$classgaencode_1_1_chromosome_base.html" title="Chromosome Base define basic attributes for a chromosome. " alt="" coords="25,5,232,317"/>
+<area shape="rect" id="node5" href="$classgaencode_1_1_chromosome_string.html" title="Chhromosome String define Chromosome encode for an string. " alt="" coords="123,367,331,664"/>
+<area shape="rect" id="node6" href="$classgaencode_1_1_chrom_fixed_length.html" title="Chromosome with fixed length string. " alt="" coords="252,734,459,1017"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="um::entropy" name="um::entropy">
+<area shape="rect" id="node2" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title="mat::MatrixBase::getNumColumns" alt="" coords="145,5,372,32"/>
+<area shape="rect" id="node3" href="$classmat_1_1_matrix_base.html#ade892a1e4c0ccc54dca7a16cecf459fa" title="mat::MatrixBase::getNumElems" alt="" coords="153,56,364,83"/>
+<area shape="rect" id="node4" href="$classmat_1_1_matrix_row.html#a2879a2578666e3da78f3588e78b5e982" title="mat::MatrixRow::toArray" alt="" coords="175,107,342,133"/>
+</map>

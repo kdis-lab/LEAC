@@ -1,0 +1,9 @@
+<map id="partition::Partition::~Partition" name="partition::Partition::~Partition">
+<area shape="rect" id="node2" href="$classpartition_1_1_partition.html#acb8de7c890e05872858fb7a7aa53b657" title="partition::Partition\l::begin" alt="" coords="193,5,317,47"/>
+<area shape="rect" id="node3" href="$classpartition_1_1_partition.html#aea186391bf81bb140984e9ddee898520" title="partition::Partition::end" alt="" coords="177,71,332,98"/>
+<area shape="rect" id="node4" href="$classpartition_1_1_partition.html#ae8db479b240da90b4058e35ffce182ac" title="partition::Partition\l::getClusterIdx" alt="" coords="193,123,317,164"/>
+<area shape="rect" id="node5" href="$classpartition_1_1_partition.html#a4a440dcaeb42e05a52a46405eb30d36e" title="partition::Partition\l::getNumCluster" alt="" coords="193,188,317,229"/>
+<area shape="rect" id="node6" href="$classpartition_1_1_partition.html#a961bfd73f4d40939b36fd892fa03c5ef" title="partition::Partition\l::getNumInstances" alt="" coords="188,253,321,295"/>
+<area shape="rect" id="node7" href="$classpartition_1_1_partition.html#a96660ce61740ab0287189b21833eccdf" title="partition::Partition\l::next" alt="" coords="193,319,317,360"/>
+<area shape="rect" id="node8" href="$classpartition_1_1_partition.html#a162519ab4706ab18a20fe5abe912fe84" title="partition::Partition\l::print" alt="" coords="193,384,317,425"/>
+</map>

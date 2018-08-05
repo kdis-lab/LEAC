@@ -1,0 +1,8 @@
+<map id="ds::PartitionLinked::addInstanceToCluster" name="ds::PartitionLinked::addInstanceToCluster">
+<area shape="rect" id="node2" href="$classds_1_1_partition_linked.html#adc3c73d4486bec92878e785229d2536e" title="ds::PartitionLinked\l::subInstanceFromCluster" alt="" coords="217,5,392,47"/>
+<area shape="rect" id="node3" href="$classds_1_1_partition_linked.html#abfd8979dbdeee0fda9d8cb22aa9062ed" title="ds::PartitionLinked\l::changeMemberShip" alt="" coords="440,5,591,47"/>
+<area shape="rect" id="node4" href="$classds_1_1_partition_linked.html#aaa302ea8b39c37c44507bf4276ffa8f2" title="ds::PartitionLinked\l::getInstanceIdxOfClusterK" alt="" coords="639,5,820,47"/>
+<area shape="rect" id="node5" href="$classds_1_1_partition_linked.html#a1a20dd710247ebccba848e555f9ad9e6" title="ds::PartitionLinked\l::joinCluster" alt="" coords="868,5,1001,47"/>
+<area shape="rect" id="node6" href="$classds_1_1_partition_linked.html#a6a7de3bc18b0904e2e23536a336e42a8" title="ds::PartitionLinked\l::print" alt="" coords="1049,5,1183,47"/>
+<area shape="rect" id="node7" href="$classds_1_1_partition_linked.html#a696f58c4d25fd41adf281d1468440dc9" title="ds::PartitionLinked\l::getNumPartitions" alt="" coords="1231,5,1364,47"/>
+</map>

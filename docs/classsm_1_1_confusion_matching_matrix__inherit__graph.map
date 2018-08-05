@@ -1,0 +1,7 @@
+<map id="sm::ConfusionMatchingMatrix&lt; T_INSTANCES_CLUSTER_K &gt;" name="sm::ConfusionMatchingMatrix&lt; T_INSTANCES_CLUSTER_K &gt;">
+<area shape="rect" id="node2" href="$classsm_1_1_partition_matrix.html" title="Partition Matrix also known as matching matrix is similar to the matrix of confusion, but is used in the unsupervised learning. " alt="" coords="62,1087,290,1325"/>
+<area shape="rect" id="node3" href="$classmat_1_1_matrix_row.html" title="{mat::MatrixRow\&lt; T_INSTANCES\l_CLUSTER_K \&gt;\n|# _b_externalData\l# _arrayt_data\l|+ MatrixRow()\l+ MatrixRow()\l+ MatrixRow()\l+ MatrixRow()\l+ MatrixRow()\l+ MatrixRow()\l+ MatrixRow()\l+ ~MatrixRow()\l+ toArray()\l+ toArray()\land 21 more...\l}" alt="" coords="66,784,286,1037"/>
+<area shape="rect" id="node4" href="$classmat_1_1_matrix_base.html" title="{mat::MatrixBase\&lt; T\l_INSTANCES_CLUSTER_K \&gt;\n|# _ui_numRows\l# _ui_numColumns\l|+ MatrixBase()\l+ MatrixBase()\l+ MatrixBase()\l+ MatrixBase()\l+ MatrixBase()\l+ ~MatrixBase()\l+ getNumRows()\l+ getNumColumns()\l+ getNumElems()\l+ getRow()\l+ getRow()\l+ operator=()\l+ operator=()\l+ print()\l# _setNumRows()\l# _setNumColumns()\l}" alt="" coords="5,395,208,721"/>
+<area shape="rect" id="node5" href="$classmat_1_1_matrix_base.html" title="MatrixBase. " alt="" coords="151,5,297,332"/>
+<area shape="rect" id="node6" href="$classmat_1_1_matrix_row.html" title="Matrix store items for row. " alt="" coords="233,439,450,677"/>
+</map>

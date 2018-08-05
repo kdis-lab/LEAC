@@ -1,0 +1,9 @@
+<map id="sm::getMatchingMatrix" name="sm::getMatchingMatrix">
+<area shape="rect" id="node2" href="$classpartition_1_1_partition.html#acb8de7c890e05872858fb7a7aa53b657" title="partition::Partition\l::begin" alt="" coords="259,5,383,47"/>
+<area shape="rect" id="node3" href="$classpartition_1_1_partition.html#a4a440dcaeb42e05a52a46405eb30d36e" title="partition::Partition\l::getNumCluster" alt="" coords="259,71,383,112"/>
+<area shape="rect" id="node4" href="$classmat_1_1_matrix_row.html#a1070fba1c0ec0fbaa309f141817be412" title="mat::MatrixRow\&lt; T_INSTANCES\l_CLUSTER_K \&gt;::initialize" alt="" coords="211,136,431,177"/>
+<area shape="rect" id="node5" href="$classpartition_1_1_partition.html#a96660ce61740ab0287189b21833eccdf" title="partition::Partition\l::next" alt="" coords="259,201,383,243"/>
+<area shape="rect" id="node6" href="$classsm_1_1_partition_matrix.html#a287f8807a0b9c0066b2f799f2814c721" title="sm::PartitionMatrix\l::sumPartitionTable" alt="" coords="251,267,390,308"/>
+<area shape="rect" id="node7" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title="mat::MatrixBase\&lt; T\l_INSTANCES_CLUSTER_K\l \&gt;::getNumRows" alt="" coords="479,219,669,275"/>
+<area shape="rect" id="node8" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title="mat::MatrixBase\&lt; T\l_INSTANCES_CLUSTER_K\l \&gt;::getNumColumns" alt="" coords="479,299,669,355"/>
+</map>

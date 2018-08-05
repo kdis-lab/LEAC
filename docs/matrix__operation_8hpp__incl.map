@@ -1,0 +1,13 @@
+<map id="include/matrix_operation.hpp" name="include/matrix_operation.hpp">
+<area shape="rect" id="node2" href="$matop__withoutopenblas_8hpp.html" title="Matrix operations. " alt="" coords="1324,80,1511,107"/>
+<area shape="rect" id="node7" href="$matrix__inverse__lup_8hpp.html" title="Reverse of a matrix by the LUP method. " alt="" coords="811,155,968,181"/>
+<area shape="rect" id="node25" href="$interface__level1_8hpp.html" title="Interface_level 1. " alt="" coords="1239,379,1380,405"/>
+<area shape="rect" id="node31" href="$jacobi__eigenvalue_8hpp.html" title="Function jacobi_eigenvalue are part of. " alt="" coords="1618,155,1774,181"/>
+<area shape="rect" id="node9" href="$matrix_8hpp.html" title="matrix " alt="" coords="800,229,883,256"/>
+<area shape="rect" id="node30" href="$vector__utils_8hpp.html" title="Operations for vector manipulation. " alt="" coords="302,304,415,331"/>
+<area shape="rect" id="node19" href="$matrix__base_8hpp.html" title="matrix base " alt="" coords="663,304,782,331"/>
+<area shape="rect" id="node24" href="$linear__algebra__level1_8hpp.html" title="linear algebra level1 " alt="" coords="1153,304,1329,331"/>
+<area shape="rect" id="node28" href="$line__split_8hpp.html" title="line split " alt="" coords="439,304,537,331"/>
+<area shape="rect" id="node20" href="$common_8hpp.html" title="common " alt="" coords="309,379,408,405"/>
+<area shape="rect" id="node23" href="$verbose__global_8hpp.html" title="verbose global " alt="" coords="432,379,571,405"/>
+</map>

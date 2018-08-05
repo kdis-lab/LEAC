@@ -1,0 +1,10 @@
+<map id="inout::InParamFEAC&lt; T_FEATURE, T_REAL, T_CLUSTERIDX, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;" name="inout::InParamFEAC&lt; T_FEATURE, T_REAL, T_CLUSTERIDX, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;">
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_g_a_clustering.html" title="Input parameter for genetic algorithm. " alt="" coords="119,1181,307,1361"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm. " alt="" coords="69,726,311,1067"/>
+<area shape="rect" id="node4" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos. " alt="" coords="5,344,185,612"/>
+<area shape="rect" id="node5" title="STL class. " alt="" coords="285,160,365,237"/>
+<area shape="rect" id="node9" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances. " alt="" coords="489,689,717,1104"/>
+<area shape="rect" id="node6" title="STL class. " alt="" coords="261,5,388,97"/>
+<area shape="rect" id="node7" href="$classinout_1_1_in_param_vk.html" title="{inout::InParamVk\&lt; T\l_CLUSTERIDX \&gt;\n||+ InParamVk()\l+ ~InParamVk()\l+ setNumClusterKMinimum()\l+ getNumClusterKMinimum()\l+ setNumClusterKMaximum()\l+ getNumClusterKMaximum()\l+ print()\l}" alt="" coords="339,1181,537,1361"/>
+<area shape="rect" id="node11" title="STL class. " alt="" coords="596,160,715,237"/>
+</map>

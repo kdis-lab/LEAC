@@ -1,0 +1,5 @@
+<map id="gaencode::ChromosomeCBGA&lt; T_FEATURE, T_CLUSTERIDX, T_INSTANCE_FREQUENCY, T_INSTANCES_CLUSTER_K, T_FEATURE_SUM, T_REAL &gt;" name="gaencode::ChromosomeCBGA&lt; T_FEATURE, T_CLUSTERIDX, T_INSTANCE_FREQUENCY, T_INSTANCES_CLUSTER_K, T_FEATURE_SUM, T_REAL &gt;">
+<area shape="rect" id="node2" href="$classmat_1_1_matrix_resizable_row.html" title="{mat::MatrixResizableRow\l\&lt; T_FEATURE, T_INSTANCES\l_CLUSTER_K \&gt;\n|# _ui_numRowsMaximum\l|+ MatrixResizableRow()\l+ MatrixResizableRow()\l+ MatrixResizableRow()\l+ MatrixResizableRow()\l+ ~MatrixResizableRow()\l+ operator=()\l+ operator=()\l+ resize()\l+ merge()\l+ getNumElemsMaximum()\land 14 more...\l}" alt="" coords="37,711,250,964"/>
+<area shape="rect" id="node3" href="$classmat_1_1_matrix_base.html" title="MatrixBase. " alt="" coords="31,5,178,332"/>
+<area shape="rect" id="node5" href="$classmat_1_1_matrix_resizable_row.html" title="MatrixResizableRow . " alt="" coords="109,395,311,633"/>
+</map>

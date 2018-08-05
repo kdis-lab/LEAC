@@ -1,0 +1,5 @@
+<map id="mat::MatrixResizableRow&lt; T_FEATURE, T_WEIGHT &gt;" name="mat::MatrixResizableRow&lt; T_FEATURE, T_WEIGHT &gt;">
+<area shape="rect" id="node3" href="$classmat_1_1_matrix_resizable_row.html" title="{mat::MatrixResizableRow\l\&lt; T_FEATURE_SUM, T_INSTANCES\l_CLUSTER_K \&gt;\n|# _ui_numRowsMaximum\l# _arrayt_data\l|+ MatrixResizableRow()\l+ MatrixResizableRow()\l+ MatrixResizableRow()\l+ MatrixResizableRow()\l+ ~MatrixResizableRow()\l+ operator=()\l+ operator=()\l+ resize()\l+ merge()\l+ getNumElemsMaximum()\land 14 more...\l}" alt="" coords="5,712,255,980"/>
+<area shape="rect" id="node4" href="$classmat_1_1_matrix_resizable_row.html" title="{mat::MatrixResizableRow\l\&lt; T_FEATURE, T_INSTANCES\l_CLUSTER_K \&gt;\n|# _ui_numRowsMaximum\l# _arrayt_data\l|+ MatrixResizableRow()\l+ MatrixResizableRow()\l+ MatrixResizableRow()\l+ MatrixResizableRow()\l+ ~MatrixResizableRow()\l+ operator=()\l+ operator=()\l+ resize()\l+ merge()\l+ getNumElemsMaximum()\land 14 more...\l}" alt="" coords="279,712,493,980"/>
+<area shape="rect" id="node2" href="$classmat_1_1_matrix_base.html" title="MatrixBase. " alt="" coords="185,5,331,332"/>
+</map>

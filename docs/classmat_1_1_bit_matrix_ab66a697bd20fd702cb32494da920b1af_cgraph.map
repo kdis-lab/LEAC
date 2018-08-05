@@ -1,0 +1,5 @@
+<map id="mat::BitMatrix::print" name="mat::BitMatrix::print">
+<area shape="rect" id="node2" href="$classmat_1_1_bit_matrix.html#acb0438a8816d82379fab71120540fcd1" title="mat::BitMatrix::getNumColumns" alt="" coords="188,5,399,32"/>
+<area shape="rect" id="node3" href="$classmat_1_1_bit_matrix.html#ae23601eca8a5adfbed3749b163f0d5d6" title="mat::BitMatrix::getNumRows" alt="" coords="198,56,389,83"/>
+<area shape="rect" id="node4" href="$classmat_1_1_bit_matrix.html#a5607bb84d71c58751390be62e798dd11" title="mat::BitMatrix::getRow" alt="" coords="215,107,372,133"/>
+</map>

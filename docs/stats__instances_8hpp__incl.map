@@ -1,0 +1,19 @@
+<map id="include/stats_instances.hpp" name="include/stats_instances.hpp">
+<area shape="rect" id="node8" href="$container__instance_8hpp.html" title="container utilities for instances " alt="" coords="707,229,866,256"/>
+<area shape="rect" id="node16" href="$common_8hpp.html" title="common " alt="" coords="159,453,257,480"/>
+<area shape="rect" id="node18" href="$verbose__global_8hpp.html" title="verbose global " alt="" coords="520,453,659,480"/>
+<area shape="rect" id="node24" href="$linear__algebra__level1_8hpp.html" title="linear algebra level1 " alt="" coords="1709,379,1885,405"/>
+<area shape="rect" id="node27" href="$linear__algebra__level2_8hpp.html" title="linear algebra level 2 " alt="" coords="524,80,700,107"/>
+<area shape="rect" id="node30" href="$matrix__operation_8hpp.html" title="matrix operation " alt="" coords="1565,80,1710,107"/>
+<area shape="rect" id="node9" href="$instance_8hpp.html" title="Module for the handling of instances or also called objects or points. " alt="" coords="176,304,272,331"/>
+<area shape="rect" id="node19" href="$matrix_8hpp.html" title="matrix " alt="" coords="911,304,993,331"/>
+<area shape="rect" id="node10" href="$line__split_8hpp.html" title="line split " alt="" coords="947,379,1045,405"/>
+<area shape="rect" id="node23" href="$matrix__base_8hpp.html" title="matrix base " alt="" coords="702,379,821,405"/>
+<area shape="rect" id="node25" href="$interface__level1_8hpp.html" title="Interface_level 1. " alt="" coords="1719,453,1860,480"/>
+<area shape="rect" id="node28" href="$interface__level2_8hpp.html" title="Interface_level 2. " alt="" coords="541,229,683,256"/>
+<area shape="rect" id="node29" href="$common__interfacelapack_8hpp.html" title="common interfacelapack " alt="" coords="525,304,721,331"/>
+<area shape="rect" id="node31" href="$matop__withoutopenblas_8hpp.html" title="Matrix operations. " alt="" coords="1568,155,1755,181"/>
+<area shape="rect" id="node34" href="$matrix__inverse__lup_8hpp.html" title="Reverse of a matrix by the LUP method. " alt="" coords="1307,229,1464,256"/>
+<area shape="rect" id="node37" href="$jacobi__eigenvalue_8hpp.html" title="Function jacobi_eigenvalue are part of. " alt="" coords="1729,229,1885,256"/>
+<area shape="rect" id="node36" href="$vector__utils_8hpp.html" title="Operations for vector manipulation. " alt="" coords="1315,379,1429,405"/>
+</map>

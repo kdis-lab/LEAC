@@ -1,0 +1,51 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$namespaceinterfacesse.html#a9dd5fb43ad8a83ee5cb2f5ba1bb2085b" title="interfacesse::axpy" alt="" coords="1121,172,1253,198"/>
+<area shape="rect" id="node5" href="$classinout_1_1_out_file_name.html#a4f2a312f182702294187874d0e96ab54" title="inout::OutFileName\l::closeFile" alt="" coords="117,1236,253,1278"/>
+<area shape="rect" id="node6" href="$classinout_1_1_out_file_name.html#a109f96b53357d1780b4f838b5623c22f" title="inout::OutFileName\l::getDelim" alt="" coords="117,1302,253,1343"/>
+<area shape="rect" id="node7" href="$classdata_1_1_instance.html#a90d1eaeb66cc1470bbfdb95434fdb761" title="data::Instance::getNumDimensions" alt="" coords="1339,982,1571,1009"/>
+<area shape="rect" id="node8" href="$namespaceclusteringop.html#a44a4fb40b11fb73247f3efad50d19183" title="clusteringop::initialize" alt="" coords="844,1261,995,1288"/>
+<area shape="rect" id="node16" href="$namespaceinout.html#a03104d91d35d133558542433a75222ad" title="Read the instances or objects. " alt="" coords="111,1717,259,1744"/>
+<area shape="rect" id="node23" href="$namespaceinout.html#ac33c1d3934d0f34020c1b945ad027c01" title="Read the name of the dimensions of instances or objects. " alt="" coords="1083,1489,1291,1516"/>
+<area shape="rect" id="node33" href="$namespaceinout.html#ab19fc350fe980513e7a8630450c38ee4" title="inout::instancesReadWith\lClass" alt="" coords="323,2116,497,2158"/>
+<area shape="rect" id="node37" href="$namespacestats.html#a61fb958f0ffbfa6d41efd10f6e71f062" title="Obtain the maximum attributes of the instances. " alt="" coords="1118,780,1255,806"/>
+<area shape="rect" id="node40" href="$namespacestats.html#a61ea16e97e098fc1598f4a2975cb0a24" title="￼Calculate average of a vector " alt="" coords="345,70,475,97"/>
+<area shape="rect" id="node42" href="$namespacestats.html#a706b4964413c76c4c7d34ab17985e9e4" title="Add the instances by attributes. " alt="" coords="583,425,726,452"/>
+<area shape="rect" id="node44" href="$namespacestats.html#ad05deabf843908b6a0be813c39a346cd" title="Obtain the minimum attributes of the instances. " alt="" coords="853,780,985,806"/>
+<area shape="rect" id="node45" href="$classinout_1_1_out_file_name.html#a836e7838e1c767c6aa9e73ed501c0a19" title="inout::OutFileName\l::openFile" alt="" coords="117,1819,253,1860"/>
+<area shape="rect" id="node46" href="$namespacestats.html#a94939ff1ecbe4d9c96a2e92436bc85b5" title="stats::rank" alt="" coords="143,1885,227,1912"/>
+<area shape="rect" id="node47" href="$namespacestats.html#a6b3be9207e48f3af2c75ad45db17ac70" title="Gets the sum of the difference of the instances with the mean and the result square. " alt="" coords="104,754,267,781"/>
+<area shape="rect" id="node49" href="$namespacestats.html#a27785e3066801ac0756112211985c941" title="Obtain the standard deviation given the variance. " alt="" coords="583,780,726,806"/>
+<area shape="rect" id="node3" href="$namespaceinterfacesse.html#ae3f94c42a59db65b2941dbfc9f449ea1" title="function xAXPY of blas for doubles vectors " alt="" coords="1380,96,1529,122"/>
+<area shape="rect" id="node4" href="$namespaceinterfacesse.html#a144ebf70bf38495c3de1aca2c8365e08" title="scal items of the array of type T " alt="" coords="1622,96,1750,122"/>
+<area shape="rect" id="node9" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title="mat::MatrixBase::getNumRows" alt="" coords="1351,1317,1559,1344"/>
+<area shape="rect" id="node10" href="$classmat_1_1_matrix_base.html#ae3b1c4b8e9cb7e7685d7bc129f875dcd" title="mat::MatrixBase::getRow" alt="" coords="1367,1216,1542,1242"/>
+<area shape="rect" id="node11" href="$namespaceinterfacesse.html#a925f44ed84d40e9af5050fa0e1373396" title="copy array aoarrayt_x in aoarrayt_y of type T " alt="" coords="1389,1058,1521,1085"/>
+<area shape="rect" id="node13" href="$classdata_1_1_instance.html#aa6ee19c383a86228b3d134e42bdb6830" title="data::Instance::getFeatures" alt="" coords="1361,704,1548,730"/>
+<area shape="rect" id="node14" href="$classmat_1_1_matrix_base.html#a4cdb6c084f99e4aec0373760c093ee11" title="mat::MatrixBase::print" alt="" coords="1379,1266,1531,1293"/>
+<area shape="rect" id="node15" href="$namespaceclusteringop.html#aaf9c618adece3370f1da1abe8d9ce36e" title="clusteringop::randomInitialize" alt="" coords="1089,1286,1285,1313"/>
+<area shape="rect" id="node12" href="$namespaceinterfacesse.html#afaa45a2a27710ea2dfa979289cf4961d" title="swap items of aoarrayt_y to aiarrayt_x " alt="" coords="1619,1058,1753,1085"/>
+<area shape="rect" id="node17" href="$classinout_1_1_in_param_read_inst.html#a797250bacc8d887b96fa19247c5dd13f" title="inout::InParamReadInst\l::getCurrentFileInstance" alt="" coords="1373,1938,1537,1979"/>
+<area shape="rect" id="node18" href="$classinout_1_1_in_param_read_inst.html#ab91dbd838ea608bd3bf963bb97398747" title="inout::InParamReadInst\l::getCurrentFileInstanceTest" alt="" coords="1359,2242,1551,2283"/>
+<area shape="rect" id="node19" href="$classinout_1_1_in_param_read_inst.html#abef010eec72dc41b4a9bb30a692e0a66" title="inout::InParamReadInst\l::getSeparateAttributes" alt="" coords="1374,2394,1535,2435"/>
+<area shape="rect" id="node20" href="$classinout_1_1_in_param_read_inst.html#a3a28ee2eb118f3e41b2f653f88ed0cbd" title="inout::InParamReadInst\l::getSelectAttributes" alt="" coords="1374,1732,1535,1774"/>
+<area shape="rect" id="node21" href="$namespaceinout.html#a3be322f2729994e704ba3ebde92370a3" title="Read the number of instances or objects. " alt="" coords="834,1894,1005,1921"/>
+<area shape="rect" id="node22" href="$classinout_1_1_in_param_read_inst.html#a1f78fb02f92c416f951b805812cbb844" title="inout::InParamReadInst\l::getHaveHeaderFileInstance" alt="" coords="1355,1798,1554,1839"/>
+<area shape="rect" id="node30" href="$classdata_1_1_instance.html#a9a4c4f464dd53ad44e50108b7822ee22" title="data::Instance::setNumDimensions" alt="" coords="804,2316,1035,2342"/>
+<area shape="rect" id="node31" href="$classdata_1_1_instance.html#a5f4fa9c2e55a7a3f2faaefcb6da70e72" title="data::Instance::readFeature" alt="" coords="825,1945,1014,1972"/>
+<area shape="rect" id="node32" href="$classinout_1_1_in_param_read_inst.html#aecd21395feb34e6f0e60d73be847a065" title="inout::InParamReadInst\l::getIDInstanceColumn" alt="" coords="839,2199,1000,2240"/>
+<area shape="rect" id="node24" href="$classinout_1_1_in_param_read_inst.html#a5d30b6a149d1b0a0e4e3ad29ab69c4fa" title="inout::InParamReadInst\l::getFormatInstanceFile" alt="" coords="1373,1615,1536,1656"/>
+<area shape="rect" id="node25" href="$classinout_1_1_line_split.html#aebf58b7ef5063b307e8e6400855241af" title="inout::LineSplit::setSeparator" alt="" coords="1358,1681,1551,1708"/>
+<area shape="rect" id="node26" href="$classinout_1_1_line_split.html#a507aefbeca1a1ddb7b77c827780eda15" title="inout::LineSplit::split" alt="" coords="1385,1368,1524,1394"/>
+<area shape="rect" id="node27" href="$classinout_1_1_line_split.html#ab005106daab41e9c6be8b14f0018f6e6" title="inout::LineSplit::getVector\lString" alt="" coords="1367,1419,1542,1460"/>
+<area shape="rect" id="node28" href="$classinout_1_1_line_split.html#acefcd57bd07095f0b853e21c4d0ce4d4" title="inout::LineSplit::getSelect\lColumns" alt="" coords="1368,1484,1541,1526"/>
+<area shape="rect" id="node29" href="$classinout_1_1_line_split.html#a20fdfcad74ac46592c162e50b042a2f1" title="inout::LineSplit::getNum\lSelectColumns" alt="" coords="1373,1550,1536,1591"/>
+<area shape="rect" id="node34" href="$classinout_1_1_in_param_read_inst.html#aa5758557ad0e27b001e7e9c66e3acc88" title="inout::InParamReadInst\l::getClassInstanceColumn" alt="" coords="565,2268,745,2310"/>
+<area shape="rect" id="node35" href="$classinout_1_1_in_param_read_inst.html#abd2bedf38bc549dd6a3ae726bfd80660" title="inout::InParamReadInst\l::getClusterInstanceColumn" alt="" coords="561,2386,748,2427"/>
+<area shape="rect" id="node36" href="$namespaceinout.html#a0058a5fd6521b5f81e978a745f2e5357" title="Read the instances or objects with frequency. " alt="" coords="553,2014,756,2041"/>
+<area shape="rect" id="node38" href="$namespaceinout.html#a0c10a45877a347dec0d4ec4e5b05b828" title="inout::containerprint" alt="" coords="1386,298,1523,325"/>
+<area shape="rect" id="node39" href="$namespacestats.html#a91d3e4bd49b1fdf4eaf355092becd6bc" title="Get covariance matrix, only for T_FEATURE real. " alt="" coords="1380,780,1529,806"/>
+<area shape="rect" id="node41" href="$namespaceinterfacesse.html#aa4b94bf2bf8cb7c437fa3feba8b70ff8" title="Initializes the array with a constant . " alt="" coords="1117,1084,1257,1110"/>
+<area shape="rect" id="node43" href="$namespacestats.html#a613d1db29f5e2b636315f547fb1ba89a" title="Add the instances with frequency by attributes. " alt="" coords="834,374,1005,401"/>
+<area shape="rect" id="node48" href="$namespacestats.html#a2f3cfb3a90ba9b5bdfe177054cdbde56" title="Gets the sum of the difference of the instances with the mean and the result square. For instances frequently. " alt="" coords="315,754,505,781"/>
+<area shape="rect" id="node50" href="$namespacestats.html#a09587632e3c4855da191bc7439c593f0" title="Make a transformation to the instances. " alt="" coords="1130,1033,1243,1060"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="gafuncobj::GAFuncObjSSE&lt; T_FEATURE, T_CLUSTERIDX, T_METRIC, INPUT_ITERATOR &gt;" name="gafuncobj::GAFuncObjSSE&lt; T_FEATURE, T_CLUSTERIDX, T_METRIC, INPUT_ITERATOR &gt;">
+<area shape="rect" id="node2" href="$classgafuncobj_1_1_g_a_function_objective.html" title="{gafuncobj::GAFunctionObjective\l\&lt; T_FEATURE, T_METRIC \&gt;\n||+ GAFunctionObjective()\l+ ~GAFunctionObjective()\l+ getObjetiveFunc()\l+ getFitness()\l}" alt="" coords="7,204,221,340"/>
+<area shape="rect" id="node3" href="$classgafuncobj_1_1_g_a_function_objective.html" title="Definition of the abstract class GAFunctionObjective. It is used to evaluate an objective function..." alt="" coords="5,5,220,141"/>
+<area shape="rect" id="node4" href="$structdist_1_1_dist.html" title="{dist::Dist\&lt; T_METRIC,\l T_FEATURE \&gt;\n||+ ~Dist()\l+ operator()()\l}" alt="" coords="245,219,404,325"/>
+<area shape="rect" id="node5" href="$structdist_1_1_dist.html" title="Generic dist. " alt="" coords="257,20,395,127"/>
+</map>

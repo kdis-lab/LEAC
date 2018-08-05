@@ -1,0 +1,36 @@
+<map id="stats::sumFeacturesFreqSQ" name="stats::sumFeacturesFreqSQ">
+<area shape="rect" id="node2" href="$namespaceinout.html#a0c10a45877a347dec0d4ec4e5b05b828" title="inout::containerprint" alt="" coords="1477,249,1614,275"/>
+<area shape="rect" id="node3" href="$namespaceinterfacesse.html#aa4b94bf2bf8cb7c437fa3feba8b70ff8" title="Initializes the array with a constant . " alt="" coords="1475,198,1615,225"/>
+<area shape="rect" id="node11" href="$classdata_1_1_instance.html#aa6ee19c383a86228b3d134e42bdb6830" title="data::Instance::getFeatures" alt="" coords="1452,553,1639,579"/>
+<area shape="rect" id="node12" href="$namespacestats.html#a27785e3066801ac0756112211985c941" title="Obtain the standard deviation given the variance. " alt="" coords="244,274,387,301"/>
+<area shape="rect" id="node4" href="$namespaceinterfacesse.html#a925f44ed84d40e9af5050fa0e1373396" title="copy array aoarrayt_x in aoarrayt_y of type T " alt="" coords="1737,375,1869,402"/>
+<area shape="rect" id="node5" href="$namespaceinterfacesse.html#afaa45a2a27710ea2dfa979289cf4961d" title="swap items of aoarrayt_y to aiarrayt_x " alt="" coords="1970,479,2105,506"/>
+<area shape="rect" id="node6" href="$namespaceinterfacesse.html#a2f42addf86fc8b9cd0c6620217b8a2db" title="swap items of aoarrayt_y to aiarrayt_x " alt="" coords="2208,682,2331,709"/>
+<area shape="rect" id="node7" href="$namespaceinterfacesse.html#a25f6950d589b92fd5bcf2007fb3fae19" title="interfacesse::sum" alt="" coords="2431,834,2559,861"/>
+<area shape="rect" id="node8" href="$namespaceinterfacesse.html#a9dd5fb43ad8a83ee5cb2f5ba1bb2085b" title="interfacesse::axpy" alt="" coords="2607,834,2739,861"/>
+<area shape="rect" id="node9" href="$namespaceinterfacesse.html#ae3f94c42a59db65b2941dbfc9f449ea1" title="function xAXPY of blas for doubles vectors " alt="" coords="2787,834,2936,861"/>
+<area shape="rect" id="node10" href="$namespaceinterfacesse.html#a144ebf70bf38495c3de1aca2c8365e08" title="scal items of the array of type T " alt="" coords="2984,834,3112,861"/>
+<area shape="rect" id="node13" href="$namespacestats.html#a09587632e3c4855da191bc7439c593f0" title="Make a transformation to the instances. " alt="" coords="1489,806,1602,833"/>
+<area shape="rect" id="node20" href="$namespacestats.html#ad05deabf843908b6a0be813c39a346cd" title="Obtain the minimum attributes of the instances. " alt="" coords="435,313,567,339"/>
+<area shape="rect" id="node14" href="$classdata_1_1_instance.html#a90d1eaeb66cc1470bbfdb95434fdb761" title="data::Instance::getNumDimensions" alt="" coords="1687,451,1919,478"/>
+<area shape="rect" id="node15" href="$namespaceinterfacesse.html#a20b4ab13ada231e7ba92e3d98c4cd602" title="interfacesse::gemv" alt="" coords="1734,1087,1871,1114"/>
+<area shape="rect" id="node16" href="$namespaceinterfacesse.html#a47f4a833d2730f3a501bbb9b2b095e62" title="interfacesse::gemm" alt="" coords="1967,1138,2108,1165"/>
+<area shape="rect" id="node17" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title="mat::MatrixBase::getNumColumns" alt="" coords="2156,986,2383,1013"/>
+<area shape="rect" id="node18" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title="mat::MatrixBase::getNumRows" alt="" coords="2165,1239,2373,1266"/>
+<area shape="rect" id="node19" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title="mat::MatrixRow::getRow" alt="" coords="2185,1087,2354,1114"/>
+<area shape="rect" id="node21" href="$namespacestats.html#a61fb958f0ffbfa6d41efd10f6e71f062" title="Obtain the maximum attributes of the instances. " alt="" coords="615,426,752,453"/>
+<area shape="rect" id="node22" href="$namespacestats.html#a91d3e4bd49b1fdf4eaf355092becd6bc" title="Get covariance matrix, only for T_FEATURE real. " alt="" coords="800,905,949,931"/>
+<area shape="rect" id="node23" href="$namespacestats.html#adf9325db882d4cc7474c23f2eff7dd39" title="Get weight matrix diagonal for calculate dist induced &#160;&#160;. " alt="" coords="997,1290,1165,1317"/>
+<area shape="rect" id="node29" href="$namespacestats.html#a9997daae39cbd737fb66c52d182e8e6b" title="Obtiene un vector con la media de una matriz por columnas. " alt="" coords="1022,905,1141,931"/>
+<area shape="rect" id="node31" href="$namespacedata.html#af02d5f2addd5b5815d5efb7db12ffeba" title="Instaces matrix transpose. " alt="" coords="1225,755,1392,782"/>
+<area shape="rect" id="node33" href="$namespaceinterfacesse.html#a3ef732d695e1172d5e8404cc0e44865a" title="translate the aoarrayt_y array " alt="" coords="1012,766,1151,793"/>
+<area shape="rect" id="node24" href="$namespacestats.html#af148eebdd4a419378daf0425678395c6" title="Get weight matrix Mahalonobis for calculate dist induced &#160;&#160;. " alt="" coords="1213,1239,1404,1266"/>
+<area shape="rect" id="node26" href="$classmat_1_1_matrix_row.html#a156313f6aa515994b76321ff03780b16" title="mat::MatrixRow::print" alt="" coords="1729,1341,1876,1367"/>
+<area shape="rect" id="node28" href="$classmat_1_1_matrix_row.html#a1070fba1c0ec0fbaa309f141817be412" title="mat::MatrixRow::initialize" alt="" coords="1223,1290,1394,1317"/>
+<area shape="rect" id="node25" href="$namespacemat.html#a13185fa17b186523e49b2afb2347c4de" title="mat::inverse" alt="" coords="1497,1239,1593,1266"/>
+<area shape="rect" id="node27" href="$classmat_1_1_matrix_row.html#a2879a2578666e3da78f3588e78b5e982" title="mat::MatrixRow::toArray" alt="" coords="1719,1239,1886,1266"/>
+<area shape="rect" id="node30" href="$namespacestats.html#a6b3be9207e48f3af2c75ad45db17ac70" title="Gets the sum of the difference of the instances with the mean and the result square. " alt="" coords="1227,299,1390,326"/>
+<area shape="rect" id="node32" href="$namespacedata.html#a3a078a698c5523531c54df6716d86ceb" title="Instaces matrix. " alt="" coords="1480,755,1611,782"/>
+<area shape="rect" id="node34" href="$namespaceinterfacesse.html#ace6b5b44901bf38644ed492778c620f5" title="For a matrix each items change for constant and a vector. " alt="" coords="1235,705,1383,731"/>
+<area shape="rect" id="node35" href="$namespaceinterfacesse.html#a0569818171fd8f88efe5d7f86e6e0b5d" title="extension of xAXPY operation for T result " alt="" coords="1472,705,1619,731"/>
+</map>

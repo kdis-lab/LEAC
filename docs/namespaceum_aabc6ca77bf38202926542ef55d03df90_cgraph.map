@@ -1,0 +1,5 @@
+<map id="um::dbindex" name="um::dbindex">
+<area shape="rect" id="node2" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title="mat::MatrixBase::getNumColumns" alt="" coords="149,5,376,32"/>
+<area shape="rect" id="node3" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title="mat::MatrixBase::getNumRows" alt="" coords="159,56,367,83"/>
+<area shape="rect" id="node4" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title="mat::MatrixRow::getRow" alt="" coords="178,107,347,133"/>
+</map>
