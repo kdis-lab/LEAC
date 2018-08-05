@@ -6,7 +6,7 @@ The tools is free and open source, under the GNU General Public
 [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html) 
 [\[License file\]](../../LICENSE),
 for Windows&reg;, GNU/Linux&reg; and Mac OS X&reg;.
-For more details see <a href="https://github.com/kdis-lab/leac/tree/master/doc/leac-userManual.pdf">user
+For more details see <a href="https://github.com/kdis-lab/leac/tree/master/leac-userManual.pdf">user
 manual</a> and <a href="https://hbrobles.github.io/APILeac/index.html">API</a>. 
 Locally the documentation is in the doc folder.
 
@@ -15,7 +15,7 @@ Clustering is useful in several exploratory *pattern-analysis*,
 including *data mining*, *document retrieval*, *image segmentation*,
 and *pattern classification* <a href="http://doi.acm.org/10.1145/331499.331504">Jain et al</a>.
 
-![](../master/doc/leac_cluster.svg)
+![](../master/leac_cluster.svg)
 
 LEAC is built in C ++ with the current standards of C++11, C++14.
 Take advantage of the STL library, through the use of 
