@@ -38,7 +38,7 @@ template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename T_INSTANCES_CLUSTER_K
 	   >
 class InParamHKA:
-    public InParamGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+    public InParamGCA<T_CLUSTERIDX,T_INSTANCEIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
 {
 public:
   InParamHKA
@@ -47,7 +47,7 @@ public:
    InParam_algTypeOut aiato_algTypeOut,
    int                aii_opNorm
    ) :
-    InParamGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+    InParamGCA<T_CLUSTERIDX,T_INSTANCEIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
     (ais_algorithmoName, ais_algorithmoAuthor, aiato_algTypeOut,aii_opNorm) {}
   ~InParamHKA() {}
   
@@ -83,7 +83,7 @@ public:
 
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
-    InParamGCA<T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+    InParamGCA<T_CLUSTERIDX,T_INSTANCEIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
       ::print(aipf_outFile,aic_separator);
     aipf_outFile << aic_separator << "_order of tournament"
 		 << aic_separator << this->st_orderTournament;
