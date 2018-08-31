@@ -9,8 +9,8 @@
  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
  */
 
-#ifndef __CLUSTERING_OPERATOR_MEDOIDS_HPP
-#define __CLUSTERING_OPERATOR_MEDOIDS_HPP
+#ifndef __CLUSTERING_OPERATOR_MEDOIDS_HPP__
+#define __CLUSTERING_OPERATOR_MEDOIDS_HPP__
 
 #include <utility>      // std::pair
 #include "dist_matrix_dissimilarity.hpp"
@@ -31,109 +31,107 @@
 namespace clusteringop {
   
 
-/*nearestRepresentative:
-   
-   Asigna cada instancia a un grupo mas cercano y calcula la suma 
-   de las distancias de cada Medoid mj con sus instancias. utilizando
-   PartitionLinked
-   
-   \cite{Sheng:Xiaohui:GAclusteringMedoid:HKA:2004}
-
+/*! \fn std::tuple< T_DIST, ds::PartitionLinked<T_CLUSTERIDX> > nearestRepresentative (T_INSTANCEIDX *aioarrayui_idxMedoids, T_CLUSTERIDX aicidx_numKMedoids, const mat::MatrixTriang<T_DIST> &aimattriag_dissimilarity) 
+   \brief nearestRepresentative
+   \details Assign each instance to a closer group and calculate the sum of the distances of each Medoid mj with its instances
+   \param aioarrayui_idxMedoids an array with the indexes of the representative objects initially
+   \param aicidx_numKMedoids cluster number
+   \param aimattriag_dissimilarity a distance matrix
  */
-template < typename T_DIST,
+template < typename T_INSTANCEIDX,
+           typename T_DIST,
 	   typename T_CLUSTERIDX    //-1, 0, 1, .., K
 	   >
 std::tuple< T_DIST, ds::PartitionLinked<T_CLUSTERIDX> >
 nearestRepresentative
-(uintidx                         *aiarrayuiidx_medoids,
- T_CLUSTERIDX                    aicidx_numClusterK,
- const mat::MatrixTriang<T_DIST> &aimatrixtriagt_dissimilarity
+(T_INSTANCEIDX                   *aioarrayui_idxMedoids,
+ T_CLUSTERIDX                    aicidx_numKMedoids,
+ const mat::MatrixTriang<T_DIST> &aimattriag_dissimilarity
  ) 
 { 
 #ifdef __VERBOSE_YES
-  const char* lpc_label = "clusteringop::clusterNearestRepresentative:";
+  const char* lpc_label = "clusteringop::nearestRepresentative:";
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_label
               << "  IN(" << geiinparam_verbose << ")\n"
-	      << "\t input T_INSTANCES_IDX: *aiarrayuiidx_medoids ["
-	      << aiarrayuiidx_medoids << "]\n"
-	      << "\t input mat::MatrixTriang: aimatrixtriagt_dissimilarity["  
-	      <<  &aimatrixtriagt_dissimilarity << "]\n"
+	      << "\t input T_INSTANCES_IDX: *aioarrayui_idxMedoids ["
+	      << aioarrayui_idxMedoids << "]\n"
+	      << "\t input mat::MatrixTriang: aimattriag_dissimilarity["  
+	      <<  &aimattriag_dissimilarity << "]\n"
 	      << "\t)"
 	      << std::endl;
   }
 #endif //__VERBOSE_YES 
 
-  T_DIST                     lot_cost = T_DIST(0);
-
-  //INITIALIZE PARTITION LINK
+  T_DIST               lor_cost = T_DIST(0);
+  const T_INSTANCEIDX  lui_numInstances = T_INSTANCEIDX(aimattriag_dissimilarity.getNumRows());
+  //Initialize PartitionLink
   ds::PartitionLinked<T_CLUSTERIDX>
     lopartlink_partition
-    (aimatrixtriagt_dissimilarity.getNumRows(),
-     (uintidx) aicidx_numClusterK
+     (lui_numInstances, 
+     (T_INSTANCEIDX) aicidx_numKMedoids
      );
   
   T_DIST  lrt_distMinMedoidsInst;
-  for (uintidx luintidx_i = 0; luintidx_i < aimatrixtriagt_dissimilarity.getNumRows(); luintidx_i++) {
-    // FIND MEDOIDS NEAREST 
-    T_CLUSTERIDX lmgidx_j = 
+  
+  for (T_INSTANCEIDX luintidx_i = 0; luintidx_i < lui_numInstances; luintidx_i++) {
+    //Find medoids nearest
+    T_CLUSTERIDX lcidx_mj = 
       nearest::medoidsNN
       <T_CLUSTERIDX,T_DIST>
       (lrt_distMinMedoidsInst,
        luintidx_i,
-       aiarrayuiidx_medoids,
-       aicidx_numClusterK,
-       aimatrixtriagt_dissimilarity
+       aioarrayui_idxMedoids,
+       aicidx_numKMedoids,
+       aimattriag_dissimilarity
        );
 
-    lopartlink_partition.addInstanceToCluster(lmgidx_j,luintidx_i);
+    lopartlink_partition.addInstanceToCluster(lcidx_mj,luintidx_i);
   
-    lot_cost += (T_DIST) lrt_distMinMedoidsInst;
+    lor_cost += (T_DIST) lrt_distMinMedoidsInst;
   }
   
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
      std::cout << lpc_label
 	      << " OUT(" << geiinparam_verbose << ")\n"
-	      << "\noutput PartitionLinked: [" << &lopartlink_partition << "]\n";
-  
+	      << "output PartitionLinked: [" << &lopartlink_partition << "]\n";
     lopartlink_partition.print
       (std::cout,
        lpc_label
        );
-    std::cout  << "output lot_cost: " << lot_cost 
+    std::cout  << "\noutput lor_cost: " << lor_cost 
 	       << std::endl;
   }
   --geiinparam_verbose;
 #endif //__VERBOSE_YES
 
   return std::make_tuple
-    (  lot_cost
+    (  lor_cost
      , lopartlink_partition 
      );
   
 }
 
-
-/*clusterNearestRepresentative:
-  Asigna cada instancia a un grupo mas cercano 
-  y calcula la suma de las distancias de cada Medoid mj con sus
-  instancias. Utilizando un arreglo de pertenencia.
-
-  \cite{Kaufman:Rousseeuw:Book:ClusterAnalysis:1990}
-
-*/
-
-template < typename T_DIST,
+/*! \fn std::pair<T_DIST,T_INSTANCEIDX> nearestRepresentative (T_CLUSTERIDX *aoarraycidx_memberShip, const T_INSTANCEIDX *aioarrayui_idxMedoids, const T_CLUSTERIDX aicidx_numKMedoids, const mat::MatrixTriang<T_DIST>  &aimattriag_dissimilarity)
+   \brief nearestRepresentative \cite Kaufman:Rousseeuw:Book:ClusterAnalysis:1990
+   \details Assign each instance to a closer group and calculate the sum of the distances of each Medoid mj with its instances
+   \param aoarraycidx_memberShip an array of out with the labels belong to the cluster 
+   \param aioarrayui_idxMedoids an array of input with the indexes of the representative objects
+   \param aicidx_numKMedoids cluster number
+   \param aimattriag_dissimilarity a distance matrix
+ */
+template < typename T_INSTANCEIDX,
+           typename T_DIST,
 	   typename T_CLUSTERIDX    //-1, 0, 1, .., K
 	   >
-std::pair<T_DIST,uintidx>
+std::pair<T_DIST,T_INSTANCEIDX>
 nearestRepresentative
 (T_CLUSTERIDX                     *aoarraycidx_memberShip,
- const uintidx                    *aiarrayuiidx_medoids,
+ const T_INSTANCEIDX              *aioarrayui_idxMedoids,
  const T_CLUSTERIDX               aicidx_numKMedoids,
- const mat::MatrixTriang<T_DIST>  &aimatrixtriagrt_dissimilarity
+ const mat::MatrixTriang<T_DIST>  &aimattriag_dissimilarity
  ) 
 {
 #ifdef __VERBOSE_YES
@@ -144,41 +142,44 @@ nearestRepresentative
               << ":  IN(" << geiinparam_verbose << ")\n"
 	      << "\t(output T_CLUSTERIDX*: aoarraycidx_memberShip[" 
 	      << aoarraycidx_memberShip << "]\n"
-              << "\t  input uintidx* aiarrayuiidx_medoids[" <<  aiarrayuiidx_medoids << "]\n"
+              << "\t  input T_INSTANCEIDX* aioarrayui_idxMedoids[" 
+	      <<  aioarrayui_idxMedoids << "]\n"
 	      << "\t  input T_CLUSTERIDX: aicidx_numKMedoids = "
 	      << aicidx_numKMedoids << '\n'
-	      << "\t  input  mat::MatrixTriang: aimatrixtriagrt_dissimilarity["  
-	      <<  &aimatrixtriagrt_dissimilarity << "]\n"
+	      << "\t  input  mat::MatrixTriang: aimattriag_dissimilarity["  
+	      <<  &aimattriag_dissimilarity << "]\n"
 	      << "\t)\n";
   }
 #endif /*__VERBOSE_YES */
 
-  T_DIST   lot_cost = T_DIST(0);
-  uintidx  louintidx_threshold = 0;
-  T_DIST  lrt_distMinMedoidsInst;
-  
-  for (uintidx lui = 0; lui < aimatrixtriagrt_dissimilarity.getNumRows(); lui++) {
-    /* FIND MEDOIDS NEAREST */
-    T_CLUSTERIDX lmgidx_j = 
+  T_DIST              lor_cost = T_DIST(0);
+  T_INSTANCEIDX       louintidx_threshold = 0;  
+  T_DIST              lrt_distMinMedoidsInst;
+  const T_INSTANCEIDX lui_numInstances = 
+    T_INSTANCEIDX(aimattriag_dissimilarity.getNumRows());
+
+  for (T_INSTANCEIDX lui = 0; lui < lui_numInstances; lui++) {
+    /* Find medoids nearest */
+    T_CLUSTERIDX lcidx_mj = 
       nearest::medoidsNN
       (lrt_distMinMedoidsInst,
        lui,
-       aiarrayuiidx_medoids,
+       aioarrayui_idxMedoids,
        aicidx_numKMedoids,
-       aimatrixtriagrt_dissimilarity
+       aimattriag_dissimilarity
        );
-    if (aoarraycidx_memberShip[lui] != lmgidx_j) {
+    if (aoarraycidx_memberShip[lui] != lcidx_mj) {
       ++louintidx_threshold;
-      aoarraycidx_memberShip[lui] = lmgidx_j;
+      aoarraycidx_memberShip[lui] = lcidx_mj;
     }
-    lot_cost += (T_DIST) lrt_distMinMedoidsInst;
+    lor_cost += (T_DIST) lrt_distMinMedoidsInst;
   }
   
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelFunc
 	      << ": OUT(" << geiinparam_verbose << ')'
-              << " lot_cost = " << lot_cost
+              << " lor_cost = " << lor_cost
               << " louintidx_threshold = " << louintidx_threshold
 	      << '\n';
     std::ostringstream lostrstream_labelMemberShip;
@@ -188,7 +189,7 @@ nearestRepresentative
 				<< aoarraycidx_memberShip<< ']';
     inout::containerprint
       (aoarraycidx_memberShip,
-       aoarraycidx_memberShip + aimatrixtriagrt_dissimilarity.getNumRows(),
+       aoarraycidx_memberShip + aimattriag_dissimilarity.getNumRows(),
        std::cout,
        lostrstream_labelMemberShip.str().c_str(),
        ','
@@ -198,49 +199,56 @@ nearestRepresentative
   --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
 
-  return  std::make_pair(lot_cost,louintidx_threshold);
+  return  std::make_pair(lor_cost,louintidx_threshold);
 
 }
 
-
-/*computeTotalCostSwap:
+/*! \fn T_DIST computeTotalCostSwap (const T_INSTANCEIDX aiuiidx_medoidRand, const T_CLUSTERIDX *aiarraycidx_memberShip, T_INSTANCEIDX *aoarrayuiidx_medoids, const T_CLUSTERIDX aicidx_numKMedoids, const mat::MatrixTriang<T_DIST>  &aimattriag_dissimilarity)
+   \brief computeTotalCostSwap
+   \details calculates the cost of changing a randomly selected medoid to a defined one
+   \param aiuiidx_medoidRand an index of a randomly selected medoid to investigate if the cost improves
+   \param aiarraycidx_memberShip an aioarraycidx_memberShip an array of indexes belonging to previously assigned or UNKNOWN_CLUSTER_IDX
+   \param aoarrayuiidx_medoids an array of output with the indexes of the representative objects
+   \param aicidx_numKMedoids cluster number
+   \param aimattriag_dissimilarity a distance matrix
  */
-template < typename T_DIST,
+template < typename T_INSTANCEIDX,
+           typename T_DIST,
 	   typename T_CLUSTERIDX    //-1, 0, 1, .., K
 	   >
 T_DIST
 computeTotalCostSwap
-(const uintidx                    aiuiidx_medoidRand, /*IS A INDEX TO INSTANCE*/ 
+(const T_INSTANCEIDX              aiuiidx_medoidRand, /*IS A INDEX TO INSTANCE*/ 
  const T_CLUSTERIDX               *aiarraycidx_memberShip,
- uintidx                          *aoarrayuiidx_medoids,
- const T_CLUSTERIDX               aicidx_numClusterK,
- const mat::MatrixTriang<T_DIST>  &aimatrixtriagrt_dissimilarity
+ T_INSTANCEIDX                    *aoarrayuiidx_medoids,
+ const T_CLUSTERIDX               aicidx_numKMedoids,
+ const mat::MatrixTriang<T_DIST>  &aimattriag_dissimilarity
  ) 
 {
-  T_DIST               lot_cost;
-  T_DIST               lrt_minMedoidsRandToInstance_i;
-  T_DIST               lrt_minCurrentClusterKToInstance_i;
-  T_CLUSTERIDX  lcidx_clusterKNonRepre; 
-  uintidx              luintidx_previousMedoids;
+  T_DIST          lor_cost;
+  T_DIST          lrt_minMedoidsRandToInstance_i;
+  T_DIST          lrt_minCurrentClusterKToInstance_i;
+  T_CLUSTERIDX    lcidx_clusterKNonRepre; 
+  T_INSTANCEIDX   luintidx_previousMedoids;
 
-  lot_cost = T_DIST(0);
+  lor_cost = T_DIST(0);
   
 #ifdef __VERBOSE_YES
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << "pamkmedoid_computeTotalCostSwap: IN"
 	      << '(' << geiinparam_verbose << ")\n"
-	      << "\t(output lot_cost = " << lot_cost << '\n'
+	      << "\t(output lor_cost = " << lor_cost << '\n'
 	      << "\t input T_INSTANCES_IDX: aiuiidx_medoidRand = " 
 	      << aiuiidx_medoidRand << '\n'
 	      << "\t input T_CLUSTERIDX*: aiarraycidx_memberShip[" 
 	      << aiarraycidx_memberShip << "]\n"
 	      << "\t input T_INSTANCES_IDX*: aoarrayuiidx_medoids["
 	      << aoarrayuiidx_medoids << "]\n"
-	      << "\t input T_CLUSTERIDX: aicidx_numClusterK = " 
-	      << aicidx_numClusterK << '\n'
-	      << "\t input  mat::MatrixTriang: aimatrixtriagrt_dissimilarity["  
-	      <<  &aimatrixtriagrt_dissimilarity << "]\n"
+	      << "\t input T_CLUSTERIDX: aicidx_numKMedoids = " 
+	      << aicidx_numKMedoids << '\n'
+	      << "\t input  mat::MatrixTriang: aimattriag_dissimilarity["  
+	      <<  &aimattriag_dissimilarity << "]\n"
 	      << "\t)\n";
   }
 #endif /*__VERBOSE_YES */
@@ -249,34 +257,34 @@ computeTotalCostSwap
   luintidx_previousMedoids = aoarrayuiidx_medoids[lcidx_clusterKNonRepre];
   aoarrayuiidx_medoids[lcidx_clusterKNonRepre] = aiuiidx_medoidRand;
 
-  for (uintidx lui_i = 0; lui_i < aimatrixtriagrt_dissimilarity.getNumRows(); lui_i++) {
+  for (T_INSTANCEIDX lui_i = 0; lui_i < aimattriag_dissimilarity.getNumRows(); lui_i++) {
     if ( lcidx_clusterKNonRepre == aiarraycidx_memberShip[lui_i] ) {
       /* FIND DISTANCE NEAREST CONSY */
       nearest::medoidsNN 
 	(lrt_minCurrentClusterKToInstance_i,
 	 lui_i,
 	 aoarrayuiidx_medoids,
-	 aicidx_numClusterK,
-	 aimatrixtriagrt_dissimilarity
+	 aicidx_numKMedoids,
+	 aimattriag_dissimilarity
 	 );
     }
     else {
-      uintidx luintidx_clusterKcurrentInsti = 
+      T_INSTANCEIDX luintidx_clusterKcurrentInsti = 
 	aoarrayuiidx_medoids[aiarraycidx_memberShip[lui_i]];
  
       lrt_minCurrentClusterKToInstance_i = 
 	( lui_i > luintidx_clusterKcurrentInsti)?
-	aimatrixtriagrt_dissimilarity( lui_i, luintidx_clusterKcurrentInsti ):
-	aimatrixtriagrt_dissimilarity( luintidx_clusterKcurrentInsti, lui_i );
+	aimattriag_dissimilarity( lui_i, luintidx_clusterKcurrentInsti ):
+	aimattriag_dissimilarity( luintidx_clusterKcurrentInsti, lui_i );
       
       lrt_minMedoidsRandToInstance_i = (lui_i > aiuiidx_medoidRand)?
-	aimatrixtriagrt_dissimilarity( lui_i, aiuiidx_medoidRand ):
-	aimatrixtriagrt_dissimilarity( aiuiidx_medoidRand, lui_i );
+	aimattriag_dissimilarity( lui_i, aiuiidx_medoidRand ):
+	aimattriag_dissimilarity( aiuiidx_medoidRand, lui_i );
 
       if ( lrt_minMedoidsRandToInstance_i < lrt_minCurrentClusterKToInstance_i )
 	lrt_minCurrentClusterKToInstance_i = lrt_minMedoidsRandToInstance_i;
     }
-    lot_cost += (T_DIST) lrt_minCurrentClusterKToInstance_i;
+    lor_cost += (T_DIST) lrt_minCurrentClusterKToInstance_i;
   }
   
   aoarrayuiidx_medoids[lcidx_clusterKNonRepre] = luintidx_previousMedoids;
@@ -285,265 +293,78 @@ computeTotalCostSwap
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << "pamkmedoid_computeTotalCostSwap: OUT"
 	      << '(' << geiinparam_verbose << ')'
-	      << " lot_cost = " << lot_cost << '\n';
+	      << " lor_cost = " << lor_cost << '\n';
   }
   --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
 
-  return lot_cost;
+  return lor_cost;
 
 }
 
-  
-template  < typename T_DIST,
+/*! \fn T_DIST computeCostInstanceClusterJ (T_INSTANCEIDX aiuintidx_medoids, T_CLUSTERIDX aicidx_Cj, ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_partition, mat::MatrixTriang<T_DIST>  &aimattriag_dissimilarity)
+   \brief computeCostInstanceClusterJ
+   \details calculates the cost or sum of Euclidean distances from the most representative to all the objects belonging to the cluster j
+   \param aiuintidx_medoids an index of a medoid to investigate the cost
+   \param aicidx_Cj an integer with the cluster index j
+   \param aipartlink_partition a partition::Partition of objects in clusters
+   \param aimattriag_dissimilarity a distance matrix
+ */  
+template  < typename T_INSTANCEIDX,
+            typename T_DIST,
 	    typename T_CLUSTERIDX //-1, 0, 1, .., K
 	   >
 T_DIST
 computeCostInstanceClusterJ
-(uintidx                     aiuintidx_medoids, 
- T_CLUSTERIDX         aicidx_Cj,
-  ds::PartitionLinked        /*Relation each object in X to the cluster Cj*/
- <T_CLUSTERIDX>       &aipartlink_partition,           
- mat::MatrixTriang
- <T_DIST> &aimatrixtriagt_dissimilarity
+(T_INSTANCEIDX              aiuintidx_medoids, 
+ T_CLUSTERIDX               aicidx_Cj,
+  ds::PartitionLinked       /*Relation each object in X to the cluster Cj*/
+ <T_CLUSTERIDX>             &aipartlink_partition,           
+ mat::MatrixTriang<T_DIST>  &aimattriag_dissimilarity
  )
 {
-  T_DIST  loT_cost;
-  T_DIST  lrt_instancesij;
-  ds::IteratorPartitionLinked<T_CLUSTERIDX>  literpart_j(&aipartlink_partition);
-  
-
-  loT_cost = T_DIST(0);
-  for (literpart_j.begin(aicidx_Cj);literpart_j.end();literpart_j.next() ) {
-      lrt_instancesij = (aiuintidx_medoids>literpart_j.getValue())?
-	aimatrixtriagt_dissimilarity
-	(aiuintidx_medoids,literpart_j.getValue()):
-	aimatrixtriagt_dissimilarity
-	(literpart_j.getValue(),aiuintidx_medoids);
-      loT_cost += (T_DIST) lrt_instancesij;
-    }
-
-  return loT_cost;
-}
-
-/*medoidsCenterPnearestNeighbors:
-  \cite{Sheng:Xiaohui:GAclusteringMedoid:HKA:2004}
-*/
-template  <typename T_DIST,
-           typename T_CLUSTERIDX //-1, 0, 1, .., K
-	   >
-void
-centerPnearestNeighbors
-(uintidx                            *aioarrayuintidx_medoids, 
- const uintidx                      aiuintidx_nearestNeighborsP,
- ds::PartitionLinked<T_CLUSTERIDX>  &aipartlink_partition, /*Relation each object in X to the cluster Cj*/             
- mat::MatrixTriang<T_DIST>          &aimatrixtriagt_dissimilarity
- )
-{
-  /*BUSCAL EL MEDOID QUE ESTE MAS EN EL CENTRO PARA CADA GRUPO*/
-
-  std::vector<std::pair<uintidx,T_DIST> > lvectorpairT_subsetCjNearestMj;
-  std::pair<uintidx,T_DIST> lpair_idxInstanceDistMj
-    (UINTIDX_NIL, //DATATYPE_INSTANCE_IDX_NULL,
-     std::numeric_limits<T_DIST>::max()
-     );
-  
-  ds::IteratorPartitionLinked<T_CLUSTERIDX>   literpart_j(&aipartlink_partition);
-  T_DIST                                      lrt_minSumij;
-  uintidx                                     lidxinst_medoidsCenteri;
-  mat::BitArray<unsigned long>   
-    lbitarray_medoidEvaluate
-    (aimatrixtriagt_dissimilarity.getNumRows());
-  
-  bool lb_medoidChange;
-
 #ifdef __VERBOSE_YES
-  const char* lpc_labelFunc = "clusteringop::medoidsCenterPnearestNeighbors";
+  const char* lpc_labelFunc = "clusteringop::computeCostInstanceClusterJ";
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelFunc 
-              << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "\n(output uintidx*: aioarrayuintidx_medoids[" 
-	      << aioarrayuintidx_medoids << ']'
-              << "\n input  uintidx: aiuintidx_nearestNeighborsP = " << aiuintidx_nearestNeighborsP
-	      << "\n input  ds::PartitionLinked: aipartlink_partition " << &aipartlink_partition
-	      << "\n input  MatrixTriang: aiinstf_instances[" <<  &aimatrixtriagt_dissimilarity
+              << ":  IN(" << geiinparam_verbose << ")\n" 
+	      << "As more respresentatico: " << aiuintidx_medoids 
+	      << " in C_" << aicidx_Cj
 	      << "\n)"
 	      << std::endl;
   }
 #endif /*__VERBOSE_YES*/
 
-  lbitarray_medoidEvaluate.initialize();
+  T_DIST  lor_costCj;
+  T_DIST  lrt_instancesij;
+  ds::IteratorPartitionLinked<T_CLUSTERIDX>  literpart_j(&aipartlink_partition);
   
-  lvectorpairT_subsetCjNearestMj.reserve(aiuintidx_nearestNeighborsP);
-  for (uintidx lui_i = 0; lui_i < aiuintidx_nearestNeighborsP; lui_i++) {
-    lvectorpairT_subsetCjNearestMj.push_back
-      (std::make_pair
-       (UINTIDX_NIL,
-       std::numeric_limits<T_DIST>::max()
-       )
-       );
-  }
-
-  T_CLUSTERIDX lcidx_numClusterK = aipartlink_partition.getNumPartitions();
-  
-  for ( T_CLUSTERIDX lcidx_Cj = 0; 
-	lcidx_Cj < lcidx_numClusterK; 
-	lcidx_Cj++
-	) 
-    {
-      
-      do {
-
-#ifdef __VERBOSE_YES
-	++geiinparam_verbose;
-	if ( geiinparam_verbose <= geiinparam_verboseMax  ) {
-	  std::cout << "Medoids C_" << lcidx_Cj << ": " << aioarrayuintidx_medoids[lcidx_Cj] << '\n';
-	}
-	--geiinparam_verbose;
-#endif /*__VERBOSE_YES*/
-      
-	lb_medoidChange = false;
-	//NEAREST NEIGHBOORS P
-	lidxinst_medoidsCenteri = aioarrayuintidx_medoids[lcidx_Cj];
-	lrt_minSumij = 
-	  computeCostInstanceClusterJ
-	  (lidxinst_medoidsCenteri,
-	   lcidx_Cj,
-	   aipartlink_partition, 
-	   aimatrixtriagt_dissimilarity
-	   );
-	lbitarray_medoidEvaluate.setBit(lidxinst_medoidsCenteri);
-   
-	uintidx lui_numCsubset = 0; /*T_INSTANCES_IDX*/
-	for (typename std::vector<std::pair<uintidx,T_DIST> >::iterator
-	       literpair_cjNearestMj = lvectorpairT_subsetCjNearestMj.begin();
-	     literpair_cjNearestMj != lvectorpairT_subsetCjNearestMj.end();
-	     ++literpair_cjNearestMj)
-	  {
-	    literpair_cjNearestMj->first = UINTIDX_NIL;
-	    // DATATYPE_INSTANCE_IDX_NULL; 
-	    literpair_cjNearestMj->second = 
-	      std::numeric_limits<T_DIST>::max(); 
-	  }
-	/*SEARCH Csubset p Nearest neighbors*/
-	for ( literpart_j.begin(lcidx_Cj); literpart_j.end(); literpart_j.next() ) {
-
-	  if ( lbitarray_medoidEvaluate.getBit(literpart_j.getValue()) ) {
-	    lpair_idxInstanceDistMj.first  = literpart_j.getValue();
-	    lpair_idxInstanceDistMj.second = 
-	      (aioarrayuintidx_medoids[lcidx_Cj]>literpart_j.getValue())?
-	      aimatrixtriagt_dissimilarity
-	      (aioarrayuintidx_medoids[lcidx_Cj],literpart_j.getValue()):
-	      aimatrixtriagt_dissimilarity
-	      (literpart_j.getValue(),aioarrayuintidx_medoids[lcidx_Cj]);
-	    uintidx lui_iterCsubset = 0;
-	    while (lui_iterCsubset < aiuintidx_nearestNeighborsP &&  lpair_idxInstanceDistMj.second 
-		   > lvectorpairT_subsetCjNearestMj[lui_iterCsubset].second )
-	      ++lui_iterCsubset;
-	    if ( lui_iterCsubset < aiuintidx_nearestNeighborsP ) {
-	      for (uintidx lui_i = aiuintidx_nearestNeighborsP-1; lui_i > lui_iterCsubset; lui_i--) {
-		std::swap
-		  (lvectorpairT_subsetCjNearestMj[lui_i],
-		   lvectorpairT_subsetCjNearestMj[lui_i-1]
-		   );
-	      }
-	      std::swap
-		(lvectorpairT_subsetCjNearestMj[lui_iterCsubset],
-		 lpair_idxInstanceDistMj
-		 );
-	      ++lui_numCsubset;
-	    }
-	  }
-	} /*  FOR SEARCH Csubset p Nearest neighbors*/
-
-	if ( lui_numCsubset >  aiuintidx_nearestNeighborsP )
-	  lui_numCsubset =  aiuintidx_nearestNeighborsP;
-	
-#ifdef __VERBOSE_YES
-	++geiinparam_verbose;
-	if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-	  std::cout << "Csubset p Nearest neighbors = [";
-	  if ( lui_numCsubset > 0 ) {
-	    for ( uintidx lui_i = 0; lui_i < lui_numCsubset -1; lui_i++ ) {
-	      std::cout << lvectorpairT_subsetCjNearestMj[lui_i].first << ":" 
-			<< lvectorpairT_subsetCjNearestMj[lui_i].second  
-			<< "\t";
-	    }
-	    std::cout << lvectorpairT_subsetCjNearestMj[lui_numCsubset -1].first << ":" 
-		      << lvectorpairT_subsetCjNearestMj[lui_numCsubset -1].second;
-	  }  
-	  std::cout << "]\n";
-	}
-	--geiinparam_verbose;
-#endif /*__VERBOSE_YES*/
-      
-	for ( uintidx lui_i = 0; lui_i < lui_numCsubset; lui_i++ ) {
-
-	  T_DIST lrt_sumij =
-	    computeCostInstanceClusterJ
-	    (lvectorpairT_subsetCjNearestMj[lui_i].first,
-	     lcidx_Cj,
-	     aipartlink_partition, 
-	     aimatrixtriagt_dissimilarity
-	     );
-	 
-#ifdef __VERBOSE_YES
-	  ++geiinparam_verbose;
-	  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-	    std::cout << "SumDist = " << lrt_sumij << "\n";
-	  }
-	  --geiinparam_verbose;
-#endif /*__VERBOSE_YES*/
-
-	  if  ( lrt_sumij < lrt_minSumij ) {
-	    lidxinst_medoidsCenteri = lvectorpairT_subsetCjNearestMj[lui_i].first;
-	    lrt_minSumij    = lrt_sumij;
-	  } 
-	} /* For i*/
-	
-	if ( aioarrayuintidx_medoids[lcidx_Cj] != lidxinst_medoidsCenteri ) {
-	  lb_medoidChange = true;
-	  aioarrayuintidx_medoids[lcidx_Cj] = lidxinst_medoidsCenteri;
-       }
-
-#ifdef __VERBOSE_YES
-	++geiinparam_verbose;
-	if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-	  std::cout << "MinSumDist: " << lrt_minSumij 
-		    << " lidxinst_medoidsCenteri: " << lidxinst_medoidsCenteri  << '\n';
-	}
-	--geiinparam_verbose;
-#endif /*__VERBOSE_YES*/
-      } while ( lb_medoidChange );
-
-    } /*FOR  K */
-
+  lor_costCj = T_DIST(0);
+  for (literpart_j.begin(aicidx_Cj);literpart_j.end();literpart_j.next() ) {
+      lrt_instancesij = (aiuintidx_medoids>literpart_j.getValue())?
+	aimattriag_dissimilarity
+	(aiuintidx_medoids,literpart_j.getValue()):
+	aimattriag_dissimilarity
+	(literpart_j.getValue(),aiuintidx_medoids);
+      lor_costCj += (T_DIST) lrt_instancesij;
+    }
 
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelFunc
-	      << ": OUT(" << geiinparam_verbose << ")\n";
-    std::ostringstream lostrstream_labelMedoids;
-    lostrstream_labelMedoids << "<MEDOIDS:"
-			     << lpc_labelFunc;
-    inout::containerprint
-      (aioarrayuintidx_medoids,
-       aioarrayuintidx_medoids + (uintidx)lcidx_numClusterK,
-       std::cout,
-       lostrstream_labelMedoids.str().c_str(),
-       ','
-       ); 
-     std::cout << std::endl;
+	      <<": OUT(" << geiinparam_verbose << ')' 
+	      << " lor_costCj = " << lor_costCj << '\n';
   }
   --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
-  
+
+  return lor_costCj;
 }
 
 
-/*! \fn void updateMedoids(uintidx *aoarrayuiidx_medoids, T_CLUSTERIDX aicidx_numClusterK, uintidx aiuiidx_nearestNeighborsP, mat::MatrixTriang<T_DIST>  &aimatrixtriagt_dissimilarity)
-    \brief  Update medoids \cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004
+/*! \fn T_DIST updateMedoids(T_INSTANCEIDX  *aiui_idxInstMedoids, const T_CLUSTERIDX aicidx_numKMedoids, const T_INSTANCEIDX aiu_nearestNeighborsP, mat::MatrixTriang<T_DIST> &aimattriag_dissimilarity)
+    \brief  Update medoids, local search heuristic  \cite Sheng:Xiaohui:GAclusteringMedoid:HKA:2004
     \details For each cluster \f$C_j\f$ finds the most representative object
     -# Assign each object in \f$x_i\f$ to the cluster \f$C_j\f$ with the closest medoid
     -# For each cluster \f$C_j\f$, repeat until the medoid does not change 
@@ -554,67 +375,197 @@ centerPnearestNeighbors
             \f] 
          - if \f$m_j\f$ is different from \f$m_{j}^*\f$ replace with the new medoid
     -# Repat step 1 and 2 until \f$k\f$ medoids do not change    
-    \param aoarrayuiidx_medoids an array with the indexes of the representative objects initially
-    \param aicidx_numClusterK cluster number
-    \param aiuiidx_nearestNeighborsP neatest neighbors 
-    \param aimatrixtriagt_dissimilarity a distance matrix
+    \param aioarrayui_idxMedoids an array with the indexes of the representative objects initially
+    \param aicidx_numKMedoids cluster number
+    \param aiu_nearestNeighborsP size of subset P of search neighbors 
+    \param aimattriag_dissimilarity a distance matrix
  */
-template < typename T_CLUSTERIDX,    //-1, 0, 1, .., K
-           typename T_DIST
+template  <typename T_INSTANCEIDX,
+           typename T_DIST,
+           typename T_CLUSTERIDX //-1, 0, 1, .., K
 	   >
-void updateMedoids
-(uintidx                    *aoarrayuiidx_medoids,
- T_CLUSTERIDX               aicidx_numClusterK,
- uintidx                    aiuiidx_nearestNeighborsP,
- mat::MatrixTriang<T_DIST>  &aimatrixtriagt_dissimilarity
+T_DIST
+updateMedoids
+(T_INSTANCEIDX                      *aioarrayui_idxMedoids, 
+ const T_CLUSTERIDX                 aicidx_numKMedoids,
+ const T_INSTANCEIDX                aiu_nearestNeighborsP,
+ mat::MatrixTriang<T_DIST>          &aimattriag_dissimilarity
  )
 {
-  /*STEP 1. FIX THE NUMBER OF CLUSTER K AND THE NUMBER OF NEAREST NEIGHBORS P
-   */
-
 #ifdef __VERBOSE_YES
   const char* lpc_labelFunc = "clusteringop::updateMedoids";
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelFunc 
-              << ":  IN(" << geiinparam_verbose << ")\n"
- 	      << "(output uintidx: [" << aoarrayuiidx_medoids << "]\n"
-	      << " input T_CLUSTERIDX: aicidx_numClusterK = "
-	      << aicidx_numClusterK << "]\n"
-	      << " input  MatrixTriang: aimatrixtriagt_dissimilarity["  
-	      <<  &aimatrixtriagt_dissimilarity << ']'
+              << ":  IN(" << geiinparam_verbose << ")\n";
+    std::ostringstream lostrstream_labelMedoids;
+    lostrstream_labelMedoids << "<MEDOIDS:"
+			     << lpc_labelFunc;
+    inout::containerprint
+      (aioarrayui_idxMedoids,
+       aioarrayui_idxMedoids + (T_INSTANCEIDX) aicidx_numKMedoids,
+       std::cout,
+       lostrstream_labelMedoids.str().c_str(),
+       ','
+       ); 
+    std::cout << "\n input  T_INSTANCEIDX: aiu_nearestNeighborsP = " 
+	      << aiu_nearestNeighborsP
+	      << "\n input  MatrixTriang: aiinstf_instances[" <<  &aimattriag_dissimilarity
 	      << "\n)"
 	      << std::endl;
+    T_DIST lt_objetiveFunc = 
+      um::SSEMedoid
+      (aioarrayui_idxMedoids, 
+       aicidx_numKMedoids,
+       aimattriag_dissimilarity
+       );
+    std::cout << "lt_objetiveFunc: " << lt_objetiveFunc << std::endl;
   }
-#endif /*__VERBOSE_YES */
+#endif /*__VERBOSE_YES*/
 
-  
-  /*STEP 2. RANDOMY
+  /*Vector to store the Mj closest to Cj
    */
+  std::vector<T_INSTANCEIDX> lvectorui_subsetCjNearestMj(aiu_nearestNeighborsP);
+  mat::BitArray<unsigned long>   
+    lbitarray_medoidEvaluate
+    (aimattriag_dissimilarity.getNumRows());
+  T_DIST lor_cost = T_DIST(0);
+  bool lb_medoidChange;
 
-  /*STEP 3. ASSIGN EACH OBJECT IN X TO THE CLUSTER Cj
-   */
+  do {
 
-  T_DIST                    lt_cost = T_DIST(0);
-  ds::PartitionLinked  
-    <T_CLUSTERIDX>           lpartlink_partition;
-  
-  std::tie(lt_cost, lpartlink_partition) =
-    nearestRepresentative
-    (aoarrayuiidx_medoids,
-     aicidx_numClusterK,
-     aimatrixtriagt_dissimilarity
-     );
+    lb_medoidChange = false;
 
-  /*STEP 4.
-   */
-  centerPnearestNeighbors
-    (aoarrayuiidx_medoids, 
-     aiuiidx_nearestNeighborsP,
-     lpartlink_partition,
-     aimatrixtriagt_dissimilarity
-     );
-  
+    /* Assign each object in X to the cluster Cj with the
+      closest medoid under Euclidean distance metric.
+    */
+    ds::PartitionLinked  <T_CLUSTERIDX>  lpartlink_partition;
+    std::tie(lor_cost, lpartlink_partition) =
+      nearestRepresentative
+      (aioarrayui_idxMedoids,
+       aicidx_numKMedoids,
+       aimattriag_dissimilarity
+       );
+    lbitarray_medoidEvaluate.initialize();
+    
+    ds::IteratorPartitionLinked<T_CLUSTERIDX>   literpart_j(&lpartlink_partition);
+
+     /*Update k medoids. For j=1 to the number de cluster k do
+      */
+    for ( T_CLUSTERIDX lcidx_Cj = 0; lcidx_Cj < aicidx_numKMedoids;  lcidx_Cj++ ) 
+      {
+
+#ifdef __VERBOSE_YES
+	++geiinparam_verbose;
+	if ( geiinparam_verbose <= geiinparam_verboseMax  ) {
+	  std::cout << "Search for Medoids: " << aioarrayui_idxMedoids[lcidx_Cj] 
+                    << " in C_" << lcidx_Cj << '\n';
+	}
+	--geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
+      
+
+	/*Which have no been evaluated
+	  before current iteration
+	 */
+	lbitarray_medoidEvaluate.setBit(aioarrayui_idxMedoids[lcidx_Cj]);
+
+	/*a) Within the cluster Cj, choose a subset Cs
+	  that corresponds to m, and its p nearest
+	  neighbors (which have no been evaluated
+	  before current iteration) of m,.
+	*/
+	for (auto& xkinSubsetCj: lvectorui_subsetCjNearestMj) {
+	  /*SEARCH Csubset p Nearest neighbors*/
+	  xkinSubsetCj = UINTIDX_NIL;
+	  T_DIST lt_distMinXkinSubsetCj = std::numeric_limits<T_DIST>::max();
+	  for ( literpart_j.begin(lcidx_Cj); literpart_j.end(); literpart_j.next() ) {
+	    if ( !lbitarray_medoidEvaluate.getBit(literpart_j.getValue()) ) {
+	      T_DIST lt_distmjtoP = 
+		(aioarrayui_idxMedoids[lcidx_Cj]>literpart_j.getValue())?
+		aimattriag_dissimilarity
+		(aioarrayui_idxMedoids[lcidx_Cj],literpart_j.getValue()):
+		aimattriag_dissimilarity
+		(literpart_j.getValue(),aioarrayui_idxMedoids[lcidx_Cj]);
+	      if ( lt_distmjtoP < lt_distMinXkinSubsetCj ) {
+		xkinSubsetCj  = literpart_j.getValue();
+		lt_distMinXkinSubsetCj = lt_distmjtoP;
+		
+	      }
+	    }
+	  }
+	  if (xkinSubsetCj != UINTIDX_NIL) {
+	    lbitarray_medoidEvaluate.setBit(xkinSubsetCj);
+	  }
+	}
+
+#ifdef __VERBOSE_YES
+	++geiinparam_verbose;
+	if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+
+	  std::ostringstream lostrstream_subsetCjNearestMj;
+	  lostrstream_subsetCjNearestMj << "<SUBSETCJNEARESTMJ:"
+					<< lpc_labelFunc;
+	  inout::containerprint
+	    (lvectorui_subsetCjNearestMj.begin(),
+	     lvectorui_subsetCjNearestMj.end(),
+	     std::cout,
+	     lostrstream_subsetCjNearestMj.str().c_str(),
+	     ','
+	     ); 
+	  std::cout << std::endl;
+	}
+	--geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
+
+	/*b) Calculate cost for the new medoid
+	 */
+	T_INSTANCEIDX lui_idxInstNewMj = aioarrayui_idxMedoids[lcidx_Cj];
+	T_DIST lrt_MjSumD = 
+	  computeCostInstanceClusterJ
+	  (lui_idxInstNewMj,
+	   lcidx_Cj,
+	   lpartlink_partition, 
+	   aimattriag_dissimilarity
+	   );
+	for (auto& xkinSubsetCj: lvectorui_subsetCjNearestMj) {
+	  if ( xkinSubsetCj != UINTIDX_NIL ) {
+	    T_DIST lrt_xkinSubsetCjSumD = 
+	      computeCostInstanceClusterJ
+	      (xkinSubsetCj,
+	       lcidx_Cj,
+	       lpartlink_partition, 
+	       aimattriag_dissimilarity
+	       );
+	    if ( lrt_xkinSubsetCjSumD < lrt_MjSumD ) {
+	      lui_idxInstNewMj = xkinSubsetCj;
+	      lrt_MjSumD = lrt_xkinSubsetCjSumD;
+	    }
+	  }
+	}
+
+#ifdef __VERBOSE_YES
+	++geiinparam_verbose;
+	if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+	  std::cout << "lrt_MjSumD: " << lrt_MjSumD
+		    << " aioarrayui_idxMedoids[lcidx_Cj]: " << aioarrayui_idxMedoids[lcidx_Cj]  
+	            << " lui_idxInstNewMj: " << lui_idxInstNewMj  
+		    << '\n';
+	}
+	--geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
+
+	/*It replaces the new Mj found with lower cost, because of the previous
+	 */
+	if ( lui_idxInstNewMj != aioarrayui_idxMedoids[lcidx_Cj]  ) {
+	  aioarrayui_idxMedoids[lcidx_Cj] =  lui_idxInstNewMj; 
+	  lb_medoidChange = true;
+	}
+
+      } //For Cj
+
+  } while (lb_medoidChange);
+
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelFunc
@@ -623,19 +574,31 @@ void updateMedoids
     lostrstream_labelMedoids << "<MEDOIDS:"
 			     << lpc_labelFunc;
     inout::containerprint
-      (aoarrayuiidx_medoids,
-       aoarrayuiidx_medoids + (uintidx)aicidx_numClusterK,
+      (aioarrayui_idxMedoids,
+       aioarrayui_idxMedoids + (T_INSTANCEIDX)aicidx_numKMedoids,
        std::cout,
        lostrstream_labelMedoids.str().c_str(),
        ','
        ); 
-     std::cout << std::endl;
+    std::cout << '\n';
+    std::cout <<  "lor_cost = " << lor_cost;
+    std::cout << std::endl;
+
+    T_DIST lt_objetiveFunc = 
+      um::SSEMedoid
+      (aioarrayui_idxMedoids, 
+       aicidx_numKMedoids,
+       aimattriag_dissimilarity
+       );
+    std::cout << "lt_objetiveFunc: " << lt_objetiveFunc << std::endl;
+
   }
   --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
- 
+
+  return lor_cost;
 }
 
 } /*END namespace medoids*/
 
-#endif /*__CLUSTERING_OPERATOR_MEDOIDS_HPP*/
+#endif /*__CLUSTERING_OPERATOR_MEDOIDS_HPP__*/
