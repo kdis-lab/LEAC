@@ -824,6 +824,7 @@ int main(int argc, char **argv)
    */
   inout::InParamGCA
     <DATATYPE_CLUSTERIDX,
+     DATATYPE_INSTANCEIDX,
      DATATYPE_REAL,
      DATATYPE_FEATURE,
      DATATYPE_FEATURE_SUM,
@@ -846,7 +847,7 @@ int main(int argc, char **argv)
 
   /*OUT
    */
-  inout::OutParamGAC
+  inout::OutParamGAMedoid
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
     loop_outParamGAC(inout::SED);
@@ -890,6 +891,7 @@ int main(int argc, char **argv)
    */
   inout::InParamHKA
     <DATATYPE_CLUSTERIDX,
+     DATATYPE_INSTANCEIDX,
      DATATYPE_REAL,
      DATATYPE_FEATURE,         
      DATATYPE_FEATURE_SUM,
@@ -915,7 +917,7 @@ int main(int argc, char **argv)
 
   /*OUT
    */
-  inout::OutParamGAC
+  inout::OutParamGAMedoid
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>
     loop_outParamGAC(inout::SED);
