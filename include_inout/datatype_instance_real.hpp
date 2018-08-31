@@ -29,12 +29,14 @@
 
 #define DATATYPE_CLUSTERIDX           int    // -1, 0, .., K  
 
+#define DATATYPE_INSTANCEIDX          uintidx
+
 /*When instances consist of occurrences 
   or frequency
  */
 #define DATATYPE_INSTANCE_FREQUENCY   int  
 
-/*￼Data type for metrics and distances
+/*Data type for metrics and distances
  */
 #define DATATYPE_REAL                 double
 

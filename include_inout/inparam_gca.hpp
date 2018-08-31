@@ -31,6 +31,7 @@ namespace  inout {
   \brief Input parameter for GCA algorithm k-medoid clustering \cite Lucasius:etal:GAclusteringMedoid:GCA:1993
 */
 template < typename T_CLUSTERIDX, //-1, 0, 1, .., K
+	   typename T_INSTANCEIDX,
            typename T_REAL,
 	   typename T_FEATURE,         
 	   typename T_FEATURE_SUM,

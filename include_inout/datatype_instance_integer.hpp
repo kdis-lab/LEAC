@@ -28,6 +28,8 @@
 
 #define DATATYPE_CLUSTERIDX             int    // -1, 0, .., K  
 
+#define DATATYPE_INSTANCEIDX            uintidx
+
 /*When instances consist of occurrences 
   or frequency
  */

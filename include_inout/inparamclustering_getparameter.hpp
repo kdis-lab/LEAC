@@ -182,6 +182,28 @@ template < typename T_FEATURE,
 #endif /*__INPARAM_DBSCAN__*/
 
 
+#ifdef __INPARAM_GACDUAL__
+template<typename T_CLUSTERIDX,
+	 typename T_INSTANCEIDX,
+         typename T_REAL,
+	 typename T_FEATURE,         
+	 typename T_FEATURE_SUM,
+	 typename T_INSTANCES_CLUSTER_K
+	 > 
+void 
+inparamclustering_usage
+(char *argv0, 
+ InParamGACDual
+ <T_CLUSTERIDX,
+  T_INSTANCEIDX,
+  T_REAL,
+  T_FEATURE,
+  T_FEATURE_SUM,
+  T_INSTANCES_CLUSTER_K
+ >                             &aoipc_inParamClustering
+) 
+#endif /*__INPARAM_GACDUAL__*/
+
 #ifdef __INPARAM_PCPMFK__    
 template<typename T_CLUSTERIDX,
   typename T_REAL,
@@ -378,6 +400,7 @@ inparamclustering_usage
 
 #ifdef  __INPARAM_GCA__
   template<typename T_CLUSTERIDX,
+	   typename T_INSTANCEIDX,
 	   typename T_REAL,
 	   typename T_FEATURE,         
 	   typename T_FEATURE_SUM,
@@ -387,7 +410,12 @@ void
 inparamclustering_usage
   (char *argv0, 
    InParamGCA
-   <T_CLUSTERIDX,T_REAL,T_FEATURE,T_FEATURE_SUM,T_INSTANCES_CLUSTER_K>
+   <T_CLUSTERIDX,
+    T_INSTANCEIDX,
+   T_REAL,
+   T_FEATURE,
+   T_FEATURE_SUM,
+   T_INSTANCES_CLUSTER_K>
    &aoipc_inParamClustering
    )
 #endif /*__INPARAM_GCA__*/
@@ -415,6 +443,7 @@ template<typename T_CLUSTERIDX,
 
 #ifdef  __INPARAM_HKA__
 template<typename T_CLUSTERIDX,
+	 typename T_INSTANCEIDX,
          typename T_REAL,
          typename T_FEATURE,         
 	 typename T_FEATURE_SUM,
@@ -425,6 +454,7 @@ inparamclustering_usage
 (char *argv0, 
 InParamHKA
 <T_CLUSTERIDX,
+T_INSTANCEIDX,
 T_REAL,
 T_FEATURE,
 T_FEATURE_SUM,
@@ -821,6 +851,8 @@ template<typename T_CLUSTERIDX,
 
 #endif /*__INPARAM_DBSCAN__*/
 
+
+
 #ifdef __INPARAM_PCPMFK__
 
   std::cout << "      --number-clusters[=NUMBER]\n"
@@ -845,6 +877,48 @@ template<typename T_CLUSTERIDX,
 	    << aoipc_inParamClustering.getProbMutation()
 	    << "]\n";
 #endif /*__INPARAM_PCPMFK__*/
+
+
+#ifdef __INPARAM_GACDUAL__
+  std::cout << "      --number-clusters[=NUMBER]\n"
+	    << "                              number of clusters [NUMBER=" 
+	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
+  std::cout << "      --generations[=NUMBER]  number of generations or iterations\n"
+	    << "                               [NUMBER="
+	    << aoipc_inParamClustering.getNumMaxGenerations()
+	    << "]\n";
+  std::cout << "      --population-size[=NUMBER]\n"
+	    << "                              size of population [NUMBER="
+	    << aoipc_inParamClustering.getSizePopulation()
+	    << "]\n";
+  std::cout << "      --matingpool-size[=NUMBER]\n"
+	    << "                               size of mating pool [NUMBER="
+	    << aoipc_inParamClustering.getSizeMatingPool() 
+	    << "]\n";
+  std::cout << "      --crossover-probability[=NUMBER]\n"
+	    << "                              real number in the interval [0.25, 1]\n"
+	    << "                                [NUMBER="
+	    << aoipc_inParamClustering.getProbCrossover() 
+	    << "]\n";
+  std::cout << "      --mutation-probability[=NUMBER]\n"
+	    << "                              real number in the interval [0, 0.5]\n"
+	    << "                                [NUMBER="
+	    << aoipc_inParamClustering.getProbMutation()
+	    << "]\n";
+  std::cout << "      --similarity-population[=NUMBER]\n"
+	    << "                              real number in the interval [0, 1.0]\n"
+	    << "                              when in evolution this value is reached, the\n"
+	    << "                              following evolutionary algorithm is passed\n"
+	    << "                                [NUMBER="
+	    << aoipc_inParamClustering.getAvgSimilarityMinimumPopulation()
+	    << "]\n";
+  std::cout << "      --population-second-size[=NUMBER]\n"
+	    << "                              size of population [NUMBER="
+	    << aoipc_inParamClustering.getSizePopulationSecondGenetics()
+	    << "]\n";
+#endif /*__INPARAM_GACDUAL__*/
+
+
 
   
 #ifdef __INPARAM_TGCA__
@@ -1514,6 +1588,30 @@ template < typename T_FEATURE,
 #endif /*__INPARAM_WITHOUTPCPMVK__*/
 
   
+#ifdef __INPARAM_GACDUAL__
+template<typename T_CLUSTERIDX,
+	 typename T_INSTANCEIDX,
+         typename T_REAL,
+	 typename T_FEATURE,         
+	 typename T_FEATURE_SUM,
+	 typename T_INSTANCES_CLUSTER_K
+	 > 
+void 
+inparamclustering_getParameter
+(InParamGACDual
+ <T_CLUSTERIDX,
+  T_INSTANCEIDX,
+  T_REAL,
+  T_FEATURE,
+  T_FEATURE_SUM,
+  T_INSTANCES_CLUSTER_K
+ >                             &aoipc_inParamClustering,
+ int                           argc, 
+ char                          **argv
+) 
+#endif /* __INPARAM_GACDUAL__ */
+
+
 #ifdef __INPARAM_PCPMFK__
 
 template<typename T_CLUSTERIDX,
@@ -1540,6 +1638,7 @@ inparamclustering_getParameter
 
 #ifdef  __INPARAM_GCA__
 template<typename T_CLUSTERIDX,
+	 typename T_INSTANCEIDX,
          typename T_REAL,
          typename T_FEATURE,         
 	 typename T_FEATURE_SUM,
@@ -1549,6 +1648,7 @@ void
 inparamclustering_getParameter
   (InParamGCA
    <T_CLUSTERIDX,
+   T_INSTANCEIDX,
    T_REAL,
    T_FEATURE,
    T_FEATURE_SUM,
@@ -1584,6 +1684,7 @@ inparamclustering_getParameter
 
 #ifdef  __INPARAM_HKA__
   template<typename T_CLUSTERIDX,
+	   typename T_INSTANCEIDX,
            typename T_REAL,
            typename T_FEATURE,         
 	   typename T_FEATURE_SUM,
@@ -1593,6 +1694,7 @@ inparamclustering_getParameter
   inparamclustering_getParameter
   (InParamHKA
    <T_CLUSTERIDX,
+   T_INSTANCEIDX,
    T_REAL,
    T_FEATURE,
    T_FEATURE_SUM,
@@ -1908,6 +2010,21 @@ inparamclustering_getParameter
      (char *) NULL
     };
 #endif /*__INPARAM_PCPMFK__*/
+
+#ifdef __INPARAM_GACDUAL__
+  const char   *lastr_inParamgadual[] = 
+    {"number-clusters",
+     "population-size", 
+     "matingpool-size", 
+     "crossover-probability", 
+     "mutation-probability",
+     "generations", 
+     "similarity-population",
+     "population-second-size",
+     (char *) NULL
+    };
+#endif /*__INPARAM_GACDUAL__*/
+
 
 #ifdef __INPARAM_GAPROTOTYPESFK__
   const char   *las_optGAPrototypesFk[] = 
@@ -2225,6 +2342,18 @@ inparamclustering_getParameter
       {"mutation-probability",    required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
 #endif /*__INPARAM_PCPMFK__*/
+
+#ifdef __INPARAM_GACDUAL__
+      {"number-clusters",         required_argument, 0, 0},
+      {"population-size",         required_argument, 0, 0},
+      {"matingpool-size",         required_argument, 0, 0},
+      {"crossover-probability",   required_argument, 0, 0},
+      {"mutation-probability",    required_argument, 0, 0},
+      {"generations",             required_argument, 0, 0},
+      {"similarity-population",   required_argument, 0, 0},
+      {"population-second-size",   required_argument, 0, 0},
+#endif /*__INPARAM_GACDUAL__*/
+
 
 #ifdef __INPARAM_GAPROTOTYPESFK__
       {"number-clusters",         required_argument, 0, 0},
@@ -3077,6 +3206,106 @@ inparamclustering_getParameter
 	   );
       }
 #endif /*__INPARAM_PCPMFK__*/
+
+#ifdef __INPARAM_GACDUAL__
+      else if ( strcmp /*number-clusters*/
+	   (long_options[option_index].name,
+	    lastr_inParamgadual[0] ) == 0 ) 
+	{ 
+	  T_CLUSTERIDX lmcidxT_numClusterK;
+	  liss_stringstream.clear();
+	  liss_stringstream.str(optarg);
+	  liss_stringstream >> lmcidxT_numClusterK;
+	  aoipc_inParamClustering.setNumClusterK(lmcidxT_numClusterK);
+	}
+      else if ( strcmp /*population-size*/
+		(long_options[option_index].name,
+		 lastr_inParamgadual[1]) == 0 
+		) 
+	{
+	  liss_stringstream.clear();
+	  liss_stringstream.str(optarg);
+	  liss_stringstream >> luintidx_read;
+	  aoipc_inParamClustering.setSizePopulation(luintidx_read);
+	}
+      else if ( strcmp
+		(long_options[option_index].name,
+		 lastr_inParamgadual[2]) == 0 
+		) 
+	{
+	  liss_stringstream.clear();
+	  liss_stringstream.str(optarg);
+	  liss_stringstream >> luintidx_read;
+	  aoipc_inParamClustering.setSizeMatingPool(luintidx_read);
+	}
+      else if ( strcmp /*crossover-probability*/
+		(long_options[option_index].name,
+		 lastr_inParamgadual[3]) == 0 
+		) 
+	{
+	  T_REAL  lT_readProbabilityCrossover;
+
+	  liss_stringstream.clear();
+	  liss_stringstream.str(optarg);
+	  liss_stringstream >> lT_readProbabilityCrossover;
+	  aoipc_inParamClustering.setProbCrossover(lT_readProbabilityCrossover);
+	}
+      else if ( strcmp /*mutation-probability*/
+		(long_options[option_index].name,
+		 lastr_inParamgadual[4]) == 0 
+		) 
+	{
+	  T_REAL  lT_readProbabilityMutation;
+
+	  liss_stringstream.clear();
+	  liss_stringstream.str(optarg);
+	  liss_stringstream >> lT_readProbabilityMutation;
+	  aoipc_inParamClustering.setProbMutation(lT_readProbabilityMutation);
+	}
+      else if ( strcmp /*generations*/
+		(long_options[option_index].name,
+		 lastr_inParamgadual[5]) == 0 
+		) 
+	{
+	  COMMON_IDOMAIN lT_readNumMaxGenerations;
+
+	  liss_stringstream.clear();
+	  liss_stringstream.str(optarg);
+	  liss_stringstream >> lT_readNumMaxGenerations;
+	  aoipc_inParamClustering.setNumMaxGenerations(lT_readNumMaxGenerations);
+	}
+       else if ( strcmp /*similarity-population*/
+		(long_options[option_index].name,
+		 lastr_inParamgadual[6]) == 0 
+		) 
+	{
+	  T_REAL  lrt_readSimilarityPopulation;
+
+	  liss_stringstream.clear();
+	  liss_stringstream.str(optarg);
+	  liss_stringstream >> lrt_readSimilarityPopulation;
+	  aoipc_inParamClustering.setAvgSimilarityMinimumPopulation(lrt_readSimilarityPopulation);
+	}
+      else if ( strcmp /*population-size*/
+		(long_options[option_index].name,
+		 lastr_inParamgadual[7]) == 0 
+		) 
+	{
+	  liss_stringstream.clear();
+	  liss_stringstream.str(optarg);
+	  liss_stringstream >> luintidx_read;
+	  aoipc_inParamClustering.setSizePopulationSecondGenetics(luintidx_read);
+	}
+      else {
+	aoipc_inParamClustering.errorArgument
+	  (argv[0],
+	   long_options[option_index].name,
+	   lastr_inParamgadual
+	   );
+      }
+#endif /*__INPARAM_GACDUAL__*/
+
+
 
 #ifdef __INPARAM_GAPROTOTYPESFK__
       else if ( strcmp
