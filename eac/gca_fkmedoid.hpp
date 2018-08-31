@@ -30,8 +30,8 @@
 #include <iterator>
 
 #include <leac.hpp>
-#include "outparam_gac.hpp"
 #include "inparam_gca.hpp"
+#include "outparam_gamedoid.hpp"
 
 #include "plot_runtime_function.hpp"
 
@@ -54,19 +54,21 @@ namespace eac {
   \param aiipcgagca_inParamGCA a inout::InParamGCA parameters required by the algorithm
   \param aimatrixtriagrt_dissimilarity a triangular matrix with the distances between the instances
 */
-template <typename T_CLUSTERIDX,
+template <typename T_INSTANCEIDX,
+	  typename T_CLUSTERIDX,
 	  typename T_REAL,
 	  typename T_FEATURE,         
 	  typename T_FEATURE_SUM,
 	  typename T_INSTANCES_CLUSTER_K
 	  >
-gaencode::ChromFixedLength<uintidx,T_REAL> 
+gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL> 
 gca_fkmedoid
-(inout::OutParamGAC
+(inout::OutParamGAMedoid
  <T_REAL,
  T_CLUSTERIDX>                         &aoop_outParamGAC,
  inout::InParamGCA
  <T_CLUSTERIDX,
+ T_INSTANCEIDX,
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
@@ -76,16 +78,16 @@ gca_fkmedoid
 {
   /*VARIABLE NEED FOR POPULATION AND MATINGPOOL GENETIC*/
   
-  gaencode::ChromFixedLength<uintidx,T_REAL>::setStringSize
+  gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>::setStringSize
     ((uintidx) aiinp_inParamGCA.getNumClusterK() );
 
-  gaencode::ChromFixedLength<uintidx,T_REAL> lochromfixleng_best;
+  gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL> lochromfixleng_best;
 
-  std::vector<gaencode::ChromFixedLength<uintidx,T_REAL>* >  
+  std::vector<gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* >  
     lvectorchromfixleng_population;
   
   /*SPACE FOR STORE MATINGPOOL*/  
-  std::vector<gaencode::ChromFixedLength<uintidx,T_REAL>* >
+  std::vector<gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* >
     lvectorchromfixleng_stringPool;
     
 #ifdef __VERBOSE_YES
@@ -182,11 +184,11 @@ gca_fkmedoid
 
   runtime::ExecutionTime let_executionTime  = runtime::start();
 
-  std::uniform_int_distribution<uintidx> uniformdis_idxInstances
+  std::uniform_int_distribution<T_INSTANCEIDX> uniformdis_idxInstances
     (0,aimatrixtriagrt_dissimilarity.getNumRows()-1);
   std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
-  std::uniform_int_distribution<uintidx> uniformdis_uiMutation0N
-    (0,gaencode::ChromFixedLength<uintidx,T_REAL>::stcgetStringSize()-1);
+  std::uniform_int_distribution<T_INSTANCEIDX> uniformdis_uiMutation0N
+    (0,gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>::stcgetStringSize()-1);
   
   /*POPULATION CREATE------------------------------------------------------------
    */
@@ -197,7 +199,7 @@ gca_fkmedoid
        luintidx_i++) 
     {
       lvectorchromfixleng_population.push_back
-	(new gaencode::ChromFixedLength<uintidx,T_REAL>());
+	(new gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>());
     }
 
   /*CREATE SPACE FOR STORE MATINGPOOL--------------------------------------------
@@ -209,7 +211,7 @@ gca_fkmedoid
        luintidx_i++) 
     {
       lvectorchromfixleng_stringPool.push_back
-	(new gaencode::ChromFixedLength<uintidx,T_REAL>());
+	(new gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>());
     }
 
   /*-1. Initiate strings. The initial population is
@@ -234,10 +236,10 @@ gca_fkmedoid
     
     for (auto lchromfixleng_iter :lvectorchromfixleng_population) {
        
-      std::unordered_set<uintidx> &&lunorderedset_medoids =
+      std::unordered_set<T_INSTANCEIDX> &&lunorderedset_medoids =
 	prob::getWithoutRepeatsSet
 	( luintidx_numClusterK,
-	  [&]() -> uintidx
+	  [&]() -> T_INSTANCEIDX
 	  {
 	    return uniformdis_idxInstances(gmt19937_eng);
 	  }
@@ -288,7 +290,7 @@ gca_fkmedoid
       std::for_each
 	(lvectorchromfixleng_population.begin(),
 	 lvectorchromfixleng_population.end(),
-	 [&](gaencode::ChromFixedLength<uintidx,T_REAL>* lchromfixleng_iter)
+	 [&](gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* lchromfixleng_iter)
 	 {
 	   T_REAL lT_objetiveFunc = 
 	     um::SSEMedoid
@@ -330,12 +332,12 @@ gca_fkmedoid
       }
 #endif /*__VERBOSE_YES*/
 
-      gaencode::ChromFixedLength<uintidx,T_REAL> *lchromfixleng_maxFitness  = 
+      gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL> *lchromfixleng_maxFitness  = 
 	*(std::max_element
 	  (lvectorchromfixleng_population.begin(),
 	   lvectorchromfixleng_population.end(),
-	   [&](const gaencode::ChromFixedLength<uintidx,T_REAL>* x, 
-	       const gaencode::ChromFixedLength<uintidx,T_REAL>* y
+	   [&](const gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* x, 
+	       const gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* y
 	       ) 
 	{  return x->getFitness() < y->getFitness(); } 
 	   )
@@ -425,7 +427,7 @@ gca_fkmedoid
       const std::vector<T_REAL>&& lvectorT_probDistRouletteWheel =
 	prob::makeDistRouletteWheel
 	(lvectorchromfixleng_population.begin(),lvectorchromfixleng_population.end(),
-	 [](const gaencode::ChromFixedLength<uintidx,T_REAL>* lchromfixleng_iter) -> T_REAL
+	 [](const gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* lchromfixleng_iter) -> T_REAL
 	 {
 	   return lchromfixleng_iter->getFitness();
 	 }
@@ -492,14 +494,14 @@ gca_fkmedoid
 	     }
 	     );
 	  
-	  gaencode::ChromFixedLength<uintidx,T_REAL>* lchromfixleng_child1 = *lchromfixleng_iter;
+	  gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* lchromfixleng_child1 = *lchromfixleng_iter;
 	  
 	  if ( ++lchromfixleng_iter == lvectorchromfixleng_population.end()) {
 	    *lchromfixleng_child1 = *lvectorchromfixleng_stringPool.at(lpair_idxChrom.first); 
 	    break;
 	  }
 
-	  gaencode::ChromFixedLength<uintidx,T_REAL>* lchromfixleng_child2 = *lchromfixleng_iter;
+	  gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* lchromfixleng_child2 = *lchromfixleng_iter;
 	  
 	  if ( uniformdis_real01(gmt19937_eng) //if  Crossover
 	       < aiinp_inParamGCA.getProbCrossover() ) {
@@ -661,6 +663,18 @@ gca_fkmedoid
     
   
   runtime::stop(let_executionTime);
+
+  {
+    std::ostringstream oss;
+    std::copy
+      (lochromfixleng_best.begin(),
+       lochromfixleng_best.end()-1,
+       std::ostream_iterator<T_INSTANCEIDX>(oss, ";")
+       );
+    oss << *(lochromfixleng_best.end()-1);
+    aoop_outParamGAC.setStringMedoid(oss.str());
+  }
+
   aoop_outParamGAC.setNumClusterK
     (aiinp_inParamGCA.getNumClusterK());
   aoop_outParamGAC.setMetricFuncRun

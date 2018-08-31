@@ -30,7 +30,7 @@
 
 #include <leac.hpp>
 #include "inparam_hka.hpp"
-#include "outparam_gac.hpp"
+#include "outparam_gamedoid.hpp"
 
 #include "plot_runtime_function.hpp"
 
@@ -53,19 +53,21 @@ namespace eac {
   \param aiinp_inParamHKA a inout::InParamHKA parameters required by the algorithm
   \param aimatrixtriagrt_dissimilarity a triangular matrix with the distances between the instances
 */
-template <typename T_CLUSTERIDX,
+template <typename T_INSTANCEIDX,
+          typename T_CLUSTERIDX,
 	  typename T_REAL,
 	  typename T_FEATURE,         
 	  typename T_FEATURE_SUM,
 	  typename T_INSTANCES_CLUSTER_K
 	  >
-gaencode::ChromFixedLength<uintidx,T_REAL> 
+gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL> 
 hka_fkmedoid
-(inout::OutParamGAC
+(inout::OutParamGAMedoid
  <T_REAL,
  T_CLUSTERIDX>                          &aoop_outParamGAC,
  inout::InParamHKA
  <T_CLUSTERIDX,
+ T_INSTANCEIDX,
  T_REAL,
  T_FEATURE,
  T_FEATURE_SUM,
@@ -74,20 +76,20 @@ hka_fkmedoid
  )
 {  
   /*VARIABLE NEED FOR POPULATION AND MATINGPOOL GENETIC*/
-  gaencode::ChromFixedLength<uintidx,T_REAL>::setStringSize
+  gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>::setStringSize
     ( (uintidx) aiinp_inParamHKA.getNumClusterK() );
 
-  gaencode::ChromFixedLength<uintidx,T_REAL> lochromfixleng_best;
+  gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL> lochromfixleng_best;
 
-  std::vector<gaencode::ChromFixedLength<uintidx,T_REAL>* >  
+  std::vector<gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* >  
     lvectorchromfixleng_population;
   
   /*SPACE FOR STORE MATINGPOOL*/  
-  std::vector<gaencode::ChromFixedLength<uintidx,T_REAL>* >
+  std::vector<gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* >
     lvectorchromfixleng_matingPool;
   lvectorchromfixleng_matingPool.reserve(aiinp_inParamHKA.getSizePopulation()/2);
 
-  std::vector<gaencode::ChromFixedLength<uintidx,T_REAL>* >
+  std::vector<gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* >
     lvectorchromfixleng_newoffspring; 
 
 #ifdef __VERBOSE_YES
@@ -181,10 +183,10 @@ hka_fkmedoid
 #endif /*__WITHOUT_PLOT_STAT*/
 
   std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
-  std::uniform_int_distribution<uintidx> uniformdis_idxInstances
+  std::uniform_int_distribution<T_INSTANCEIDX> uniformdis_idxInstances
     (0,aimatrixtriagrt_dissimilarity.getNumRows()-1);
-  std::uniform_int_distribution<uintidx> uniformdis_uiMutation0N
-    (0,gaencode::ChromFixedLength<uintidx,T_REAL>::stcgetStringSize()-1);
+  std::uniform_int_distribution<T_INSTANCEIDX> uniformdis_uiMutation0N
+    (0,gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>::stcgetStringSize()-1);
 
   runtime::ExecutionTime let_executionTime = runtime::start();
   
@@ -197,7 +199,7 @@ hka_fkmedoid
        luintidx_i++) 
     {
       lvectorchromfixleng_population.push_back
-	(new gaencode::ChromFixedLength<uintidx,T_REAL>());
+	(new gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>());
     }
   
   /*CREATE SPACE FOR STORE MATINGPOOL--------------------------------------------
@@ -210,7 +212,7 @@ hka_fkmedoid
        luintidx_i++) 
     {
       lvectorchromfixleng_newoffspring.push_back
-	(new gaencode::ChromFixedLength<uintidx,T_REAL>());
+	(new gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>());
     }
  
   /*Step 1. Randomly initialize a population with P
@@ -236,10 +238,10 @@ hka_fkmedoid
     
     for (auto ichrom_population :lvectorchromfixleng_population) {
        
-      std::unordered_set<uintidx> &&lunorderedset_medoids =
+      std::unordered_set<T_INSTANCEIDX> &&lunorderedset_medoids =
 	prob::getWithoutRepeatsSet
 	( luintidx_numClusterK,
-	  [&]() -> uintidx
+	  [&]() -> T_INSTANCEIDX
 	  {
 	    return uniformdis_idxInstances(gmt19937_eng);
 	  }
@@ -328,12 +330,12 @@ hka_fkmedoid
     }
 #endif /*__VERBOSE_YES*/
 
-    gaencode::ChromFixedLength<uintidx,T_REAL> *lchrom_maxFitness =
+    gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL> *lchrom_maxFitness =
       *(std::max_element
 	( lvectorchromfixleng_population.begin(),
 	  lvectorchromfixleng_population.end(),
-	  [&](const gaencode::ChromFixedLength<uintidx,T_REAL>* x, 
-	      const gaencode::ChromFixedLength<uintidx,T_REAL>* y
+	  [&](const gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* x, 
+	      const gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* y
 	      ) 
       {  return x->getFitness() < y->getFitness(); } 
 	  )
@@ -402,12 +404,12 @@ hka_fkmedoid
 	   luintidx_i < lvectorchromfixleng_population.size()/2; 
 	   luintidx_i++) {
       
-	gaencode::ChromFixedLength<uintidx,T_REAL>* lchrom_selectTour = 
+	gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* lchrom_selectTour = 
 	  *(gaselect::tournament
 	    (lvectorchromfixleng_population.begin(),
 	     lvectorchromfixleng_population.end(),
 	     aiinp_inParamHKA.getOrderTournament(),
-	     [&](const gaencode::ChromFixedLength<uintidx,T_REAL>* iter_chrom)
+	     [&](const gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* iter_chrom)
 	     {
 	        return iter_chrom->getFitness();
 	     }
@@ -453,13 +455,13 @@ hka_fkmedoid
 	 lvectorchromfixleng_matingPool.end(),
 	 lvectorchromfixleng_newoffspring.begin(),
 	 lvectorchromfixleng_newoffspring.end(),
-	 [&](const gaencode::ChromFixedLength<uintidx,T_REAL>*
+	 [&](const gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>*
 	     aichrom_parent1,
-	     const gaencode::ChromFixedLength<uintidx,T_REAL>*
+	     const gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>*
 	     aichrom_parent2,
-	     gaencode::ChromFixedLength<uintidx,T_REAL>*
+	     gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>*
 	     aochrom_child1, 
-	     gaencode::ChromFixedLength<uintidx,T_REAL>*
+	     gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>*
 	     aochrom_child2
 	     )
 	 {
@@ -644,15 +646,15 @@ hka_fkmedoid
       }
 #endif //__VERBOSE_YES
       
-      std::vector<gaencode::ChromFixedLength<uintidx,T_REAL>* >
+      std::vector<gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* >
 	lvectorchromfixleng_select;
       lvectorchromfixleng_select.reserve( aiinp_inParamHKA.getSizePopulation() );
 
       std::sort
 	( lvectorchromfixleng_population.begin(),
 	  lvectorchromfixleng_population.end(),
-	  [](const gaencode::ChromFixedLength<uintidx,T_REAL>* x, 
-	     const gaencode::ChromFixedLength<uintidx,T_REAL>* y
+	  [](const gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* x, 
+	     const gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* y
 	     ) 
 	  {  return x->getFitness() > y->getFitness(); } 
 	  );
@@ -660,17 +662,17 @@ hka_fkmedoid
       std::sort
 	( lvectorchromfixleng_newoffspring.begin(),
 	  lvectorchromfixleng_newoffspring.end(),
-	  [](const gaencode::ChromFixedLength<uintidx,T_REAL>* x, 
-	     const gaencode::ChromFixedLength<uintidx,T_REAL>* y
+	  [](const gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* x, 
+	     const gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>* y
 	     ) 
 	  {  return x->getFitness() > y->getFitness(); } 
 	  );
        
       //CENTINEL CROMOSOMES
-      gaencode::ChromFixedLength<uintidx,T_REAL> *lchrombase_centinelaLeft =
-	new gaencode::ChromFixedLength<uintidx,T_REAL>();
-      gaencode::ChromFixedLength<uintidx,T_REAL> *lchrombase_centinelaRight =
-	new gaencode::ChromFixedLength<uintidx,T_REAL>();
+      gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL> *lchrombase_centinelaLeft =
+	new gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>();
+      gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL> *lchrombase_centinelaRight =
+	new gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>();
 
       lvectorchromfixleng_population.push_back(lchrombase_centinelaLeft); 
       lvectorchromfixleng_newoffspring.push_back(lchrombase_centinelaRight);
@@ -702,7 +704,7 @@ hka_fkmedoid
 #endif //__VERBOSE_YES
 
 	      lvectorchromfixleng_select.push_back
-		( new gaencode::ChromFixedLength<uintidx,T_REAL>
+		( new gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>
 		  (*lvectorchromfixleng_newoffspring[luintidx_r])
 		  );
 	      ++luintidx_r;
@@ -724,7 +726,7 @@ hka_fkmedoid
 #endif //__VERBOSE_YES
 
 	    lvectorchromfixleng_select.push_back
-	      ( new gaencode::ChromFixedLength<uintidx,T_REAL>
+	      ( new gaencode::ChromFixedLength<T_INSTANCEIDX,T_REAL>
 		(*lvectorchromfixleng_population[luintidx_l])
 		);
 	    ++luintidx_l;
@@ -903,6 +905,18 @@ hka_fkmedoid
   }/*END FREE MEMORY OF STRINGPOOL*/
   
   runtime::stop(let_executionTime);
+
+  {
+    std::ostringstream oss;
+    std::copy
+      (lochromfixleng_best.begin(),
+       lochromfixleng_best.end()-1,
+       std::ostream_iterator<T_INSTANCEIDX>(oss, ";")
+       );
+    oss << *(lochromfixleng_best.end()-1);
+    aoop_outParamGAC.setStringMedoid(oss.str());
+  }
+
   aoop_outParamGAC.setNumClusterK
     (aiinp_inParamHKA.getNumClusterK());
   aoop_outParamGAC.setMetricFuncRun
