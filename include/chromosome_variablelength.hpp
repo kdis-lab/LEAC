@@ -269,10 +269,12 @@ public:
 
 #if defined(__VERBOSE_YES)
     ChromosomeBase<T_METRIC>::print(os,aipc_label,aic_delimCoef,aic_delimRow);
-    os << ":length," << _uintidx_stringSize
+    os << ",length," << _uintidx_stringSize
        << '>';
 #else
     ChromosomeBase<T_METRIC>::print(os,aipc_label,aic_delimCoef,aic_delimRow);
+    os << ",length," << _uintidx_stringSize
+       << '>';
 #endif
     
     if ( this->_pts_string != NULL ) {

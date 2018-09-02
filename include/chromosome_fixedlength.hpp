@@ -267,7 +267,7 @@ public:
     os   << '>';
 #else
     ChromosomeBase<T_METRIC>::print(os,aipc_label,aic_delimCoef,aic_delimRow);
-    os  << ':';
+    os  << '>';
 #endif
     
     if ( this->_pts_string != NULL ) {
