@@ -316,10 +316,12 @@ instancesRead
      );
   lovectorptinst_instances.reserve(lpair_dimInstance.first); 
   data::Instance<T_FEATURE>::setNumDimensions(lpair_dimInstance.second);
- 
+
+  uintidx lui_countLines = 0;
   std::string lstr_linedata;
   //JUMPING FILE COMMENTS
   while ( std::getline(lfp_file, lstr_linedata) )  {
+    ++lui_countLines;
     if ( (lstr_linedata.size() > 0) && !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#') )
       break;
   }
@@ -328,28 +330,42 @@ instancesRead
     std::getline(lfp_file, lstr_linedata);
   }
     
-  do {
-    // BEGIN IF LINE COMMENTS
-    if ( (lstr_linedata.size() > 0) && !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#')) {
-      if ( lls_lineSplit.split( lstr_linedata ) > 0 ) {
-	/*GET INSTANCE*/
-	data::Instance
-	  <T_FEATURE> 
-	  *lptinst_new = 
-	  new data::Instance
-	  <T_FEATURE>();
+  try {
+
+    do {
+      // BEGIN IF LINE COMMENTS
+      ++lui_countLines;
+      if ( (lstr_linedata.size() > 0) && !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#')) {
+	if ( lls_lineSplit.split( lstr_linedata ) > 0 ) {
+	  /*GET INSTANCE*/
+	  data::Instance
+	    <T_FEATURE> 
+	    *lptinst_new = 
+	    new data::Instance
+	    <T_FEATURE>();
 	  
-	lptinst_new->readFeature(lls_lineSplit);
-	/*IF BEGIN READ ID*/
-	if ( aiipri_inParamReadInst.getIDInstanceColumn() ) { 
-	  lptinst_new->setId
-	    (lls_lineSplit.getItem( aiipri_inParamReadInst.getIDInstanceColumn() ));
-	} /*IF END READ ID*/
-	lovectorptinst_instances.push_back(lptinst_new);
+	  lptinst_new->readFeature(lls_lineSplit);
+	  /*IF BEGIN READ ID*/
+	  if ( aiipri_inParamReadInst.getIDInstanceColumn() ) { 
+	    lptinst_new->setId
+	      (lls_lineSplit.getItem( aiipri_inParamReadInst.getIDInstanceColumn() ));
+	  } /*IF END READ ID*/
+	  lovectorptinst_instances.push_back(lptinst_new);
+	}
       }
-    }
-  } while ( std::getline(lfp_file, lstr_linedata) );  
- 
+    } while ( std::getline(lfp_file, lstr_linedata) );  
+
+  } catch (std::out_of_range &ex) {
+    std::ostringstream lostrstream_error;
+    lostrstream_error 
+      << "Error: On line " 
+      << lui_countLines 
+      << " of file " 
+      << lstr_fileInstance 
+      << " incomplete data";
+    throw std::out_of_range(lostrstream_error.str() );
+  }
+
   lfp_file.close();
         
 #ifdef __VERBOSE_YES 
@@ -441,9 +457,11 @@ instancesReadWithClass
   lovectorptinst_instances.reserve(lpair_dimInstance.first);
   data::Instance<T_FEATURE>::setNumDimensions(lpair_dimInstance.second);
 
+  uintidx lui_countLines = 0;
   std::string lstr_linedata;
   //JUMPING FILE COMMENTS
   while ( std::getline(lfp_file, lstr_linedata) )  {
+    ++lui_countLines;
     if ( (lstr_linedata.size() > 0) && !(lstr_linedata.at(0) == '@' || lstr_linedata.at(0) == '#' ) )
       break;
   }
@@ -454,61 +472,74 @@ instancesReadWithClass
   }
 
   /*READ INSTANCES */
-    
-  do {
-    /*BEGIN IF LINE COMMENTS*/
-    if ( (lstr_linedata.size() > 0) && !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#')) {
-      if ( lls_lineSplit.split(lstr_linedata) > 0 ) {
+  try {
 
-	/*GET INSTANCE*/
-	data::InstanceClass
-	  <T_FEATURE,
-	   T_INSTANCES_CLUSTER_K,
-	   T_CLUSTERIDX> 
-	  *lptinstclass_new = 
-	  new data::InstanceClass
-	  <T_FEATURE,
-	   T_INSTANCES_CLUSTER_K,
-	   T_CLUSTERIDX>
-	  ();
+    do {
+      /*BEGIN IF LINE COMMENTS*/
+      ++lui_countLines;
+      if ( (lstr_linedata.size() > 0) && !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#')) {
+	if ( lls_lineSplit.split(lstr_linedata) > 0 ) {
 
-	lptinstclass_new->readFeature(lls_lineSplit);
+	  /*GET INSTANCE*/
+	  data::InstanceClass
+	    <T_FEATURE,
+	     T_INSTANCES_CLUSTER_K,
+	     T_CLUSTERIDX> 
+	    *lptinstclass_new = 
+	    new data::InstanceClass
+	    <T_FEATURE,
+	     T_INSTANCES_CLUSTER_K,
+	     T_CLUSTERIDX>
+	    ();
+
+	  lptinstclass_new->readFeature(lls_lineSplit);
 	  
-	if ( aiipri_inParamReadInst.getIDInstanceColumn() ) { /*IF BEGIN READ ID*/
-	  lptinstclass_new->setId
-	    (lls_lineSplit.getItem( aiipri_inParamReadInst.getIDInstanceColumn() ));
-	} /*IF END READ ID*/
+	  if ( aiipri_inParamReadInst.getIDInstanceColumn() ) { /*IF BEGIN READ ID*/
+	    lptinstclass_new->setId
+	      (lls_lineSplit.getItem( aiipri_inParamReadInst.getIDInstanceColumn() ));
+	  } /*IF END READ ID*/
 
-	if ( aiipri_inParamReadInst.getClassInstanceColumn() ) { /*IF BEGIN CLASS LABEL*/
+	  if ( aiipri_inParamReadInst.getClassInstanceColumn() ) { /*IF BEGIN CLASS LABEL*/
 	   
-	  std::string lstr_keyMapClass;
+	    std::string lstr_keyMapClass;
 
-	  if ( aiipri_inParamReadInst.getClusterInstanceColumn() ) {
-	    lstr_keyMapClass = 
-	      lls_lineSplit.getItem( aiipri_inParamReadInst.getClassInstanceColumn() ) 
-	      +"_"
-	      + lls_lineSplit.getItem( aiipri_inParamReadInst.getClusterInstanceColumn() ); 
-	  } 
-	  else {
-	    lstr_keyMapClass = 
-	      lls_lineSplit.getItem( aiipri_inParamReadInst.getClassInstanceColumn() );
+	    if ( aiipri_inParamReadInst.getClusterInstanceColumn() ) {
+	      lstr_keyMapClass = 
+		lls_lineSplit.getItem( aiipri_inParamReadInst.getClassInstanceColumn() ) 
+		+"_"
+		+ lls_lineSplit.getItem( aiipri_inParamReadInst.getClusterInstanceColumn() ); 
+	    } 
+	    else {
+	      lstr_keyMapClass = 
+		lls_lineSplit.getItem( aiipri_inParamReadInst.getClassInstanceColumn() );
 	   
-	  }
+	    }
+	
+	    lptinstclass_new->setClassIdx(lstr_keyMapClass);
 
-	  lptinstclass_new->setClassIdx(lstr_keyMapClass);
+	  }  /*IF END CLASS LABEL*/
 
-	}  /*IF END CLASS LABEL*/
-
-	if ( aiipri_inParamReadInst.getIDInstanceColumn() ) { /*IF BEGIN ID*/
+	  if ( aiipri_inParamReadInst.getIDInstanceColumn() ) { /*IF BEGIN ID*/
 	   
-	  lptinstclass_new->setId
-	    (lls_lineSplit.getItem( aiipri_inParamReadInst.getIDInstanceColumn() ));
-	} /*IF END ID*/
+	    lptinstclass_new->setId
+	      (lls_lineSplit.getItem( aiipri_inParamReadInst.getIDInstanceColumn() ));
+	  } /*IF END ID*/
 	  
-	lovectorptinst_instances.push_back(lptinstclass_new);
+	  lovectorptinst_instances.push_back(lptinstclass_new);
+	}
       }
-    }
-  } while ( std::getline(lfp_file, lstr_linedata) );  
+    } while ( std::getline(lfp_file, lstr_linedata) );  
+
+  } catch (std::out_of_range &ex) {
+    std::ostringstream lostrstream_error;
+    lostrstream_error 
+      << "Error: On line " 
+      << lui_countLines 
+      << " of file " 
+      << lstr_fileInstance 
+      << " incomplete data";
+    throw std::out_of_range(lostrstream_error.str() );
+  }
   
   if ( aiipri_inParamReadInst.getClassInstanceColumn() ) {
     data::InstanceIterfazClass
@@ -602,9 +633,11 @@ instancesReadWithFreq
   data::Instance<T_FEATURE>::setNumDimensions(lpair_dimInstance.second);
   
   /*OPEN FILE INSTANCES*/
+  uintidx lui_countLines = 0;
     std::string lstr_linedata;
     /*JUMPING FILE COMMENTS*/
     while ( std::getline(lfp_file, lstr_linedata) )  {
+      ++lui_countLines;
       if ( (lstr_linedata.size() > 0) &&
 	   !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#') )
 	break;
@@ -617,40 +650,53 @@ instancesReadWithFreq
     /*READ INSTANCES */
     T_INSTANCE_FREQUENCY lt_frequency = 1;
 
-    do {
-      /*BEGIN IF LINE COMMENTS*/
-      if ( (lstr_linedata.size() > 0) &&
-	   !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#')) {
-	if ( lls_lineSplit.split(lstr_linedata) > 0 ) {
-	  /*GET INSTANCE*/
-	  if ( aiipri_inParamReadInst.getInstanceFrequencyColumn() ) 
-	    { /*IF BEGIN INSTANCES FREQUENCY*/
-	    liss_stringstream.clear();
-	    liss_stringstream.str
-	      ( lls_lineSplit.getItem( aiipri_inParamReadInst.getInstanceFrequencyColumn() ));
-	    liss_stringstream >> lt_frequency; 
-	    } /*IF END INSTANCES FREQUENCY*/
+    try {
+      do {
+	/*BEGIN IF LINE COMMENTS*/
+	++lui_countLines;
+	if ( (lstr_linedata.size() > 0) &&
+	     !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#')) {
+	  if ( lls_lineSplit.split(lstr_linedata) > 0 ) {
+	    /*GET INSTANCE*/
+	    if ( aiipri_inParamReadInst.getInstanceFrequencyColumn() ) 
+	      { /*IF BEGIN INSTANCES FREQUENCY*/
+		liss_stringstream.clear();
+		liss_stringstream.str
+		  ( lls_lineSplit.getItem( aiipri_inParamReadInst.getInstanceFrequencyColumn() ));
+		liss_stringstream >> lt_frequency; 
+	      } /*IF END INSTANCES FREQUENCY*/
 
-	  data::InstanceFreq
-	    <T_FEATURE,
-	     T_INSTANCE_FREQUENCY
-	     > 
-	    *lptinst_new = 
-	    new data::InstanceFreq
-	    <T_FEATURE,
-	     T_INSTANCE_FREQUENCY
-	     >
-	    (lt_frequency);
-	  lptinst_new->readFeature(lls_lineSplit);
-	  if ( aiipri_inParamReadInst.getIDInstanceColumn() ) { /*IF BEGIN READ ID*/
-	    lptinst_new->setId
-	      (lls_lineSplit.getItem( aiipri_inParamReadInst.getIDInstanceColumn() ));
-	  } /*IF END READ ID*/
-	  lovectorptinst_instances.push_back(lptinst_new);
+	    data::InstanceFreq
+	      <T_FEATURE,
+	       T_INSTANCE_FREQUENCY
+	       > 
+	      *lptinst_new = 
+	      new data::InstanceFreq
+	      <T_FEATURE,
+	       T_INSTANCE_FREQUENCY
+	       >
+	      (lt_frequency);
+	    lptinst_new->readFeature(lls_lineSplit);
+	    if ( aiipri_inParamReadInst.getIDInstanceColumn() ) { /*IF BEGIN READ ID*/
+	      lptinst_new->setId
+		(lls_lineSplit.getItem( aiipri_inParamReadInst.getIDInstanceColumn() ));
+	    } /*IF END READ ID*/
+	    lovectorptinst_instances.push_back(lptinst_new);
+	  }
 	}
-      }
-    } while ( std::getline(lfp_file, lstr_linedata) );  
+      } while ( std::getline(lfp_file, lstr_linedata) );  
   
+    } catch (std::out_of_range &ex) {
+      std::ostringstream lostrstream_error;
+      lostrstream_error 
+	<< "Error: On line " 
+	<< lui_countLines 
+	<< " of file " 
+	<< lstr_fileInstance 
+	<< " incomplete data";
+      throw std::out_of_range(lostrstream_error.str() );
+    }
+
     lfp_file.close();
         
 #ifdef __VERBOSE_YES 
@@ -736,21 +782,26 @@ instancesReadWithFreqClass
   lovectorptinst_instances.reserve(lpair_dimInstance.first); 
   data::Instance<T_FEATURE>::setNumDimensions(lpair_dimInstance.second);
   /*OPEN FILE INSTANCES */
-    std::string lstr_linedata;
-    /*JUMPING FILE COMMENTS*/
-    while ( std::getline(lfp_file, lstr_linedata) )  {
-      if ( (lstr_linedata.size() > 0) &&
-	   !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#') )
-	break;
-    }
-    /*READ HEADER*/
-    if ( aiipri_inParamReadInst.getHaveHeaderFileInstance() ) {
-      std::getline(lfp_file, lstr_linedata);
-    }
-    /*READ INSTANCES */
+  uintidx lui_countLines = 0;
+  std::string lstr_linedata;
+  /*JUMPING FILE COMMENTS*/
+  while ( std::getline(lfp_file, lstr_linedata) )  {
+    ++lui_countLines;
+    if ( (lstr_linedata.size() > 0) &&
+	 !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#') )
+      break;
+  }
+  /*READ HEADER*/
+  if ( aiipri_inParamReadInst.getHaveHeaderFileInstance() ) {
+    std::getline(lfp_file, lstr_linedata);
+  }
+  /*READ INSTANCES */
+  try {
+
     T_INSTANCE_FREQUENCY lt_frequency = 1;
     do {
       /*BEGIN IF LINE COMMENTS #*/
+      ++lui_countLines;
       if ( (lstr_linedata.size() > 0) &&
 	   !(lstr_linedata.at(0) == '@' ||  lstr_linedata.at(0) == '#')) {
 	if ( lls_lineSplit.split(lstr_linedata) > 0 ) {
@@ -778,11 +829,11 @@ instancesReadWithFreqClass
 
 	  if ( aiipri_inParamReadInst.getInstanceFrequencyColumn() ) 
 	    { /*IF BEGIN INSTANCES FREQUENCY*/
-	    liss_stringstream.clear();
-	    liss_stringstream.str
-	      ( lls_lineSplit.getItem( aiipri_inParamReadInst.getInstanceFrequencyColumn() ));
-	    liss_stringstream >> lt_frequency;
-	    lptinstclass_new->setFrequency(lt_frequency);
+	      liss_stringstream.clear();
+	      liss_stringstream.str
+		( lls_lineSplit.getItem( aiipri_inParamReadInst.getInstanceFrequencyColumn() ));
+	      liss_stringstream >> lt_frequency;
+	      lptinstclass_new->setFrequency(lt_frequency);
 	    } /*IF END INSTANCES FREQUENCY*/
 
 	  if ( aiipri_inParamReadInst.getClassInstanceColumn() ) {
@@ -806,12 +857,23 @@ instancesReadWithFreqClass
 	}
       }
     } while ( std::getline(lfp_file, lstr_linedata) );  
+
+  } catch (std::out_of_range &ex) {
+    std::ostringstream lostrstream_error;
+    lostrstream_error 
+      << "Error: On line " 
+      << lui_countLines 
+      << " of file " 
+      << lstr_fileInstance 
+      << " incomplete data";
+    throw std::out_of_range(lostrstream_error.str() );
+  }
   
-    if ( aiipri_inParamReadInst.getClassInstanceColumn() ) {
-      data::InstanceIterfazClass
-	<T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::setVectorClassLabel(); 
-    }
-    lfp_file.close();
+  if ( aiipri_inParamReadInst.getClassInstanceColumn() ) {
+    data::InstanceIterfazClass
+      <T_INSTANCES_CLUSTER_K,T_CLUSTERIDX>::setVectorClassLabel(); 
+  }
+  lfp_file.close();
         
 #ifdef __VERBOSE_YES 
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
