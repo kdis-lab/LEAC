@@ -394,12 +394,18 @@ int main(int argc, char **argv)
   lostream_out << std::boolalpha;
 
   if (listdvar_inParam.getHaveHeaderFileInstance()) {
+    if ( listdvar_inParam.getIDInstanceColumn() ) { /*IF BEGIN ID*/
+      lostream_out << "ID" << lofn_filename.getDelim();
+    }
     for (uintidx li_l = 0; li_l < lvectorstr_instanceDimName.size()-1; li_l++) {
       lostream_out << lvectorstr_instanceDimName.at(li_l) << lofn_filename.getDelim();  
     }
     lostream_out
-      << lvectorstr_instanceDimName.at(lvectorstr_instanceDimName.size()-1)
-      << std::endl;
+      << lvectorstr_instanceDimName.at(lvectorstr_instanceDimName.size()-1);
+    if ( listdvar_inParam.getClassInstanceColumn() ) { /*IF CLASS LABEL*/
+      lostream_out << lofn_filename.getDelim() << "CLASS";
+    }
+    lostream_out << lofn_filename.getDelim() << std::endl;
   }
  
   for ( auto liIter_inst: lvectorptinst_instances ) {
