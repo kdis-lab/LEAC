@@ -1004,9 +1004,9 @@ e1
     
   \code{.cpp}
 
-  DATATYPE_REAL lmetrict_e1;
+  DATATYPE_REAL lmetric_e1;
 
-  lmetrict_e1 =
+  lmetric_e1 =
   um::e1
   (larray_meanFeactures,
   lvectorptinst_instances.begin(),
@@ -4027,9 +4027,9 @@ j1
        ++aiiterator_instfirst, lui_i++)
     {
       data::Instance<T_FEATURE>* linst_inter =  (data::Instance<T_FEATURE>*) *aiiterator_instfirst;
-      for (uintidx li_j = 0; li_j < aimatrixt_centroids.getNumRows(); li_j++)  {
-	if ( aicrispmatrix_partition(li_j,lui_i) ) {
-	  T_FEATURE* lmatrowt_centroid = aimatrixt_centroids.getRow(li_j);
+      for (uintidx lui_j = 0; lui_j < aimatrixt_centroids.getNumRows(); lui_j++)  {
+	if ( aicrispmatrix_partition(lui_j,lui_i) ) {
+	  T_FEATURE* lmatrowt_centroid = aimatrixt_centroids.getRow(lui_j);
 	  loT_J1 += 
 	    aifunc2p_dist
 	    (lmatrowt_centroid,
@@ -4064,7 +4064,7 @@ j1
   \$f\mu=[\mu_{1},\mu_{2},...,\mu_{k}]\f$ centroids,
   \$fm\f$ weighting exponent; \$f1 \leq m < \infty\f$
   \$fD_{Ind}(x_{k},\mu_{i})\f$  is one of the induced distances from \$fx_{i}\f$ to  \$f\mu_{j}\f$.
-  \param &aimatrixt_u a fuzzy c-partitions mat::MatrixRow
+  \param &aimatrixt_u a fuzzy c-partition mat::MatrixRow
   \param aimatrixt_centroids a mat::MatrixRow with centroids clusters
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
@@ -4095,15 +4095,15 @@ jm
     {
       data::Instance<T_FEATURE>* linst_inter =  (data::Instance<T_FEATURE>*) *aiiterator_instfirst;
    
-      for (uintidx li_j = 0; li_j < aimatrixt_centroids.getNumRows(); li_j++)  {
-	T_FEATURE* lmatrowt_centroid = aimatrixt_centroids.getRow(li_j);
+      for (uintidx lui_j = 0; lui_j < aimatrixt_centroids.getNumRows(); lui_j++)  {
+	T_FEATURE* lmatrowt_centroid = aimatrixt_centroids.getRow(lui_j);
 	lrt_dist = 
 	  aifunc2p_dist
 	  (lmatrowt_centroid,
 	   linst_inter->getFeatures(),
 	   data::Instance<T_FEATURE>::getNumDimensions() 
 	   );
-	lort_Jm  +=  std::pow(aimatrixt_u(li_j, lui_i), aif_m) * lrt_dist;
+	lort_Jm  +=  std::pow(aimatrixt_u(lui_j, lui_i), aif_m) * lrt_dist;
       }
     }
   return lort_Jm;
@@ -4179,8 +4179,175 @@ SSEMedoid
 }
 
 
+/*! \fn T_METRIC indexI (mat::MatrixRow<T_METRIC> &aimatrixt_u, mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist, const T_METRIC airt_p)
+
+  \brief  Validity index I or index I for a fuzzy c-partition  \cite Maulik:Bandyopadhyay:GAclustering:IndexI:2002 \cite Bandyopadhuay:Maulik:GAclustering:MO:2007.
+
+  \details The \a validity \a index \a I or simply \a Index \a I. It is used as a metric to measure clustering performance. It was proposed as a measure to indicate the (goodness) validity of the solution in the cluster. It is defined as follows:
+
+  \f[
+  I(k)=\left(  {1 \over  k} \cdot {E_{1} \over E_{k} } \cdot D_{k}\right)^{p},
+  \f]
+
+  Where \f$k\f$ is the number of clusters 
+
+  \f[
+  E_{k}=\sum_{j=1}^{k}\sum_{i=1}^{n}u_{ji}\left\Vert x_{i}-\mu_{j}\right\Vert,
+  \f]
+
+  and
+
+  \f[
+  D_{k}=\max_{j,j'=1}^{k}\left\Vert \mu_{j'}-\mu_{j}\right\Vert
+  \f]
+
+  \f$n\f$ is the total number of objects. \f$U(X)=\left[u_{kj}\right]_{k \times n}\f$
+  is a partition matrix of the objects and \f$\mu_{j}\f$  is the centroid es el centro
+  \f$j^{th}\f$. The value of \f$k\f$ that maximizes \f$I(k)\f$ is considered
+  the correct number of clusters.
+
+  \param &aimatrixt_u a fuzzy c-partitions mat::MatrixRow
+  \param aimatrixt_centroids a mat::MatrixRow with centroids clusters
+  \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+  \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
+  \param aifunc2p_dist an object of type dist::Dist to calculate distances
+  \param airt_p the power used to calculate the index, by default 2.0 
+*/
+template < typename INPUT_ITERATOR,
+           typename T_METRIC,
+	   typename T_FEATURE
+	   >
+T_METRIC 
+indexI
+(mat::MatrixRow<T_METRIC>         &aimatrixt_u,
+ mat::MatrixRow<T_FEATURE>        &aimatrixt_centroids,
+ INPUT_ITERATOR                   aiiterator_instfirst,
+ const INPUT_ITERATOR             aiiterator_instlast,
+ dist::Dist<T_METRIC,T_FEATURE>   &aifunc2p_dist,
+ const T_METRIC                   airt_p = 2.0
+ )
+{
+static T_METRIC lmetric_e1;
+ 
+  static utils::RunOnce runOnce ([&]() {
+
+      const uintidx  lui_numInstances = 
+	uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
+      
+      T_FEATURE *larray_centroid1 =
+	new T_FEATURE[data::Instance<T_FEATURE>::getNumDimensions()];
+      
+      decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
+	*larray_sumFeatureTmp =
+	new decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
+	[data::Instance<T_FEATURE>::getNumDimensions()];
+
+      stats::sumFeactures
+	(larray_sumFeatureTmp,
+	 aiiterator_instfirst,
+	 aiiterator_instlast,
+	 T_FEATURE(0)
+	 );
+  
+      stats::meanVector
+	(larray_centroid1,
+	 lui_numInstances,
+	 larray_sumFeatureTmp
+	 );
+
+      lmetric_e1 =
+	e1
+	(larray_centroid1,
+	 aiiterator_instfirst,
+	 aiiterator_instlast,
+	 aifunc2p_dist
+	 );
+
+      delete [] larray_sumFeatureTmp;
+      delete [] larray_centroid1;
+    }
+    );
+  
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "um::IndexI";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc 
+	      << ":  IN(" << geiinparam_verbose << ')'
+	      << "\n\t(input mat::MatrixRow<T_METRIC>"
+	      << &aimatrixt_u << "]\n"
+	      << aimatrixt_u << "\n"
+	      << "\t input mat::MatrixRow<T_FEATURE>& aimatrixt_centroids[" 
+	      << &aimatrixt_centroids << "]\n"
+	      << aimatrixt_centroids << "\n"
+	      << "\t input  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist[" 
+	      << &aifunc2p_dist << ']'
+	      << "\n\t)"
+	      << std::endl;
+  }
+#endif //__VERBOSE_YES
+
+  T_METRIC lometric_indexI = measuare_undefIndexI(T_METRIC);
+  T_METRIC lmetric_ek = T_METRIC(0);
+  T_METRIC lmetric_dk = T_METRIC(-1);
+
+  if ( aimatrixt_centroids.getNumRows() > 0 ) {
+
+       
+    for (uintidx lui_i = 0;
+	 aiiterator_instfirst != aiiterator_instlast;
+	 ++aiiterator_instfirst, lui_i++)
+      {
+	data::Instance<T_FEATURE>* linst_inter =  
+	  (data::Instance<T_FEATURE>*) *aiiterator_instfirst;
+   
+	for (uintidx lui_j = 0; lui_j < aimatrixt_centroids.getNumRows(); lui_j++)  {
+	  T_FEATURE* lmatrowt_centroid = aimatrixt_centroids.getRow(lui_j);
+	  T_METRIC  lrt_dist = 
+	    aifunc2p_dist
+	    (lmatrowt_centroid,
+	     linst_inter->getFeatures(),
+	     data::Instance<T_FEATURE>::getNumDimensions() 
+	     );
+	  	 
+	  lmetric_ek  += aimatrixt_u(lui_j, lui_i) * lrt_dist;
+	  
+	}
+      } //End for
+
+      lmetric_dk =
+      maxDistCjCjp
+      (aimatrixt_centroids,	    
+       aifunc2p_dist
+       );
+      
+    lometric_indexI = (( lmetric_e1 / lmetric_ek ) *  lmetric_dk )
+      / T_METRIC(aimatrixt_centroids.getNumRows());
+  
+    lometric_indexI = std::pow(lometric_indexI,airt_p); 
+
+  }
+  
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ": OUT(" << geiinparam_verbose << ')'
+	      << " lmetric_e1 " << lmetric_e1
+              << " lmetric_ek " << lmetric_ek
+              << " lmetric_dk " << lmetric_dk
+	      << " lometric_indexI = " << lometric_indexI 
+	      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif //__VERBOSE_YES
+
+  return lometric_indexI;
+  
+}
+
+
 /*! \fn T_METRIC indexI (const mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, partition::Partition<T_CLUSTERIDX>    &aipartition_clusters, const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist, const T_METRIC airt_p = 2.0)   
-  \brief Validity index I \cite Maulik:Bandyopadhyay:GAclustering:IndexI:2002 \cite Bandyopadhuay:Maulik:GAclustering:MO:2007.
+  \brief Validity index I for a crisp partition \cite Maulik:Bandyopadhyay:GAclustering:IndexI:2002 \cite Bandyopadhuay:Maulik:GAclustering:MO:2007.
   \details The \a validity \a index \a I or simply \a Index \a I. It is used as a metric to measure clustering performance. It was proposed as a measure to indicate the (goodness) validity of the solution in the cluster. It is defined as follows:
 
   \f[
@@ -4207,7 +4374,7 @@ SSEMedoid
   \param aimatrixt_centroids a mat::MatrixRow with centroids clusters 
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
-  \param aipartition_clusters a partition of instances in clusters
+  \param aipartition_clusters a crisp partition of instances in clusters
   \param aifunc2p_dist an object of type dist::Dist to calculate distances 
   \param airt_p the power used to calculate the index, by default 2.0 
 */
@@ -4227,7 +4394,7 @@ indexI
  )
 {
 
-  static T_METRIC lmetrict_e1;
+  static T_METRIC lmetric_e1;
  
   static utils::RunOnce runOnce ([&]() {
 
@@ -4254,7 +4421,7 @@ indexI
 	 larray_sumFeatureTmp
 	 );
 
-      lmetrict_e1 =
+      lmetric_e1 =
 	e1
 	(larray_centroid1,
 	 aiiterator_instfirst,
@@ -4284,7 +4451,7 @@ indexI
   }
 #endif //__VERBOSE_YES
 
-  T_METRIC lort_indexI = measuare_undefIndexI(T_METRIC);
+  T_METRIC lometric_indexI = measuare_undefIndexI(T_METRIC);
 
   if ( aimatrixt_centroids.getNumRows() > 0 ) {
     std::pair<T_METRIC,bool> lpair_ek = 
@@ -4297,16 +4464,16 @@ indexI
        );
 
     T_METRIC
-      lmetrict_dk =
+      lmetric_dk =
       maxDistCjCjp
       (aimatrixt_centroids,	    
        aifunc2p_dist
        );
 
-    lort_indexI = (( lmetrict_e1 / lpair_ek.first ) *  lmetrict_dk )
+    lometric_indexI = (( lmetric_e1 / lpair_ek.first ) *  lmetric_dk )
       / T_METRIC(aimatrixt_centroids.getNumRows());
   
-    lort_indexI = std::pow(lort_indexI,airt_p);
+    lometric_indexI = std::pow(lometric_indexI,airt_p);
   }
   
 	  
@@ -4314,16 +4481,181 @@ indexI
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelFunc
 	      << ": OUT(" << geiinparam_verbose << ')'
-	      << " lort_indexI = " << lort_indexI 
+	      << " lometric_indexI = " << lometric_indexI 
 	      << std::endl;
   }
   --geiinparam_verbose;
 #endif //__VERBOSE_YES
 
-  return lort_indexI;
+  return lometric_indexI;
   
 }
 
+
+/*! \fn T_METRIC indexIreeval (mat::MatrixRow<T_METRIC> &aimatrixt_u, mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist, const T_METRIC airt_p)
+
+  \brief  Validity index I or index I for a fuzzy c-partition  \cite Maulik:Bandyopadhyay:GAclustering:IndexI:2002 \cite Bandyopadhuay:Maulik:GAclustering:MO:2007. Use this function when the data set changes in the same execution, parameter \f$E_1\f$ is recalculated.
+
+  \details The \a validity \a index \a I or simply \a Index \a I. It is used as a metric to measure clustering performance. It was proposed as a measure to indicate the (goodness) validity of the solution in the cluster. It is defined as follows:
+
+  \f[
+  I(k)=\left(  {1 \over  k} \cdot {E_{1} \over E_{k} } \cdot D_{k}\right)^{p},
+  \f]
+
+  Where \f$k\f$ is the number of clusters 
+
+  \f[
+  E_{k}=\sum_{j=1}^{k}\sum_{i=1}^{n}u_{ji}\left\Vert x_{i}-\mu_{j}\right\Vert,
+  \f]
+
+  and
+
+  \f[
+  D_{k}=\max_{j,j'=1}^{k}\left\Vert \mu_{j'}-\mu_{j}\right\Vert
+  \f]
+
+  \f$n\f$ is the total number of objects. \f$U(X)=\left[u_{kj}\right]_{k \times n}\f$
+  is a partition matrix of the objects and \f$\mu_{j}\f$  is the centroid es el centro
+  \f$j^{th}\f$. The value of \f$k\f$ that maximizes \f$I(k)\f$ is considered
+  the correct number of clusters.
+
+  \param &aimatrixt_u a fuzzy c-partitions mat::MatrixRow
+  \param aimatrixt_centroids a mat::MatrixRow with centroids clusters
+  \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+  \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
+  \param aifunc2p_dist an object of type dist::Dist to calculate distances
+  \param airt_p the power used to calculate the index, by default 2.0 
+*/
+template < typename INPUT_ITERATOR,
+           typename T_METRIC,
+	   typename T_FEATURE
+	   >
+T_METRIC 
+indexIreeval
+(mat::MatrixRow<T_METRIC>         &aimatrixt_u,
+ mat::MatrixRow<T_FEATURE>        &aimatrixt_centroids,
+ INPUT_ITERATOR                   aiiterator_instfirst,
+ const INPUT_ITERATOR             aiiterator_instlast,
+ dist::Dist<T_METRIC,T_FEATURE>   &aifunc2p_dist,
+ const T_METRIC                   airt_p = 2.0
+ )
+{
+  T_METRIC lmetric_e1;
+ 
+  const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
+      
+  T_FEATURE *larray_centroid1 =
+    new T_FEATURE[data::Instance<T_FEATURE>::getNumDimensions()];
+      
+  decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
+    *larray_sumFeatureTmp =
+    new decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
+    [data::Instance<T_FEATURE>::getNumDimensions()];
+
+  stats::sumFeactures
+    (larray_sumFeatureTmp,
+     aiiterator_instfirst,
+     aiiterator_instlast,
+     T_FEATURE(0)
+     );
+  
+  stats::meanVector
+    (larray_centroid1,
+     lui_numInstances,
+     larray_sumFeatureTmp
+     );
+
+  lmetric_e1 =
+    e1
+    (larray_centroid1,
+     aiiterator_instfirst,
+     aiiterator_instlast,
+     aifunc2p_dist
+     );
+
+  delete [] larray_sumFeatureTmp;
+  delete [] larray_centroid1;
+ 
+  
+  T_METRIC lometric_indexI = measuare_undefIndexI(T_METRIC);
+
+  if ( aimatrixt_centroids.getNumRows() > 0 ) {
+
+    T_METRIC lmetric_ek = T_METRIC(0);
+    
+    for (uintidx lui_i = 0;
+	 aiiterator_instfirst != aiiterator_instlast;
+	 ++aiiterator_instfirst, lui_i++)
+      {
+	data::Instance<T_FEATURE>* linst_inter =  (data::Instance<T_FEATURE>*) *aiiterator_instfirst;
+   
+	for (uintidx lui_j = 0; lui_j < aimatrixt_centroids.getNumRows(); lui_j++)  {
+	  T_FEATURE* lmatrowt_centroid = aimatrixt_centroids.getRow(lui_j);
+	  T_METRIC  lrt_dist = 
+	    aifunc2p_dist
+	    (lmatrowt_centroid,
+	     linst_inter->getFeatures(),
+	     data::Instance<T_FEATURE>::getNumDimensions() 
+	     );
+	  T_METRIC lrt_uji = aimatrixt_u(lui_j, lui_i);
+	  
+	  lmetric_ek  += lrt_uji * lrt_dist;
+	  
+	}
+      } //End for
+
+    T_METRIC
+      lmetric_dk =
+      maxDistCjCjp
+      (aimatrixt_centroids,	    
+       aifunc2p_dist
+       );
+
+    lometric_indexI = (( lmetric_e1 / lmetric_ek ) *  lmetric_dk )
+      / T_METRIC(aimatrixt_centroids.getNumRows());
+  
+    lometric_indexI = std::pow(lometric_indexI,airt_p); 
+
+  }
+
+  return lometric_indexI;
+  
+}
+
+  
+/*! \fn T_METRIC indexIreeval (const mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, partition::Partition<T_CLUSTERIDX>    &aipartition_clusters, const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist, const T_METRIC airt_p = 2.0)   
+  \brief Validity index I for a crisp partition \cite Maulik:Bandyopadhyay:GAclustering:IndexI:2002 \cite Bandyopadhuay:Maulik:GAclustering:MO:2007. Use this function when the data set changes in the same execution, parameter \f$E_1\f$ is recalculated.
+
+  \details The \a validity \a index \a I or simply \a Index \a I. It is used as a metric to measure clustering performance. It was proposed as a measure to indicate the (goodness) validity of the solution in the cluster. It is defined as follows:
+
+  \f[
+  I(k)=\left(  {1 \over  k} \cdot {E_{1} \over E_{k} } \cdot D_{k}\right)^{p},
+  \f]
+
+  Where \f$k\f$ is the number of clusters 
+
+  \f[
+  E_{k}=\sum_{j=1}^{k}\sum_{i=1}^{n}u_{ji}\left\Vert x_{i}-\mu_{j}\right\Vert,
+  \f]
+
+  and
+
+  \f[
+  D_{k}=\max_{j,j'=1}^{k}\left\Vert \mu_{j'}-\mu_{j}\right\Vert
+  \f]
+
+  \f$n\f$ is the total number of objects. \f$U(X)=\left[u_{kj}\right]_{k \times n}\f$
+  is a partition matrix of the objects and \f$\mu_{j}\f$  is the centroid es el centro
+  \f$j^{th}\f$. The value of \f$k\f$ that maximizes \f$I(k)\f$ is considered
+  the correct number of clusters.
+
+  \param aimatrixt_centroids a mat::MatrixRow with centroids clusters 
+  \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+  \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
+  \param aipartition_clusters a crisp partition of instances in clusters
+  \param aifunc2p_dist an object of type dist::Dist to calculate distances 
+  \param airt_p the power used to calculate the index, by default 2.0 
+*/
 template < typename INPUT_ITERATOR,
            typename T_FEATURE,
 	   typename T_CLUSTERIDX,
@@ -4356,7 +4688,7 @@ indexIreeval
   }
 #endif //__VERBOSE_YES
 
-  T_METRIC lmetrict_e1;
+  T_METRIC lmetric_e1;
  
   const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
       
@@ -4381,7 +4713,7 @@ indexIreeval
      larray_sumFeatureTmp
      );
 
-  lmetrict_e1 =
+  lmetric_e1 =
     e1
     (larray_centroid1,
      aiiterator_instfirst,
@@ -4394,7 +4726,7 @@ indexIreeval
    
 
 
-  T_METRIC lort_indexI = measuare_undefIndexI(T_METRIC);
+  T_METRIC lometric_indexI = measuare_undefIndexI(T_METRIC);
 
   if ( aimatrixt_centroids.getNumRows() > 0 ) {
     std::pair<T_METRIC,bool> lpair_ek = 
@@ -4407,16 +4739,16 @@ indexIreeval
        );
 
     T_METRIC
-      lmetrict_dk =
+      lmetric_dk =
       maxDistCjCjp
       (aimatrixt_centroids,	    
        aifunc2p_dist
        );
 
-    lort_indexI = (( lmetrict_e1 / lpair_ek.first ) *  lmetrict_dk )
+    lometric_indexI = (( lmetric_e1 / lpair_ek.first ) *  lmetric_dk )
       / T_METRIC(aimatrixt_centroids.getNumRows());
   
-    lort_indexI = std::pow(lort_indexI,airt_p);
+    lometric_indexI = std::pow(lometric_indexI,airt_p);
   }
   
 	  
@@ -4424,13 +4756,13 @@ indexIreeval
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelFunc
 	      << ": OUT(" << geiinparam_verbose << ')'
-	      << " lort_indexI = " << lort_indexI 
+	      << " lometric_indexI = " << lometric_indexI 
 	      << std::endl;
   }
   --geiinparam_verbose;
 #endif //__VERBOSE_YES
 
-  return lort_indexI;
+  return lometric_indexI;
   
 }
   
@@ -4439,7 +4771,7 @@ indexIreeval
 
   \brief  The index of Xie-Beni (XB) 
   \cite Xie:Beni:Metricclustering:XieBeniIndex:1991
-  \details Get the index of Xie-Beni 
+  \details Get the index of Xie-Beni for a fuzzy c-partition
 
   \f[
   XB =  {\sigma  \over n \cdot (d_{min})^2} 
@@ -4494,15 +4826,15 @@ xb
       {
 	data::Instance<T_FEATURE>* linst_inter =  (data::Instance<T_FEATURE>*) *aiiterator_instfirst;
    
-	for (uintidx li_j = 0; li_j < aimatrixt_centroids.getNumRows(); li_j++)  {
-	  T_FEATURE* lmatrowt_centroid = aimatrixt_centroids.getRow(li_j);
+	for (uintidx lui_j = 0; lui_j < aimatrixt_centroids.getNumRows(); lui_j++)  {
+	  T_FEATURE* lmatrowt_centroid = aimatrixt_centroids.getRow(lui_j);
 	  T_METRIC  lrt_dist = 
 	    aifunc2p_dist
 	    (lmatrowt_centroid,
 	     linst_inter->getFeatures(),
 	     data::Instance<T_FEATURE>::getNumDimensions() 
 	     );
-	  T_METRIC lrt_uji = aimatrixt_u(li_j, lui_i);
+	  T_METRIC lrt_uji = aimatrixt_u(lui_j, lui_i);
 	  
 	  lrt_sigma  +=  lrt_uji * lrt_uji * lrt_dist;
 	  
@@ -4528,7 +4860,7 @@ xb
 /*! \fn T_METRIC xb(const mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const partition::Partition<T_CLUSTERIDX> &aipartition_clusters, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist)
   \brief  The index of Xie-Beni (XB) 
   \cite Xie:Beni:Metricclustering:XieBeniIndex:1991
-  \details Get the index of Xie-Beni extended to a partition::Partition
+  \details Get the index of Xie-Beni extended to a crisp partition
 
   \param aimatrixt_centroids a mat::MatrixRow with centroids clusters
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
