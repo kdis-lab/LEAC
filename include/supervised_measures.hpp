@@ -92,6 +92,95 @@ randIndex
    
 }
 
+
+template < typename T_METRIC, 
+	   typename T_INSTANCES_CLUSTER_K 
+	   >
+std::vector<T_METRIC>
+partialRandIndex
+(const ConfusionMatchingMatrix<T_INSTANCES_CLUSTER_K>  &aimatchmatrix_confusion)
+{
+  std::vector<uintidx>&& lvectort_idxMax = aimatchmatrix_confusion.getIdxMaximum(); 
+
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "sm::partialRandIndex";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ":  IN(" << geiinparam_verbose << ')'
+	      << "aimatchmatrix_confusion [ = " << &aimatchmatrix_confusion << "]\n";
+
+    std::ostringstream lostrstream_idxMax;
+    lostrstream_idxMax << "<IDXMAX:"
+		       << lpc_labelFunc;
+    inout::containerprint
+      (lvectort_idxMax.begin(),
+       lvectort_idxMax.end(),
+       std::cout,
+       lostrstream_idxMax.str().c_str(),
+       ','
+       );
+    
+    std::cout << "\n)"
+	      << std::endl;
+  }
+#endif //__VERBOSE_YES
+  
+  const uintidx luintidx_numClassU = aimatchmatrix_confusion.getNumRows()-1;
+  const uintidx luintidx_numClusterV = aimatchmatrix_confusion.getNumColumns()-1;
+
+  std::vector<T_METRIC> lvec_partialRandIndex(luintidx_numClusterV,measuare_undefRandIndex(T_METRIC));
+  
+  for ( uintidx  li_k = 0; li_k < luintidx_numClusterV; li_k++) {
+    //ai
+    T_METRIC lr_ai =  (T_METRIC) aimatchmatrix_confusion(lvectort_idxMax.at(li_k),li_k);
+    lr_ai *= (lr_ai-1.0)/2.0; 
+    //di
+    T_METRIC lr_di = 0.0;
+    for (uintidx li_i = 0; li_i < luintidx_numClassU; li_i++) {
+      for (uintidx li_j = 0; li_j < luintidx_numClusterV; li_j++) {
+	if  ( li_i != lvectort_idxMax.at(li_k) && li_j != li_k ) {
+	  T_METRIC lr_obj =  (T_METRIC) aimatchmatrix_confusion(li_i,li_j);
+	  lr_di += lr_obj;
+	}
+      }
+    }
+    lr_di *= (lr_di-1)*0.5;
+      
+    T_METRIC lr_objClass =  (T_METRIC) aimatchmatrix_confusion(lvectort_idxMax.at(li_k),luintidx_numClusterV);
+    T_METRIC lr_objSum =  (T_METRIC) aimatchmatrix_confusion(luintidx_numClassU,luintidx_numClusterV);
+    lr_objSum -= lr_objClass;
+   
+    lvec_partialRandIndex.at(li_k) = (lr_ai + lr_di) / ( lr_objClass * ( lr_objClass -1 )/2 + lr_objSum * ( lr_objSum -1)/2);
+   
+  }
+
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ": OUT(" << geiinparam_verbose << ")\t";
+
+    std::ostringstream lostrstream_partialRandIndex;
+    lostrstream_partialRandIndex << "<PartialRandIndex:"
+				 << lpc_labelFunc;
+    inout::containerprint
+      (lvec_partialRandIndex.begin(),
+       lvec_partialRandIndex.end(),
+       std::cout,
+       lostrstream_partialRandIndex.str().c_str(),
+       ','
+       );
+	      
+    std::cout << std::endl;
+  }
+  --geiinparam_verbose;
+#endif //__VERBOSE_YES
+  
+  return lvec_partialRandIndex;
+   
+}
+
+
 /*Jaccard index is quite similar to Rand index, but
 	  this measure does not consider the number of correct assign-
 	  ments when two elements are assigned to different clusters.

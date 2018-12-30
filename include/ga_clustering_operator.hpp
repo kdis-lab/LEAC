@@ -2495,7 +2495,7 @@ MO1
 
 	  
 
-#ifdef _METRIC_SIMPLIFIED_SILHOUETTE_
+#ifdef __FITNESS_SIMPLIFIED_SILHOUETTE__
       
 	  partition::PartitionLabel
 	    <T_CLUSTERIDX>
@@ -2529,7 +2529,7 @@ MO1
 		aochromfeac_toMutate.setObjetiveFunc(lmetrict_partialSilhouette);
 		
 
-#endif /*_METRIC_SIMPLIFIED_SILHOUETTE_*/
+#endif /*__FITNESS_SIMPLIFIED_SILHOUETTE__*/
       
 	
 	} /*End if*/
@@ -2964,8 +2964,53 @@ MO2
       lvectorit_genotypeNumInstClusterK.push_back(lvectort_numInstInClusterNew[1]);
       lvectorrt_genotypePartialFcC.push_back(-1.0);
 
+
+#ifdef __FITNESS_RAND_INDEX__
+
+      partition::PartitionLabel
+	<T_CLUSTERIDX>
+	lpartition_clusters
+	(aochromfeac_toMutate.getString(),
+	 aochromfeac_toMutate.getStringSize(),
+	 aochromfeac_toMutate.getNumClusterK() 
+	 );
       
-#ifdef _METRIC_SIMPLIFIED_SILHOUETTE_
+      sm::ConfusionMatchingMatrix<T_INSTANCES_CLUSTER_K>&&
+	lmatchmatrix_confusion = 
+	sm::getConfusionMatrix
+	(aiiterator_instfirst,
+	 aiiterator_instlast,
+	 lpartition_clusters,
+	 [](const data::Instance<T_FEATURE>* aiinst_iter )
+	 -> T_INSTANCES_CLUSTER_K
+	 {
+	   return  T_INSTANCES_CLUSTER_K(1);
+	 },
+	 [](const data::Instance<T_FEATURE>* aiinst_iter )
+	 -> T_CLUSTERIDX
+	 {
+	   data::InstanceClass
+	     <T_FEATURE,
+	      T_INSTANCES_CLUSTER_K,
+	      T_CLUSTERIDX>
+	     *linstclass_iter = 
+	     (data::InstanceClass
+	      <T_FEATURE,
+	      T_INSTANCES_CLUSTER_K,
+	      T_CLUSTERIDX>*)
+	     aiinst_iter;
+	       
+	   return linstclass_iter->getClassIdx();
+	       
+	 }
+	 );
+
+      std::vector<T_REAL>&&  lvectort_partialFitness =
+	sm::partialRandIndex<T_REAL,T_INSTANCES_CLUSTER_K>(lmatchmatrix_confusion);
+
+#endif /*__FITNESS_RAND_INDEX__*/      
+
+#ifdef __FITNESS_SIMPLIFIED_SILHOUETTE__
       
       partition::PartitionLabel<T_CLUSTERIDX>
 	lpartition_clustersLabel
@@ -2974,7 +3019,7 @@ MO2
 	 aochromfeac_toMutate.getNumClusterK()
 	 );
 
-      std::vector<T_REAL>&&  lvectort_partialSilhouette =
+      std::vector<T_REAL>&&  lvectort_partialFitness =
 	um::simplifiedSilhouette
 	(aochromfeac_toMutate.getCentroids(),
 	 aiiterator_instfirst,
@@ -2983,21 +3028,20 @@ MO2
 	 aochromfeac_toMutate.getNumInstancesClusterK(),
 	 aifunc2p_dist
 	 );
+
+#endif /*__FITNESS_SIMPLIFIED_SILHOUETTE__*/
 	   
       T_REAL lmetrict_partialSilhouette = 
 	interfacesse::sum
-	(lvectort_partialSilhouette.data(),
-	 (uintidx) lvectort_partialSilhouette.size()
+	(lvectort_partialFitness.data(),
+	 (uintidx) lvectort_partialFitness.size()
 	 );
 
-      lmetrict_partialSilhouette /= (T_REAL) lvectort_partialSilhouette.size();
+      lmetrict_partialSilhouette /= (T_REAL) lvectort_partialFitness.size();
 
-      aochromfeac_toMutate.setPartialFcC(lvectort_partialSilhouette);
+      aochromfeac_toMutate.setPartialFcC(lvectort_partialFitness);
       aochromfeac_toMutate.setObjetiveFunc(lmetrict_partialSilhouette);
       
-#endif /*_METRIC_SIMPLIFIED_SILHOUETTE_*/
-	   
-
 #ifdef __VERBOSE_YES
       const char* lpc_labelFuncStep = "2. FOR END";
       ++geiinparam_verbose;
