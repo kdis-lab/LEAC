@@ -3008,9 +3008,9 @@ MO2
       std::vector<T_REAL>&&  lvectort_partialFitness =
 	sm::partialRandIndex<T_REAL,T_INSTANCES_CLUSTER_K>(lmatchmatrix_confusion);
 
-#endif /*__FITNESS_RAND_INDEX__*/      
+/*#endif __FITNESS_RAND_INDEX__*/      
 
-#ifdef __FITNESS_SIMPLIFIED_SILHOUETTE__
+#else /* __FITNESS_SIMPLIFIED_SILHOUETTE__ */
       
       partition::PartitionLabel<T_CLUSTERIDX>
 	lpartition_clustersLabel
