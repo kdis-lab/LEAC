@@ -146,11 +146,25 @@ public:
     return T_INSTANCES_CLUSTER_K(-1);
   }
 
-  
+  std::vector<uintidx> getIdxMaximum() const
+  {
+    const uintidx luintidx_numClassU = this->getNumRows()-1;
+    const uintidx luintidx_numClusterV = this->getNumColumns()-1;
+
+    std::vector<uintidx> lovectort_idxMax(luintidx_numClusterV,0);
+    //Initially maximum is li_i = 0
+    for (uintidx li_i = 1; li_i < luintidx_numClassU; li_i++) {
+      for (uintidx li_j = 0; li_j < luintidx_numClusterV; li_j++) {
+        if  ( (*this)(li_i,li_j) > (*this)(lovectort_idxMax[li_j],li_j) ) {
+	  lovectort_idxMax[li_j] = li_i;
+	}
+      }
+    }
+    return lovectort_idxMax;
+  }
 
   const T_INSTANCES_CLUSTER_K getMisclassified() const
   {
-
 #ifdef __VERBOSE_YES
     const char* lpc_labelFunc = "PartitionMatrix::getMisclassified:  IN";
   ++geiinparam_verbose;
@@ -172,17 +186,17 @@ public:
   
   if ( luintidx_numClusterV != 0 ) {
 
-     
-    std::vector<uintidx> lvectort_idxMax(luintidx_numClusterV,0);
     std::vector<T_INSTANCES_CLUSTER_K> lovectort_sumInstCluster(luintidx_numClassU,0);
-    
-    for (uintidx li_i = 1; li_i < luintidx_numClassU; li_i++) {
+
+    std::vector<uintidx>&& lvectort_idxMax = this->getIdxMaximum(); 
+    //std::vector<uintidx> lvectort_idxMax(luintidx_numClusterV,0);
+    /*for (uintidx li_i = 1; li_i < luintidx_numClassU; li_i++) {
       for (uintidx li_j = 0; li_j < luintidx_numClusterV; li_j++) {
         if  ( (*this)(li_i,li_j) > (*this)(lvectort_idxMax[li_j],li_j) ) {
 	  lvectort_idxMax[li_j] = li_i;
 	}
       }
-    }
+      }*/
 
     for (uintidx li_j = 0; li_j < luintidx_numClusterV; li_j++) {
 
@@ -460,6 +474,7 @@ protected:
   
 }; /*PartitionMatrixRow*/
 
+  
 
 /*getSensitivity  
   matchingmatrix_getPercSuccessesClass
@@ -480,17 +495,18 @@ getSensitivity
 
   if ( luintidx_numClusterV != 0 ) {
      
-    std::vector<uintidx> lvectort_idxMax(luintidx_numClusterV,0);
+    //std::vector<uintidx> lvectort_idxMax(luintidx_numClusterV,0);
     std::vector<T_INSTANCES_CLUSTER_K> lovectort_sumInstCluster(luintidx_numClassU,0);
     std::vector<T_INSTANCES_CLUSTER_K> lovectort_totalInstCluster(luintidx_numClassU,0);
-
-    for (uintidx li_i = 1; li_i < luintidx_numClassU; li_i++) {
+    std::vector<uintidx>&& lvectort_idxMax = aipartmatrix_a.getIdxMaximum();
+    /*for (uintidx li_i = 1; li_i < luintidx_numClassU; li_i++) {
       for (uintidx li_j = 0; li_j < luintidx_numClusterV; li_j++) {
         if  ( aipartmatrix_a(li_i,li_j) > aipartmatrix_a(lvectort_idxMax[li_j],li_j) ) {
 	  lvectort_idxMax[li_j] = li_i;
 	}
       }
-    }
+      }*/
+    
 
     for (uintidx li_j = 0; li_j < luintidx_numClusterV; li_j++) {
       lovectort_sumInstCluster[lvectort_idxMax[li_j]] += aipartmatrix_a(lvectort_idxMax[li_j],li_j);
@@ -529,17 +545,20 @@ getStrSenSpe
      
     std::vector<T_METRIC> lvectort_perSensitivity(luintidx_numClassU,T_METRIC(0.0));
   
-    std::vector<uintidx> lvectort_idxMax(luintidx_numClusterV,0);
+    
     std::vector<T_INSTANCES_CLUSTER_K> lovectort_sumInstCluster(luintidx_numClassU,0);
     std::vector<T_INSTANCES_CLUSTER_K> lovectort_totalInstCluster(luintidx_numClassU,0);
-
-    for (uintidx li_i = 1; li_i < luintidx_numClassU; li_i++) {
+    
+    std::vector<uintidx> lvectort_idxMax = aipartmatrix_a.getIdxMaximum();
+    //std::vector<uintidx> lvectort_idxMax(luintidx_numClusterV,0);
+    /*for (uintidx li_i = 1; li_i < luintidx_numClassU; li_i++) {
       for (uintidx li_j = 0; li_j < luintidx_numClusterV; li_j++) {
         if  ( aipartmatrix_a(li_i,li_j) > aipartmatrix_a(lvectort_idxMax[li_j],li_j) ) {
 	  lvectort_idxMax[li_j] = li_i;
 	}
       }
     }
+    */
 
     for (uintidx li_j = 0; li_j < luintidx_numClusterV; li_j++) {
       lovectort_sumInstCluster[lvectort_idxMax[li_j]] += aipartmatrix_a(lvectort_idxMax[li_j],li_j);
