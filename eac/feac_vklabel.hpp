@@ -398,18 +398,9 @@ feca_vklabel
       
       for (auto &&liter_iChrom: lvectorchrom_population) {
 
+#ifdef __FITNESS_SIMPLIFIED_SILHOUETTE__
 
-#ifdef _METRIC_SIMPLIFIED_SILHOUETTE_
-	
-	partition::PartitionLabel
-	  <T_CLUSTERIDX>
-	  lpartitionlabel_clusters
-	  (liter_iChrom.getString(),
-	   liter_iChrom.getStringSize(),
-	   liter_iChrom.getNumClusterK()
-	   );
-
-	std::vector<T_REAL>&&  lvectort_partialSilhouette =
+	std::vector<T_REAL>&&  lvectort_partialFitness =
 	  um::simplifiedSilhouette
 	  (liter_iChrom.getCentroids(),
 	   aiiterator_instfirst,
@@ -418,19 +409,65 @@ feca_vklabel
 	   liter_iChrom.getNumInstancesClusterK(),
 	   aifunc2p_dist
 	   );
-	   
 
-	T_REAL lmetrict_partialSilhouette = 
+#endif /*__FITNESS_SIMPLIFIED_SILHOUETTE__*/
+
+#ifdef __FITNESS_RAND_INDEX__
+
+	partition::PartitionLabel
+	  <T_CLUSTERIDX>
+	  lpartitionlabel_clusters
+	  (liter_iChrom.getString(),
+	   liter_iChrom.getStringSize(),
+	   liter_iChrom.getNumClusterK()
+	   );
+
+	const sm::ConfusionMatchingMatrix<T_INSTANCES_CLUSTER_K>&&
+	  lmatchmatrix_confusion = 
+	  sm::getConfusionMatrix
+	  (aiiterator_instfirst,
+	   aiiterator_instlast,
+	   lpartitionlabel_clusters,
+	   [](const data::Instance<T_FEATURE>* aiinst_iter )
+	   -> T_INSTANCES_CLUSTER_K
+	   {
+	     return  T_INSTANCES_CLUSTER_K(1);
+	   },
+	   [](const data::Instance<T_FEATURE>* aiinst_iter )
+	   -> T_CLUSTERIDX
+	   {
+	     data::InstanceClass
+	       <T_FEATURE,
+		T_INSTANCES_CLUSTER_K,
+		T_CLUSTERIDX>
+	       *linstclass_iter = 
+	       (data::InstanceClass
+		<T_FEATURE,
+		T_INSTANCES_CLUSTER_K,
+		T_CLUSTERIDX>*)
+	       aiinst_iter;
+	       
+	     return linstclass_iter->getClassIdx();
+	       
+	   }
+	   );
+
+	std::vector<T_REAL>&&  lvectort_partialFitness =
+	  sm::partialRandIndex<T_REAL,T_INSTANCES_CLUSTER_K>(lmatchmatrix_confusion);
+
+#endif /*__FITNESS_RAND_INDEX__*/
+
+	T_REAL lmetrict_partialFitness = 
 	  interfacesse::sum
-	  (lvectort_partialSilhouette.data(),
-	   (uintidx) lvectort_partialSilhouette.size()
-	   ) / (T_REAL) lvectort_partialSilhouette.size();
+	  (lvectort_partialFitness.data(),
+	   (uintidx) lvectort_partialFitness.size()
+	   ) / (T_REAL) lvectort_partialFitness.size();
 
-	liter_iChrom.setPartialFcC(lvectort_partialSilhouette);
+	liter_iChrom.setPartialFcC(lvectort_partialFitness);
 	liter_iChrom.saveLastObjetiveFunc();
-	liter_iChrom.setObjetiveFunc(lmetrict_partialSilhouette);
+	liter_iChrom.setObjetiveFunc(lmetrict_partialFitness);
 	
-#endif /*_METRIC_SIMPLIFIED_SILHOUETTE_*/
+
 	   
 #ifndef __WITHOUT_PLOT_STAT
 	lvectorT_statfuncObjetiveFunc.push_back(liter_iChrom.getObjetiveFunc());
