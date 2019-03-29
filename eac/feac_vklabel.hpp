@@ -398,6 +398,15 @@ feca_vklabel
       
       for (auto &&liter_iChrom: lvectorchrom_population) {
 
+
+	partition::PartitionLabel
+	  <T_CLUSTERIDX>
+	  lpartitionlabel_clusters
+	  (liter_iChrom.getString(),
+	   liter_iChrom.getStringSize(),
+	   liter_iChrom.getNumClusterK()
+	   );
+
 #ifdef __FITNESS_SIMPLIFIED_SILHOUETTE__
 
 	std::vector<T_REAL>&&  lvectort_partialFitness =
@@ -413,14 +422,6 @@ feca_vklabel
 #endif /*__FITNESS_SIMPLIFIED_SILHOUETTE__*/
 
 #ifdef __FITNESS_RAND_INDEX__
-
-	partition::PartitionLabel
-	  <T_CLUSTERIDX>
-	  lpartitionlabel_clusters
-	  (liter_iChrom.getString(),
-	   liter_iChrom.getStringSize(),
-	   liter_iChrom.getNumClusterK()
-	   );
 
 	const sm::ConfusionMatchingMatrix<T_INSTANCES_CLUSTER_K>&&
 	  lmatchmatrix_confusion = 
