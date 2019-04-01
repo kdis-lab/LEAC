@@ -62,7 +62,8 @@ public:
     _ui_idMultiInstanceColumn(0),
     _ui_classMultiInstColumn(0),
     _ui_numInstances(0),
-    _ui_numDimensionsInstances(0)
+    _ui_numDimensionsInstances(0),
+    _b_printMulLine(false)
   {}
   
   InParamReadInst
@@ -87,7 +88,8 @@ public:
     _ui_classMultiInstColumn(0),
     _ui_numInstances(0),
     _ui_numDimensionsInstances(0),
-    _ui_numInstancesTest(0)
+    _ui_numInstancesTest(0),
+    _b_printMulLine(false)
   {
     _vectorstr_filesInstance.push_back( std::string(aips_fileNameInstance) ); 
   }
@@ -311,6 +313,16 @@ public:
     return _ui_numDimensionsInstances;
   }
 
+  inline void setPrintMulLine(bool aib_printMulLine)
+  {
+    this->_b_printMulLine = aib_printMulLine;
+  }
+
+  inline bool getPrintMulLine()
+  { 
+    return this->_b_printMulLine; 
+  }
+
   virtual void print(std::ostream&  aipf_outFile=std::cout, const char aic_separator=',') const
   {
     const char  *larray_opFormatFile[] = INPARAMCLUSTERING_FORMATINSTANCEFILE;
@@ -335,7 +347,6 @@ public:
       aipf_outFile << aic_separator << ":n" 
 		   << aic_separator << this->getNumInstancesTest();
     }
-
   }
 
   
@@ -354,10 +365,11 @@ protected:
   uintidx      _ui_instancesFrequencyColumn;
   uintidx      _ui_idMultiInstanceColumn;
   uintidx      _ui_classMultiInstColumn;
-  
   uintidx      _ui_numInstances;
   uintidx      _ui_numDimensionsInstances;
   uintidx      _ui_numInstancesTest;
+
+  bool         _b_printMulLine;
 
 }; /*InParamReadInst*/
 

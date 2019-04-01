@@ -599,6 +599,12 @@ template<typename T_CLUSTERIDX,
 	    << "                                by default is "
 	    << aoipc_inParamClustering.getMaxExecutiontime()
 	    << "\n";
+
+  std::cout << "  --print-mulline[=yes/no]\n"
+	    << "                              metrics to print on multiple lines\n"
+            << "                                by default is "
+	    << las_optTokensYesNo[aoipc_inParamClustering.getPrintMulLine()]
+	    << '\n';
   
   std::cout << "  -C, --centroids-outfile[=FILE]\n"
 	    << "                              print centroids, standard output FILE="
@@ -2202,7 +2208,7 @@ inparamclustering_getParameter
 
 #ifdef __ALG_CLUSTERING__ /* ONLY CLUSTERING */
   
-  const char   *las_opGeneral[] = {"centroids-format", "table-format",  (char *) NULL };
+  const char   *las_opGeneral[] = {"centroids-format", "table-format", "print-mulline", (char *) NULL };
 
 #endif /* __ALG_CLUSTERING__ */
   
@@ -2242,6 +2248,7 @@ inparamclustering_getParameter
       {"membership-outfile",      required_argument, 0, 'M'},
       {"partitionstable-outfile", required_argument, 0, 'T'},
       {"table-format",            required_argument, 0, 0},
+      {"print-mulline",           required_argument, 0, 0},
       
 #ifdef _ALG_GRAPH_BASED_
       {"graph-outfile",           required_argument, 0, 'G'},
@@ -2555,7 +2562,15 @@ inparamclustering_getParameter
 	  aoipc_inParamClustering.setPrintTableFormat
 	    (aoipc_inParamClustering.isYesNo(optarg, argv[0],long_options[option_index].name));
 	}
+      else if ( strcmp //print-mulline
+		(long_options[option_index].name,
+		 las_opGeneral[2] ) == 0 ) 
+	{
+	  aoipc_inParamClustering.setPrintMulLine
+	    (aoipc_inParamClustering.isYesNo(optarg, argv[0],long_options[option_index].name));
+	}
      
+
 #endif /* __ALG_CLUSTERING__ */
       
 
