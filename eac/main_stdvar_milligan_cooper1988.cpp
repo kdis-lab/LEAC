@@ -101,8 +101,8 @@ int main(int argc, char **argv)
     
   }
 
-  std::vector<std::string> 
-    lvectorstr_instanceDimName = 
+  std::pair<std::vector<std::string>,std::string> 
+    lpairvecstrstr_instanceDimName = 
     inout::instancesReadDimName
     (listdvar_inParam,
      false
@@ -397,15 +397,15 @@ int main(int argc, char **argv)
     if ( listdvar_inParam.getIDInstanceColumn() ) { /*IF BEGIN ID*/
       lostream_out << "ID" << lofn_filename.getDelim();
     }
-    for (uintidx li_l = 0; li_l < lvectorstr_instanceDimName.size()-1; li_l++) {
-      lostream_out << lvectorstr_instanceDimName.at(li_l) << lofn_filename.getDelim();  
+    for (uintidx li_l = 0; li_l < lpairvecstrstr_instanceDimName.first.size()-1; li_l++) {
+      lostream_out << lpairvecstrstr_instanceDimName.first.at(li_l) << lofn_filename.getDelim();  
     }
     lostream_out
-      << lvectorstr_instanceDimName.at(lvectorstr_instanceDimName.size()-1);
+      << lpairvecstrstr_instanceDimName.first.at(lpairvecstrstr_instanceDimName.first.size()-1);
     if ( listdvar_inParam.getClassInstanceColumn() ) { /*IF CLASS LABEL*/
-      lostream_out << lofn_filename.getDelim() << "CLASS";
+      lostream_out << lofn_filename.getDelim() << lpairvecstrstr_instanceDimName.second;
     }
-    lostream_out << lofn_filename.getDelim() << std::endl;
+    lostream_out << std::endl;
   }
  
   for ( auto liIter_inst: lvectorptinst_instances ) {
