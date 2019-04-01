@@ -152,8 +152,8 @@ readNumInstances
 
 }
 
-/*! \fn std::vector<std::string>  instancesReadDimName (inout::InParamReadInst &aiipri_inParamReadInst, const bool aib_fileTest = false) 
-    \brief Read the name of the dimensions of instances or objects 
+/*! \fn std::pair<std::vector<std::string>,std::string> instancesReadDimName (inout::InParamReadInst &aiipri_inParamReadInst, const bool aib_fileTest = false) 
+    \brief Read the name of the dimensions of instances and class
     \details 
     \param aiipri_inParamReadInst a inout::InParamReadInst with the necessary parameters to read a data set file
     \param aib_fileTest a bool to specify if the data set is a test
@@ -162,7 +162,7 @@ template <typename T_FEATURE,
 	  typename T_INSTANCES_CLUSTER_K,
 	  typename T_CLUSTERIDX 
 	  > 
-std::vector<std::string>  
+std::pair<std::vector<std::string>,std::string>  
 instancesReadDimName
 (inout::InParamReadInst<T_FEATURE,T_INSTANCES_CLUSTER_K,T_CLUSTERIDX> &aiipri_inParamReadInst,
  const    bool             aib_fileTest = false        
@@ -179,7 +179,8 @@ instancesReadDimName
     throw  std::invalid_argument(lstr_error);
   }
   std::vector<std::string> lovectorstr_dimensionsName;
- 
+  std::string lostr_className;
+
   LineSplit lls_lineSplit;
    
 #ifdef __VERBOSE_YES 
@@ -230,6 +231,12 @@ instancesReadDimName
       if ( lls_lineSplit.split( lstr_linedata ) > 0 ) {
 	lls_lineSplit.getVectorString(lovectorstr_dimensionsName);
       }
+      if ( aiipri_inParamReadInst.getClassInstanceColumn() > 0 ) {
+	lostr_className = lls_lineSplit.getItem( aiipri_inParamReadInst.getClassInstanceColumn()  );
+      }
+      else {
+	lostr_className = "Class";
+      }
     }
     else {
       for (uintidx list_l = 0; 
@@ -240,6 +247,7 @@ instancesReadDimName
 	  lostrstream_nameDimension << 'x' << list_l;
 	  lovectorstr_dimensionsName.push_back(lostrstream_nameDimension.str()); 
 	}
+      lostr_className = "Class";
     }
   }
 
@@ -258,7 +266,7 @@ instancesReadDimName
   --geiinparam_verbose;
 #endif //__VERBOSE_YES
 
-  return lovectorstr_dimensionsName;  
+  return std::make_pair(lovectorstr_dimensionsName,lostr_className); 
 }
 
 /*! \fn std::vector<data::Instance<T_FEATURE>* > instancesRead (inout::InParamReadInst &aiipri_inParamReadInst, const bool aib_fileTest = false)  
