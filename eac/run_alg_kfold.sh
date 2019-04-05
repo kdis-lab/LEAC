@@ -24,10 +24,10 @@ PATH_DATASETS="~/leac-update/leac-master/data"
 #-b  --format-file[=NAME]    uci, or keel, by default uci
 ADATASET=(
 "iris_z5"        "-b uci -h yes -a \"1-4\"  -c 5  --number-clusters=3"
-"wine_z5"        "-b uci -h yes -a \"1-13\" -c 14 --number-clusters=3"
+"wine_z5"        "-b uci -h yes -a \"1-12\" -c 13 --number-clusters=3"
 "sonar_z5"       "-b uci -h yes -a \"1-60\" -c 61 --number-clusters=2"
-"glass"          "-b uci -h yes -a \"1-9\"  -c 10 --number-clusters=7"
-"spectf_z5"      "-b uci -h yes -a \"1-22\" -c 23 --number-clusters=2"
+"glass_z5"       "-b uci -h yes -a \"1-9\"  -c 10 --number-clusters=7"
+"spect_z5"      "-b uci -h yes -a \"1-22\" -c 23 --number-clusters=2"
 "haberman_z5"    "-b uci -h yes -a \"1-3\"  -c 4  --number-clusters=2"
 "ecoli_z5"       "-b uci -h yes -a \"1-7\"  -c 8  --number-clusters=8"
 "ionosphere_z5"  "-b uci -h yes -a \"1-33\" -c 34 --number-clusters=2"
@@ -49,9 +49,9 @@ AALGORITHMS=(
 #"gaclustering_fkcrispmatrix" "--generations=200" 
 )
 # get number of dataset
-tLen=${#ADATASET[@]}
+NUM_DATASET=${#ADATASET[@]}
 # get number algorithms
-aalglen=${#AALGORITHMS[@]}
+NUM_ALGORITHMS=${#AALGORITHMS[@]}
 #
 #
 echo "10-FOLD*************************************************************************"
@@ -67,19 +67,11 @@ IFILEPROC=$(( IFILE % KFOLD_MOD  ))
 IFILEPROC=$(( IFILEPROC == 0? KFOLD_MOD:IFILEPROC))
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
-for (( j=0; j<${aalglen}; j++ ));
+for (( j=0; j<${NUM_ALGORITHMS}; j++ ));
 do
 NAME_ALGORITHMS=${AALGORITHMS[$j]}
 PARAM_ALGORITHMS=${AALGORITHMS[$j+1]}
-for (( i=0; i<${tLen}; i++ ));
-do
-NAME_PROCESING=${ADATASET[$i]}
-PARAM_DATASET=${ADATASET[$i+1]}
-NAME_FILE=${ADATASET[$i]}"-10-"
-#DIR_OUT=$NAME_ALGORITHMS$VESION_RUN$NAME_PROCESING
 DIR_OUT=$NAME_ALGORITHMS$"_"$VESION_RUN
-DIR_DATASET=$PATH_DATASETS"/"$NAME_PROCESING
-echo "DIR_DATASET = " $DIR_DATASET
 #
 if [ ! -d $DIR_OUT ]; then
 echo $DIR_OUT "File " $DIR_OUT " not exists"
@@ -91,6 +83,17 @@ echo
 echo "procesando:" $DIR_OUT 
 echo
 echo $NAME_ALGORITHMS
+#
+for (( i=0; i<${NUM_DATASET}; i++ ));
+do
+NAME_PROCESING=${ADATASET[$i]}
+PARAM_DATASET=${ADATASET[$i+1]}
+NAME_FILE=${ADATASET[$i]}"-10-"
+#DIR_OUT=$NAME_ALGORITHMS$VESION_RUN$NAME_PROCESING
+#DIR_OUT=$NAME_ALGORITHMS$"_"$VESION_RUN
+DIR_DATASET=$PATH_DATASETS"/"$NAME_PROCESING
+echo "DIR_DATASET = " $DIR_DATASET
+
 for IRUN in $(seq 1 $NUM_RUN)
 do
 NUMHAVE=0
@@ -108,9 +111,10 @@ eval $comando
 wait
 fi
 done
+((i++))
+done #DATASET
 cd ..
 echo "process finalzado" $NAME_PROCESING
-((i++))
-done
+#cat  *_run.csv >> ../$NAME_ALGORITHMS"_metric_all.csv"
 ((j++))
-done
+done #ALGO
