@@ -1495,52 +1495,20 @@ int main(int argc, char **argv)
       loop_outParamGAC.initialize(li_l);
       loop_outParamlusteringMetric.initialize(li_l);
     
-      { /*BEGIN PRINT PARAMETERS
+
+      if ( !linparam_ClusteringGA.getPrintMulLine() ) {
+       /*BEGIN PRINT PARAMETERS
 	 */
-	/*	inout::OutFileName   lofn_filename;
+	inout::OutFileName   lofn_filename;
 	std::ostream& lostream_out = 
 	  lofn_filename.openFile(linparam_ClusteringGA.getFileNameTimesRun());
 	lostream_out << "_inout" <<  inout::OutFileName::getDelim() << "in" << inout::OutFileName::getDelim();
 	linparam_ClusteringGA.print(lostream_out,inout::OutFileName::getDelim());
 	lostream_out << std::endl;
 	lofn_filename.closeFile();
-	*/
-	/*lostream_out
-	  << "\nIN:\n"
-	  << "    Algorithmo name: "
-	  << linparam_ClusteringGA.getAlgorithmoName() << '\n'
-	  << "           Based on: "
-	  << linparam_ClusteringGA.getAlgorithmoAuthor() << '\n'
-	  << "        Metric used: "
-	  << loop_outParamGAC.getNameUsedObjetiveFunc()
-	  << "\n\n"
-	  
-	  << "           Data set: "
-	  << linparam_ClusteringGA.getCurrentFileInstance() << '\n'
-	  << "Number of instances: "
-	  << linparam_ClusteringGA.getNumInstances() << '\n'
-	  << "         Dimensions: "
-	  << linparam_ClusteringGA.getNumDimensionsInstances() << '\n';
-
-	if ( linparam_ClusteringGA.getNumFilesInstanceTest() > 0 ) {
-	  lostream_out
-	    << '\n'
-	    << "      Data set test: "
-	    << linparam_ClusteringGA.getCurrentFileInstanceTest() << '\n'
-	    << "Number of instances: "
-	    << linparam_ClusteringGA.getNumInstancesTest() << '\n';
-	}
-	lostream_out
-	  << '\n'
-	  << "       Random seed: "
-	  <<  linparam_ClusteringGA.getRandomSeed() << '\n'
-	  << '\n';
-	lofn_filename.closeFile();
-	*/
       
       } /*END PRINT PARAMETERS
 	 */
-    
 
 #ifdef ALG_GACLUSTERING_FKCRISPMATRIX_BEZDEK_ETAL_1994
 
@@ -1554,7 +1522,7 @@ int main(int argc, char **argv)
 	 lpairvec_dataset.first.end(),
 	 *pfunct2p_distAlg
 	 );
-    
+        
 #ifdef __VERBOSE_YES
       geverbosepc_labelstep = lpc_labeMain;
 #endif /*__VERBOSE_YES*/ 
