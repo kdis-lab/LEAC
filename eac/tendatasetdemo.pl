@@ -68,9 +68,9 @@ $header = 'X1,X2,X3,X4,X5,X6,X7,X8,X9,X10,X11,X12,X13,X14,X15,X16,X17,X18,X19,X2
 getstore($url, $file);
 insertheader($file,$header);
 print "Download $file OK\n";
-system('stdvar_milligan_cooper1988 -i sonar.all-data -a "1-60" -c 61 -h yes --std-var Z5 > sonar_Z5.data');
+system('stdvar_milligan_cooper1988 -i sonar.all-data -a "1-60" -c 61 -h yes --std-var Z5 > sonar_z5.data');
 print "Stdvar $file OK\n";
-system("Rscript kfold.R sonar_Z5.data");
+system("Rscript kfold.R sonar_z5.data");
 print "k-fold $file OK\n";
 
 
