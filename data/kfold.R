@@ -9,16 +9,25 @@
 #  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
 #  */
 #  Use:
-#       Rscript  --vanilla kfold.R iris_z5.data 
+#       Rscript  kfold.R dataset [kfold]
+#         Parameters:
+#           dataset with header
+#           kfold   an integer, default kfold is 10
 #
-#
+#       For example: Rscript kfold.R iris_z5.data
 #!/usr/bin/env Rscript
 args = commandArgs(trailingOnly=TRUE)
 # test if there is at least one argument: if not, return an error
 if (length(args)==0) {
-  stop("At least one argument must be supplied (input file).n", call.=FALSE)
+  stop("Use:\n Rscript kfold.R dataset [k]\n\n", call.=FALSE)
 }
-library(caret)
+#
+numk <-10
+#
+if (length(args)==2) {
+  numk <- as.numeric(args[2])
+}
+suppressPackageStartupMessages(library(caret))
 filename <- args[1]
 vecfilename <- strsplit(args[1], "\\.")[[1]]
 dirname <- vecfilename[1]
@@ -27,45 +36,23 @@ dir.create(dirname)
 }
 # load the CSV file from the local directory
 dataset <- read.csv(filename, header=TRUE)
-#define an 90%/10% train/test split of the dataset
-split=0.90
-for (i in 1:10) {
+ndataset <- nrow(dataset)
+ndatatest <- ndataset / numk
+#define train/test split of the dataset
+split = 1 - ndatatest/ ndataset
+for (i in 1:numk) {
 filenamett <- paste(dirname, "/", sep="") 
 filenamett <- paste(filenamett,dirname, sep="") 
-filenamett <- paste(filenamett, "-10-", sep="")
+filenamett <- paste(filenamett, "-", sep="")
+filenamett <- paste(filenamett, numk, sep="")
+filenamett <- paste(filenamett, "-", sep="")
 filenamett <- paste(filenamett,toString(i), sep="")
 filenametra <- paste(filenamett,"tra.dat",sep="")
 filenametst <- paste(filenamett,"tst.dat",sep="")
-# print(filenametra)
-# print(filenametst)
-#trainIndex <- createDataPartition(dataset$Class, p=split, list=FALSE)
 trainIndex <- createDataPartition(dataset[,ncol(dataset)], p=split, list=FALSE)
 data_train <- dataset[ trainIndex,]
 data_test <- dataset[-trainIndex,]
 write.csv(data_train,file=filenametra,row.names=FALSE,quote=F)
 write.csv(data_test,file=filenametst,row.names=FALSE,quote=F)
 }
-
-# Filename <- "iris.csv"
-# 
-# 
-
-
-# # load the libraries
-# 
-# library(klaR)
-# # load the iris dataset
-# data(iris)
-
-# trainIndex <- createDataPartition(iris$Species, p=split, list=FALSE)
-# data_train <- iris[ trainIndex,]
-# data_test <- iris[-trainIndex,]
-
-# if (!dir.exists("/home/hermes/leac-update/leac-master/data/irid_z5/")) {
-# dir.create("/home/hermes/leac-update/leac-master/data/irid_z5/")
-# }
-
-
-
-# write.csv(data_test,file = "~/leac-update/leac-master/data/irid_z5_test.data",row.names=FALSE,quote=F)
-
+#end kfols.r
