@@ -69,15 +69,24 @@ NUM_DATASET=${#DATASET_ARRAY[@]}
 NUM_ALGORITHMS=${#ALGORITHMS_ARRAY[@]}
 #
 #
-echo "10-FOLD*************************************************************************"
+echo "K-FOLD*************************************************************************"
 echo "********************************************************************************"
 #<<<PARAMETER IN-------------------------------------------------------------
 #
 #VESION_RUN="v4"
 #ID_MACHINE=`cat id_machine.dat`
 #NUM_RUN=1
-IFILE="$1"
 KFOLD_MOD=10
+if [[ $# -eq 2 ]] ; then
+KFOLD_MOD="$1"
+IFILE="$2"
+else
+IFILE="$1"
+fi
+#echo "1 $1"
+#echo "2 $2"
+#echo "KFOLD $KFOLD_MOD"
+#
 IFILEPROC=$(( IFILE % KFOLD_MOD  ))
 IFILEPROC=$(( IFILEPROC == 0? KFOLD_MOD:IFILEPROC))
 #-------------------------------------------------------------------------------
@@ -90,7 +99,7 @@ DIR_OUT=$NAME_ALGORITHMS
 #DIR_OUT=$NAME_ALGORITHMS$"_"$VESION_RUN
 #
 if [ ! -d $DIR_OUT ]; then
-echo $DIR_OUT "File " $DIR_OUT " not exists"
+#echo $DIR_OUT "File " $DIR_OUT " not exists"
 mkdir $DIR_OUT    
 fi
 cd $DIR_OUT
@@ -104,7 +113,8 @@ for (( i=0; i<${NUM_DATASET}; i++ ));
 do
 NAME_PROCESING=${DATASET_ARRAY[$i]}
 PARAM_DATASET=${DATASET_ARRAY[$i+1]}
-NAME_FILE=${DATASET_ARRAY[$i]}"-10-"
+NAME_FILE=${DATASET_ARRAY[$i]}"-"$KFOLD_MOD"-"
+#NAME_FILE=${DATASET_ARRAY[$i]}"-10-"
 #DIR_OUT=$NAME_ALGORITHMS$VESION_RUN$NAME_PROCESING
 #DIR_OUT=$NAME_ALGORITHMS$"_"$VESION_RUN
 DIR_DATASET=$PATH_DATASETS"/"$NAME_PROCESING
