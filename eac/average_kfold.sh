@@ -1,11 +1,11 @@
 # #
 # use:
-# sh ../../eac/average_kfold10.sh directory_run  num_run
-#   ej  sh average_kfold10.sh hka_fkmedoid 10
+# sh ../../eac/average_kfold10.sh directory_run numberOfRun [kfoldUsed]
+#   ej  sh average_kfold10.sh hka_fkmedoid_test 10
 #
-if [ "$#" -ne 2 ]; then
+if [ "$#" -lt 2 ]; then
   echo
-  echo "Usage: $0 directory numberRun" >&2
+  echo "Usage: $0 directory numberOfRun [kfoldUsed]" >&2
   exit 1
 fi
 
@@ -13,16 +13,24 @@ if [ ! -d "$1" ]; then
   echo
   echo "No existe el directory: $1"
   echo
-  echo "Usage: $0 directory numberRun" >&2
+  echo "Usage: $0 directory numberOfRun [kfoldUsed]" >&2
 fi
-echo $1
+
+KFOLDUSED=10
+if [ "$#" -eq 3 ]; then
+KFOLDUSED="$3"
+fi
 DIRTOPROC=$1
 TMPDIRPROC_OUT="__"$1"_proc"
 NUM_RUN=$2
-NUM_RUNBYFOLD=$( expr 10 '*' $NUM_RUN )
+NUM_RUNBYFOLD=$( expr $KFOLDUSED '*' $NUM_RUN )
 #a=$( expr 2 '*' "$k" + 1 )
 # Absolute path to this script
 #
+echo "directory_run: $DIRTOPROC"
+echo "numberOfRun: $NUM_RUN"
+echo "kfoldUsed: $KFOLDUSED"
+
 SCRIPT=$(readlink -f $0)
 # Absolute path this script
 SCRIPTPATH=`dirname $SCRIPT`
@@ -33,7 +41,8 @@ fi
 mkdir $TMPDIRPROC_OUT
 #cd $DIRTOPROC
 #cd /run/media/hermes/Transcend/ga_run20180515/rawrun/garun_20180809_k6z0; mkdir  ../../proc/fixk_z0k6/kga_fkcentroid_BM02a
-find  $DIRTOPROC -name $DIRTOPROC"*_run.csv" -print0 | xargs -0 grep '_inout,out' > $TMPDIRPROC_OUT/_data_all.csv
+FINDFILE="${DIRTOPROC:0:-4}"
+find  $DIRTOPROC -name $FINDFILE"*_run.csv" -print0 | xargs -0 grep '_inout,out' > $TMPDIRPROC_OUT/_data_all.csv
 cd $TMPDIRPROC_OUT
 # PASO 1)
 awk -F"," -v OFS="," '{for(j = 1; j <= NF; j++) {if ($j == "_k") { ++j; kval = $j}};  for(j = 1; j <= NF; j++) {if ($j == "_dataset") { ++j;  dataset = $j}}; printf("%s/_k%s,%s\n",dataset,kval,$0)}' _data_all.csv | sort > _data_all_sort.csv

@@ -12,10 +12,11 @@
 #
 #
 #  Use:
-#       parallel -j10 ./dataset_proc.sh ::: {1..200} > log.log4 &
+#       parallel -j10 ./dataset_proc.sh [kfold] ::: {1..200} > log.log4 &
+#         the value kfold, the default value of k is 10 if not specified
 #
 #MODIFY THE PATH WHERE THE LEAC BINARY IS LOCATED
-PATH_ALGORITHMS="/home/hermes/leac-master/bin"
+PATH_ALGORITHMS="~/leac-update/leac-master/eac"
 #
 #MODIFY THE PATH WHERE THE DATASET ARE LOCATED 
 PATH_DATASETS="~/leac-update/leac-master/data"
@@ -95,7 +96,7 @@ for (( j=0; j<${NUM_ALGORITHMS}; j++ ));
 do
 NAME_ALGORITHMS=${ALGORITHMS_ARRAY[$j]}
 PARAM_ALGORITHMS=${ALGORITHMS_ARRAY[$j+1]}
-DIR_OUT=$NAME_ALGORITHMS
+DIR_OUT=$NAME_ALGORITHMS"_test"
 #DIR_OUT=$NAME_ALGORITHMS$"_"$VESION_RUN
 #
 if [ ! -d $DIR_OUT ]; then
