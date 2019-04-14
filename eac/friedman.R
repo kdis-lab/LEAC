@@ -16,6 +16,21 @@
 #       Rscript --vanilla friedman.R rand_index_table.csv > test_metric.log 
 #
 #
+#
+# Install scmamp
+#
+# Install function for packages    
+packages<-function(x){
+  x<-as.character(match.call()[[2]])
+  if (!require(x,character.only=TRUE)){
+    install.packages(pkgs=x,repos="http://cran.r-project.org")
+    if (!require(x,character.only=TRUE))
+      stop("\nError:\n\tPackage 'scmamp' not found\n\n")
+  }
+}
+#
+packages(scmamp)
+
 args = commandArgs(trailingOnly=TRUE)
 # test if there is at least one argument: if not, return an error
 if (length(args)==0) {
