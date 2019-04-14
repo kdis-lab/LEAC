@@ -23,7 +23,11 @@
 packages<-function(x){
   x<-as.character(match.call()[[2]])
   if (!require(x,character.only=TRUE)){
-    install.packages(pkgs=x,repos="http://cran.r-project.org")
+    if (!require("devtools")) {
+       install.packages("devtools")
+    }
+    devtools::install_github("b0rxa/scmamp")
+#    install.packages(pkgs=x,repos="http://cran.r-project.org")
     if (!require(x,character.only=TRUE))
       stop("\nError:\n\tPackage 'scmamp' not found\n\n")
   }
