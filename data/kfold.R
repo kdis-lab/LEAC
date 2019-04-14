@@ -16,6 +16,21 @@
 #
 #       For example: Rscript kfold.R iris_z5.data
 #!/usr/bin/env Rscript
+#
+# Install caret
+#
+# Install function for packages    
+packages<-function(x){
+  x<-as.character(match.call()[[2]])
+  if (!require(x,character.only=TRUE)){
+    install.packages(pkgs=x,repos="http://cran.r-project.org")
+    if (!require(x,character.only=TRUE))
+      stop("\nError:\n\tPackage 'caret' not found\n\n")
+  }
+}
+#
+packages(caret)
+#
 args = commandArgs(trailingOnly=TRUE)
 # test if there is at least one argument: if not, return an error
 if (length(args)==0) {
