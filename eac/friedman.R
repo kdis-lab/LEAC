@@ -19,22 +19,23 @@
 #
 # Install scmamp
 #
-# Install function for packages    
-packages<-function(x){
-  x<-as.character(match.call()[[2]])
-  if (!require(x,character.only=TRUE)){
+# Install scmamp
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager",repos="http://cran.r-project.org")
+if (!require("Rgraphviz")) {
+   BiocManager::install("Rgraphviz")
+#  install.packages(pkgs="Rgraphviz",repos="http://cran.r-project.org")
+}
+if (!require('scmamp',character.only=TRUE) ) {
     if (!require("devtools")) {
-       install.packages("devtools")
+       install.packages(pkgs="devtools",repos="http://cran.r-project.org")
     }
     devtools::install_github("b0rxa/scmamp")
-#    install.packages(pkgs=x,repos="http://cran.r-project.org")
-    if (!require(x,character.only=TRUE))
+    if (!require('scmamp',character.only=TRUE) ) {
       stop("\nError:\n\tPackage 'scmamp' not found\n\n")
-  }
+    }
 }
 #
-packages(scmamp)
-
 args = commandArgs(trailingOnly=TRUE)
 # test if there is at least one argument: if not, return an error
 if (length(args)==0) {
@@ -43,7 +44,7 @@ if (length(args)==0) {
 if (length(args)==1) {
   stop("At least two argument must be supplied\n\nUse:\n\tRscript friedman.R rand_index_table.csv metric_name > test_metric.log", call.=FALSE)
 }
-library('scmamp')
+suppressPackageStartupMessages(library('scmamp',quietly = TRUE))
 options(width = 360)
 filename  <- args[1]
 metricname <-  args[2]
