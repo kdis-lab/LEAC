@@ -19,17 +19,12 @@
 #
 # Install caret
 #
-# Install function for packages    
-packages<-function(x){
-  x<-as.character(match.call()[[2]])
-  if (!require(x,character.only=TRUE)){
-    install.packages(pkgs=x,repos="http://cran.r-project.org")
-    if (!require(x,character.only=TRUE))
-      stop("\nError:\n\tPackage 'caret' not found\n\n")
-  }
+if (!require('caret',character.only=TRUE) ) {
+  install.packages(pkgs="caret",repos="http://cran.r-project.org")
 }
-#
-packages(caret)
+if (!require('caret',character.only=TRUE) ) {
+  stop("\nError:\n\tPackage 'caret' not found\n\n")
+}
 #
 args = commandArgs(trailingOnly=TRUE)
 # test if there is at least one argument: if not, return an error
@@ -42,7 +37,7 @@ numk <-10
 if (length(args)==2) {
   numk <- as.numeric(args[2])
 }
-suppressPackageStartupMessages(library(caret))
+suppressPackageStartupMessages(library('caret',quietly = TRUE))
 filename <- args[1]
 vecfilename <- strsplit(args[1], "\\.")[[1]]
 dirname <- vecfilename[1]
