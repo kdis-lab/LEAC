@@ -17,52 +17,41 @@
 #       For example: Rscript kfold.R iris_z5.data
 #!/usr/bin/env Rscript
 #
-# Install caret
-#
-if (!require('caret',character.only=TRUE) ) {
-  install.packages(pkgs="caret",repos="http://cran.r-project.org")
-}
-if (!require('caret',character.only=TRUE) ) {
-  stop("\nError:\n\tPackage 'caret' not found\n\n")
-}
 #
 args = commandArgs(trailingOnly=TRUE)
-# test if there is at least one argument: if not, return an error
-if (length(args)==0) {
-  stop("Use:\n Rscript kfold.R dataset [k]\n\n", call.=FALSE)
-}
-#
 numk <-10
 #
 if (length(args)==2) {
   numk <- as.numeric(args[2])
 }
-suppressPackageStartupMessages(library('caret',quietly = TRUE))
 filename <- args[1]
 vecfilename <- strsplit(args[1], "\\.")[[1]]
 dirname <- vecfilename[1]
 if (!dir.exists(dirname)) {
-dir.create(dirname)
+  dir.create(dirname)
 }
 # load the CSV file from the local directory
 dataset <- read.csv(filename, header=TRUE)
-ndataset <- nrow(dataset)
-ndatatest <- ndataset / numk
-#define train/test split of the dataset
-split = 1 - ndatatest/ ndataset
-for (i in 1:numk) {
-filenamett <- paste(dirname, "/", sep="") 
-filenamett <- paste(filenamett,dirname, sep="") 
-filenamett <- paste(filenamett, "-", sep="")
-filenamett <- paste(filenamett, numk, sep="")
-filenamett <- paste(filenamett, "-", sep="")
-filenamett <- paste(filenamett,toString(i), sep="")
-filenametra <- paste(filenamett,"tra.dat",sep="")
-filenametst <- paste(filenamett,"tst.dat",sep="")
-trainIndex <- createDataPartition(dataset[,ncol(dataset)], p=split, list=FALSE)
-data_train <- dataset[ trainIndex,]
-data_test <- dataset[-trainIndex,]
-write.csv(data_train,file=filenametra,row.names=FALSE,quote=F)
-write.csv(data_test,file=filenametst,row.names=FALSE,quote=F)
+
+dataset<-dataset[sample(nrow(dataset)),]
+#Create numk equally size folds
+folds <- cut(seq(1,nrow(dataset)),breaks=numk,labels=FALSE)
+#Perform numk fold cross validation
+for(i in 1:numk){
+  #Segement your data by fold using the which() function 
+  testIndexes <- which(folds==i,arr.ind=TRUE)
+  data_test <- dataset[testIndexes, ]
+  data_train <- dataset[-testIndexes, ]
+  #Use the test and train data partitions however you desire...
+  filenamett <- paste(dirname, "/", sep="") 
+  filenamett <- paste(filenamett,dirname, sep="") 
+  filenamett <- paste(filenamett, "-", sep="")
+  filenamett <- paste(filenamett, numk, sep="")
+  filenamett <- paste(filenamett, "-", sep="")
+  filenamett <- paste(filenamett,toString(i), sep="")
+  filenametra <- paste(filenamett,"tra.dat",sep="")
+  filenametst <- paste(filenamett,"tst.dat",sep="")
+  write.csv(data_train,file=filenametra,row.names=FALSE,quote=F)
+  write.csv(data_test,file=filenametst,row.names=FALSE,quote=F)
 }
-#end kfols.r
+#end kfold.R
