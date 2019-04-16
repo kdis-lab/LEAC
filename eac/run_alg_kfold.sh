@@ -16,10 +16,10 @@
 #         the value kfold, the default value of k is 10 if not specified
 #
 #MODIFY THE PATH WHERE THE LEAC BINARY IS LOCATED
-PATH_ALGORITHMS="~/leac-update/leac-master/eac"
+PATH_ALGORITHMS="~/leac/bin"
 #
 #MODIFY THE PATH WHERE THE DATASET ARE LOCATED 
-PATH_DATASETS="~/leac-update/leac-master/data"
+PATH_DATASETS="~/leac/data"
 
 #INCLUDE DATASET TO PROCESS WITH ITS CHARACTERISTICS
 # DESCRIBED BY THE PARAMETERS
