@@ -948,7 +948,13 @@ int main(int argc, char **argv)
      DATATYPE_INSTANCES_CLUSTER_K
      > 
     linparam_ClusteringGA
-    ("FEAC",
+    (
+#ifdef __FITNESS_SIMPLIFIED_SILHOUETTE__
+     "FEAC_SSILHOUETTE",
+#endif /*__FITNESS_SIMPLIFIED_SILHOUETTE__*/
+#ifdef __FITNESS_RAND_INDEX__
+     "FEAC_RANDINDEX",
+#endif /*__FITNESS_RAND_INDEX__*/
      "Vinicius S. Alves; Ricardo J. G. B. Campello and Eduardo R. Hruschka",
      inout::LABEL,
      INPARAMCLUSTERING_DISTANCE_EUCLIDEAN
