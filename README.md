@@ -52,7 +52,8 @@ proposals in this area:
 	    <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">eaci_vklabel</a>,
 	    <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">eacii_vklabel</a>,
 	    <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">eaciii_vklabel</a>,
-	    <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">feac_vklabel</a>
+	    <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">feac_vklabelssilhouette</a>,
+	    <a href="http://dx.doi.org/10.1109/CEC.2006.1688522">feac_vklabelrandindex</a>
 	  </td>
 	</tr>
 	<tr>
