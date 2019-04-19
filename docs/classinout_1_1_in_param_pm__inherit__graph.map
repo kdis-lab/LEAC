@@ -1,7 +1,0 @@
-<map id="inout::InParamPm&lt; T_REAL &gt;" name="inout::InParamPm&lt; T_REAL &gt;">
-<area shape="rect" id="node5" href="$classinout_1_1_in_param_c_b_g_a.html" title="Input parameter for CBGA . " alt="" coords="5,1211,175,1405"/>
-<area shape="rect" id="node6" href="$classinout_1_1_in_param_pm_fk.html" title="Input parameter for GKA with only probability mutation (Pm) and Fixed K . " alt="" coords="199,1247,341,1369"/>
-<area shape="rect" id="node2" href="$classinout_1_1_in_param_g_a_clustering.html" title="Input parameter for genetic algorithm. " alt="" coords="85,784,273,964"/>
-<area shape="rect" id="node3" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm. " alt="" coords="58,380,301,736"/>
-<area shape="rect" id="node4" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos. " alt="" coords="89,5,269,332"/>
-</map>

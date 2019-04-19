@@ -1,6 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classmat_1_1_matrix_base.html" title="mat::MatrixBase\&lt; T\l_INSTANCES_CLUSTER_K \&gt;" alt="" coords="5,5,208,47"/>
-<area shape="rect" id="node2" href="$classmat_1_1_matrix_row.html" title="mat::MatrixRow\&lt; T_INSTANCES\l_CLUSTER_K \&gt;" alt="" coords="256,5,476,47"/>
-<area shape="rect" id="node3" href="$classsm_1_1_partition_matrix.html" title="Partition Matrix also known as matching matrix is similar to the matrix of confusion, but is used in the unsupervised learning. " alt="" coords="524,5,748,47"/>
-<area shape="rect" id="node4" href="$classsm_1_1_confusion_matching_matrix.html" title="Confusion Matching Matrix also known as an error matrix, is a specific table layout that allows visua..." alt="" coords="796,5,1020,47"/>
-</map>

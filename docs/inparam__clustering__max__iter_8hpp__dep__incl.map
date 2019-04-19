@@ -1,6 +1,0 @@
-<map id="include_inout/inparam_clustering_max_iter.hpp" name="include_inout/inparam_clustering_max_iter.hpp">
-<area shape="rect" id="node2" href="$inparam__fcm_8hpp.html" title="Definition of FCM program parameters. " alt="" coords="5,95,157,136"/>
-<area shape="rect" id="node3" href="$inparam__isodata_8hpp.html" title="Definition of ISODATA program parameters. " alt="" coords="181,95,333,136"/>
-<area shape="rect" id="node4" href="$inparam__kmeans_8hpp.html" title="Definition of clustering clasic program parameters. " alt="" coords="357,95,509,136"/>
-<area shape="rect" id="node5" href="$inparam__pam_8hpp.html" title="Definition of PAM program parameters. " alt="" coords="533,95,685,136"/>
-</map>

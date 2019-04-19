@@ -1,7 +1,0 @@
-<map id="um::DunnIndex" name="um::DunnIndex">
-<area shape="rect" id="node2" href="$classds_1_1_iterator_partition_linked.html#ad171cb96653fadaec272389381a4f8b4" title="ds::IteratorPartitionLinked\l::begin" alt="" coords="181,5,355,47"/>
-<area shape="rect" id="node3" href="$classds_1_1_iterator_partition_linked.html#af0e179fae69c0d4f047082ee44783613" title="ds::IteratorPartitionLinked::end" alt="" coords="165,71,371,98"/>
-<area shape="rect" id="node4" href="$classds_1_1_partition_linked.html#a696f58c4d25fd41adf281d1468440dc9" title="ds::PartitionLinked\l::getNumPartitions" alt="" coords="201,123,335,164"/>
-<area shape="rect" id="node5" href="$classds_1_1_iterator_partition_linked.html#a1a031c033d0d2d1c6982ced4e0473831" title="ds::IteratorPartitionLinked\l::getValue" alt="" coords="181,188,355,229"/>
-<area shape="rect" id="node6" href="$classds_1_1_iterator_partition_linked.html#a83b887be41c97dc0bdfc47a02abbc383" title="ds::IteratorPartitionLinked\l::next" alt="" coords="181,253,355,295"/>
-</map>

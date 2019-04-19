@@ -1,7 +1,0 @@
-<map id="data::Instance&lt; T_FEATURE &gt;" name="data::Instance&lt; T_FEATURE &gt;">
-<area shape="rect" id="node2" href="$classdata_1_1_instance_class.html" title="Patterns, usually vectors in a multidimensional space, previamente clasificado. " alt="" coords="5,505,148,699"/>
-<area shape="rect" id="node3" href="$classdata_1_1_instance_freq.html" title="Patterns, usually vectors in a multidimensional space, with an attribute to store occurrences of inst..." alt="" coords="172,483,307,721"/>
-<area shape="rect" id="node5" href="$classdata_1_1_instance_weight.html" title="Patterns, usually vectors in a multidimensional space. " alt="" coords="362,519,511,685"/>
-<area shape="rect" id="node4" href="$classdata_1_1_instance_class_freq.html" title="Patterns, usually vectors in a multidimensional space, which is classified and with a number of occur..." alt="" coords="123,769,327,979"/>
-<area shape="rect" id="node6" href="$classdata_1_1_instance_weight_class.html" title="Patterns, usually vectors in a multidimensional space. " alt="" coords="351,806,554,942"/>
-</map>

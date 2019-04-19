@@ -1,6 +1,0 @@
-<map id="mat::CrispMatrix::setMember" name="mat::CrispMatrix::setMember">
-<area shape="rect" id="node2" href="$classmat_1_1_bit_matrix.html#a0dce742eb45542de47869b53a39fb5d6" title="mat::BitMatrix::clearBit" alt="" coords="267,5,423,32"/>
-<area shape="rect" id="node3" href="$classmat_1_1_crisp_matrix.html#a071172446a7de33d059aa8c7e6c65c05" title="mat::CrispMatrix::getMember" alt="" coords="248,56,443,83"/>
-<area shape="rect" id="node5" href="$classmat_1_1_bit_matrix.html#a023483d27c6b66b43356d6f8b9cbaba8" title="mat::BitMatrix::setBit" alt="" coords="273,107,417,133"/>
-<area shape="rect" id="node4" href="$classmat_1_1_bit_matrix.html#ae23601eca8a5adfbed3749b163f0d5d6" title="mat::BitMatrix::getNumRows" alt="" coords="491,56,681,83"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="ds::PartitionLinkedStats&lt; T_FEATURE, T_CLUSTERIDX, T_INSTANCE_FREQUENCY, T_INSTANCES_CLUSTER_K, T_FEATURE_SUM &gt;" name="ds::PartitionLinkedStats&lt; T_FEATURE, T_CLUSTERIDX, T_INSTANCE_FREQUENCY, T_INSTANCES_CLUSTER_K, T_FEATURE_SUM &gt;">
-<area shape="rect" id="node2" href="$classds_1_1_partition_linked.html" title="Data structure to define the instances that belong to a cluster consecutively. " alt="" coords="69,1016,227,1255"/>
-<area shape="rect" id="node4" title="STL class. " alt="" coords="81,270,199,347"/>
-<area shape="rect" id="node6" href="$classmat_1_1_matrix_resizable_row.html" title="{mat::MatrixResizableRow\l\&lt; T_FEATURE_SUM, T_INSTANCES\l_CLUSTER_K \&gt;\n|# _ui_numRowsMaximum\l# _arrayt_data\l|+ MatrixResizableRow()\l+ MatrixResizableRow()\l+ MatrixResizableRow()\l+ MatrixResizableRow()\l+ ~MatrixResizableRow()\l+ operator=()\l+ operator=()\l+ resize()\l+ merge()\l+ getNumElemsMaximum()\land 14 more...\l}" alt="" coords="422,1001,671,1269"/>
-<area shape="rect" id="node7" href="$classmat_1_1_matrix_base.html" title="{mat::MatrixBase\&lt; T\l_FEATURE_SUM \&gt;\n|# _ui_numRows\l# _ui_numColumns\l|+ MatrixBase()\l+ MatrixBase()\l+ MatrixBase()\l+ MatrixBase()\l+ MatrixBase()\l+ ~MatrixBase()\l+ getNumRows()\l+ getNumColumns()\l+ getNumElems()\l+ getRow()\l+ getRow()\l+ operator=()\l+ operator=()\l+ print()\l# _setNumRows()\l# _setNumColumns()\l}" alt="" coords="385,535,532,861"/>
-<area shape="rect" id="node8" href="$classmat_1_1_matrix_base.html" title="MatrixBase. " alt="" coords="415,145,561,472"/>
-<area shape="rect" id="node9" href="$classmat_1_1_matrix_resizable_row.html" title="MatrixResizableRow . " alt="" coords="556,579,759,817"/>
-</map>

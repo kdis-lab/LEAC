@@ -1,5 +1,0 @@
-<map id="ds::getPartitionLinkedNumInst" name="ds::getPartitionLinkedNumInst">
-<area shape="rect" id="node2" href="$classpartition_1_1_partition.html#acb8de7c890e05872858fb7a7aa53b657" title="partition::Partition\l::begin" alt="" coords="252,5,376,47"/>
-<area shape="rect" id="node3" href="$classpartition_1_1_partition.html#a4a440dcaeb42e05a52a46405eb30d36e" title="partition::Partition\l::getNumCluster" alt="" coords="252,71,376,112"/>
-<area shape="rect" id="node4" href="$classpartition_1_1_partition.html#a96660ce61740ab0287189b21833eccdf" title="partition::Partition\l::next" alt="" coords="252,136,376,177"/>
-</map>

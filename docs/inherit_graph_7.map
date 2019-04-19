@@ -1,5 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classds_1_1_partition_linked.html" title="Data structure to define the instances that belong to a cluster consecutively. " alt="" coords="5,57,152,98"/>
-<area shape="rect" id="node2" href="$classds_1_1_partition_linked_num_inst.html" title="A data structure for managing an instance partition with the number of instances per cluster..." alt="" coords="244,5,480,61"/>
-<area shape="rect" id="node3" href="$classds_1_1_partition_linked_stats.html" title="Partition with an array of membership. " alt="" coords="200,86,524,157"/>
-</map>

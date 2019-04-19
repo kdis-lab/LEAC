@@ -1,8 +1,0 @@
-<map id="inout::InParamClusteringMaxIter" name="inout::InParamClusteringMaxIter">
-<area shape="rect" id="node4" href="$classinout_1_1_in_param_f_c_m.html" title="Input parameter for FCM algorithm clustering . " alt="" coords="5,983,211,1207"/>
-<area shape="rect" id="node5" href="$classinout_1_1_in_param_iso_data.html" title="Input parameter for IsoData algorithm. " alt="" coords="235,983,466,1207"/>
-<area shape="rect" id="node6" href="$classinout_1_1_in_param_kmeans.html" title="Input parameter for traditional algorithm clustering . " alt="" coords="490,1005,731,1185"/>
-<area shape="rect" id="node7" href="$classinout_1_1_in_param_p_a_m.html" title="Input parameter for Medoids PAM algorithm . " alt="" coords="755,1027,973,1163"/>
-<area shape="rect" id="node2" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm. " alt="" coords="359,380,601,736"/>
-<area shape="rect" id="node3" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos. " alt="" coords="390,5,570,332"/>
-</map>

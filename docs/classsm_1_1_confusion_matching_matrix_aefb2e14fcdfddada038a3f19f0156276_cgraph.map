@@ -1,5 +1,0 @@
-<map id="sm::ConfusionMatchingMatrix::getDiffClassUDiffClusterV" name="sm::ConfusionMatchingMatrix::getDiffClassUDiffClusterV">
-<area shape="rect" id="node2" href="$classsm_1_1_partition_matrix.html#a44dc24e09318534ce4f8dab5ccae531f" title="sm::PartitionMatrix\l::getNumObjetos" alt="" coords="252,53,384,94"/>
-<area shape="rect" id="node3" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title="mat::MatrixBase\&lt; T\l_INSTANCES_CLUSTER_K\l \&gt;::getNumRows" alt="" coords="432,5,623,61"/>
-<area shape="rect" id="node4" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title="mat::MatrixBase\&lt; T\l_INSTANCES_CLUSTER_K\l \&gt;::getNumColumns" alt="" coords="432,85,623,141"/>
-</map>

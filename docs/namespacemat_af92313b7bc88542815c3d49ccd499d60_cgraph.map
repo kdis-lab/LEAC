@@ -1,7 +1,0 @@
-<map id="mat::lange" name="mat::lange">
-<area shape="rect" id="node2" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title="mat::MatrixBase::getNumColumns" alt="" coords="140,5,367,32"/>
-<area shape="rect" id="node3" href="$classmat_1_1_matrix_base.html#ade892a1e4c0ccc54dca7a16cecf459fa" title="mat::MatrixBase::getNumElems" alt="" coords="148,56,359,83"/>
-<area shape="rect" id="node4" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title="mat::MatrixBase::getNumRows" alt="" coords="149,107,357,133"/>
-<area shape="rect" id="node5" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title="mat::MatrixRow::getRow" alt="" coords="169,157,338,184"/>
-<area shape="rect" id="node6" href="$classmat_1_1_matrix_row.html#a2879a2578666e3da78f3588e78b5e982" title="mat::MatrixRow::toArray" alt="" coords="170,208,337,235"/>
-</map>

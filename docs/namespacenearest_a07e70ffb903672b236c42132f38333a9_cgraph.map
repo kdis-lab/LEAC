@@ -1,6 +1,0 @@
-<map id="nearest::NN" name="nearest::NN">
-<area shape="rect" id="node2" href="$namespacenearest.html#a06c3965261411a41ff373e69670c2109" title="Calculate the distances of the instance to the centroids . " alt="" coords="147,43,243,69"/>
-<area shape="rect" id="node3" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title="mat::MatrixBase::getNumColumns" alt="" coords="291,5,517,32"/>
-<area shape="rect" id="node4" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title="mat::MatrixBase::getNumRows" alt="" coords="300,81,508,108"/>
-<area shape="rect" id="node5" href="$classmat_1_1_matrix_base.html#ae3b1c4b8e9cb7e7685d7bc129f875dcd" title="mat::MatrixBase::getRow" alt="" coords="317,132,491,159"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="interfacesse::gemm" name="interfacesse::gemm">
-<area shape="rect" id="node2" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title="mat::MatrixBase::getNumColumns" alt="" coords="195,5,421,32"/>
-<area shape="rect" id="node3" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title="mat::MatrixBase::getNumRows" alt="" coords="204,56,412,83"/>
-<area shape="rect" id="node4" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title="mat::MatrixRow::getRow" alt="" coords="223,107,393,133"/>
-<area shape="rect" id="node5" href="$namespaceinterfacesse.html#a25f6950d589b92fd5bcf2007fb3fae19" title="interfacesse::sum" alt="" coords="244,157,372,184"/>
-<area shape="rect" id="node6" href="$namespaceinterfacesse.html#a9dd5fb43ad8a83ee5cb2f5ba1bb2085b" title="interfacesse::axpy" alt="" coords="469,157,601,184"/>
-<area shape="rect" id="node7" href="$namespaceinterfacesse.html#ae3f94c42a59db65b2941dbfc9f449ea1" title="function xAXPY of blas for doubles vectors " alt="" coords="649,157,799,184"/>
-<area shape="rect" id="node8" href="$namespaceinterfacesse.html#a144ebf70bf38495c3de1aca2c8365e08" title="scal items of the array of type T " alt="" coords="847,157,975,184"/>
-</map>

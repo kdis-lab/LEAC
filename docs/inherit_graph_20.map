@@ -1,7 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classmat_1_1_matrix_base.html" title="MatrixBase. " alt="" coords="5,97,148,139"/>
-<area shape="rect" id="node2" href="$classmat_1_1_matrix_resizable_row.html" title="MatrixResizableRow . " alt="" coords="203,5,406,47"/>
-<area shape="rect" id="node3" href="$classmat_1_1_matrix_row.html" title="Matrix store items for row. " alt="" coords="196,71,413,98"/>
-<area shape="rect" id="node4" href="$classmat_1_1_matrix_resizable_row.html" title="mat::MatrixResizableRow\l\&lt; T_FEATURE, T_INSTANCES\l_CLUSTER_K \&gt;" alt="" coords="198,122,411,178"/>
-<area shape="rect" id="node5" href="$classmat_1_1_matrix_with_row_null.html" title="mat::MatrixWithRowNull\l\&lt; T_FEATURE \&gt;" alt="" coords="223,201,386,243"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="data::InstanceIterfazClass&lt; T_INSTANCES_CLUSTER_K, T_CLUSTERIDX &gt;" name="data::InstanceIterfazClass&lt; T_INSTANCES_CLUSTER_K, T_CLUSTERIDX &gt;">
-<area shape="rect" id="node2" title="STL class. " alt="" coords="5,771,131,849"/>
-<area shape="rect" id="node10" title="STL class. " alt="" coords="167,771,286,849"/>
-<area shape="rect" id="node6" href="$classdata_1_1_count_label.html" title="{data::CountLabel\&lt; T\l_CLUSTERIDX, T_INSTANCES\l_CLUSTER_K \&gt;\n|# _idx_label\l# _t_coutlabel\l|+ CountLabel()\l+ CountLabel()\l+ CountLabel()\l+ CountLabel()\l+ ~CountLabel()\l+ operator=()\l+ operator=()\l+ getLabel()\l+ getIdxLabel()\l+ getNumLabel()\l+ increasesCountLabel()\l+ operator\&lt;()\l+ print()\l}" alt="" coords="365,661,579,959"/>
-<area shape="rect" id="node7" title="STL class. " alt="" coords="403,147,483,224"/>
-<area shape="rect" id="node9" href="$classdata_1_1_count_label.html" title="Stores the number of occurrences of a label for an attribute in a dataset. " alt="" coords="515,287,685,584"/>
-<area shape="rect" id="node8" title="STL class. " alt="" coords="379,5,506,97"/>
-</map>

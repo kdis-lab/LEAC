@@ -1,9 +1,0 @@
-<map id="mat::point" name="mat::point">
-<area shape="rect" id="node2" href="$namespaceinterfacesse.html#a2f42addf86fc8b9cd0c6620217b8a2db" title="swap items of aoarrayt_y to aiarrayt_x " alt="" coords="185,5,308,32"/>
-<area shape="rect" id="node7" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title="mat::MatrixBase::getNumColumns" alt="" coords="133,56,360,83"/>
-<area shape="rect" id="node8" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title="mat::MatrixRow::getRow" alt="" coords="162,107,331,133"/>
-<area shape="rect" id="node3" href="$namespaceinterfacesse.html#a25f6950d589b92fd5bcf2007fb3fae19" title="interfacesse::sum" alt="" coords="408,5,536,32"/>
-<area shape="rect" id="node4" href="$namespaceinterfacesse.html#a9dd5fb43ad8a83ee5cb2f5ba1bb2085b" title="interfacesse::axpy" alt="" coords="584,5,716,32"/>
-<area shape="rect" id="node5" href="$namespaceinterfacesse.html#ae3f94c42a59db65b2941dbfc9f449ea1" title="function xAXPY of blas for doubles vectors " alt="" coords="764,5,913,32"/>
-<area shape="rect" id="node6" href="$namespaceinterfacesse.html#a144ebf70bf38495c3de1aca2c8365e08" title="scal items of the array of type T " alt="" coords="961,5,1089,32"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="mat::BitArray::initializeOn" name="mat::BitArray::initializeOn">
-<area shape="rect" id="node2" href="$classmat_1_1_bit_array.html#a13ee4408d85281a97b8ff88026f2299f" title="mat::BitArray::_maskTopWord" alt="" coords="225,46,431,73"/>
-<area shape="rect" id="node3" href="$classds_1_1_bit_container.html#a704c8b1938a9898d12c72866981bcbb7" title="ds::BitContainer::\l_bitMask" alt="" coords="479,5,606,47"/>
-<area shape="rect" id="node4" href="$classds_1_1_bit_container.html#a0811dba1d14baaf495c8a98d11c0178c" title="ds::BitContainer::\l_bits_in_top_word" alt="" coords="479,71,607,112"/>
-</map>
