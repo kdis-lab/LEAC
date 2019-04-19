@@ -1,0 +1,9 @@
+<map id="inout::LineSplit" name="inout::LineSplit">
+<area shape="rect" id="node1" title="Used for processing files to read." alt="" coords="119,440,298,664"/>
+<area shape="rect" id="node2" title=" " alt="" coords="316,300,463,377"/>
+<area shape="rect" id="node3" title="STL class." alt="" coords="197,160,316,237"/>
+<area shape="rect" id="node7" title=" " alt="" coords="125,300,292,377"/>
+<area shape="rect" id="node4" title=" " alt="" coords="237,13,276,90"/>
+<area shape="rect" id="node5" title="STL class." alt="" coords="52,160,132,237"/>
+<area shape="rect" id="node6" title="STL class." alt="" coords="29,5,156,97"/>
+</map>

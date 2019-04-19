@@ -1,0 +1,10 @@
+<map id="inout::InParamPCA&lt; T_FEATURE, T_INSTANCES_CLUSTER_K, T_CLUSTERIDX &gt;" name="inout::InParamPCA&lt; T_FEATURE, T_INSTANCES_CLUSTER_K, T_CLUSTERIDX &gt;">
+<area shape="rect" id="node1" title="Input parameter for PCA Algorithmo." alt="" coords="27,1216,255,1557"/>
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos." alt="" coords="5,445,185,713"/>
+<area shape="rect" id="node3" title="STL class." alt="" coords="207,160,287,237"/>
+<area shape="rect" id="node5" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances." alt="" coords="133,737,361,1167"/>
+<area shape="rect" id="node6" title=" " alt="" coords="412,344,579,421"/>
+<area shape="rect" id="node4" title="STL class." alt="" coords="184,5,311,97"/>
+<area shape="rect" id="node7" title="STL class." alt="" coords="436,160,555,237"/>
+<area shape="rect" id="node8" title=" " alt="" coords="476,13,515,90"/>
+</map>

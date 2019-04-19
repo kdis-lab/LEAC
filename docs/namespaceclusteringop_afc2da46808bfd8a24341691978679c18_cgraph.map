@@ -1,0 +1,15 @@
+<map id="clusteringop::getPartition" name="clusteringop::getPartition">
+<area shape="rect" id="node1" title="Get partition." alt="" coords="5,107,175,133"/>
+<area shape="rect" id="node2" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title=" " alt="" coords="475,5,683,32"/>
+<area shape="rect" id="node3" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title=" " alt="" coords="494,107,663,133"/>
+<area shape="rect" id="node4" href="$namespacenearest.html#a8b0d89680acfe7ef438ae465bd633fb1" title="NN Find the centroid closest to an instance." alt="" coords="273,56,367,83"/>
+<area shape="rect" id="node6" href="$classmat_1_1_bit_matrix.html#ab66a697bd20fd702cb32494da920b1af" title=" " alt="" coords="253,183,387,209"/>
+<area shape="rect" id="node10" href="$classmat_1_1_crisp_matrix.html#ac115db75190deabcb799c6bc92f49cec" title=" " alt="" coords="223,335,417,361"/>
+<area shape="rect" id="node5" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title=" " alt="" coords="465,56,692,83"/>
+<area shape="rect" id="node7" href="$classmat_1_1_bit_matrix.html#acb0438a8816d82379fab71120540fcd1" title=" " alt="" coords="473,157,684,184"/>
+<area shape="rect" id="node8" href="$classmat_1_1_bit_matrix.html#ae23601eca8a5adfbed3749b163f0d5d6" title=" " alt="" coords="740,284,931,311"/>
+<area shape="rect" id="node9" href="$classmat_1_1_bit_matrix.html#a5607bb84d71c58751390be62e798dd11" title=" " alt="" coords="500,208,657,235"/>
+<area shape="rect" id="node11" href="$classmat_1_1_crisp_matrix.html#a071172446a7de33d059aa8c7e6c65c05" title=" " alt="" coords="481,309,676,336"/>
+<area shape="rect" id="node12" href="$classmat_1_1_bit_matrix.html#a0dce742eb45542de47869b53a39fb5d6" title=" " alt="" coords="501,360,657,387"/>
+<area shape="rect" id="node13" href="$classmat_1_1_bit_matrix.html#a023483d27c6b66b43356d6f8b9cbaba8" title=" " alt="" coords="507,411,651,437"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="stats::matrixVarcovar" name="stats::matrixVarcovar">
+<area shape="rect" id="node1" title="Get covariance matrix, only for T_FEATURE real." alt="" coords="5,157,155,184"/>
+<area shape="rect" id="node2" href="$namespaceinterfacesse.html#a47f4a833d2730f3a501bbb9b2b095e62" title=" " alt="" coords="215,81,357,108"/>
+<area shape="rect" id="node7" href="$namespacestats.html#a9997daae39cbd737fb66c52d182e8e6b" title="Obtiene un vector con la media de una matriz por columnas." alt="" coords="227,132,345,159"/>
+<area shape="rect" id="node9" href="$namespacedata.html#af02d5f2addd5b5815d5efb7db12ffeba" title="Instaces matrix transpose." alt="" coords="203,183,369,209"/>
+<area shape="rect" id="node11" href="$namespaceinterfacesse.html#a3ef732d695e1172d5e8404cc0e44865a" title="translate the aoarrayt_y array" alt="" coords="217,233,355,260"/>
+<area shape="rect" id="node3" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title=" " alt="" coords="417,5,644,32"/>
+<area shape="rect" id="node4" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title=" " alt="" coords="427,56,635,83"/>
+<area shape="rect" id="node5" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title=" " alt="" coords="446,107,615,133"/>
+<area shape="rect" id="node6" href="$namespaceinterfacesse.html#a25f6950d589b92fd5bcf2007fb3fae19" title=" " alt="" coords="467,157,595,184"/>
+<area shape="rect" id="node8" href="$namespaceinout.html#a0c10a45877a347dec0d4ec4e5b05b828" title=" " alt="" coords="462,208,599,235"/>
+<area shape="rect" id="node10" href="$classdata_1_1_instance.html#aa6ee19c383a86228b3d134e42bdb6830" title=" " alt="" coords="437,259,624,285"/>
+</map>

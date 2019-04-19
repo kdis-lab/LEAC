@@ -1,0 +1,11 @@
+<map id="inout::InParamPcPmVk&lt; T_CLUSTERIDX, T_REAL, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;" name="inout::InParamPcPmVk&lt; T_CLUSTERIDX, T_REAL, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;">
+<area shape="rect" id="node1" title="Input parameter for GA with probability Pc, Pm and Variable K." alt="" coords="215,1460,446,1611"/>
+<area shape="rect" id="node8" href="$classinout_1_1_in_param_gen_w_o_chg_vk.html" title="Input parameter Document clustering into an unknown number of clusters using a genetic algorithm ." alt="" coords="82,1703,313,1883"/>
+<area shape="rect" id="node9" href="$classinout_1_1_in_param_t_g_c_a.html" title="Input parameter for TGCA a two&#45;stage genetic algorithm ." alt="" coords="337,1659,593,1927"/>
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_pc_pm.html" title="Input parameter for GA with probability crossover (Pc) and mutation (Pm)" alt="" coords="51,1115,203,1309"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_g_a_clustering.html" title="Input parameter for genetic algorithm." alt="" coords="33,784,221,964"/>
+<area shape="rect" id="node4" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm." alt="" coords="5,380,248,736"/>
+<area shape="rect" id="node5" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos." alt="" coords="37,5,217,332"/>
+<area shape="rect" id="node6" href="$classinout_1_1_in_param_vk.html" title=" " alt="" coords="227,1115,435,1309"/>
+<area shape="rect" id="node7" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances." alt="" coords="459,1012,687,1412"/>
+</map>

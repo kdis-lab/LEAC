@@ -1,0 +1,13 @@
+<map id="inout::InParamKmeans&lt; T_CLUSTERIDX, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;" name="inout::InParamKmeans&lt; T_CLUSTERIDX, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;">
+<area shape="rect" id="node1" title="Input parameter for traditional algorithm clustering ." alt="" coords="221,1368,463,1548"/>
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_clustering_max_iter.html" title="Input parameter for algorithm with iteration maximum." alt="" coords="39,1168,243,1319"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm." alt="" coords="19,733,262,1075"/>
+<area shape="rect" id="node4" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos." alt="" coords="5,344,185,612"/>
+<area shape="rect" id="node5" title="STL class." alt="" coords="285,160,365,237"/>
+<area shape="rect" id="node8" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances." alt="" coords="341,689,569,1119"/>
+<area shape="rect" id="node9" title=" " alt="" coords="572,439,739,517"/>
+<area shape="rect" id="node6" title="STL class." alt="" coords="261,5,388,97"/>
+<area shape="rect" id="node7" href="$classinout_1_1_in_param_fk.html" title="Input parameter for algorithms with Fixed K." alt="" coords="267,1168,417,1319"/>
+<area shape="rect" id="node10" title="STL class." alt="" coords="596,160,715,237"/>
+<area shape="rect" id="node11" title=" " alt="" coords="636,13,675,90"/>
+</map>

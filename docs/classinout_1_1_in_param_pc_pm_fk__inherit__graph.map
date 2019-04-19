@@ -1,0 +1,12 @@
+<map id="inout::InParamPcPmFk&lt; T_CLUSTERIDX, T_REAL, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;" name="inout::InParamPcPmFk&lt; T_CLUSTERIDX, T_REAL, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;">
+<area shape="rect" id="node1" title="Input parameter for GA with probability Pc, Pm and Fixed K." alt="" coords="187,1460,418,1611"/>
+<area shape="rect" id="node8" href="$classinout_1_1_in_param_g_a_prototypes_fk.html" title="Input parameter for GA&#45;Prototypes algorithm ." alt="" coords="54,1659,285,1883"/>
+<area shape="rect" id="node9" href="$classinout_1_1_in_param_g_c_a.html" title="Input parameter for GCA algorithm k&#45;medoid clustering ." alt="" coords="309,1681,565,1861"/>
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_pc_pm.html" title="Input parameter for GA with probability crossover (Pc) and mutation (Pm)" alt="" coords="51,1115,203,1309"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_g_a_clustering.html" title="Input parameter for genetic algorithm." alt="" coords="33,784,221,964"/>
+<area shape="rect" id="node4" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm." alt="" coords="5,380,248,736"/>
+<area shape="rect" id="node5" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos." alt="" coords="37,5,217,332"/>
+<area shape="rect" id="node6" href="$classinout_1_1_in_param_fk.html" title="Input parameter for algorithms with Fixed K." alt="" coords="227,1137,378,1287"/>
+<area shape="rect" id="node7" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances." alt="" coords="402,1012,630,1412"/>
+<area shape="rect" id="node10" href="$classinout_1_1_in_param_h_k_a.html" title="Input parameter for HKA a hybrid algorithm for k&#45;medoid clustering ." alt="" coords="309,1931,565,2199"/>
+</map>

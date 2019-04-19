@@ -1,0 +1,13 @@
+<map id="inout::InParamSubClusterBinaryVk&lt; T_REAL, T_BITSIZE, T_CLUSTERIDX, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;" name="inout::InParamSubClusterBinaryVk&lt; T_REAL, T_BITSIZE, T_CLUSTERIDX, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;">
+<area shape="rect" id="node1" title="Input parameter for CLUSTERING algorithm A genetic approach to the automatic clustering problem." alt="" coords="259,1641,500,1968"/>
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_pc_pm.html" title="Input parameter for GA with probability crossover (Pc) and mutation (Pm)" alt="" coords="221,1397,373,1592"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_g_a_clustering.html" title="Input parameter for genetic algorithm." alt="" coords="176,1168,364,1348"/>
+<area shape="rect" id="node4" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm." alt="" coords="53,733,295,1075"/>
+<area shape="rect" id="node5" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos." alt="" coords="5,344,185,612"/>
+<area shape="rect" id="node6" title="STL class." alt="" coords="283,160,363,237"/>
+<area shape="rect" id="node8" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances." alt="" coords="320,689,548,1119"/>
+<area shape="rect" id="node9" title=" " alt="" coords="572,439,739,517"/>
+<area shape="rect" id="node7" title="STL class." alt="" coords="260,5,387,97"/>
+<area shape="rect" id="node10" title="STL class." alt="" coords="596,160,715,237"/>
+<area shape="rect" id="node11" title=" " alt="" coords="636,13,675,90"/>
+</map>

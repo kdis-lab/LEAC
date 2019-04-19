@@ -1,0 +1,10 @@
+<map id="nearest::findTwoNearestCentroids" name="nearest::findTwoNearestCentroids">
+<area shape="rect" id="node1" title="Find two nearest centroids." alt="" coords="5,31,235,57"/>
+<area shape="rect" id="node2" href="$namespaceum.html#a4fe497f33b0e77e7979f2de3ec4c35e3" title=" " alt="" coords="319,31,421,57"/>
+<area shape="rect" id="node3" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title=" " alt="" coords="749,5,957,32"/>
+<area shape="rect" id="node8" href="$classmat_1_1_matrix_base.html#ae3b1c4b8e9cb7e7685d7bc129f875dcd" title=" " alt="" coords="283,81,457,108"/>
+<area shape="rect" id="node4" href="$namespacenearest.html#a8b0d89680acfe7ef438ae465bd633fb1" title="NN Find the centroid closest to an instance." alt="" coords="552,56,645,83"/>
+<area shape="rect" id="node7" href="$classdata_1_1_instance.html#aa6ee19c383a86228b3d134e42bdb6830" title=" " alt="" coords="505,107,692,133"/>
+<area shape="rect" id="node5" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title=" " alt="" coords="769,56,938,83"/>
+<area shape="rect" id="node6" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title=" " alt="" coords="740,107,967,133"/>
+</map>

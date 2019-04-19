@@ -1,0 +1,12 @@
+<map id="gnuplot_cmd" name="gnuplot_cmd">
+<area shape="rect" id="node1" title="Sends a command to an active gnuplot session." alt="" coords="565,132,664,159"/>
+<area shape="rect" id="node2" href="$gnuplot__i_8h.html#a8c234882663df2fd8ef372390a69bd71" title=" " alt="" coords="368,5,515,32"/>
+<area shape="rect" id="node6" href="$gnuplot__i_8h.html#aa8a2b0a32b755fd206ed4515ebc4c5cd" title="Plot a curve of given equation y=f(x)." alt="" coords="365,56,517,83"/>
+<area shape="rect" id="node7" href="$gnuplot__i_8h.html#aadfc3f0288174e999100b9bac6bc78fd" title="Plot a slope on a gnuplot session." alt="" coords="375,107,508,133"/>
+<area shape="rect" id="node8" href="$gnuplot__i_8h.html#a72859e0edb25462d1ce828ed772c110d" title="Sets the x label of a gnuplot session." alt="" coords="184,132,317,159"/>
+<area shape="rect" id="node9" href="$gnuplot__i_8h.html#aa0afc033a613ef66128d9022ba772f32" title="Sets the y label of a gnuplot session." alt="" coords="184,195,317,221"/>
+<area shape="rect" id="node10" href="$main__plot__clustering_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title=" " alt="" coords="416,259,467,285"/>
+<area shape="rect" id="node3" href="$gnuplot__i_8h.html#a896d09b95a3b5cbe0f2d0b417bba45a2" title="Plots a 2d graph from a list of doubles." alt="" coords="197,12,304,39"/>
+<area shape="rect" id="node5" href="$gnuplot__i_8h.html#a5ebac8e8968aaa93480e9ac79a5ebdc1" title="Plot a 2d graph from a list of points." alt="" coords="193,69,308,96"/>
+<area shape="rect" id="node4" href="$gnuplot__i_8h.html#aa39b56b6bb882ace839a3be677d1f665" title="Open a new session, plot a signal, close the session." alt="" coords="5,101,136,128"/>
+</map>

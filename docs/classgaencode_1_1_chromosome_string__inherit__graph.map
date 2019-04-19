@@ -1,0 +1,12 @@
+<map id="gaencode::ChromosomeString&lt; T_GENE, T_METRIC &gt;" name="gaencode::ChromosomeString&lt; T_GENE, T_METRIC &gt;">
+<area shape="rect" id="node1" title="Chhromosome String define Chromosome encode for an string." alt="" coords="354,367,562,664"/>
+<area shape="rect" id="node3" href="$classgaencode_1_1_chrom_fixed_length.html" title="Chromosome with fixed length string." alt="" coords="116,734,323,1017"/>
+<area shape="rect" id="node9" href="$classgaencode_1_1_chrom_variable_length.html" title="Chromosome with variable length string." alt="" coords="347,749,569,1002"/>
+<area shape="rect" id="node10" href="$classgaencode_1_1_chromosome_string.html" title=" " alt="" coords="593,727,816,1024"/>
+<area shape="rect" id="node2" href="$classgaencode_1_1_chromosome_base.html" title="Chromosome Base define basic attributes for a chromosome." alt="" coords="355,5,561,317"/>
+<area shape="rect" id="node4" href="$classgaencode_1_1_chrom_fixed_length.html" title=" " alt="" coords="383,1087,605,1369"/>
+<area shape="rect" id="node5" href="$classgaencode_1_1_chromosome_f_e_a_c.html" title="Chromosome encoded integer string and centroids." alt="" coords="5,1470,236,1797"/>
+<area shape="rect" id="node6" href="$classgaencode_1_1_chromosome_f_g_k_a.html" title="Chromosome fixed length string and legality ration." alt="" coords="260,1485,483,1782"/>
+<area shape="rect" id="node7" href="$classgaencode_1_1_chromosome_g_g_a.html" title="Chromosome encoding two parts." alt="" coords="507,1485,729,1782"/>
+<area shape="rect" id="node8" href="$classgaencode_1_1_chromosome_i_g_k_a.html" title="Chromosome IGKA." alt="" coords="753,1419,995,1848"/>
+</map>

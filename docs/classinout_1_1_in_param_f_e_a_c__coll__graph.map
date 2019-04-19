@@ -1,0 +1,15 @@
+<map id="inout::InParamFEAC&lt; T_FEATURE, T_REAL, T_CLUSTERIDX, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;" name="inout::InParamFEAC&lt; T_FEATURE, T_REAL, T_CLUSTERIDX, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;">
+<area shape="rect" id="node1" title="Input parameter Fast Evolutionary Algorithm for Clustering F&#45;EAC ." alt="" coords="426,1439,682,1692"/>
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_g_a_clustering.html" title="Input parameter for genetic algorithm." alt="" coords="119,1196,307,1376"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm." alt="" coords="69,733,311,1075"/>
+<area shape="rect" id="node4" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos." alt="" coords="5,344,185,612"/>
+<area shape="rect" id="node5" title="STL class." alt="" coords="285,160,365,237"/>
+<area shape="rect" id="node9" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances." alt="" coords="489,689,717,1119"/>
+<area shape="rect" id="node10" title=" " alt="" coords="572,439,739,517"/>
+<area shape="rect" id="node6" title="STL class." alt="" coords="261,5,388,97"/>
+<area shape="rect" id="node7" href="$classinout_1_1_in_param_vk.html" title=" " alt="" coords="339,1196,537,1376"/>
+<area shape="rect" id="node8" title=" " alt="" coords="335,865,458,943"/>
+<area shape="rect" id="node11" title="STL class." alt="" coords="596,160,715,237"/>
+<area shape="rect" id="node12" title=" " alt="" coords="636,13,675,90"/>
+<area shape="rect" id="node13" title=" " alt="" coords="641,1247,741,1325"/>
+</map>

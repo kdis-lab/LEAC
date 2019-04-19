@@ -1,0 +1,21 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classds_1_1_bit_container.html" title="Bit container." alt="" coords="33,5,173,47"/>
+<area shape="rect" id="node2" href="$classmat_1_1_bit_array.html" title="Bit array." alt="" coords="256,13,447,39"/>
+<area shape="rect" id="node3" href="$classgaencode_1_1_chromosome_bit_array.html" title="Chromosome encoding string of bits." alt="" coords="517,5,739,47"/>
+<area shape="rect" id="node4" href="$classmat_1_1_bit_matrix.html" title="Bit matrix." alt="" coords="5,85,200,111"/>
+<area shape="rect" id="node5" href="$classmat_1_1_crisp_matrix.html" title="Bit crisp matrix." alt="" coords="251,77,452,119"/>
+<area shape="rect" id="node6" href="$classgaencode_1_1_chromosome_crisp_matrix.html" title="Chromosome bit crisp matrix." alt="" coords="503,70,753,126"/>
+<area shape="rect" id="node7" href="$classgaencode_1_1_chromosome_base.html" title="Chromosome Base define basic attributes for a chromosome." alt="" coords="248,149,455,191"/>
+<area shape="rect" id="node8" href="$classgaencode_1_1_chromosome_string.html" title=" " alt="" coords="517,215,739,256"/>
+<area shape="rect" id="node14" href="$classgaencode_1_1_chromosome_matrix_with_row_null.html" title="Matrix with row null chromosome." alt="" coords="523,279,733,335"/>
+<area shape="rect" id="node15" href="$classgaencode_1_1_chromosome_string.html" title="Chhromosome String define Chromosome encode for an string." alt="" coords="524,149,732,191"/>
+<area shape="rect" id="node9" href="$classgaencode_1_1_chrom_fixed_length.html" title=" " alt="" coords="801,215,1024,256"/>
+<area shape="rect" id="node10" href="$classgaencode_1_1_chromosome_f_e_a_c.html" title="Chromosome encoded integer string and centroids." alt="" coords="1072,87,1303,157"/>
+<area shape="rect" id="node11" href="$classgaencode_1_1_chromosome_f_g_k_a.html" title="Chromosome fixed length string and legality ration." alt="" coords="1076,181,1299,223"/>
+<area shape="rect" id="node12" href="$classgaencode_1_1_chromosome_g_g_a.html" title="Chromosome encoding two parts." alt="" coords="1076,247,1299,288"/>
+<area shape="rect" id="node13" href="$classgaencode_1_1_chromosome_i_g_k_a.html" title="Chromosome IGKA." alt="" coords="1072,312,1303,383"/>
+<area shape="rect" id="node16" href="$classgaencode_1_1_chrom_fixed_length.html" title="Chromosome with fixed length string." alt="" coords="809,84,1016,125"/>
+<area shape="rect" id="node17" href="$classgaencode_1_1_chrom_variable_length.html" title="Chromosome with variable length string." alt="" coords="801,149,1024,191"/>
+<area shape="rect" id="node18" href="$classmat_1_1_matrix_base.html" title=" " alt="" coords="31,287,174,328"/>
+<area shape="rect" id="node19" href="$classmat_1_1_matrix_with_row_null.html" title=" " alt="" coords="270,287,433,328"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="stats::varTodesvstd" name="stats::varTodesvstd">
+<area shape="rect" id="node1" title="Obtain the standard deviation given the variance." alt="" coords="5,31,148,57"/>
+<area shape="rect" id="node2" href="$namespaceinout.html#a0c10a45877a347dec0d4ec4e5b05b828" title=" " alt="" coords="196,5,333,32"/>
+<area shape="rect" id="node3" href="$namespacestats.html#a09587632e3c4855da191bc7439c593f0" title="Make a transformation to the instances." alt="" coords="208,56,321,83"/>
+<area shape="rect" id="node4" href="$namespaceinterfacesse.html#a925f44ed84d40e9af5050fa0e1373396" title="copy array aoarrayt_x in aoarrayt_y of type T" alt="" coords="431,5,563,32"/>
+<area shape="rect" id="node5" href="$namespaceinterfacesse.html#a20b4ab13ada231e7ba92e3d98c4cd602" title=" " alt="" coords="429,56,566,83"/>
+<area shape="rect" id="node9" href="$classdata_1_1_instance.html#a90d1eaeb66cc1470bbfdb95434fdb761" title=" " alt="" coords="381,107,613,133"/>
+<area shape="rect" id="node6" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title=" " alt="" coords="661,5,888,32"/>
+<area shape="rect" id="node7" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title=" " alt="" coords="671,56,879,83"/>
+<area shape="rect" id="node8" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title=" " alt="" coords="690,107,859,133"/>
+</map>

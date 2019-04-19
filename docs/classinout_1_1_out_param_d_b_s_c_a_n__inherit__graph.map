@@ -1,0 +1,6 @@
+<map id="inout::OutParamDBSCAN&lt; T_METRIC, T_MEMBERCLUSTER_IDX &gt;" name="inout::OutParamDBSCAN&lt; T_METRIC, T_MEMBERCLUSTER_IDX &gt;">
+<area shape="rect" id="node1" title="Output parameter for DBSCAN Algorithmo ." alt="" coords="23,1176,275,1356"/>
+<area shape="rect" id="node2" href="$classinout_1_1_out_param_clustering.html" title=" " alt="" coords="5,785,292,1127"/>
+<area shape="rect" id="node3" href="$classinout_1_1_out_param_algorithm.html" title="Output parameters for genetic algorithm." alt="" coords="79,5,271,317"/>
+<area shape="rect" id="node4" href="$classinout_1_1_out_param_clustering.html" title="Output parameters for a generic clustering algorithm." alt="" coords="165,367,409,708"/>
+</map>

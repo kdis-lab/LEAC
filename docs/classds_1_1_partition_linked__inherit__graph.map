@@ -1,0 +1,5 @@
+<map id="ds::PartitionLinked&lt; T_CLUSTERIDX &gt;" name="ds::PartitionLinked&lt; T_CLUSTERIDX &gt;">
+<area shape="rect" id="node1" title="Data structure to define the instances that belong to a cluster consecutively." alt="" coords="112,5,311,259"/>
+<area shape="rect" id="node2" href="$classds_1_1_partition_linked_num_inst.html" title="A data structure for managing an instance partition with the number of instances per cluster." alt="" coords="5,321,204,560"/>
+<area shape="rect" id="node3" href="$classds_1_1_partition_linked_stats.html" title="Partition with an array of membership." alt="" coords="229,307,407,575"/>
+</map>

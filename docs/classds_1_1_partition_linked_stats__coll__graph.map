@@ -1,0 +1,13 @@
+<map id="ds::PartitionLinkedStats&lt; T_FEATURE, T_CLUSTERIDX, T_INSTANCE_FREQUENCY, T_INSTANCES_CLUSTER_K, T_FEATURE_SUM &gt;" name="ds::PartitionLinkedStats&lt; T_FEATURE, T_CLUSTERIDX, T_INSTANCE_FREQUENCY, T_INSTANCES_CLUSTER_K, T_FEATURE_SUM &gt;">
+<area shape="rect" id="node1" title="Partition with an array of membership." alt="" coords="159,1332,483,1600"/>
+<area shape="rect" id="node2" href="$classds_1_1_partition_linked.html" title="Data structure to define the instances that belong to a cluster consecutively." alt="" coords="69,1016,227,1255"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,659,152,737"/>
+<area shape="rect" id="node4" title="STL class." alt="" coords="81,270,199,347"/>
+<area shape="rect" id="node11" title=" " alt="" coords="254,885,445,977"/>
+<area shape="rect" id="node5" title=" " alt="" coords="121,5,159,83"/>
+<area shape="rect" id="node6" href="$classmat_1_1_matrix_resizable_row.html" title=" " alt="" coords="422,1001,671,1269"/>
+<area shape="rect" id="node7" href="$classmat_1_1_matrix_base.html" title=" " alt="" coords="385,535,532,861"/>
+<area shape="rect" id="node8" href="$classmat_1_1_matrix_base.html" title="MatrixBase." alt="" coords="415,145,561,472"/>
+<area shape="rect" id="node9" href="$classmat_1_1_matrix_resizable_row.html" title="MatrixResizableRow ." alt="" coords="556,579,759,817"/>
+<area shape="rect" id="node10" title=" " alt="" coords="615,270,715,347"/>
+</map>

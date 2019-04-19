@@ -1,0 +1,9 @@
+<map id="partition::PartitionFuzzy&lt; T_U, T_CLUSTERIDX &gt;" name="partition::PartitionFuzzy&lt; T_U, T_CLUSTERIDX &gt;">
+<area shape="rect" id="node1" title="Partition of instances with fuzzy matrix &#160;." alt="" coords="44,1071,225,1280"/>
+<area shape="rect" id="node2" href="$classpartition_1_1_partition.html" title="Definition of the abstract class Partition, to build a cluster of a dataset." alt="" coords="5,769,152,1008"/>
+<area shape="rect" id="node3" href="$classmat_1_1_matrix_row.html" title=" " alt="" coords="176,769,341,1008"/>
+<area shape="rect" id="node4" href="$classmat_1_1_matrix_base.html" title=" " alt="" coords="43,395,213,707"/>
+<area shape="rect" id="node5" href="$classmat_1_1_matrix_base.html" title="MatrixBase." alt="" coords="108,5,255,332"/>
+<area shape="rect" id="node6" href="$classmat_1_1_matrix_row.html" title="Matrix store items for row." alt="" coords="238,439,455,663"/>
+<area shape="rect" id="node7" title=" " alt="" coords="297,130,397,207"/>
+</map>

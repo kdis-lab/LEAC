@@ -1,0 +1,30 @@
+<map id="inout::InParamReadInst&lt; T_FEATURE, T_INSTANCES_CLUSTER_K, T_CLUSTERIDX &gt;" name="inout::InParamReadInst&lt; T_FEATURE, T_INSTANCES_CLUSTER_K, T_CLUSTERIDX &gt;">
+<area shape="rect" id="node1" title="Input parameter for read instances." alt="" coords="2552,5,2780,405"/>
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_adaptive_pc_pm.html" title="Input parameter for EA with adaptive probabilities of crossover and mutation ." alt="" coords="5,585,239,721"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_adaptive_pc_pm_fk.html" title="Input parameter for EA with adaptive probabilities of crossover and mutation ." alt="" coords="263,585,511,721"/>
+<area shape="rect" id="node4" href="$classinout_1_1_in_param_d_b_s_c_a_n.html" title="Input parameter for DBSCAN algorithm ." alt="" coords="536,461,764,846"/>
+<area shape="rect" id="node5" href="$classinout_1_1_in_param_f_c_m.html" title="Input parameter for FCM algorithm clustering ." alt="" coords="788,549,1016,758"/>
+<area shape="rect" id="node6" href="$classinout_1_1_in_param_f_e_a_c.html" title="Input parameter Fast Evolutionary Algorithm for Clustering F&#45;EAC ." alt="" coords="1040,527,1268,780"/>
+<area shape="rect" id="node7" href="$classinout_1_1_in_param_g_g_a.html" title="Input parameter for GGA algorithm ." alt="" coords="1292,461,1520,846"/>
+<area shape="rect" id="node8" href="$classinout_1_1_in_param_iso_data.html" title="Input parameter for IsoData algorithm." alt="" coords="1544,549,1772,758"/>
+<area shape="rect" id="node9" href="$classinout_1_1_in_param_kmeans.html" title="Input parameter for traditional algorithm clustering ." alt="" coords="1796,571,2024,736"/>
+<area shape="rect" id="node10" href="$classinout_1_1_in_param_p_a_m.html" title="Input parameter for Medoids PAM algorithm ." alt="" coords="2048,585,2276,721"/>
+<area shape="rect" id="node11" href="$classinout_1_1_in_param_p_c_a.html" title="Input parameter for PCA Algorithmo." alt="" coords="2300,483,2528,824"/>
+<area shape="rect" id="node12" href="$classinout_1_1_in_param_p_c_atransmatrix.html" title="Input parameter for PCA transformation matrix." alt="" coords="2552,534,2780,773"/>
+<area shape="rect" id="node13" href="$classinout_1_1_in_param_pc_pm_fk.html" title="Input parameter for GA with probability Pc, Pm and Fixed K." alt="" coords="2804,585,3032,721"/>
+<area shape="rect" id="node17" href="$classinout_1_1_in_param_pc_pm_vk.html" title="Input parameter for GA with probability Pc, Pm and Variable K." alt="" coords="3056,585,3284,721"/>
+<area shape="rect" id="node20" href="$classinout_1_1_in_param_plot_clustering.html" title="Input parameter for plot clustering." alt="" coords="3308,453,3536,853"/>
+<area shape="rect" id="node21" href="$classinout_1_1_in_param_pm_fk.html" title="Input parameter for GKA with only probability mutation (Pm) and Fixed K ." alt="" coords="3560,585,3788,721"/>
+<area shape="rect" id="node22" href="$classinout_1_1_in_param_read_inst_freq.html" title="Input parameter for read instances with frequency." alt="" coords="3812,593,4040,714"/>
+<area shape="rect" id="node24" href="$classinout_1_1_in_param_slink.html" title="Input parameter for traditional algorithm clustering ." alt="" coords="4064,585,4292,721"/>
+<area shape="rect" id="node25" href="$classinout_1_1_in_param_std_var.html" title="Input parameter for standardization of variables Algorithmo." alt="" coords="4316,571,4544,736"/>
+<area shape="rect" id="node26" href="$classinout_1_1_in_param_sub_cluster_binary_vk.html" title="Input parameter for CLUSTERING algorithm A genetic approach to the automatic clustering problem." alt="" coords="4569,497,4787,809"/>
+<area shape="rect" id="node27" href="$classinout_1_1_in_param_without_pc_pm_fk.html" title="Input parameter for GA without probability crossover (Pc) and mutation (Pm)." alt="" coords="4812,578,5040,729"/>
+<area shape="rect" id="node28" href="$classinout_1_1_in_param_without_pc_pm_vk.html" title="Input parameter for GA without probability crossover (Pc) and mutation (Pm)." alt="" coords="5065,593,5294,714"/>
+<area shape="rect" id="node14" href="$classinout_1_1_in_param_g_a_prototypes_fk.html" title="Input parameter for GA&#45;Prototypes algorithm ." alt="" coords="2527,923,2757,1147"/>
+<area shape="rect" id="node15" href="$classinout_1_1_in_param_g_c_a.html" title="Input parameter for GCA algorithm k&#45;medoid clustering ." alt="" coords="2782,945,3038,1125"/>
+<area shape="rect" id="node16" href="$classinout_1_1_in_param_h_k_a.html" title="Input parameter for HKA a hybrid algorithm for k&#45;medoid clustering ." alt="" coords="2782,1217,3038,1485"/>
+<area shape="rect" id="node18" href="$classinout_1_1_in_param_gen_w_o_chg_vk.html" title="Input parameter Document clustering into an unknown number of clusters using a genetic algorithm ." alt="" coords="3063,945,3293,1125"/>
+<area shape="rect" id="node19" href="$classinout_1_1_in_param_t_g_c_a.html" title="Input parameter for TGCA a two&#45;stage genetic algorithm ." alt="" coords="3318,901,3574,1169"/>
+<area shape="rect" id="node23" href="$classinout_1_1_in_param_c_b_g_a.html" title="Input parameter for CBGA ." alt="" coords="3816,923,4036,1147"/>
+</map>

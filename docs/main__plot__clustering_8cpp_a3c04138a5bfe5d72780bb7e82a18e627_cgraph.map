@@ -1,0 +1,52 @@
+<map id="main" name="main">
+<area shape="rect" id="node1" title=" " alt="" coords="5,907,56,934"/>
+<area shape="rect" id="node2" href="$classdata_1_1_instance_iterfaz_class.html#a99d57ba258fe246a7f689920f8a3432a" title=" " alt="" coords="126,5,305,47"/>
+<area shape="rect" id="node3" href="$classdata_1_1_instance.html#aa6ee19c383a86228b3d134e42bdb6830" title=" " alt="" coords="676,71,863,98"/>
+<area shape="rect" id="node4" href="$classdata_1_1_instance.html#a02c1aee46cecfc1a9afdbc5f40da003b" title=" " alt="" coords="143,857,288,883"/>
+<area shape="rect" id="node5" href="$classinout_1_1_line_split.html#a27571ff675c6a9e5fd493472d4fa8fb4" title=" " alt="" coords="135,907,295,934"/>
+<area shape="rect" id="node6" href="$namespacemat.html#ab298fccca5f6435abc9980d5d1c079cd" title=" " alt="" coords="117,477,314,503"/>
+<area shape="rect" id="node9" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title=" " alt="" coords="665,375,873,402"/>
+<area shape="rect" id="node11" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title=" " alt="" coords="685,705,854,731"/>
+<area shape="rect" id="node12" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title=" " alt="" coords="656,477,883,503"/>
+<area shape="rect" id="node24" href="$classinout_1_1_line_split.html#a5e1f8bde081cf0d85bfaec95996322ba" title=" " alt="" coords="128,959,303,1000"/>
+<area shape="rect" id="node25" href="$gnuplot__i_8c.html#a416bd48453ce016d6419f0f39fa5c625" title="Closes a gnuplot session previously opened by gnuplot_init()" alt="" coords="163,1025,268,1051"/>
+<area shape="rect" id="node26" href="$gnuplot__i_8c.html#a75592ae4645188c20c119007f4c35474" title="Sends a command to an active gnuplot session." alt="" coords="166,1075,265,1102"/>
+<area shape="rect" id="node27" href="$gnuplot__i_8c.html#af38602f2bf3bf427b4c6af1e3cc6f371" title="Opens up a gnuplot session, ready to receive commands." alt="" coords="171,1126,259,1153"/>
+<area shape="rect" id="node29" href="$gnuplot__i_8c.html#ac940b4f5082e5ddc01a8300156f8a808" title=" " alt="" coords="160,1177,271,1203"/>
+<area shape="rect" id="node30" href="$namespaceclusteringop.html#a44a4fb40b11fb73247f3efad50d19183" title=" " alt="" coords="415,173,565,199"/>
+<area shape="rect" id="node34" href="$namespaceinout.html#ab19fc350fe980513e7a8630450c38ee4" title=" " alt="" coords="128,1228,303,1269"/>
+<area shape="rect" id="node46" href="$main__plot__clustering_8cpp.html#ab24059a29e582ce2ea58568d579bc483" title=" " alt="" coords="127,1294,304,1321"/>
+<area shape="rect" id="node47" href="$namespacemat.html#af8bcbe694a1405a53147e398865e27f9" title=" " alt="" coords="175,755,255,782"/>
+<area shape="rect" id="node48" href="$classdata_1_1_instance.html#a403ffcebe5194d1fcf58714ebe2c53e6" title=" " alt="" coords="104,1345,327,1387"/>
+<area shape="rect" id="node49" href="$classinout_1_1_line_split.html#a507aefbeca1a1ddb7b77c827780eda15" title=" " alt="" coords="146,1486,285,1513"/>
+<area shape="rect" id="node7" href="$namespacedata.html#af02d5f2addd5b5815d5efb7db12ffeba" title="Instaces matrix transpose." alt="" coords="407,122,573,149"/>
+<area shape="rect" id="node8" href="$namespacestats.html#a9997daae39cbd737fb66c52d182e8e6b" title="Obtiene un vector con la media de una matriz por columnas." alt="" coords="431,477,549,503"/>
+<area shape="rect" id="node14" href="$namespaceinterfacesse.html#a3ef732d695e1172d5e8404cc0e44865a" title="translate the aoarrayt_y array" alt="" coords="421,629,559,655"/>
+<area shape="rect" id="node15" href="$namespaceinterfacesse.html#a2f42addf86fc8b9cd0c6620217b8a2db" title="swap items of aoarrayt_y to aiarrayt_x" alt="" coords="429,730,551,757"/>
+<area shape="rect" id="node16" href="$namespacemat.html#ad894d44366337c201c3c6ad21571dc68" title=" " alt="" coords="433,325,547,351"/>
+<area shape="rect" id="node18" href="$namespacemat.html#ae1e820b24e4c742f06fd5b7780ab5b97" title=" " alt="" coords="447,274,533,301"/>
+<area shape="rect" id="node19" href="$namespaceinterfacesse.html#a144ebf70bf38495c3de1aca2c8365e08" title="scal items of the array of type T" alt="" coords="426,578,554,605"/>
+<area shape="rect" id="node20" href="$namespacemat.html#a1781dbab1b4e61aed80c6bf55cc3f751" title="syevd computes all eigenvalues and eigenvectors" alt="" coords="445,426,535,453"/>
+<area shape="rect" id="node21" href="$namespacemat.html#afce43189546e5315f9c54b6bf0d84ae8" title=" " alt="" coords="421,375,559,402"/>
+<area shape="rect" id="node23" href="$namespaceinterfacesse.html#a47f4a833d2730f3a501bbb9b2b095e62" title=" " alt="" coords="419,527,561,554"/>
+<area shape="rect" id="node10" href="$namespaceinterfacesse.html#a25f6950d589b92fd5bcf2007fb3fae19" title=" " alt="" coords="705,527,833,554"/>
+<area shape="rect" id="node13" href="$namespaceinout.html#a0c10a45877a347dec0d4ec4e5b05b828" title=" " alt="" coords="701,426,838,453"/>
+<area shape="rect" id="node17" href="$classmat_1_1_matrix_row.html#a1070fba1c0ec0fbaa309f141817be412" title=" " alt="" coords="684,274,855,301"/>
+<area shape="rect" id="node22" href="$namespaceinterfacesse.html#a925f44ed84d40e9af5050fa0e1373396" title="copy array aoarrayt_x in aoarrayt_y of type T" alt="" coords="703,325,835,351"/>
+<area shape="rect" id="node28" href="$gnuplot__i_8c.html#a56672f9c858d7cff5fcae4cdcaf99421" title="Change the plotting style of a gnuplot session." alt="" coords="431,933,549,959"/>
+<area shape="rect" id="node31" href="$classmat_1_1_matrix_base.html#ae3b1c4b8e9cb7e7685d7bc129f875dcd" title=" " alt="" coords="682,122,857,149"/>
+<area shape="rect" id="node32" href="$classdata_1_1_instance.html#a90d1eaeb66cc1470bbfdb95434fdb761" title=" " alt="" coords="653,173,885,199"/>
+<area shape="rect" id="node33" href="$classmat_1_1_matrix_base.html#a4cdb6c084f99e4aec0373760c093ee11" title=" " alt="" coords="693,223,845,250"/>
+<area shape="rect" id="node35" href="$classinout_1_1_in_param_read_inst.html#a797250bacc8d887b96fa19247c5dd13f" title=" " alt="" coords="687,1379,851,1420"/>
+<area shape="rect" id="node36" href="$classinout_1_1_in_param_read_inst.html#ab91dbd838ea608bd3bf963bb97398747" title=" " alt="" coords="673,1447,865,1488"/>
+<area shape="rect" id="node37" href="$classinout_1_1_in_param_read_inst.html#abef010eec72dc41b4a9bb30a692e0a66" title=" " alt="" coords="689,1517,850,1559"/>
+<area shape="rect" id="node38" href="$classinout_1_1_in_param_read_inst.html#a3a28ee2eb118f3e41b2f653f88ed0cbd" title=" " alt="" coords="689,1044,850,1085"/>
+<area shape="rect" id="node39" href="$namespaceinout.html#a3be322f2729994e704ba3ebde92370a3" title="Read the number of instances or objects." alt="" coords="405,1434,575,1461"/>
+<area shape="rect" id="node40" href="$classinout_1_1_in_param_read_inst.html#a1f78fb02f92c416f951b805812cbb844" title=" " alt="" coords="670,1177,869,1219"/>
+<area shape="rect" id="node41" href="$classdata_1_1_instance.html#a9a4c4f464dd53ad44e50108b7822ee22" title=" " alt="" coords="375,1085,605,1111"/>
+<area shape="rect" id="node42" href="$classdata_1_1_instance.html#a5f4fa9c2e55a7a3f2faaefcb6da70e72" title=" " alt="" coords="395,1135,585,1162"/>
+<area shape="rect" id="node43" href="$classinout_1_1_in_param_read_inst.html#aecd21395feb34e6f0e60d73be847a065" title=" " alt="" coords="409,1187,571,1228"/>
+<area shape="rect" id="node44" href="$classinout_1_1_in_param_read_inst.html#aa5758557ad0e27b001e7e9c66e3acc88" title=" " alt="" coords="400,1252,580,1293"/>
+<area shape="rect" id="node45" href="$classinout_1_1_in_param_read_inst.html#abd2bedf38bc549dd6a3ae726bfd80660" title=" " alt="" coords="397,1317,583,1359"/>
+<area shape="rect" id="node50" href="$namespaceinout.html#a46748760a3a678f9f432dafc434db209" title=" " alt="" coords="454,1586,526,1613"/>
+</map>

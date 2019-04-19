@@ -1,0 +1,4 @@
+<map id="partition::PartitionCentroids&lt; T_FEATURE, T_CLUSTERIDX, T_DIST, INPUT_ITERATOR &gt;" name="partition::PartitionCentroids&lt; T_FEATURE, T_CLUSTERIDX, T_DIST, INPUT_ITERATOR &gt;">
+<area shape="rect" id="node1" title="Partition of instances in base to following equation: &#160;where , represents the medoid of cluster ." alt="" coords="5,292,231,648"/>
+<area shape="rect" id="node2" href="$classpartition_1_1_partition.html" title="Definition of the abstract class Partition, to build a cluster of a dataset." alt="" coords="45,5,191,244"/>
+</map>

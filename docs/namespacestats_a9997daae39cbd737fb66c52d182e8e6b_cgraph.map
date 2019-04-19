@@ -1,0 +1,8 @@
+<map id="stats::meanRow" name="stats::meanRow">
+<area shape="rect" id="node1" title="Obtiene un vector con la media de una matriz por columnas." alt="" coords="5,107,124,133"/>
+<area shape="rect" id="node2" href="$namespaceinout.html#a0c10a45877a347dec0d4ec4e5b05b828" title=" " alt="" coords="217,5,354,32"/>
+<area shape="rect" id="node3" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title=" " alt="" coords="172,56,399,83"/>
+<area shape="rect" id="node4" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title=" " alt="" coords="181,107,389,133"/>
+<area shape="rect" id="node5" href="$classmat_1_1_matrix_row.html#a5391a205367fbaac82a26ddc377a80af" title=" " alt="" coords="201,157,370,184"/>
+<area shape="rect" id="node6" href="$namespaceinterfacesse.html#a25f6950d589b92fd5bcf2007fb3fae19" title=" " alt="" coords="221,208,349,235"/>
+</map>

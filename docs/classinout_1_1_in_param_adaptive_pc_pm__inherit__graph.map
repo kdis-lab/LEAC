@@ -1,0 +1,8 @@
+<map id="inout::InParamAdaptivePcPm&lt; T_CLUSTERIDX, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;" name="inout::InParamAdaptivePcPm&lt; T_CLUSTERIDX, T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K &gt;">
+<area shape="rect" id="node1" title="Input parameter for EA with adaptive probabilities of crossover and mutation ." alt="" coords="197,1232,443,1383"/>
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_g_a_clustering.html" title="Input parameter for genetic algorithm." alt="" coords="33,894,221,1074"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm." alt="" coords="5,380,248,736"/>
+<area shape="rect" id="node4" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos." alt="" coords="37,5,217,332"/>
+<area shape="rect" id="node5" href="$classinout_1_1_in_param_fk.html" title="Input parameter for algorithms with Fixed K." alt="" coords="245,909,395,1059"/>
+<area shape="rect" id="node6" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances." alt="" coords="419,784,647,1184"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="sm::getConfusionMatrix" name="sm::getConfusionMatrix">
+<area shape="rect" id="node1" title="Get confusion matching matrix." alt="" coords="5,143,168,170"/>
+<area shape="rect" id="node2" href="$classpartition_1_1_partition.html#acb8de7c890e05872858fb7a7aa53b657" title=" " alt="" coords="264,5,388,47"/>
+<area shape="rect" id="node3" href="$classpartition_1_1_partition.html#a4a440dcaeb42e05a52a46405eb30d36e" title=" " alt="" coords="264,71,388,112"/>
+<area shape="rect" id="node4" href="$classmat_1_1_matrix_row.html#a1070fba1c0ec0fbaa309f141817be412" title=" " alt="" coords="216,136,436,177"/>
+<area shape="rect" id="node5" href="$classpartition_1_1_partition.html#a96660ce61740ab0287189b21833eccdf" title=" " alt="" coords="264,201,388,243"/>
+<area shape="rect" id="node6" href="$classsm_1_1_partition_matrix.html#a287f8807a0b9c0066b2f799f2814c721" title=" " alt="" coords="257,267,395,308"/>
+<area shape="rect" id="node7" href="$classmat_1_1_matrix_base.html#ac500eedd5e203327d3292f8ab22d8f3e" title=" " alt="" coords="484,219,675,275"/>
+<area shape="rect" id="node8" href="$classmat_1_1_matrix_base.html#a70200414022ce1479b9ddc16102b12ae" title=" " alt="" coords="484,299,675,355"/>
+</map>

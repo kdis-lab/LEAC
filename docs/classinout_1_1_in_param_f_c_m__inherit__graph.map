@@ -1,0 +1,8 @@
+<map id="inout::InParamFCM&lt; T_CLUSTERIDX, T_REAL, T_FEATURE, T_INSTANCES_CLUSTER_K &gt;" name="inout::InParamFCM&lt; T_CLUSTERIDX, T_REAL, T_FEATURE, T_INSTANCES_CLUSTER_K &gt;">
+<area shape="rect" id="node1" title="Input parameter for FCM algorithm clustering ." alt="" coords="225,1232,431,1456"/>
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_clustering_max_iter.html" title="Input parameter for algorithm with iteration maximum." alt="" coords="25,909,229,1059"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm." alt="" coords="5,380,248,736"/>
+<area shape="rect" id="node4" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos." alt="" coords="37,5,217,332"/>
+<area shape="rect" id="node5" href="$classinout_1_1_in_param_fk.html" title="Input parameter for algorithms with Fixed K." alt="" coords="253,909,403,1059"/>
+<area shape="rect" id="node6" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances." alt="" coords="427,784,655,1184"/>
+</map>

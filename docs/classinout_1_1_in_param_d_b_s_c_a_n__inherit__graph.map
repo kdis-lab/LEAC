@@ -1,0 +1,6 @@
+<map id="inout::InParamDBSCAN&lt; T_FEATURE, T_INSTANCES_CLUSTER_K, T_CLUSTERIDX &gt;" name="inout::InParamDBSCAN&lt; T_FEATURE, T_INSTANCES_CLUSTER_K, T_CLUSTERIDX &gt;">
+<area shape="rect" id="node1" title="Input parameter for DBSCAN algorithm ." alt="" coords="142,828,370,1213"/>
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_clustering.html" title="Input parameter for clustering algorithm." alt="" coords="5,402,248,758"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos." alt="" coords="37,5,217,332"/>
+<area shape="rect" id="node4" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances." alt="" coords="273,380,501,780"/>
+</map>

@@ -1,0 +1,46 @@
+<map id="include/insertion_operator.hpp" name="include/insertion_operator.hpp">
+<area shape="rect" id="node1" title="insertion operator" alt="" coords="2450,5,2650,32"/>
+<area shape="rect" id="node2" href="$container__out_8hpp.html" title="container out" alt="" coords="2463,80,2637,107"/>
+<area shape="rect" id="node41" href="$probability__selection_8hpp.html" title="probability selection" alt="" coords="1593,333,1723,375"/>
+<area shape="rect" id="node44" href="$graph__utils_8hpp.html" title="algorithms and utilities for graphs" alt="" coords="2709,80,2866,107"/>
+<area shape="rect" id="node3" href="$partition__linked__stats_8hpp.html" title="Linked partition data structure with statistics." alt="" coords="1823,333,1981,375"/>
+<area shape="rect" id="node13" href="$gaclustering__vktreebinary_8hpp.html" title="GA Clustering &#160;x." alt="" coords="3369,765,3595,792"/>
+<area shape="rect" id="node25" href="$tgca__vkcentroid_8hpp.html" title="TGCA ." alt="" coords="3619,765,3787,792"/>
+<area shape="rect" id="node30" href="$partition__linked__numinst_8hpp.html" title="Linked partition data structure with number of instances." alt="" coords="2564,155,2723,196"/>
+<area shape="rect" id="node31" href="$unsupervised__measures_8hpp.html" title="Unsupervised measures." alt="" coords="2493,244,2642,285"/>
+<area shape="rect" id="node34" href="$partition__label_8hpp.html" title="Partition based on the label of the instances." alt="" coords="2199,341,2373,367"/>
+<area shape="rect" id="node35" href="$clustering__operator__hierarchical_8hpp.html" title="Clustering operator hierarchical." alt="" coords="3191,601,3370,643"/>
+<area shape="rect" id="node36" href="$probability__distribution_8hpp.html" title="probability distribution" alt="" coords="1676,423,1805,464"/>
+<area shape="rect" id="node37" href="$partition__labelvector_8hpp.html" title="Partition based on the label vector." alt="" coords="2277,162,2489,189"/>
+<area shape="rect" id="node38" href="$instances__read_8hpp.html" title="instances read" alt="" coords="2856,155,3017,196"/>
+<area shape="rect" id="node4" href="$chromosome__cbga_8hpp.html" title="chromosome CBGA" alt="" coords="1893,512,2041,553"/>
+<area shape="rect" id="node26" href="$clustering__operator__centroids_8hpp.html" title="clustering operator centroids" alt="" coords="2033,423,2198,464"/>
+<area shape="rect" id="node5" href="$ga__clustering__operator_8hpp.html" title="genetic operators oriented to clustering" alt="" coords="1787,601,1937,643"/>
+<area shape="rect" id="node6" href="$leac_8hpp.html" title="LEAC." alt="" coords="1996,691,2115,717"/>
+<area shape="rect" id="node7" href="$cbga__fkcentroid_8hpp.html" title="CBGA ." alt="" coords="2734,765,2902,792"/>
+<area shape="rect" id="node8" href="$cga__vklabel_8hpp.html" title="CGA &#160;&#160;." alt="" coords="2926,765,3073,792"/>
+<area shape="rect" id="node9" href="$clustering__vksubclusterbinary_8hpp.html" title="CLUSTERING ." alt="" coords="3097,765,3344,792"/>
+<area shape="rect" id="node10" href="$feac__vklabel_8hpp.html" title="EAC, EACI, EACII, EACIII and FEAC &#160;and ." alt="" coords="171,765,321,792"/>
+<area shape="rect" id="node11" href="$gaclustering__fkcrispmatrix_8hpp.html" title="GA CLUSTERING ." alt="" coords="345,765,571,792"/>
+<area shape="rect" id="node12" href="$gaclustering__fklabel_8hpp.html" title="GA Clustering ." alt="" coords="595,765,787,792"/>
+<area shape="rect" id="node14" href="$gagr__fkcentroid_8hpp.html" title="GAGR ." alt="" coords="812,765,979,792"/>
+<area shape="rect" id="node15" href="$gaprototypes__fkmedoid_8hpp.html" title="GA&#45;Prototypes ." alt="" coords="1003,765,1217,792"/>
+<area shape="rect" id="node16" href="$gas__fkcentroid_8hpp.html" title="GAS ." alt="" coords="1241,765,1403,792"/>
+<area shape="rect" id="node17" href="$gca__fkmedoid_8hpp.html" title="GCA ." alt="" coords="1427,765,1585,792"/>
+<area shape="rect" id="node18" href="$gcuk__vkcentroid_8hpp.html" title="GCUK ." alt="" coords="1610,765,1781,792"/>
+<area shape="rect" id="node19" href="$gga__vklabel_8hpp.html" title="GGA ." alt="" coords="1805,765,1951,792"/>
+<area shape="rect" id="node20" href="$gka__fklabel_8hpp.html" title="GKA Clustering ." alt="" coords="5,765,148,792"/>
+<area shape="rect" id="node21" href="$hka__fkmedoid_8hpp.html" title="HKA ." alt="" coords="1976,765,2135,792"/>
+<area shape="rect" id="node22" href="$igka__fklabel_8hpp.html" title="IGKA &#160;and FGKA ." alt="" coords="2159,765,2304,792"/>
+<area shape="rect" id="node23" href="$kga__fkcentroid_8hpp.html" title="KGA ." alt="" coords="2328,765,2489,792"/>
+<area shape="rect" id="node24" href="$main__gas__clustering_8cpp.html" title="Main program of Evolutionary Algorithms." alt="" coords="2513,765,2709,792"/>
+<area shape="rect" id="node27" href="$chromosome__igka_8hpp.html" title="chromosome IGKA &#160;and" alt="" coords="2219,512,2367,553"/>
+<area shape="rect" id="node28" href="$clustering__operator__crispmatrix_8hpp.html" title="clustering operator crispmatrix" alt="" coords="1968,601,2143,643"/>
+<area shape="rect" id="node29" href="$ga__integer__operator_8hpp.html" title="genetic integer operators" alt="" coords="1634,512,1767,553"/>
+<area shape="rect" id="node32" href="$nearestcentroids__operator_8hpp.html" title="nearest centroids operator" alt="" coords="2005,333,2175,375"/>
+<area shape="rect" id="node33" href="$ga__function__objective__sse_8hpp.html" title="function objective SSE" alt="" coords="2493,512,2631,553"/>
+<area shape="rect" id="node39" href="$main__plot__clustering_8cpp.html" title="Main program for plot clustering." alt="" coords="3049,251,3243,278"/>
+<area shape="rect" id="node40" href="$main__stdvar__milligan__cooper1988_8cpp.html" title="Main program for the standardization of instances ." alt="" coords="2849,244,3024,285"/>
+<area shape="rect" id="node42" href="$ga__binary__operator_8hpp.html" title="traditional genetic binary operators" alt="" coords="1248,609,1457,635"/>
+<area shape="rect" id="node43" href="$ga__iterator_8hpp.html" title="iterators for applying crossover operators" alt="" coords="1390,430,1547,457"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="inout::InParamPlotClustering&lt; T_FEATURE, T_INSTANCES_CLUSTER_K, T_CLUSTERIDX &gt;" name="inout::InParamPlotClustering&lt; T_FEATURE, T_INSTANCES_CLUSTER_K, T_CLUSTERIDX &gt;">
+<area shape="rect" id="node1" title="Input parameter for plot clustering." alt="" coords="95,453,323,853"/>
+<area shape="rect" id="node2" href="$classinout_1_1_in_param_algorithmo.html" title="Input parameter for define propertys of the algorithmos." alt="" coords="5,42,185,369"/>
+<area shape="rect" id="node3" href="$classinout_1_1_in_param_read_inst.html" title="Input parameter for read instances." alt="" coords="209,5,437,405"/>
+</map>
