@@ -48,7 +48,7 @@ INCLUDE = -I$(TOPDIR) -I$(LEAC) -I ../include_inout
 
 ifeq ($(WITH_OPEN_BLAS),yes)
 #If it is necessary to include the '-static' option 
-OPEN_BLAS_FLAG = -D __WITH_OPEN_BLAS -static
+#OPEN_BLAS_FLAG = -D __WITH_OPEN_BLAS -static
 LIBRARIES +=  $(OPENBLAS)/liblapacke.a $(OPENBLAS)/liblapack.a $(OPENBLAS)/libcblas.a $(OPENBLAS)/libopenblas.a  $(SSEKERNEL)/libssekernel.a -lgfortran -lquadmath
 INCLUDE += -I$(OPENBLAS) -I$(SSEKERNEL)
 else	
