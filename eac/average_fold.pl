@@ -235,8 +235,8 @@ $countClass = 0;
        # , "_time seconds need best", 1.0e+16
 
        , "_CS measure", 1.0e+16
-       , "_Dunn's index", 1.0e+16
-       , "_SDunn's index", 1.0e+16
+       , "_Dunn's index", -1000.0 # 0.0
+       , "_SDunn's index", -1000.0 # 0.0
        , "_Silhouette", -1000.0 # 0.0
        , "_Simplified Silhouette", -1000.0 # 0.0
        , "_DB-index", 1.0e+16
@@ -266,8 +266,8 @@ $countClass = 0;
        , ":Index I", -1000.0 # 0.0
        , ":Index I c-Fuzzy", -1000.0
        , ":CS measure", 1.0e+16
-       , ":Dunn's index", 1.0e+16
-       , ":SDunn's index", 1.0e+16
+       , ":Dunn's index", -1.0e+16
+       , ":SDunn's index", -1.0e+16
        , ":Silhouette", -1000.0 # 0.0
        , ":Simplified Silhouette", -1000.0 # 0.0
        , ":DB-index", 1.0e+16
