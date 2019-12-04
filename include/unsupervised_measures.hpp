@@ -63,7 +63,7 @@ namespace um {
 #define measuare_undefPurity(T_METRIC) (T_METRIC) 0.0
 #define measuare_undefVRC(T_METRIC) (T_METRIC) 0.0
 #define measuare_undefCS(T_METRIC) std::numeric_limits<T_METRIC>::max()
-#define measuare_undefDunnIndex(T_METRIC) std::numeric_limits<T_METRIC>::max()
+#define measuare_undefDunnIndex(T_METRIC) (T_METRIC) 0.0
 
 #define measuare_undefScoreFunction(T_METRIC) (T_METRIC) 0.0
 #define measuare_undefXieBeniIndex(T_METRIC) std::numeric_limits<T_METRIC>::max()
