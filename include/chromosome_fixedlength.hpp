@@ -111,12 +111,21 @@ public:
 		<< '[' << geverboseui_idproc << ':' << this << ']'
 		<< std::endl;
     }
-    --geiinparam_verbose;
 #endif //__VERBOSE_YES
 
     if ( this->_pts_string != NULL ) {
       delete[] _pts_string; 
     }
+
+#ifdef __VERBOSE_YES
+    if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+      std::cout << lpc_labelFunc
+		<< ": OUT(" << geiinparam_verbose << ")\n";
+      std::cout << std::endl;
+    }
+    --geiinparam_verbose;
+#endif //__VERBOSE_YES
+
   }
 
   

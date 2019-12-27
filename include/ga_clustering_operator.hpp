@@ -519,56 +519,62 @@ mergeCrossover
  gaencode::ChromosomeGGA<T_CLUSTERIDX,T_METRIC>& aichrom_parent2
  )
 {
-  T_CLUSTERIDX lcidx_kParent1 = aichrom_parent1.getNumClusterK();
-  T_CLUSTERIDX lcidx_kParent2 = aichrom_parent2.getNumClusterK();
-  
-  std::uniform_int_distribution<T_CLUSTERIDX> uniformdis_cidx_KParent1
-    (0,lcidx_kParent1-1);
-  std::uniform_int_distribution<T_CLUSTERIDX> uniformdis_cidx_KParent2
-    (0,lcidx_kParent2-1);
-  
-  auto lpaircidx_parent1 = 
-    prob::getRandPairUnlikeInOrd
-    ([&]() -> T_CLUSTERIDX
-     {
-       return uniformdis_cidx_KParent1(gmt19937_eng);
-     }
-     );
-  auto lpaircidx_parent2 = 
-    prob::getRandPairUnlikeInOrd
-    ([&]() -> T_CLUSTERIDX
-     {
-       return uniformdis_cidx_KParent2(gmt19937_eng);
-     }
-     );
-    
-   
 #ifdef __VERBOSE_YES
   const char* lpc_labelFunc = "gaclusteringop::mergeCrossover";
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelFunc
-	      << ":  IN(" << geiinparam_verbose << ")\n";
-    std::ostringstream lostrstream_labelChromParent1;
-    lostrstream_labelChromParent1 << "PARENT1:"
-				  << lpc_labelFunc;
-    aichrom_parent1.print(std::cout,lostrstream_labelChromParent1.str().c_str());
-    std::cout << '\n';
-    std::ostringstream lostrstream_labelChromParent2;
-    lostrstream_labelChromParent2 << "PARENT2:"
-				  << lpc_labelFunc;
-    aichrom_parent2.print(std::cout,lostrstream_labelChromParent2.str().c_str());
-    std::cout << '\n';
+	      << ":  IN(" << geiinparam_verbose << ")\n"
+	      << "PARENT1:"
+	      << aichrom_parent1
+	      << "\nPARENT2:"
+	      << aichrom_parent2
+	      << std::endl;
+  }
+#endif //__VERBOSE_YES
+ 
+  T_CLUSTERIDX lcidx_kParent1 = aichrom_parent1.getNumClusterK();
+  T_CLUSTERIDX lcidx_kParent2 = aichrom_parent2.getNumClusterK();
+  
+  std::pair<T_CLUSTERIDX,T_CLUSTERIDX> lpaircidx_parent1(0,0);
+  std::pair<T_CLUSTERIDX,T_CLUSTERIDX> lpaircidx_parent2(0,0);
 
+  if ( lcidx_kParent1 > 1) { 
+    std::uniform_int_distribution<T_CLUSTERIDX> uniformdis_cidx_KParent1
+      (0,lcidx_kParent1-1);
+    lpaircidx_parent1 = 
+      prob::getRandPairUnlikeInOrd
+      ([&]() -> T_CLUSTERIDX
+       {
+	 return uniformdis_cidx_KParent1(gmt19937_eng);
+       }
+       );
+  }
+  
+
+  if ( lcidx_kParent2 > 1) { 
+    std::uniform_int_distribution<T_CLUSTERIDX> uniformdis_cidx_KParent2
+      (0,lcidx_kParent2-1);
+    lpaircidx_parent2 = 
+      prob::getRandPairUnlikeInOrd
+      ([&]() -> T_CLUSTERIDX
+       {
+	 return uniformdis_cidx_KParent2(gmt19937_eng);
+       }
+       );
+  }
+    
+   
+#ifdef __VERBOSE_YES
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << "lcidx_kParent1 = "  << lcidx_kParent1
 	      << ",LimRandom[" << lpaircidx_parent1.first << ',' << lpaircidx_parent1.second << ']'
 	      << ",lcidx_kParent2 = " << lcidx_kParent2
 	      << ",LimRandom[" << lpaircidx_parent2.first << ',' << lpaircidx_parent2.second << ']'
-	      << ",lui_lengthElemSec = "
-	      << gaencode::ChromosomeGGA<T_CLUSTERIDX,T_METRIC>::getElementSize()
-	      << "\n)"
 	      << std::endl;
   }
+   --geiinparam_verbose;
 #endif //__VERBOSE_YES
 
  const T_CLUSTERIDX lcidx_kOffspring = 

@@ -125,12 +125,21 @@ public:
 		<< '[' << geverboseui_idproc << ':' << this << ']'
 		<< std::endl;
     }
-    --geiinparam_verbose;
 #endif //__VERBOSE_YES
 
     if ( this->_pts_groupSecString != NULL ) {
       delete[] _pts_groupSecString; 
     }
+
+#ifdef __VERBOSE_YES
+    if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+      std::cout << lpc_labelFunc
+		<< ": OUT(" << geiinparam_verbose << ")\n";
+      std::cout << std::endl;
+    }
+    --geiinparam_verbose;
+#endif //__VERBOSE_YES
+
   }
 
   inline static void setElementSize(uintidx aiuintidx_elementSize) 
