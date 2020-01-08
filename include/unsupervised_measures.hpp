@@ -2353,9 +2353,9 @@ DunnIndex
   }
 #endif //__VERBOSE_YES
 
-  T_METRIC lot_DunnIndex = measuare_undefDunnIndex(T_METRIC);
+  T_METRIC lot_DunnIndex = std::numeric_limits<T_METRIC>::max();
 
-  if  ( lcidx_numClusterK > 0 ) {
+  if  ( lcidx_numClusterK >= 2 ) {
     
     ds::IteratorPartitionLinked <T_CLUSTERIDX>
       literpart_i(&aipartlink_memberShip);
@@ -2414,7 +2414,11 @@ DunnIndex
 
   } //End If
 
-  
+  if ( lot_DunnIndex == std::numeric_limits<T_METRIC>::max() ) {
+     lot_DunnIndex = measuare_undefDunnIndex(T_METRIC);
+  }
+
+
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelFunc
@@ -2482,9 +2486,9 @@ DunnIndex
   }
 #endif //__VERBOSE_YES
 
-  T_METRIC lot_DunnIndex = measuare_undefDunnIndex(T_METRIC);
-
-  if  ( lcidx_numClusterK > 0 ) {
+  T_METRIC lot_DunnIndex = std::numeric_limits<T_METRIC>::max();
+ 
+  if  ( lcidx_numClusterK >= 2 ) {
       
     for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) {
       
@@ -2510,6 +2514,10 @@ DunnIndex
       if ( lrt_partilDI < lot_DunnIndex) 
 	lot_DunnIndex = lrt_partilDI;
     }
+  }
+
+  if ( lot_DunnIndex == std::numeric_limits<T_METRIC>::max() ) {
+     lot_DunnIndex = measuare_undefDunnIndex(T_METRIC);
   }
 
 #ifdef __VERBOSE_YES
@@ -2570,10 +2578,9 @@ simplifiedDunnIndex
   }
 #endif //__VERBOSE_YES
 
+  T_METRIC lot_DunnIndex = std::numeric_limits<T_METRIC>::max();
 
-  T_METRIC lot_DunnIndex = measuare_undefDunnIndex(T_METRIC);
-
-  if  ( lcidx_numClusterK > 0 ) {
+  if  ( lcidx_numClusterK >= 2  ) {
       
     for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) {
       
@@ -2599,6 +2606,10 @@ simplifiedDunnIndex
       if ( lrt_partilDI < lot_DunnIndex) 
 	lot_DunnIndex = lrt_partilDI;
     }
+  }
+
+  if ( lot_DunnIndex == std::numeric_limits<T_METRIC>::max() ) {
+     lot_DunnIndex = measuare_undefDunnIndex(T_METRIC);
   }
 
 #ifdef __VERBOSE_YES
