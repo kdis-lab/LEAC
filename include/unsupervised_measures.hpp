@@ -70,6 +70,8 @@ namespace um {
 #define measuare_undefPartitionCoefficient(T_METRIC) (T_METRIC) 0.0
 
 #define measuare_undefWBIndex(T_METRIC) (T_METRIC) std::numeric_limits<T_METRIC>::max()
+
+#define measuare_undefOverlap(T_METRIC) (T_METRIC) -std::numeric_limits<T_METRIC>::max()
   
 /*! \fn T_METRIC maxDistCjCjp(const mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist)
   \brief Find the maximum distance beteen the centroids
@@ -2305,6 +2307,174 @@ diameterClusterK
   return lvectort_diameterClusterK;
   
 } //END diameterClusterK
+
+
+
+/*! \fn T_METRIC overlap (const mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, partition::Partition<T_CLUSTERIDX> &aipartition_clusters, const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist)
+
+  \brief Overlap
+  \details To measure the overlap, we calculated the distance from every point to its centroid (d1) and to its nearest point in another cluster (d2). If this nearest point is closer than its own centroid (d1 > d2), the point is evidence of overlap \cite Franti:Sieranoja:ClusterMeasure:Benchmark:2018. 
+
+  \f[
+  Overlap = \frac{1}{n}\sum ov(d_1,d_2)
+  \f]
+
+  where
+  \f[
+  ov(d_1,d_2) = 
+  \left\{
+        \begin{array}{ll}
+               1,  & \mbox{if } d_1 > d_2  \\
+               0,  & \mbox{otherwise}
+        \end{array}
+  \right
+  \f]
+
+  \param aimatrixt_centroids a mat::MatrixRow with centroids clusters
+  \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+  \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
+  \param aipartlink_memberShip a clusters partition in a ds::PartitionLinked data structure
+  \param aifunc2p_dist an object of type dist::Dist to calculate distances
+*/ 
+template < typename INPUT_ITERATOR,
+	   typename T_METRIC, 
+	   typename T_FEATURE,
+	   typename T_CLUSTERIDX /*-1,0,..,K*/
+	   >
+T_METRIC
+overlap
+(const mat::MatrixRow<T_FEATURE>         &aimatrixt_centroids,
+ const INPUT_ITERATOR                    aiiterator_instfirst,
+ const INPUT_ITERATOR                    aiiterator_instlast,
+ const ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip,
+ const dist::Dist<T_METRIC,T_FEATURE>    &aifunc2p_dist
+ )
+{  
+
+  T_CLUSTERIDX lcidx_numClusterK = 
+    (T_CLUSTERIDX) aimatrixt_centroids.getNumRows();
+
+  /*CALCULATE RADIUS CLUSTERS
+   */
+  std::vector<T_METRIC>
+    lvector_radiusClusterK(aimatrixt_centroids.getNumRows());
+  for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) {
+    lvector_radiusClusterK.at(lcidx_Ck) = 
+      radiusClusterKj
+      (lcidx_Ck,
+       aimatrixt_centroids.getRow(lcidx_Ck),
+       aipartlink_memberShip,
+       aiiterator_instfirst,
+       aifunc2p_dist
+       );
+  }
+
+#ifdef __VERBOSE_YES
+  ++geiinparam_verbose;
+  const  char* lpc_labelFunc = "um::overlap";
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout 
+      << lpc_labelFunc
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "\n\t input  mat::MatrixRow<T_FEATURE>&: aimatrixt_centroids[" 
+      << &aimatrixt_centroids << ']'
+      << "\n\t input aiiterator_instfirst[" << *aiiterator_instfirst << ']'
+      << "\n\t input aiiterator_instlast[" << *aiiterator_instlast << ']'
+      << "\n\t input ds::PartitionLinked<T_CLUSTERIDX>&: aipartlink_memberShip[" 
+      << &aipartlink_memberShip << ']'
+      << "\n\t input  aifunc2p_dist[" << &aifunc2p_dist << ']'
+      << "\n\t lvector_radiusClusterK[" << lvector_radiusClusterK << ']'
+      << "\n\t)"
+      << std::endl;
+  }
+#endif //__VERBOSE_YES
+  
+  uintidx  lui_overlap = 0;
+  T_METRIC lot_overlap  = measuare_undefOverlap(T_METRIC);
+
+  if  ( lcidx_numClusterK >= 1 ) {
+    
+    ds::IteratorPartitionLinked <T_CLUSTERIDX>
+      literpart_j(&aipartlink_memberShip);
+      
+    for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) {
+      
+      for ( literpart_j.begin(lcidx_Ck); literpart_j.end(); literpart_j.next() ) {
+    
+	data::Instance<T_FEATURE>* linst_j = *std::next(aiiterator_instfirst,literpart_j.getValue());
+
+	T_METRIC lt_distCinK =
+	  aifunc2p_dist
+	  (linst_j->getFeatures(),
+	   aimatrixt_centroids.getRow(lcidx_Ck),
+	   data::Instance<T_FEATURE>::getNumDimensions()
+	   );
+
+	bool lbool_isOverlap = false;
+	for ( T_CLUSTERIDX lcidx_Ckp = 0; lcidx_Ckp < lcidx_numClusterK; lcidx_Ckp++) {
+
+	  if ( lcidx_Ck != lcidx_Ckp ) {
+
+	    T_METRIC lt_distCOtherK =
+	      aifunc2p_dist
+	      (linst_j->getFeatures(),
+	       aimatrixt_centroids.getRow(lcidx_Ckp),
+	       data::Instance<T_FEATURE>::getNumDimensions()
+	       );
+	    if  ( std::abs(lt_distCOtherK - lvector_radiusClusterK.at(lcidx_Ckp)) <= lt_distCinK ) {
+
+	      ds::IteratorPartitionLinked <T_CLUSTERIDX>
+		literpart_jp(&aipartlink_memberShip);
+
+	      for ( literpart_jp.begin(lcidx_Ckp); literpart_jp.end(); literpart_jp.next() ) {
+
+		data::Instance<T_FEATURE>* linst_jp = 
+		  *std::next(aiiterator_instfirst,literpart_jp.getValue());
+
+		T_METRIC lt_distInstInst =
+		  aifunc2p_dist
+		  (linst_j->getFeatures(),
+		   linst_jp->getFeatures(),
+		   data::Instance<T_FEATURE>::getNumDimensions()
+		   );
+		if ( lt_distInstInst < lt_distCinK ) {
+		  lbool_isOverlap = true;
+		  break;
+		}
+	      }
+	    } //if distance
+	  } //if Other cluster
+	  if ( lbool_isOverlap ) {
+	    break;
+	  }
+	}
+	if ( lbool_isOverlap ) {
+	  ++lui_overlap;
+	}
+      } //Next instance of cluster
+    }
+    const uintidx  lui_numInstances =
+    uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
+    
+    lot_overlap =(lui_numInstances != 0 )? 
+      T_METRIC(lui_overlap) / T_METRIC(lui_numInstances)
+      :measuare_undefOverlap(T_METRIC);;
+  }  
+    
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ": OUT(" << geiinparam_verbose << ") "
+	      << "T_METRIC lot_overlap = "   << lot_overlap
+	      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif //__VERBOSE_YES
+
+  return lot_overlap;
+
+} /*END overlap*/
+
 
 
 /*! \fn T_METRIC DunnIndex(mat::MatrixTriang<T_METRIC> &aimatrixtriagt_dissimilarity, ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip) 
