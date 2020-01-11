@@ -3204,98 +3204,18 @@ int main(int argc, char **argv)
 	   um::partitioncoefficient(lmatrixt_u)
 	   );
       
-	/*lostream_outparam << "OUT:\n\n";
-
-	lchrom_best.print(lostream_outparam,"CROMOSOME:BEST",',',';');
-		      
-	lostream_outparam << "\n\n";
-
-	lostream_outparam << "       Cluster number (K): "
-			  << loop_outParamGAC.getNumClusterK() << "\n"
-			  <<  std::right << std::setw(25)
-			  <<  loop_outParamGAC.getNameUsedObjetiveFunc() << ": "
-			  << loop_outParamGAC.getObjetiveFuncRun() << "\n";
-
-	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::SED ) {
-	  std::pair<DATATYPE_REAL,bool> lpair_sed =
-	    um::SSE
-	    (lomatrixrowt_centroids,
-	     lpairvec_dataset.first.begin(),
-	     lpairvec_dataset.first.end(),
-	     *pfunct2p_distEuclidean
-	     );
-	  lostream_outparam << "                      SED: "
-			    << lpair_sed.first;
-	  if ( lpair_sed.second == false ) 
-	    lostream_outparam << " Has group without objects";
-	  lostream_outparam << '\n';
-	}
-
-	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::DBindex ) {
-	  lostream_outparam
-	    << "                 DB-index: "
-	    <<
-	    um::dbindex
-	    (lomatrixrowt_centroids,
-	     lpairvec_dataset.first.begin(),
-	     lpairvec_dataset.first.end(),
-	     lpartition_clusters,
-	     *pfunct2p_distEuclidean
-	     )
-	    << '\n';
-	}
-
-	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::Silhouette ) {
-	  lostream_outparam
-	    << "               Silhouette: "	
-	    <<
-	    um::silhouette
-	    (lpairvec_dataset.first.begin(),
-	     lpartlinknuminst_memberShip,
-	     lpartlinknuminst_memberShip.getVectorNumInstClusterK(),
-	     *pfunct2p_distEuclidean
-	     )
-	    << '\n';
-	}
-
-	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::VRC ) {
-	  lostream_outparam
-	    << "                      VRC: "	
-	    <<
-	    um::VRC
-	    (lomatrixrowt_centroids,
-	     lpairvec_dataset.first.begin(),
-	     lpairvec_dataset.first.end(),   
-	     lpartition_clusters,
-	     *pfunct2p_distEuclideanSq
-	     )
-	    << '\n';
-	}
-      
-	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::CSmeasure ) {
-	  lostream_outparam
-	    << "               CS measure: "
-	    <<
-	    um::CSmeasure
-	    (lpairvec_dataset.first.begin(),
-	     lomatrixrowt_centroids,
-	     lpartlinknuminst_memberShip,
-	     *pfunct2p_distEuclidean
-	     )
-	    << '\n';
-	}
-      
-	if ( loop_outParamGAC.getUsedObjetiveFunc() != inout::DunnIndex ) {
-	  lostream_outparam
-	    << "             Dunn's index: "
-	    <<
-	    um::DunnIndex
-	    (lpairvec_dataset.first.begin(),
-	     lpartlinknuminst_memberShip,
-	     *pfunct2p_distEuclidean
-	     )
-	    << '\n';
-	    }*/
+	/*Overlap
+	 */
+	loop_outParamlusteringMetric.setMetricFunc
+	  (inout::Overlap,
+	   um::overlap
+	   (lomatrixrowt_centroids,
+	    lpairvec_dataset.first.begin(),
+	    lpairvec_dataset.first.end(),
+	    lpartlinknuminst_memberShip,
+	    *pfunct2p_distEuclidean
+	    )
+	   );
     
 	if ( linparam_ClusteringGA.getNumFilesInstanceTest() > 0 ) {
 
@@ -3699,94 +3619,22 @@ int main(int argc, char **argv)
 	    (inout::PartitionCoefficient,
 	     um::partitioncoefficient(lmatrixt_uTest)
 	     );
-	 
-	  /*
-	  std::pair<DATATYPE_REAL,bool> lpair_sedTest =
-	    um::SSE
-	    (lomatrixrowt_centroids,
-	     lpairvec_dataset.second.begin(),
-	     lpairvec_dataset.second.end(),
-	     *pfunct2p_distEuclidean
+
+	  /*Overlap 
+	   */
+	  loop_outParamlusteringMetric.setMetricFuncTest
+	    (inout::Overlap,
+	     um::overlap
+	     (lomatrixrowt_centroids,
+	      lpairvec_dataset.second.begin(),
+	      lpairvec_dataset.second.end(),
+	      lpartlinknuminst_memberShipTest,
+	      *pfunct2p_distEuclidean
+	      )
 	     );
-	  lostream_outparam << '\n';
-	  lostream_outparam
-	    << "            Test data SED: "
-	    << lpair_sedTest.first;
-	  if ( lpair_sedTest.second == false ) 
-	    lostream_outparam << " Has group without objects";
-	  lostream_outparam << '\n';
-
-	  lostream_outparam
-	    << "       Test data DB-index: "
-	    <<
-	    um::dbindex
-	    (lomatrixrowt_centroids,
-	     lpairvec_dataset.second.begin(),
-	     lpairvec_dataset.second.end(),
-	     lpartition_clusters,
-	     *pfunct2p_distEuclidean
-	     )
-	    << '\n';
-
-	  lostream_outparam
-	    << "     Test data Silhouette: "	
-	    <<
-	    um::silhouette
-	    (lpairvec_dataset.second.begin(),
-	     lpartlinknuminst_memberShipTest,
-	     // lpartlinknuminst_memberShipTest.getVectorNumInstClusterK(),
-	     *pfunct2p_distEuclidean
-	     )
-	    << '\n';
-
-	  lostream_outparam
-	    << "            Test data VRC: "	
-	    <<
-	    um::VRC
-	    (lomatrixrowt_centroids,
-	     lpairvec_dataset.second.begin(),
-	     lpairvec_dataset.second.end(),   
-	     lpartition_clusters,
-	     *pfunct2p_distEuclideanSq
-	     )
-	    << '\n';
-
-	  lostream_outparam
-	    << "     Test data CS measure: "
-	    <<
-	    um::CSmeasure
-	    (lpairvec_dataset.second.begin(),
-	     lomatrixrowt_centroids,
-	     lpartlinknuminst_memberShipTest,
-	     *pfunct2p_distEuclidean
-	     )
-	    << '\n';
-     
-      
-	  lostream_outparam
-	    << "   Test data Dunn's index: "
-	    <<
-	    um::DunnIndex
-	    (lpairvec_dataset.second.begin(),
-	     lpartlinknuminst_memberShipTest,
-	     *pfunct2p_distEuclidean
-	     )
-	    << '\n';
-	  */
+	 
 	} //IF TEST
       
-	/*lostream_outparam << "     Execution time (seg): "
-			  << loop_outParamGAC.getAlgorithmRunTime() << '\n'
-			  << "Generations find the best: "
-			  << loop_outParamGAC.getIterationGetsBest() << '\n';
-    
-	lostream_outparam << std::endl;
-	
-	inout::OutFileName lofn_filenameparam;
-	std::ostream& lostream_outparam = 
-	  lofn_filenameparam.openFile(linparam_ClusteringGA.getFileNameTimesRun());
-	*/
-
 	
 	 inout::OutFileName   lofn_filename;
 	 std::ostream& lostream_outparam = 
