@@ -79,8 +79,8 @@ const char *garray_nameObjetiveFunc[] = {
   /*30*/ "Entropy",
   /*31*/ "Partition Coefficient",
   /*32*/ "Intra- and inter-clust",
-  
-  /*33*/ "NotUse",
+  /*33*/ "Overlap",
+  /*34*/ "NotUse",
   (char *) NULL
 };
   
@@ -122,9 +122,8 @@ typedef enum {
   Entropy=30,
   PartitionCoefficient=31,
   IntraInterClust=32,
-  
-
-  NotUse=33
+  Overlap=33,
+  NotUse=34
   
 } OutParamNameObjectiveFunc;
 
