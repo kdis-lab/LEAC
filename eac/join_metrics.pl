@@ -11,8 +11,8 @@ my %vardefault =
        , ":Index I", -1000.0 # 0.0
        , ":Index I c-Fuzzy", -1000.0 # 0.0
        , ":CS measure", 1.0e+16
-       , ":Dunn's index", 1.0e+16
-       , ":SDunn's index", 1.0e+16
+       , ":Dunn's index", -1000.0
+       , ":SDunn's index", -1000.0
        , ":Silhouette", -1000.0 # 0.0
        , ":Simplified Silhouette", -1000.0 # 0.0
        , ":DB-index", 1.0e+16
