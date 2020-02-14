@@ -34,7 +34,7 @@ my %vardefault =
        , "_iterations need", 1.0e+16
        , "_execution time seconds", 1.0e+16
        , "_time seconds need best", 1.0e+16
-       , "percent_run_geqk2_tst", 1.0e+16
+       , ":percent_run_geqk2_tst", 1.0e+16
        , ":DB-index_kge2", 1.0e+16       
     );
 
@@ -70,7 +70,7 @@ my %varcolumn =
        , "_iterations need", 0
        , "_execution time seconds", 0
        , "_time seconds need best", 0
-       , "percent_run_geqk2_tst", 0
+       , ":percent_run_geqk2_tst", 0
        , ":DB-index_kge2", 0
     );
 
@@ -145,6 +145,7 @@ foreach my $metric (sort keys %vardefault ) {
 	foreach my $dbvalue (sort keys %totaldatasetvalues) {
 	    #my $valueout = sprintf("%.3f", $datasetvalues{$dbvalue});
 	    if ( $totaldatasetvalues{$dbvalue} eq "" ) {
+		#print "ERROR dbvalue $dbvalue totaldatasetvalues $totaldatasetvalues{$dbvalue} datasetvalues $datasetvalues{$dbvalue} END\n";
 		$totaldatasetvalues{$dbvalue} = $minmax * $datasetvalues{$dbvalue};
 	    }
 	    else {
