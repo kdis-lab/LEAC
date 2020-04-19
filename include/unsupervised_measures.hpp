@@ -157,14 +157,13 @@ minDistCjCjp
   const char* lpc_labelFunc = "um::minDistCjCjp";
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc 
-              << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "(input  mat::MatrixRow<T_FEATURE>&: aimatrixt_centroids[" 
-	      << &aimatrixt_centroids << ']'
-	      << "\ninput  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist[" 
-	      << &aifunc2p_dist << ']'
-	      << "\n)"
-	      << std::endl;
+    std::cout
+      << lpc_labelFunc 
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "\t(input  mat::MatrixRow<T_FEATURE>&: aimatrixt_centroids[" << &aimatrixt_centroids << ']'
+      << "\n\tinput  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist["  << &aifunc2p_dist << ']'
+      << "\n\t)"
+      << std::endl;
   }
 #endif //__VERBOSE_YES
 
@@ -227,7 +226,7 @@ minDistCjCjp
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelFunc 
               << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "(\n\t input  mat::MatrixRow<T_FEATURE>&: aimatrixt_centroids[" 
+	      << "\t( input  mat::MatrixRow<T_FEATURE>&: aimatrixt_centroids[" 
 	      << &aimatrixt_centroids << ']'
 	      << "\n\t input  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
@@ -558,6 +557,22 @@ diameterClusterKj
  const dist::Dist<T_METRIC,T_FEATURE>    &aifunc2p_dist
  )
 {
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "um::diameterClusterKj";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc 
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "\t( input const T_CLUSTERIDX  aicidx_Clusterj[" << aicidx_Clusterj << ']'
+      << "\t  input PartitionLinked&: aipartlink_memberShip[" << &aipartlink_memberShip << "]\n"
+      << "\t  input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
+      << "\t  input dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist[" << &aifunc2p_dist << "]\n"
+      << "\t)"
+      << std::endl;
+  }
+#endif //__VERBOSE_YES
+  
   ds::IteratorPartitionLinked <T_CLUSTERIDX>
     literpart_j(&aipartlink_memberShip);
   ds::IteratorPartitionLinked <T_CLUSTERIDX>
@@ -579,9 +594,84 @@ diameterClusterKj
     }
   }
 
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+      << ": OUT(" << geiinparam_verbose << ')'
+      << " T_METRIC lot_delta = " << lot_delta
+      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
+  
   return lot_delta;
 }
 
+
+/*! \fn  T_METRIC diameterClusterKj(const T_CLUSTERIDX aicidx_Clusterj, const ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip, const mat::MatrixTriang<T_METRIC> &aimatrixtriagt_dissimilarity) 
+  \brief  Diameter of Clusterj
+  \details Find the diameter of cluster j, the maximum distance between two instances of the cluster 
+  \param aicidx_Clusterj an integer index of the cluster
+  \param aipartlink_memberShip a clusters partition in a ds::PartitionLinked data structure
+  \param aimatrixtriagt_dissimilarity a matrix of distances
+*/
+template < typename T_CLUSTERIDX,
+	   typename T_METRIC
+	   >
+T_METRIC
+diameterClusterKj
+(const T_CLUSTERIDX                      aicidx_Clusterj,
+ const ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip,
+ const mat::MatrixTriang<T_METRIC>       &aimatrixtriagt_dissimilarity
+) 
+{
+
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "um::diameterClusterKj";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc 
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "\t(input const T_CLUSTERIDX  aicidx_Clusterj[" << aicidx_Clusterj << "]\n"
+      << "\t input PartitionLinked&: aipartlink_memberShip[" << &aipartlink_memberShip << "]\n"
+      << "\t input  mat::MatrixTriang<T_METRIC>: aimatrixtriagt_dissimilarity[" 
+      << &aimatrixtriagt_dissimilarity << "]\n"
+      << "\t)"
+      << std::endl;
+  }
+#endif //__VERBOSE_YES
+    
+ ds::IteratorPartitionLinked <T_CLUSTERIDX>
+    literpart_j(&aipartlink_memberShip);
+  ds::IteratorPartitionLinked <T_CLUSTERIDX>
+    literpart_k(&aipartlink_memberShip);
+  
+  T_METRIC  lot_delta = T_METRIC(0);
+
+  for ( literpart_j.begin(aicidx_Clusterj); literpart_j.end(); literpart_j.next() ) {
+    for ( literpart_k.begin(aicidx_Clusterj); literpart_k.end(); literpart_k.next() ) {
+      T_METRIC lt_distk =
+	aimatrixtriagt_dissimilarity(literpart_j.getValue(),literpart_k.getValue());
+      if ( lot_delta < lt_distk )
+	lot_delta = lt_distk;
+    }
+  }
+
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+      << ": OUT(" << geiinparam_verbose << ')'
+      << " T_METRIC lot_delta = " << lot_delta 
+      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
+  
+  return lot_delta;
+}
 
 
 /*! \fn  T_METRIC radiusClusterKj (const T_CLUSTERIDX aicidx_Clusterj, const T_FEATURE* ait_centroid, const ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip,INPUT_ITERATOR aiiterator_instfirst, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist)
@@ -607,6 +697,24 @@ radiusClusterKj
  const dist::Dist<T_METRIC,T_FEATURE>    &aifunc2p_dist
  )
 {
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "um::radiusClusterKj";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc 
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "\t(input  const T_CLUSTERIDX aicidx_Clusterj[" << aicidx_Clusterj << ']'
+      << "\n\t const T_FEATURE* ait_centroid,[" << ait_centroid << ']'    
+      << "\n\t input ds::PartitionLinked<T_CLUSTERIDX>&: aipartlink_memberShip[" 
+      << &aipartlink_memberShip << ']'
+      << "\n\t input aiiterator_instfirst[" << *aiiterator_instfirst << ']'
+      << "\n\t input  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist["  << &aifunc2p_dist << ']'
+      << "\n\t)"
+      << std::endl;
+  }
+#endif //__VERBOSE_YES
+  
   ds::IteratorPartitionLinked <T_CLUSTERIDX>
     literpart_j(&aipartlink_memberShip);
 
@@ -625,6 +733,16 @@ radiusClusterKj
     if ( lot_delta < lt_distk )
       lot_delta = lt_distk;
   }
+
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ": OUT(" << geiinparam_verbose << ')'
+	      << " T_METRIC lot_delta = " << lot_delta
+	      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
   
   return lot_delta;
 }
@@ -1322,6 +1440,26 @@ ssb
  const dist::Dist<T_METRIC,T_FEATURE>     &aifunc2p_dist
  )
 {
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "um::ssb";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc 
+      << ":  IN(" << geiinparam_verbose << ')'
+      << "\n\t(input mat::MatrixRow<T_FEATURE>& aimatrixt_centroids[" 
+      << &aimatrixt_centroids << "]\n"
+      << "\t input  T_FEATURE  *aiarrayt_meanInstances[" 
+      << aiarrayt_meanInstances << "]\n"
+      << "\t std::vector aivectort_numInstancesCluster[" 
+      << aivectort_numInstancesClusterK << "]\n"
+      << "\t input  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist[" 
+      << &aifunc2p_dist << ']'
+      << "\n\t)"
+      << std::endl;
+  }
+#endif //__VERBOSE_YES
+  
   T_METRIC lt_SSb = T_METRIC(0.0);
   
   for ( uintidx luintidx_Ci = 0; luintidx_Ci < aimatrixt_centroids.getNumRows(); luintidx_Ci++) {
@@ -1333,6 +1471,17 @@ ssb
        );    
   }
 
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+      << ": OUT(" << geiinparam_verbose << ')'
+      << " lt_SSb = " << lt_SSb
+      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif //__VERBOSE_YES
+  
   return lt_SSb;
 }
 
@@ -1407,6 +1556,7 @@ ssbreeval
   \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
   \param aipartition_clusters a partition::Partition of instances in clusters
   \param aifunc2p_squaredDist an object of type dist::Dist to calculate distances
+  \param aib_withNullK a bool it is possible that for testing you have null clusters and VRC should be calculated omitting cluster nulls
 
   \code{.cpp}
     
@@ -1433,11 +1583,14 @@ VRC
  INPUT_ITERATOR                        aiiterator_instfirst,
  const INPUT_ITERATOR                  aiiterator_instlast,
  partition::Partition<T_CLUSTERIDX>    &aipartition_clusters,
- const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_squaredDist
+ const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_squaredDist,
+ const bool                            aib_withNullK = false
  )
-{
-  const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
-  
+{  
+  const T_CLUSTERIDX lcidx_numClusterK = T_CLUSTERIDX(aimatrixt_centroids.getNumRows());
+  const uintidx  lui_numInstances =
+    uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
+
   static T_FEATURE *larray_centroid1 =
     new T_FEATURE[data::Instance<T_FEATURE>::getNumDimensions()];
 
@@ -1463,27 +1616,30 @@ VRC
       delete [] larray_sumFeatureTmp;
     }
     );
-  
+
 #ifdef __VERBOSE_YES
   const char* lpc_labelFunc = "um::VRC";
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc 
-	      << ":  IN(" << geiinparam_verbose << ')'
-	      << "\n\t(input mat::MatrixRow<T_FEATURE>& aimatrixt_centroids[" 
-	      << &aimatrixt_centroids << "]\n"
-	      << "\t input  partition::Partition<>&: aipartition_clusters[" 
-	      << &aipartition_clusters << "]\n"
-	      << "\t input  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_squaredDist[" 
-	      << &aifunc2p_squaredDist << ']'
-	      << "\n\t)"
-	      << std::endl;
+    std::cout
+      << lpc_labelFunc 
+      << ":  IN(" << geiinparam_verbose << ')'
+      << "\n\t(input mat::MatrixRow<T_FEATURE>& aimatrixt_centroids[" 
+      << &aimatrixt_centroids << "]\n"
+      << "\t input  partition::Partition<>&: aipartition_clusters[" 
+      << &aipartition_clusters << "]\n"
+      << "\t input  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_squaredDist[" 
+      << &aifunc2p_squaredDist << ']'
+      << "\n\t)"
+      << std::endl;
   }
 #endif //__VERBOSE_YES
 
   T_METRIC  lometric_VRC = measuare_undefVRC(T_METRIC);
- 
-  if ( aimatrixt_centroids.getNumRows() > 1 ) {
+  T_METRIC  lmetrict_SSb = 0.0;
+  T_METRIC  lmetrict_SSw = 0.0;
+  
+  if ( lcidx_numClusterK >= 2 ) {
 
     std::vector<T_METRIC> lvectorrt_sumDistInstCentInK;
     std::vector<uintidx>  lvectorui_numInstClusterK;
@@ -1498,37 +1654,53 @@ VRC
        aipartition_clusters,
        aifunc2p_squaredDist
        );
-   
-    T_METRIC lmetrict_SSw = 
-      interfacesse::sum
-      (lvectorrt_sumDistInstCentInK.data(),
-       (uintidx) lvectorrt_sumDistInstCentInK.size()
-       );
 
-    if  ( lmetrict_SSw > 0.0 ) {
-    
-      T_METRIC lmetrict_SSb =
-	ssb
-	(aimatrixt_centroids,
-	 larray_centroid1,
-	 lvectorui_numInstClusterK,
-	 aifunc2p_squaredDist
-	 );
+    const T_CLUSTERIDX lcidx_numClusterKNull =
+      T_CLUSTERIDX
+      (count(lvectorui_numInstClusterK.begin(),
+       lvectorui_numInstClusterK.end(),
+       0));
 
-      lometric_VRC =
-	(lmetrict_SSb  * (T_METRIC) (lui_numInstances - aimatrixt_centroids.getNumRows() ))
-	/ (lmetrict_SSw * (T_METRIC) ( aimatrixt_centroids.getNumRows() -1 ));
-    
+    if  ( (lcidx_numClusterK - lcidx_numClusterKNull) >= 2 ) {
+
+      if ( lcidx_numClusterKNull == 0 || aib_withNullK  ) {
+	
+	lmetrict_SSw = 
+	  interfacesse::sum
+	  (lvectorrt_sumDistInstCentInK.data(),
+	   (uintidx) lvectorrt_sumDistInstCentInK.size()
+	   );
+
+	if  ( lmetrict_SSw > 0.0 ) {
+      
+	  lmetrict_SSb =
+	    ssb
+	    (aimatrixt_centroids,
+	     larray_centroid1,
+	     lvectorui_numInstClusterK,
+	     aifunc2p_squaredDist
+	     );
+
+	  lometric_VRC =
+	    (lmetrict_SSb  *
+	     ( (T_METRIC) lui_numInstances -
+	       (T_METRIC) (lcidx_numClusterK - lcidx_numClusterKNull) ))
+	    / (lmetrict_SSw * (T_METRIC) ( lcidx_numClusterK - lcidx_numClusterKNull -1 ));
+
+	}
+      }
     }
-    
   }
 	  
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc
-	      << ": OUT(" << geiinparam_verbose << ')'
-	      << " lometric_VRC = " << lometric_VRC
-	      << std::endl;
+    std::cout
+      << lpc_labelFunc
+      << ": OUT(" << geiinparam_verbose << ')'
+      << " lmetrict_SSb = " << lmetrict_SSb
+      << " lmetrict_SSw = " << lmetrict_SSw
+      << " lometric_VRC = " << lometric_VRC
+      << std::endl;
   }
   --geiinparam_verbose;
 #endif //__VERBOSE_YES
@@ -1538,6 +1710,18 @@ VRC
 }
 
 
+/*! \fn T_METRIC T_METRIC VRCreeval(const mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const partition::Partition<T_CLUSTERIDX> &aipartition_clusters, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_squaredDist)
+  \brief  Variance ratio criterion (VRC), recalculate the average centroid on each call.
+
+  \details VRC is sometimes called the Calinski-Harabasz criterion, 
+
+  \param aimatrixt_centroids a mat::MatrixRow with centroids clusters
+  \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
+  \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
+  \param aipartition_clusters a partition::Partition of instances in clusters
+  \param aifunc2p_squaredDist an object of type dist::Dist to calculate distances
+  \param aib_withNullK a bool it is possible that for testing you have null clusters and VRC should be calculated omitting cluster nulls
+*/
 template < typename INPUT_ITERATOR,
            typename T_FEATURE,
 	   typename T_CLUSTERIDX,
@@ -1549,9 +1733,13 @@ VRCreeval
  INPUT_ITERATOR                        aiiterator_instfirst,
  const INPUT_ITERATOR                  aiiterator_instlast,
  partition::Partition<T_CLUSTERIDX>    &aipartition_clusters,
- const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_squaredDist
+ const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_squaredDist,
+ const bool                            aib_withNullK = false
  )
 {
+
+  const T_CLUSTERIDX lcidx_numClusterK = T_CLUSTERIDX(aimatrixt_centroids.getNumRows());
+  
 #ifdef __VERBOSE_YES
   const char* lpc_labelFunc = "um::VRCreeval";
   ++geiinparam_verbose;
@@ -1570,8 +1758,10 @@ VRCreeval
 #endif //__VERBOSE_YES
 
   T_METRIC  lometric_VRC = measuare_undefVRC(T_METRIC);
+  T_METRIC  lmetrict_SSb = 0.0;
+  T_METRIC  lmetrict_SSw = 0.0;
 
-  if ( aimatrixt_centroids.getNumRows() > 1 ) {
+  if ( lcidx_numClusterK >= 2 ) {
 
     const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
   
@@ -1609,44 +1799,61 @@ VRCreeval
        aipartition_clusters,
        aifunc2p_squaredDist
        );
-   
-    T_METRIC lmetrict_SSw = 
-      interfacesse::sum
-      (lvectorrt_sumDistInstCentInK.data(),
-       (uintidx) lvectorrt_sumDistInstCentInK.size()
-       );
 
-    if  ( lmetrict_SSw > 0.0 ) {
+    const T_CLUSTERIDX lcidx_numClusterKNull =
+      T_CLUSTERIDX
+      (count(lvectorui_numInstClusterK.begin(),
+       lvectorui_numInstClusterK.end(),
+       0));
     
-      T_METRIC lmetrict_SSb =
-	ssb
-	(aimatrixt_centroids,
-	 larray_centroid1,
-	 lvectorui_numInstClusterK,
-	 aifunc2p_squaredDist
-	 );
+    if  ( (lcidx_numClusterK - lcidx_numClusterKNull) >= 2 ) {
 
-      lometric_VRC =
-	(lmetrict_SSb  * (T_METRIC) (lui_numInstances - aimatrixt_centroids.getNumRows() ))
-	/ (lmetrict_SSw * (T_METRIC) ( aimatrixt_centroids.getNumRows() -1 ));
+      if ( lcidx_numClusterKNull == 0 || aib_withNullK  ) {
+	
+	lmetrict_SSw = 
+	  interfacesse::sum
+	  (lvectorrt_sumDistInstCentInK.data(),
+	   (uintidx) lvectorrt_sumDistInstCentInK.size()
+	   );
+
+	if  ( lmetrict_SSw > 0.0 ) {
     
+	  lmetrict_SSb =
+	    ssb
+	    (aimatrixt_centroids,
+	     larray_centroid1,
+	     lvectorui_numInstClusterK,
+	     aifunc2p_squaredDist
+	     );
+
+	   lometric_VRC =
+	    (lmetrict_SSb  *
+	     ( (T_METRIC) lui_numInstances -
+	       (T_METRIC) (lcidx_numClusterK - lcidx_numClusterKNull) ))
+	    / (lmetrict_SSw * (T_METRIC) ( lcidx_numClusterK - lcidx_numClusterKNull -1 ));
+	   
+	}
+      }
     }
-
+  
     delete [] larray_centroid1;
     delete [] larray_sumFeatureTmp;
     
   }
-	  
+
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc
-	      << ": OUT(" << geiinparam_verbose << ')'
-	      << " lometric_VRC = " << lometric_VRC
-	      << std::endl;
+    std::cout
+      << lpc_labelFunc
+      << ": OUT(" << geiinparam_verbose << ')'
+      << " lmetrict_SSb = " << lmetrict_SSb
+      << " lmetrict_SSw = " << lmetrict_SSw
+      << " lometric_VRC = " << lometric_VRC
+      << std::endl;
   }
   --geiinparam_verbose;
 #endif //__VERBOSE_YES
-
+  
   return lometric_VRC;
     
 }
@@ -2202,6 +2409,23 @@ distMinIntraClusterKj
 {
   const T_CLUSTERIDX lcidx_numClusterK = aipartlink_memberShip.getNumPartitions();
   
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "um::distMinIntraClusterKj";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc 
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "\t( input const T_CLUSTERIDX  aicidx_Clusterj[" << aicidx_Clusterj << "]\n"
+      << "\t  input PartitionLinked&: aipartlink_memberShip[" << &aipartlink_memberShip << "]\n"
+      << "\t  input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
+      << "\t  input dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist[" << &aifunc2p_dist << "]\n"
+      << "\t  lcidx_numClusterK = " << lcidx_numClusterK << '\n'
+      << "\t)"
+      << std::endl;
+  }
+#endif //__VERBOSE_YES
+  
   ds::IteratorPartitionLinked <T_CLUSTERIDX>
     literpart_i(&aipartlink_memberShip);
   ds::IteratorPartitionLinked <T_CLUSTERIDX>
@@ -2232,9 +2456,95 @@ distMinIntraClusterKj
     }
   }
 
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+      << ": OUT(" << geiinparam_verbose << ')'
+      << " T_METRIC lot_distMinIntraClusterKj = " << lot_distMinIntraClusterKj
+      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
+  
   return lot_distMinIntraClusterKj;
 }
 
+
+/*! \fn T_METRIC distMinIntraClusterKj(const T_CLUSTERIDX aicidx_Clusterj, const ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip, const mat::MatrixTriang<T_METRIC> &aimatrixtriagt_dissimilarity) 
+  \brief  Distance min intra cluster
+  \details 
+  \param aicidx_Clusterj an integer index of the cluster
+  \param aipartlink_memberShip a clusters partition in a ds::PartitionLinked data structure
+  \param aimatrixtriagt_dissimilarity a matrix of distances
+*/
+template < typename T_CLUSTERIDX,
+	   typename T_METRIC
+	   >
+T_METRIC
+distMinIntraClusterKj
+(const T_CLUSTERIDX                      aicidx_Clusterj,
+ const ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip,
+ const mat::MatrixTriang<T_METRIC>       &aimatrixtriagt_dissimilarity
+) 
+{
+  const T_CLUSTERIDX lcidx_numClusterK = aipartlink_memberShip.getNumPartitions();
+
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "um::distMinIntraClusterKj";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc 
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "\t( input const T_CLUSTERIDX  aicidx_Clusterj[" << aicidx_Clusterj << "]\n"
+      << "\t  input PartitionLinked&: aipartlink_memberShip[" << &aipartlink_memberShip << "]\n"
+      << "\t input  mat::MatrixTriang<T_METRIC>: aimatrixtriagt_dissimilarity[" 
+      << &aimatrixtriagt_dissimilarity << "]\n"
+      << "\t  lcidx_numClusterK = " << lcidx_numClusterK << '\n'
+      << "\t)"
+      << std::endl;
+  }
+#endif //__VERBOSE_YES  
+  
+  ds::IteratorPartitionLinked <T_CLUSTERIDX>
+    literpart_i(&aipartlink_memberShip);
+  ds::IteratorPartitionLinked <T_CLUSTERIDX>
+    literpart_ip(&aipartlink_memberShip);
+  
+  T_METRIC  lot_distMinIntraClusterKj = std::numeric_limits<T_METRIC>::max();
+
+  for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) {
+    
+    if ( aicidx_Clusterj != lcidx_Ck  ) {
+
+      for ( literpart_i.begin(aicidx_Clusterj); literpart_i.end(); literpart_i.next() ) {
+	
+	for ( literpart_ip.begin(lcidx_Ck); literpart_ip.end(); literpart_ip.next() ) {
+	  
+	  T_METRIC lt_distk =
+	    aimatrixtriagt_dissimilarity(literpart_i.getValue(),literpart_ip.getValue());
+
+	  if ( lt_distk < lot_distMinIntraClusterKj )
+	    lot_distMinIntraClusterKj = lt_distk;
+	}
+      }
+    }
+  }
+
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+      << ": OUT(" << geiinparam_verbose << ')'
+      << " T_METRIC lot_distMinIntraClusterKj = " << lot_distMinIntraClusterKj
+      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
+  
+  return lot_distMinIntraClusterKj;
+}
 
 /*! \fn std::vector<T_METRIC> diameterClusterK(INPUT_ITERATOR aiiterator_instfirst, ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist)
   \brief Calculate the cluster diameters for a partition
@@ -2477,7 +2787,7 @@ overlap
 
 
 
-/*! \fn T_METRIC DunnIndex(mat::MatrixTriang<T_METRIC> &aimatrixtriagt_dissimilarity, ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip) 
+/*! \fn T_METRIC DunnIndex(mat::MatrixTriang<T_METRIC> &aimatrixtriagt_dissimilarity, ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip, const bool aib_withNullK = false) 
   \brief  The Dunn Index (DI) \cite Dunn:ClusterMeasure:CS:1974 \cite Zhang:Cao:KernelclusteringLabelKVar:2011 
   \details The Dunn Index determines the minimum ratio between inter-cluster distance and cluster diameter for a given partitioning. It captures the notion that, in a good clustering solution, data elements within one cluster should be much closer to each other than to elements within different clusters. It is defined as
 
@@ -2497,6 +2807,7 @@ overlap
 
   \param aimatrixtriagt_dissimilarity a matrix of distances
   \param aipartlink_memberShip a clusters partition in a ds::PartitionLinked data structure
+  \param aib_withNullK a bool it is possible that for testing you have null clusters and Dunn Index should be calculated omitting cluster nulls
 */
 template < typename T_CLUSTERIDX,
 	   typename T_METRIC
@@ -2504,91 +2815,66 @@ template < typename T_CLUSTERIDX,
 T_METRIC
 DunnIndex
 (mat::MatrixTriang<T_METRIC>       &aimatrixtriagt_dissimilarity,
- ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip
+ ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip,
+ const bool                        aib_withNullK = false
  ) 
 {
   const T_CLUSTERIDX lcidx_numClusterK = aipartlink_memberShip.getNumPartitions();
-
+  const T_CLUSTERIDX lcidx_numClusterKNull = aipartlink_memberShip.getNumPartitionsNull(); 
+  
 #ifdef __VERBOSE_YES
   const char* lpc_labelFunc = "um::DunnIndex";
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc
-	      << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "(input  PartitionLinked&: aipartlink_memberShip[" 
-	      << &aipartlink_memberShip << "]\n"
-	      << "lcidx_numClusterK =  " << lcidx_numClusterK
-	      << "\n)"
-	      << std::endl;
+    std::cout
+      << lpc_labelFunc
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "\t(input  mat::MatrixTriang<T_METRIC>: aimatrixtriagt_dissimilarity[" 
+      << &aimatrixtriagt_dissimilarity << "]\n"
+      << "\t input  PartitionLinked&: aipartlink_memberShip[" << &aipartlink_memberShip << "]\n"
+      << "\t lcidx_numClusterK =  " << lcidx_numClusterK << '\n'
+      << "\t lcidx_numClusterKNull = " << lcidx_numClusterKNull << '\n'
+      << "\t)"
+      << std::endl;
   }
 #endif //__VERBOSE_YES
 
-  T_METRIC lot_DunnIndex = std::numeric_limits<T_METRIC>::max();
 
-  if  ( lcidx_numClusterK >= 2 ) {
-    
-    ds::IteratorPartitionLinked <T_CLUSTERIDX>
-      literpart_i(&aipartlink_memberShip);
-    ds::IteratorPartitionLinked <T_CLUSTERIDX>
-      literpart_ip(&aipartlink_memberShip);
-    
-    for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) { 
+   T_METRIC lot_DunnIndex = measuare_undefDunnIndex(T_METRIC);
+ 
+  if  ( (lcidx_numClusterK - lcidx_numClusterKNull) >= 2 ) {
 
+    if ( lcidx_numClusterKNull == 0 || aib_withNullK  ) {
       
-      for ( literpart_i.begin(lcidx_Ck); literpart_i.end(); literpart_i.next() ) {
+      lot_DunnIndex = std::numeric_limits<T_METRIC>::max();
+      
+      for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) {
 
-	T_METRIC lrt_Delta  = T_METRIC(0.0);
-	  
-	for ( literpart_ip.begin(lcidx_Ck); literpart_ip.end(); literpart_ip.next() ) {
-	    
-	  T_METRIC lrt_d =
-	    aimatrixtriagt_dissimilarity
-	    (literpart_i.getValue(),
-	     literpart_ip.getValue()
+	if ( !aipartlink_memberShip.isPartitionsNull(lcidx_Ck) ) {  
+	  T_METRIC lrt_delta =
+	    distMinIntraClusterKj
+	    (lcidx_Ck,
+	     aipartlink_memberShip,
+	     aimatrixtriagt_dissimilarity
 	     );
-	  if ( lrt_d  > lrt_Delta )
-	    lrt_Delta = lrt_d;
-	}
-
-	T_METRIC lrt_delta = std::numeric_limits<T_METRIC>::max();
-	  
-	for ( T_CLUSTERIDX lcidx_Ckp = 0; lcidx_Ckp < lcidx_numClusterK; lcidx_Ckp++) {
-
-	  if ( lcidx_Ck != lcidx_Ckp ) {
-	    T_METRIC lt_sumbi = T_METRIC(0);
-	    for ( literpart_ip.begin(lcidx_Ckp); literpart_ip.end(); literpart_ip.next() ) {
-		
-	      T_METRIC lrt_d =
-		aimatrixtriagt_dissimilarity
-		(literpart_i.getValue(),
-		 literpart_ip.getValue()
-		 );
-		
-	      if ( lrt_d  < lrt_delta )
-		lrt_delta = lrt_d;
-		
-	    }
-	      
-	  }
-
-	}
-
-	T_METRIC lrt_partilDI  = (lrt_Delta != 0)? lrt_delta / lrt_Delta:measuare_undefDunnIndex(T_METRIC);
-
-	if ( lrt_partilDI < lot_DunnIndex) 
-	  lot_DunnIndex = lrt_partilDI;   
-	  
-      }
       
-    } //For all cluster
+	  T_METRIC lrt_Delta =
+	    diameterClusterKj
+	    (lcidx_Ck,
+	     aipartlink_memberShip,
+	     aimatrixtriagt_dissimilarity
+	     );
 
-  } //End If
+	  T_METRIC lrt_partilDI  = (lrt_Delta != 0)?
+	    lrt_delta / lrt_Delta:measuare_undefDunnIndex(T_METRIC);
 
-  if ( lot_DunnIndex == std::numeric_limits<T_METRIC>::max() ) {
-     lot_DunnIndex = measuare_undefDunnIndex(T_METRIC);
+	  if ( lrt_partilDI < lot_DunnIndex) 
+	    lot_DunnIndex = lrt_partilDI;
+	}
+      }
+    }
   }
-
-
+  
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelFunc
@@ -2598,13 +2884,13 @@ DunnIndex
   }
   --geiinparam_verbose;
 #endif //__VERBOSE_YES
-
+  
   return lot_DunnIndex;
   
 }
 
 
-/*! \fn T_METRIC DunnIndex(INPUT_ITERATOR aiiterator_instfirst, const ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist)
+/*! \fn T_METRIC DunnIndex(INPUT_ITERATOR aiiterator_instfirst, const ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist,  const bool aib_withNullK = false)
   \brief  The Dunn Index (DI) \cite Dunn:ClusterMeasure:CS:1974 \cite Zhang:Cao:KernelclusteringLabelKVar:2011
   \details The Dunn Index determines the minimum ratio between inter-cluster distance and cluster diameter for a given partitioning. It captures the notion that, in a good clustering solution, data elements within one cluster should be much closer to each other than to elements within different clusters.  It is defined as
 
@@ -2625,6 +2911,7 @@ DunnIndex
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
   \param aipartlink_memberShip a clusters partition in a ds::PartitionLinked data structure
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
+  \param aib_withNullK a bool it is possible that for testing you have null clusters and Dunn Index should be calculated omitting cluster nulls
 */
 template < typename INPUT_ITERATOR,
 	   typename T_FEATURE,
@@ -2633,13 +2920,15 @@ template < typename INPUT_ITERATOR,
 	   >
 T_METRIC
 DunnIndex
-(INPUT_ITERATOR                          aiiterator_instfirst,
- const ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip,
- const dist::Dist<T_METRIC,T_FEATURE>    &aifunc2p_dist
+(INPUT_ITERATOR                        aiiterator_instfirst,
+ ds::PartitionLinked<T_CLUSTERIDX>     &aipartlink_memberShip,
+ const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_dist,
+ const bool                            aib_withNullK = false
  )
 { //BEGIN DunnIndex
-
+  
   const T_CLUSTERIDX lcidx_numClusterK = aipartlink_memberShip.getNumPartitions();
+  const T_CLUSTERIDX lcidx_numClusterKNull = aipartlink_memberShip.getNumPartitionsNull(); 
   
 #ifdef __VERBOSE_YES
   const char* lpc_labelFunc = "um::DunnIndex";
@@ -2648,46 +2937,51 @@ DunnIndex
     std::cout << lpc_labelFunc 
               << ":  IN(" << geiinparam_verbose << ")\n"
 	      << "(input aiiterator_instfirst[" << &aiiterator_instfirst << "]\n"
-	      << " input const &aipartlink_memberShip[" << &aipartlink_memberShip << "]\n"
-	      << "lcidx_numClusterK =  " << lcidx_numClusterK
+	      << " input &aipartlink_memberShip[" << &aipartlink_memberShip << "]\n";
+    aipartlink_memberShip.print();
+    std::cout << "\nlcidx_numClusterK =  " << lcidx_numClusterK << '\n'
+	      << "lcidx_numClusterKNull = " << lcidx_numClusterKNull << '\n'
               << " input const &aifunc2p_dist[" << &aifunc2p_dist << "]\n"
 	      << ')'
 	      << std::endl;
   }
 #endif //__VERBOSE_YES
 
-  T_METRIC lot_DunnIndex = std::numeric_limits<T_METRIC>::max();
+  T_METRIC lot_DunnIndex = measuare_undefDunnIndex(T_METRIC);
  
-  if  ( lcidx_numClusterK >= 2 ) {
-      
-    for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) {
-      
-      T_METRIC lrt_delta =
-	distMinIntraClusterKj
-	(lcidx_Ck,
-	 aipartlink_memberShip,
-	 aiiterator_instfirst,
-	 aifunc2p_dist
-	 );
-      
-      T_METRIC lrt_Delta =
-	diameterClusterKj
-	(lcidx_Ck,
-	 aipartlink_memberShip,
-	 aiiterator_instfirst,
-	 aifunc2p_dist
-	 );
+  if  ( (lcidx_numClusterK - lcidx_numClusterKNull) >= 2 ) {
 
-      T_METRIC lrt_partilDI  = (lrt_Delta != 0)?
-	lrt_delta / lrt_Delta:measuare_undefDunnIndex(T_METRIC);
+    if ( lcidx_numClusterKNull == 0 || aib_withNullK  ) {
+      
+      lot_DunnIndex = std::numeric_limits<T_METRIC>::max();
+      
+      for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) {
 
-      if ( lrt_partilDI < lot_DunnIndex) 
-	lot_DunnIndex = lrt_partilDI;
+	if ( !aipartlink_memberShip.isPartitionsNull(lcidx_Ck) ) {  
+	  T_METRIC lrt_delta =
+	    distMinIntraClusterKj
+	    (lcidx_Ck,
+	     aipartlink_memberShip,
+	     aiiterator_instfirst,
+	     aifunc2p_dist
+	     );
+      
+	  T_METRIC lrt_Delta =
+	    diameterClusterKj
+	    (lcidx_Ck,
+	     aipartlink_memberShip,
+	     aiiterator_instfirst,
+	     aifunc2p_dist
+	     );
+
+	  T_METRIC lrt_partilDI  = (lrt_Delta != 0)?
+	    lrt_delta / lrt_Delta:measuare_undefDunnIndex(T_METRIC);
+
+	  if ( lrt_partilDI < lot_DunnIndex) 
+	    lot_DunnIndex = lrt_partilDI;
+	}
+      }
     }
-  }
-
-  if ( lot_DunnIndex == std::numeric_limits<T_METRIC>::max() ) {
-     lot_DunnIndex = measuare_undefDunnIndex(T_METRIC);
   }
 
 #ifdef __VERBOSE_YES
@@ -2699,20 +2993,21 @@ DunnIndex
   }
   --geiinparam_verbose;
 #endif //__VERBOSE_YES
-
+  
   return lot_DunnIndex;
   
 } //END DunnIndex
 
 
-/*! \fn T_METRIC simplifiedDunnIndex(const mat::MatrixBase<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist)
+/*! \fn T_METRIC simplifiedDunnIndex(const mat::MatrixBase<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const ds::PartitionLinked<T_CLUSTERIDX> &aipartlink_memberShip, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist, const bool aib_withNullK = false)
   \brief  The  Simplified Dunn Index (SDI)
   \details To simplify the calculations of the the Dunn Index, simplifiedDunnIndex uses the centroids to calculate the radius and decrease the computational complexity
       
   \param aimatrixt_centroids a matrix with the centroids of the clusters
   \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
-  \param aipartlink_memberShip a a clusters partition in a ds::PartitionLinked data structure
+  \param aipartlink_memberShip a clusters partition in a ds::PartitionLinked data structure
   \param aifunc2p_dist an object of type dist::Dist to calculate distances
+  \param aib_withNullK a bool it is possible that for testing you have null clusters and Dunn Index should be calculated omitting cluster nulls
 */  
 template < typename T_FEATURE,
 	   typename INPUT_ITERATOR,
@@ -2723,12 +3018,13 @@ T_METRIC
 simplifiedDunnIndex
 (const mat::MatrixBase<T_FEATURE>         &aimatrixt_centroids, 
  INPUT_ITERATOR                           aiiterator_instfirst,
- const ds::PartitionLinked<T_CLUSTERIDX>  &aipartlink_memberShip,
- const dist::Dist<T_METRIC,T_FEATURE>     &aifunc2p_dist
+ ds::PartitionLinked<T_CLUSTERIDX>        &aipartlink_memberShip,
+ const dist::Dist<T_METRIC,T_FEATURE>     &aifunc2p_dist,
+ const bool                               aib_withNullK = false
  )
 {
-
   const T_CLUSTERIDX lcidx_numClusterK = aipartlink_memberShip.getNumPartitions();
+  const T_CLUSTERIDX lcidx_numClusterKNull = aipartlink_memberShip.getNumPartitionsNull();
   
 #ifdef __VERBOSE_YES
   const char* lpc_labelFunc = "um::simplifiedDunnIndex";
@@ -2739,8 +3035,10 @@ simplifiedDunnIndex
 	      << "\n(input mat::MatrixRow<T_FEATURE>& aimatrixt_centroids[" 
 	      << &aimatrixt_centroids << "]\n"
 	      << " input  aipartlink_memberShip[" 
-	      << &aipartlink_memberShip << "]\n"
-	      << "lcidx_numClusterK =  " << lcidx_numClusterK << '\n'
+	      << &aipartlink_memberShip << "]\n";
+    aipartlink_memberShip.print();
+    std::cout << "\nlcidx_numClusterK =  " << lcidx_numClusterK << '\n'
+	      << "lcidx_numClusterKNull = " << lcidx_numClusterKNull << '\n'
 	      << " input  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist[" 
 	      << &aifunc2p_dist << ']'
 	      << "\n)"
@@ -2748,40 +3046,44 @@ simplifiedDunnIndex
   }
 #endif //__VERBOSE_YES
 
-  T_METRIC lot_DunnIndex = std::numeric_limits<T_METRIC>::max();
+  T_METRIC lot_DunnIndex = measuare_undefDunnIndex(T_METRIC);
+  
+  if  ( (lcidx_numClusterK - lcidx_numClusterKNull) >= 2 ) {
 
-  if  ( lcidx_numClusterK >= 2  ) {
+    if ( lcidx_numClusterKNull == 0 || aib_withNullK  ) {
       
-    for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) {
+      lot_DunnIndex = std::numeric_limits<T_METRIC>::max();
       
-      T_METRIC lrt_delta =
-	minDistCjCjp
-	(lcidx_Ck,
-	 aimatrixt_centroids,
-	 aifunc2p_dist
-	 );
-      
-      T_METRIC lrt_Delta =
-	radiusClusterKj
-	(lcidx_Ck,
-	 aimatrixt_centroids.getRow(lcidx_Ck),
-	 aipartlink_memberShip,
-	 aiiterator_instfirst,
-	 aifunc2p_dist
-	 );
+      for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) {
 
-      T_METRIC lrt_partilDI  =
-	(lrt_Delta != 0)? lrt_delta / (2.0 * lrt_Delta):measuare_undefDunnIndex(T_METRIC);
+	if ( !aipartlink_memberShip.isPartitionsNull(lcidx_Ck) ) {
+	  
+	  T_METRIC lrt_delta =
+	    minDistCjCjp
+	    (lcidx_Ck,
+	     aimatrixt_centroids,
+	     aifunc2p_dist
+	     );
+      
+	  T_METRIC lrt_Delta =
+	    radiusClusterKj
+	    (lcidx_Ck,
+	     aimatrixt_centroids.getRow(lcidx_Ck),
+	     aipartlink_memberShip,
+	     aiiterator_instfirst,
+	     aifunc2p_dist
+	     );
 
-      if ( lrt_partilDI < lot_DunnIndex) 
-	lot_DunnIndex = lrt_partilDI;
+	  T_METRIC lrt_partilDI  =
+	    (lrt_Delta != 0)? lrt_delta / (2.0 * lrt_Delta):measuare_undefDunnIndex(T_METRIC);
+
+	  if ( lrt_partilDI < lot_DunnIndex) 
+	    lot_DunnIndex = lrt_partilDI;
+	}
+      }
     }
   }
-
-  if ( lot_DunnIndex == std::numeric_limits<T_METRIC>::max() ) {
-     lot_DunnIndex = measuare_undefDunnIndex(T_METRIC);
-  }
-
+  
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelFunc
@@ -2791,7 +3093,7 @@ simplifiedDunnIndex
   }
   --geiinparam_verbose;
 #endif //__VERBOSE_YES
-
+  
   return lot_DunnIndex;
 
 }

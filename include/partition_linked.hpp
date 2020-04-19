@@ -86,6 +86,32 @@ public:
     return T_CLUSTERIDX(_vectorInstIdx_firstClusterK.size());
   }
 
+  inline const T_CLUSTERIDX getNumPartitionsNull() const
+  {
+    return T_CLUSTERIDX(std::count
+      (_vectorInstIdx_firstClusterK.begin(),
+       _vectorInstIdx_firstClusterK.end(),
+       UINTIDX_NIL
+       ));
+    /*T_CLUSTERIDX lcidx_numClusterK = this->getNumPartitions();
+    IteratorPartitionLinked <T_CLUSTERIDX> literpart_ip(this);
+
+    T_CLUSTERIDX lcidx_numPartitionsNull = 0;
+    
+    for ( T_CLUSTERIDX lcidx_Ckp = 0; lcidx_Ckp < lcidx_numClusterK; lcidx_Ckp++) {
+      literpart_ip.begin(lcidx_Ckp);
+      if ( !literpart_ip.end() ) {
+	++lcidx_numPartitionsNull;
+      }
+    }
+    return lcidx_numPartitionsNull;*/
+  }
+
+  inline const bool isPartitionsNull(T_CLUSTERIDX aicidx_clusterK) const 
+  {  
+    return  (_vectorInstIdx_firstClusterK.at(aicidx_clusterK) == UINTIDX_NIL);
+  }
+
   inline const uintidx getFirstInstClusterK(T_CLUSTERIDX aicidx_clusterK)
   {  
     return  _vectorInstIdx_firstClusterK.at(aicidx_clusterK);
