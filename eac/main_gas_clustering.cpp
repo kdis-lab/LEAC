@@ -3298,7 +3298,8 @@ int main(int argc, char **argv)
 	     um::DunnIndex
 	     (lpairvec_dataset.second.begin(),
 	      lpartlinknuminst_memberShipTest,
-	      *pfunct2p_distEuclidean
+	      *pfunct2p_distEuclidean,
+	      true
 	      )
 	     );
 	  
@@ -3310,7 +3311,8 @@ int main(int argc, char **argv)
 	     (lomatrixrowt_centroids,
 	      lpairvec_dataset.second.begin(),
 	      lpartlinknuminst_memberShipTest,
-	      *pfunct2p_distEuclidean
+	      *pfunct2p_distEuclidean,
+	      true
 	      )
 	     );
 	 
@@ -3376,7 +3378,8 @@ int main(int argc, char **argv)
 	      lpairvec_dataset.second.begin(),
 	      lpairvec_dataset.second.end(),   
 	      lpartition_clustersTest,
-	      *pfunct2p_distEuclideanSq
+	      *pfunct2p_distEuclideanSq,
+	      true && !lpartlinknuminst_memberShip.haveNullCluster()
 	      )
 	     );
 
