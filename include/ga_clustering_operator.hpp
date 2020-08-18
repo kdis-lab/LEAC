@@ -423,6 +423,119 @@ crossPNNnew
 } /*END crossPNNnew*/
 
 
+/*! \fn void onePointIndivisibleCrossover(gaencode::ChromFixedLength<T_GENE,T_METRIC> &aochrom_child1, gaencode::ChromFixedLength<T_GENE,T_METRIC> &aochrom_child2, const gaencode::ChromFixedLength<T_GENE,T_METRIC> &aichrom_parent1, const gaencode::ChromFixedLength<T_GENE,T_METRIC> &aichrom_parent2) 
+  \brief single-point crossover (Michalewicz, 1992).
+  \details
+  \param aochrom_child1 a gaencode::ChromFixedLength<T_GENE,T_METRIC>
+  \param aochrom_child2 a gaencode::ChromFixedLength<T_GENE,T_METRIC>
+  \param aichrom_parent1 a gaencode::ChromFixedLength<T_GENE,T_METRIC>
+  \param aichrom_parent2 a ChromFixedLength<T_GENE,T_METRIC> 
+ */
+template < typename T_GENE,
+	   typename T_METRIC
+	   >
+void
+onePointIndivisibleCrossover
+(gaencode::ChromVariableLength<T_GENE,T_METRIC>       &aochrom_child1,
+ gaencode::ChromVariableLength<T_GENE,T_METRIC>       &aochrom_child2, 
+ const gaencode::ChromVariableLength<T_GENE,T_METRIC> &aichrom_parent1, 
+ const gaencode::ChromVariableLength<T_GENE,T_METRIC> &aichrom_parent2
+ )
+{
+  const long liu_k1 =
+    long((aichrom_parent1.getStringSize() / data::Instance<T_GENE>::getNumDimensions()));
+  const long liu_k2 =
+    long((aichrom_parent2.getStringSize() / data::Instance<T_GENE>::getNumDimensions()));
+  long lui_c1 = 0;
+  if ( liu_k1 >= 2 ) {
+    std::uniform_int_distribution<long> uniformdis_uiRandC1(0,liu_k1-1);
+    // C1 = rand() mod K1
+    lui_c1 = uniformdis_uiRandC1(gmt19937_eng); 
+  }
+  const long lui_lbc2 = std::min<long>(2,std::max<long>(0,2-(liu_k1-lui_c1)));
+  const long lui_ubc2 = liu_k2 - std::max<long>(0,2-lui_c1);
+  long lui_c2 = 0;
+  if ( liu_k2 >= 2 ) {
+    if ( lui_lbc2 < (lui_ubc2-lui_lbc2-1) ) {
+      //C2 = LB(C2) + rand()mod (UB(C2) - LB(C2))
+      std::uniform_int_distribution<long> uniformdis_uiRandC2(lui_lbc2,lui_ubc2-lui_lbc2-1);
+      lui_c2 =  uniformdis_uiRandC2(gmt19937_eng);
+    }
+    else {
+      lui_c2 = lui_lbc2;
+    }
+  }
+ 
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "gaclusteringop::onePointIndivisibleCrossover";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ":  IN(" << geiinparam_verbose << ')'
+	      << "\n(\noutput gaencode::ChromVariableLength<T_GENE>: aochrom_child1[" 
+	      << &aochrom_child1 << "]\n"
+	      << "output gaencode::ChromVariableLength<T_GENE>: aochrom_child2[" 
+	      << &aochrom_child2 << "]\n";
+    std::ostringstream lostrstream_labelparent1;
+    lostrstream_labelparent1 << lpc_labelFunc << ":input parent1";
+    aichrom_parent1.print(std::cout,lostrstream_labelparent1.str().c_str());
+    std::cout << '\n';
+    
+    std::ostringstream lostrstream_labelparent2;
+    lostrstream_labelparent2 << lpc_labelFunc << ":input parent2";
+    aichrom_parent2.print(std::cout,lostrstream_labelparent2.str().c_str());
+    std::cout << '\n';
+    std::cout
+      << "liu_k1 = " <<  liu_k1 << '\n'
+      << "liu_k2 = " <<  liu_k2 << '\n'
+      << "lui_lbc2 = " << lui_lbc2 << '\n'
+      << "lui_ubc2 = " << lui_ubc2 << '\n'
+      << "lui_c1 = " << lui_c1 << '\n'
+      << "lui_c2 = " << lui_c2 << std::endl;
+  }
+#endif /*__VERBOSE_YES*/
+   
+  aochrom_child1.resize( uintidx((lui_c1 + liu_k2 - lui_c2) * data::Instance<T_GENE>::getNumDimensions()) );
+  aochrom_child2.resize( uintidx((lui_c2 + liu_k1 - lui_c1) * data::Instance<T_GENE>::getNumDimensions()) );
+ 
+  interfacesse::copy
+    (aochrom_child1.getString(), 
+     aichrom_parent1.getString(), 
+     uintidx(lui_c1 * data::Instance<T_GENE>::getNumDimensions())
+     );
+
+  interfacesse::copy
+    (aochrom_child1.getString() + lui_c1 * data::Instance<T_GENE>::getNumDimensions(), 
+     aichrom_parent2.getString() + lui_c2 * data::Instance<T_GENE>::getNumDimensions(),
+     uintidx((liu_k2 - lui_c2) * data::Instance<T_GENE>::getNumDimensions())
+     );
+
+  interfacesse::copy
+    (aochrom_child2.getString(), 
+     aichrom_parent2.getString(), 
+     uintidx(lui_c2 * data::Instance<T_GENE>::getNumDimensions())
+     );
+
+  interfacesse::copy
+    (aochrom_child2.getString() + lui_c2 * data::Instance<T_GENE>::getNumDimensions(), 
+     aichrom_parent1.getString() + lui_c1 * data::Instance<T_GENE>::getNumDimensions(),
+     uintidx((liu_k1 - lui_c1) * data::Instance<T_GENE>::getNumDimensions())
+     );
+ 
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ": OUT(" << geiinparam_verbose << ")\n";
+    aochrom_child1.print(std::cout,lpc_labelFunc);
+    std::cout << '\n';
+    aochrom_child2.print(std::cout,lpc_labelFunc);
+    std::cout << std::endl;
+  }
+  --geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
+
+} /*onePointIndivisibleCrossover*/
+
 
 /*! \fn void onePointCrossover(gaencode::Chromosomemat::MatrixWithRowNull<T_GENE,T_METRIC> &aiochrommwrn_child1, gaencode::ChromosomeMatrixWithRowNull <T_GENE,T_METRIC> &aiochrommwrn_child2, const uintidx aiui_positionGene)
   \brief One point crossover \cite Bandyopadhyay:Maulik:GACVarK:GCUK:2002

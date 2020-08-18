@@ -151,6 +151,15 @@ public:
       delete[] _pts_string; 
     }
   }
+
+  void resize(const uintidx aiui_newStringSize)
+  {
+    if ( _uintidx_stringSize != aiui_newStringSize )  {
+	if ( this->_pts_string != NULL )  delete[] _pts_string;
+	_uintidx_stringSize = aiui_newStringSize;
+	_pts_string = new T_GENE[_uintidx_stringSize];
+    }
+  }
  
   ChromVariableLength<T_GENE,T_METRIC>& 
   operator=(const ChromVariableLength<T_GENE,T_METRIC> &aichromvarlength_b)

@@ -4030,7 +4030,8 @@ SSE
   
   for (; aiiterator_instfirst != aiiterator_instlast; ++aiiterator_instfirst) {
 
-    data::Instance<T_FEATURE>* linst_inter =  (data::Instance<T_FEATURE>*) *aiiterator_instfirst;
+    data::Instance<T_FEATURE>* linst_inter =
+      (data::Instance<T_FEATURE>*) *aiiterator_instfirst;
     
     intidx lcidx_instInClusterJ = 
       nearest::NN
@@ -4773,7 +4774,7 @@ static T_METRIC lmetric_e1;
   T_METRIC lmetric_ek = T_METRIC(0);
   T_METRIC lmetric_dk = T_METRIC(-1);
 
-  if ( aimatrixt_centroids.getNumRows() > 0 ) {
+  if ( aimatrixt_centroids.getNumRows() >= 2 ) {
 
        
     for (uintidx lui_i = 0;
@@ -4803,8 +4804,10 @@ static T_METRIC lmetric_e1;
        aifunc2p_dist
        );
       
-    lometric_indexI = (( lmetric_e1 / lmetric_ek ) *  lmetric_dk )
-      / T_METRIC(aimatrixt_centroids.getNumRows());
+      lometric_indexI = (lmetric_ek >= 0.0 )?
+      (( lmetric_e1 / lmetric_ek ) *  lmetric_dk )
+      / T_METRIC(aimatrixt_centroids.getNumRows())
+	: measuare_undefIndexI(T_METRIC);
   
     lometric_indexI = std::pow(lometric_indexI,airt_p); 
 
@@ -4935,7 +4938,8 @@ indexI
 
   T_METRIC lometric_indexI = measuare_undefIndexI(T_METRIC);
 
-  if ( aimatrixt_centroids.getNumRows() > 0 ) {
+  if ( aimatrixt_centroids.getNumRows() >= 2 ) {
+    
     std::pair<T_METRIC,bool> lpair_ek = 
       SSE
       (aimatrixt_centroids,
@@ -4952,8 +4956,10 @@ indexI
        aifunc2p_dist
        );
 
-    lometric_indexI = (( lmetric_e1 / lpair_ek.first ) *  lmetric_dk )
-      / T_METRIC(aimatrixt_centroids.getNumRows());
+    lometric_indexI = (lpair_ek.first > 0.0 )?
+      (( lmetric_e1 / lpair_ek.first ) *  lmetric_dk )
+      / T_METRIC(aimatrixt_centroids.getNumRows())
+      : measuare_undefIndexI(T_METRIC);
   
     lometric_indexI = std::pow(lometric_indexI,airt_p);
   }
@@ -5061,7 +5067,7 @@ indexIreeval
   
   T_METRIC lometric_indexI = measuare_undefIndexI(T_METRIC);
 
-  if ( aimatrixt_centroids.getNumRows() > 0 ) {
+  if ( aimatrixt_centroids.getNumRows() >= 2 ) {
 
     T_METRIC lmetric_ek = T_METRIC(0);
     
@@ -5069,7 +5075,8 @@ indexIreeval
 	 aiiterator_instfirst != aiiterator_instlast;
 	 ++aiiterator_instfirst, lui_i++)
       {
-	data::Instance<T_FEATURE>* linst_inter =  (data::Instance<T_FEATURE>*) *aiiterator_instfirst;
+	data::Instance<T_FEATURE>* linst_inter =
+	  (data::Instance<T_FEATURE>*) *aiiterator_instfirst;
    
 	for (uintidx lui_j = 0; lui_j < aimatrixt_centroids.getNumRows(); lui_j++)  {
 	  T_FEATURE* lmatrowt_centroid = aimatrixt_centroids.getRow(lui_j);
@@ -5093,8 +5100,10 @@ indexIreeval
        aifunc2p_dist
        );
 
-    lometric_indexI = (( lmetric_e1 / lmetric_ek ) *  lmetric_dk )
-      / T_METRIC(aimatrixt_centroids.getNumRows());
+    lometric_indexI = ( lmetric_ek >0.0 )?
+      (( lmetric_e1 / lmetric_ek ) *  lmetric_dk )
+      / T_METRIC(aimatrixt_centroids.getNumRows())
+    : measuare_undefIndexI(T_METRIC);
   
     lometric_indexI = std::pow(lometric_indexI,airt_p); 
 
@@ -5210,7 +5219,7 @@ indexIreeval
 
   T_METRIC lometric_indexI = measuare_undefIndexI(T_METRIC);
 
-  if ( aimatrixt_centroids.getNumRows() > 0 ) {
+  if ( aimatrixt_centroids.getNumRows() >= 2 ) {
     std::pair<T_METRIC,bool> lpair_ek = 
       SSE
       (aimatrixt_centroids,
@@ -5227,8 +5236,10 @@ indexIreeval
        aifunc2p_dist
        );
 
-    lometric_indexI = (( lmetric_e1 / lpair_ek.first ) *  lmetric_dk )
-      / T_METRIC(aimatrixt_centroids.getNumRows());
+    lometric_indexI = (lpair_ek.first >0.0 )?
+      (( lmetric_e1 / lpair_ek.first ) *  lmetric_dk )
+      / T_METRIC(aimatrixt_centroids.getNumRows())
+      : measuare_undefIndexI(T_METRIC);
   
     lometric_indexI = std::pow(lometric_indexI,airt_p);
   }

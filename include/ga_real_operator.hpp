@@ -418,7 +418,93 @@ randomMutation(gaencode::ChromFixedLength<T_GENE,T_REAL>  &aiochromfixlen_toMuta
   
 } /*gaencode::randomMutation*/
 
+/*! \fn void randomMutation(gaencode::ChromVariableLength<T_GENE,T_REAL>  &aiochromfixlen_toMutate)
+  \brief randomMutation \cite Maulik:Bandyopadhyay:GAclustering:GAS:2000  
+  \details Only one \f$g_i\f$ gene will be mutated. A number \f$\delta\f$ in the range [0,1] is generated with uniform distribution. If the value at that position is \f$g_i\f$, then after mutation it becomes
+    \param aiochromfixlen_toMutate a gaencode::ChromVariableLength
 
+    \f[ 
+    \cases{
+     g_i \cdot (1 \pm 2 \sigma ), &\quad $g_i \neq 0$ \cr 
+     \pm 2 \sigma,                &\quad $g_i = 0$. \cr
+     }
+    \f]
+
+    The ‘+’ or ‘−’ sign occurs with equal probability.
+
+  \param aiochromfixlen_toMutate a gaencode::ChromVariableLength  chromosome to mutate 
+ */
+template <typename T_GENE, 
+          typename T_REAL
+	  > 
+void 
+randomMutation(gaencode::ChromVariableLength<T_GENE,T_REAL>  &aiochromfixlen_toMutate)
+{
+  
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "garealop::randomMutation";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+	      << ":  IN(" << geiinparam_verbose << ')'
+	      << "\n(output gaencode::ChromVariableLength<>&: aiochromfixlen_toMutate["
+	      << &aiochromfixlen_toMutate << "]"
+	      << '\n';
+  }
+#endif //__VERBOSE_YES
+
+  std::uniform_int_distribution<uintidx> lsuniformdis_ui0KD
+    (0,aiochromfixlen_toMutate.getStringSize()-1);
+  static std::uniform_real_distribution<T_REAL> lsuniformdis_real01(0.0, 1.0);
+
+  const uintidx  liui_randPositionGene(lsuniformdis_ui0KD(gmt19937_eng));
+
+  T_GENE lt_gene = aiochromfixlen_toMutate.getGene(liui_randPositionGene);
+  
+#if  DATATYPE_CENTROIDS_ROUND == 0
+  const T_GENE  lrt_sign = (lsuniformdis_real01(gmt19937_eng) < 0.5)?T_GENE(1):T_GENE(-1);
+  const T_GENE  lrt_delta = T_GENE(lsuniformdis_real01(gmt19937_eng));
+  
+  const T_GENE lt_newGene = (lt_gene != 0.0)?
+    lt_gene  + lrt_sign * 2.0 * lrt_delta  * lt_gene
+    :lt_gene + lrt_sign * 2.0 * lrt_delta;
+
+  aiochromfixlen_toMutate.setGene(liui_randPositionGene,lt_newGene);
+  
+#else
+  const DATATYPE_REAL lrt_sign = (lsuniformdis_real01(gmt19937_eng) < 0.5)?
+    DATATYPE_REAL(1):DATATYPE_REAL(-1);
+  const DATATYPE_REAL lrt_delta = DATATYPE_REAL(lsuniformdis_real01(gmt19937_eng));
+  const T_GENE lt_newGene =  (lt_gene != 0)?
+    T_GENE( std::round((DATATYPE_REAL) lt_gene + lrt_sign * 2.0 * lrt_delta  * lt_gene))
+    :T_GENE(std::round((DATATYPE_REAL) lt_gene + lrt_sign * 2.0 * lrt_delta));
+
+  aiochromfixlen_toMutate.setGene(liui_randPositionGene,lt_newGene);
+  
+#endif //DATATYPE_CENTROIDS_ROUND
+
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ": OUT(" << geiinparam_verbose << ")\n";
+    std::ostringstream lostrstream_labelFunc;
+    lostrstream_labelFunc
+      << lpc_labelFunc
+      << ",gene position," << liui_randPositionGene
+      << "v," << lt_gene
+      << ",sign," << lrt_sign * 2
+      << ",delta ," << lrt_delta 
+      << ",mutation gene,"
+      << aiochromfixlen_toMutate.getGene(liui_randPositionGene)
+      << ",";
+    aiochromfixlen_toMutate.print(std::cout,lostrstream_labelFunc.str().c_str(),',',';');
+    std::cout << std::endl;
+  }
+  --geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
+  
+} /*gaencode::randomMutation*/
 
   
 /*! \fn void muhlenbeinMutation(gaencode::ChromosomeString<T_GENE,T_REAL>  &aiochromstr_toMutate, T_GENE aifeact_ai, T_GENE aifeact_bi)
