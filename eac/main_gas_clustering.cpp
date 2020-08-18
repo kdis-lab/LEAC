@@ -122,6 +122,11 @@
 
 /* Variable-K --- Encode centroids 
  */
+#ifdef ALG_VGA_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2001
+#include "datatype_instance_real.hpp"
+#include "vga_vkcentroid.hpp"
+#endif /*ALG_VGA_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2001*/
+
 #ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
 #include "datatype_instance_real.hpp"
 #include "gcuk_vkcentroid.hpp"
@@ -657,6 +662,38 @@ int main(int argc, char **argv)
     
 #endif /*ALG_KGA_FKCENTROID_BANDYOPADHYAY_MAULIK_2002*/
 
+#ifdef ALG_VGA_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2001
+  /*INPUT: PARAMETER
+   */
+  inout::InParamPcPmVk
+    <DATATYPE_CLUSTERIDX,
+     DATATYPE_REAL,
+     DATATYPE_FEATURE,         
+     DATATYPE_FEATURE_SUM,
+     DATATYPE_INSTANCES_CLUSTER_K
+     > 
+    linparam_ClusteringGA
+    ("VGA",
+     "Bandyopadhyay and Maulik 2001", 
+     inout::CENTROIDS,
+     INPARAMCLUSTERING_DISTANCE_EUCLIDEAN
+     );
+  linparam_ClusteringGA.setNumMaxGenerations(1000);
+  linparam_ClusteringGA.setSizePopulation(50);  
+  linparam_ClusteringGA.setProbCrossover(0.8);  
+  linparam_ClusteringGA.setProbMutation(0.05); 
+  /*The values Kmin and Kmax are token to 2 and 10, respectively
+   */ 
+  linparam_ClusteringGA.setNumClusterKMinimum(2);   
+  linparam_ClusteringGA.setNumClusterKMaximum(INPARAMCLUSTERING_DEFAULT_CLUSTERK_UNDEFINED);    
+
+  /*OUT
+   */
+  inout::OutParamGAC
+    <DATATYPE_REAL,
+     DATATYPE_CLUSTERIDX>      loop_outParamGAC(inout::IndexI);
+#endif /*ALG_VGA_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2001*/
+  
 
 #ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
   /*INPUT: PARAMETER
@@ -2102,6 +2139,36 @@ int main(int argc, char **argv)
 
 #endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
 
+
+#ifdef ALG_VGA_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2001
+
+     gaencode::ChromVariableLength<DATATYPE_FEATURE,DATATYPE_REAL>
+	lchrom_best =
+	eac::vga_vkcentroid
+	(loop_outParamGAC,
+	 linparam_ClusteringGA,
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
+	 *pfunct2p_distAlg
+	 );
+
+     mat::MatrixRow<DATATYPE_FEATURE> lomatrixrowt_centroids
+	( lchrom_best.getStringSize() / data::Instance<DATATYPE_FEATURE>::getNumDimensions(),
+	  data::Instance<DATATYPE_FEATURE>::getNumDimensions(),
+	  lchrom_best.getString()
+	  );
+
+      auto lpartition_clusters = 
+	partition::makePartition
+	(lomatrixrowt_centroids,
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
+	 DATATYPE_CLUSTERIDX(lomatrixrowt_centroids.getNumRows()),
+	 *pfunct2p_distAlg
+	 );
+      
+#endif /*ALG_VGA_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2001*/
+      
     
 #ifdef ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002
 
