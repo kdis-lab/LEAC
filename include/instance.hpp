@@ -51,7 +51,7 @@ public:
     : _ptc_id(NULL)
     , _arrayt_feature(new T_FEATURE[_stcuintidx_numDimensions])  
   {
-    interfaceclapack_copy
+    interfacesse::copy
       (_arrayt_feature,
        aiarrayt_feature,
        _stcuintidx_numDimensions
@@ -67,7 +67,7 @@ public:
       this->_ptc_id = new char[strlen(aiinst_b._ptc_id) + 1];
       strcpy(this->_ptc_id, aiinst_b._ptc_id);
     }
-    interfaceclapack_copy
+    interfacesse::copy
       (_arrayt_feature,
        aiinst_b._arrayt_feature,
        _stcuintidx_numDimensions
@@ -106,7 +106,7 @@ public:
 	this->_ptc_id = new char[strlen(aiinst_b._ptc_id) + 1];
 	strcpy(this->_ptc_id, aiinst_b._ptc_id);
       }
-      interfaceclapack_copy
+      interfacesse::copy
 	(_arrayt_feature,
 	 aiinst_b._arrayt_feature,
 	 _stcuintidx_numDimensions
