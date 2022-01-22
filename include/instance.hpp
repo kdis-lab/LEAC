@@ -16,6 +16,7 @@
 #include "line_split.hpp"
 //#include "outfilename.hpp"
 #include "common.hpp"
+#include "linear_algebra_level1.hpp"
 
 #define INSTANCE_OUT_SEPARATOR_DEFAULT  ','
 
