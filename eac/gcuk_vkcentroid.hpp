@@ -84,6 +84,13 @@ gcuk_vkcentroid
  )
 {
 
+  if ( aiinp_inParamPcPmVk.getNumClusterKMaximum() == 
+       INPARAMCLUSTERING_DEFAULT_CLUSTERK_UNDEFINED ) {
+    const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
+    aiinp_inParamPcPmVk.setNumClusterKMaximum
+      (std::round(std::sqrt((double)lui_numInstances)));
+  }
+  
   gaencode::ChromosomeMatrixWithRowNull<T_FEATURE,T_REAL>  lochrom_best;
 
   /*VARIABLE NEED FOR POPULATION AND MATINGPOOL GENETIC

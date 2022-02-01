@@ -715,10 +715,10 @@ int main(int argc, char **argv)
   linparam_ClusteringGA.setSizePopulation(50);  
   linparam_ClusteringGA.setProbCrossover(0.8);  
   linparam_ClusteringGA.setProbMutation(0.001); 
-  /*The values Kmin and Kmax are token to 2 and 10, respectively
-   */ 
+  /*The values Kmin and Kmax are token to 2 and 10 by autho, respectively
+   or  -1 to k max search equal to sqrt(n)*/ 
   linparam_ClusteringGA.setNumClusterKMinimum(2);   
-  linparam_ClusteringGA.setNumClusterKMaximum(10);    
+  //linparam_ClusteringGA.setNumClusterKMaximum(10);    
 
   /*OUT
    */
@@ -3021,7 +3021,8 @@ int main(int argc, char **argv)
             lpairvec_dataset.first.begin(),
 	    lpairvec_dataset.first.end(),   
 	    lpartition_clusters,
-	    *pfunct2p_distEuclideanSq
+	    *pfunct2p_distEuclideanSq,
+	    true
 	    )
 	   );  
 
@@ -3446,7 +3447,7 @@ int main(int argc, char **argv)
 	      lpairvec_dataset.second.end(),   
 	      lpartition_clustersTest,
 	      *pfunct2p_distEuclideanSq,
-	      true && !lpartlinknuminst_memberShip.haveNullCluster()
+	      true // && !lpartlinknuminst_memberShip.haveNullCluster()
 	      )
 	     );
 
