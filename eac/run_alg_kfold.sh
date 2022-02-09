@@ -16,10 +16,13 @@
 #         the value kfold, the default value of k is 10 if not specified
 #
 #MODIFY THE PATH WHERE THE LEAC BINARY IS LOCATED
-PATH_ALGORITHMS="~/leac/bin"
+PATH_ALGORITHMS=~/LEAC-1.2/bin
 #
 #MODIFY THE PATH WHERE THE DATASET ARE LOCATED 
-PATH_DATASETS="~/leac/data"
+PATH_DATASETS=~/dataset
+
+#MODIFY THE PATH WHERE THE K-FOLD EXPERIMENTAL STUDY OUTPUT FILES WILL BE STORED
+PATH_KFOLD_TEST_OUT=~/LEAC-1.2/kfix_kfold_test
 
 #INCLUDE DATASET TO PROCESS WITH ITS CHARACTERISTICS
 # DESCRIBED BY THE PARAMETERS
@@ -69,6 +72,11 @@ NUM_DATASET=${#DATASET_ARRAY[@]}
 # get number algorithms
 NUM_ALGORITHMS=${#ALGORITHMS_ARRAY[@]}
 #
+#
+if [ ! -d $PATH_KFOLD_TEST_OUT ]; then
+mkdir -p $PATH_KFOLD_TEST_OUT
+fi
+cd $PATH_KFOLD_TEST_OUT
 #
 echo "K-FOLD*************************************************************************"
 echo "********************************************************************************"
