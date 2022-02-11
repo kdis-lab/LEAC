@@ -3447,7 +3447,7 @@ int main(int argc, char **argv)
 	      lpairvec_dataset.second.end(),   
 	      lpartition_clustersTest,
 	      *pfunct2p_distEuclideanSq,
-	      true // && !lpartlinknuminst_memberShip.haveNullCluster()
+	      true && !lpartlinknuminst_memberShip.haveNullCluster()
 	      )
 	     );
 
