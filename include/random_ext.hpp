@@ -27,22 +27,8 @@
 //BEGIN WINDOWS
 #if defined(_WIN32) || defined(_WIN64)
 
-#include <string>
-#include <sstream>
-#include <time.h>
+std::random_device grd_randomdevice;
 
-namespace patch
-{
-  template < typename T > std::string to_string( const T& n )
-  {
-    std::ostringstream stm ;
-    stm << n ;
-    return stm.str() ;
-  }
-}
-
-std::string uirand = patch::to_string(time(NULL));
-std::random_device grd_randomdevice(uirand.c_str());
 //END WINDOWS
 #elif defined(__unix__) || defined(__APPLE__) && defined(__MACH__)
 
