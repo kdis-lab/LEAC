@@ -225,7 +225,7 @@ public:
       aichromcbga_src._partlinkstats_part = NULL;
       aichromcbga_src._b_stringInvalid = true;
       aichromcbga_src._t_objetiveFunc = std::numeric_limits<T_REAL>::max();
-      aichromcbga_src._opf_optimalityCBGA = false;
+      aichromcbga_src._opf_optimalityCBGA = gaencode::OPT_NONE;
     }
 
     return *this;
