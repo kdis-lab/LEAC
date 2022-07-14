@@ -1982,7 +1982,7 @@ WBIndex
 	 );
 
       lometric_WBIndex = (lmetrict_SSw / lmetrict_SSb) *
-	(T_METRIC) ( aimatrixt_centroids.getNumRows() -1 );    
+	(T_METRIC) ( aimatrixt_centroids.getNumRows() );    
     }
     
   }
@@ -2092,7 +2092,7 @@ WBIndexreeval
 	 );
 
       lometric_WBIndex = (lmetrict_SSw / lmetrict_SSb) *
-	(T_METRIC) ( aimatrixt_centroids.getNumRows() -1 );    
+	(T_METRIC) ( aimatrixt_centroids.getNumRows() );    
     }
 
     delete [] larray_centroid1;
