@@ -52,7 +52,123 @@
 */
 
 namespace eac {
+
+
+template < typename INPUT_ITERATOR,
+           typename T_FEATURE,
+	   typename T_CLUSTERIDX,
+	   typename T_METRIC  
+	   >
+T_METRIC
+__localVRC
+(const mat::MatrixRow<T_FEATURE>       &aimatrixt_centroids,
+ INPUT_ITERATOR                        aiiterator_instfirst,
+ const INPUT_ITERATOR                  aiiterator_instlast,
+ partition::Partition<T_CLUSTERIDX>    &aipartition_clusters,
+ const dist::Dist<T_METRIC,T_FEATURE>  &aifunc2p_squaredDist
+ )
+{
+  const uintidx  lui_numInstances = uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
+  
+  static T_FEATURE *larray_centroid1 =
+    new T_FEATURE[data::Instance<T_FEATURE>::getNumDimensions()];
+
+  static utils::RunOnce runOnce ([&]() {
+      decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
+	*larray_sumFeatureTmp =
+	new decltype(utils::InstanceDataType().sum(data::Instance<T_FEATURE>::type()))
+	[data::Instance<T_FEATURE>::getNumDimensions()];
+
+      stats::sumFeactures
+	(larray_sumFeatureTmp,
+	 aiiterator_instfirst,
+	 aiiterator_instlast,
+	 T_FEATURE(0)
+	 );
+  
+      stats::meanVector
+	(larray_centroid1,
+	 lui_numInstances,
+	 larray_sumFeatureTmp
+	 );
+
+      delete [] larray_sumFeatureTmp;
+    }
+    );
+  
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "um::VRC";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc 
+	      << ":  IN(" << geiinparam_verbose << ')'
+	      << "\n\t(input mat::MatrixRow<T_FEATURE>& aimatrixt_centroids[" 
+	      << &aimatrixt_centroids << "]\n"
+	      << "\t input  partition::Partition<>&: aipartition_clusters[" 
+	      << &aipartition_clusters << "]\n"
+	      << "\t input  dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_squaredDist[" 
+	      << &aifunc2p_squaredDist << ']'
+	      << "\n\t)"
+	      << std::endl;
+  }
+#endif //__VERBOSE_YES
+
+  T_METRIC  lometric_VRC = measuare_undefVRC(T_METRIC);
  
+  if ( aimatrixt_centroids.getNumRows() > 1 ) {
+
+    std::vector<T_METRIC> lvectorrt_sumDistInstCentInK;
+    std::vector<uintidx>  lvectorui_numInstClusterK;
+  
+    std::tie
+      (lvectorrt_sumDistInstCentInK,
+       lvectorui_numInstClusterK) =
+      um::sumDistInstCentInK
+      (aimatrixt_centroids,
+       aiiterator_instfirst,
+       aiiterator_instlast,
+       aipartition_clusters,
+       aifunc2p_squaredDist
+       );
+   
+    T_METRIC lmetrict_SSw = 
+      interfacesse::sum
+      (lvectorrt_sumDistInstCentInK.data(),
+       (uintidx) lvectorrt_sumDistInstCentInK.size()
+       );
+
+    if  ( lmetrict_SSw > 0.0 ) {
+    
+      T_METRIC lmetrict_SSb =
+	um::ssb
+	(aimatrixt_centroids,
+	 larray_centroid1,
+	 lvectorui_numInstClusterK,
+	 aifunc2p_squaredDist
+	 );
+
+      lometric_VRC =
+	(lmetrict_SSb  * (T_METRIC) (lui_numInstances - aimatrixt_centroids.getNumRows() ))
+	/ (lmetrict_SSw * (T_METRIC) ( aimatrixt_centroids.getNumRows() -1 ));
+    
+    }
+    
+  }
+	  
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout << lpc_labelFunc
+	      << ": OUT(" << geiinparam_verbose << ')'
+	      << " lometric_VRC = " << lometric_VRC
+	      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif //__VERBOSE_YES
+
+  return lometric_VRC;
+    
+}
+  
 
 /*! \fn auto tgca_getKSegments(const CONTAINER_ITERINST aiiterator_instfirst, const CONTAINER_ITERINST aiiterator_instlast, partition::PartitionDisjSets<T_CLUSTERIDX> &aipartitionDisjSets_clusters, FUNCTION_GETATTRIBUTE function_getAttribute)
   \brief tgca_getKSegments \cite He:Tan:GAclusteringVarK:TGCA:2012
@@ -735,7 +851,7 @@ tgca_vkcentroid
 	  T_METRIC lT_VRC;
 	   
 	  lT_VRC =
-	    um::VRC
+	    __localVRC
 	    (lmatrixrowt_centroidsChrom,
 	     aiiterator_instfirst,
 	     aiiterator_instlast,
@@ -1570,7 +1686,7 @@ tgca_vkcentroid
 	   
    
 	      lT_VRC =
-		um::VRC
+		__localVRC
 		(lmatrixrowt_centroidsChrom,
 		 aiiterator_instfirst,
 		 aiiterator_instlast,
