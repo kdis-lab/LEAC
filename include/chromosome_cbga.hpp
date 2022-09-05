@@ -225,7 +225,7 @@ public:
       aichromcbga_src._partlinkstats_part = NULL;
       aichromcbga_src._b_stringInvalid = true;
       aichromcbga_src._t_objetiveFunc = std::numeric_limits<T_REAL>::max();
-      aichromcbga_src._opf_optimalityCBGA = gaencode::OPT_NONE;
+      aichromcbga_src._opf_optimalityCBGA = gaencode::OPT_NONE; 
     }
 
     return *this;
@@ -254,6 +254,38 @@ public:
     return this->_opf_optimalityCBGA;
   }
 
+  void changeCodeBook
+  (mat::MatrixResizableRow
+   <T_FEATURE,
+   T_INSTANCES_CLUSTER_K>
+   *aiomatrixresizerow_codeBook
+   )
+  {
+    if ( this->_matrixresizerow_codeBook != NULL )
+      delete _matrixresizerow_codeBook;
+
+    _matrixresizerow_codeBook = aiomatrixresizerow_codeBook;
+    aiomatrixresizerow_codeBook = NULL;      
+  }
+  
+  void changePartition
+  (ds::PartitionLinkedStats
+   <T_FEATURE,
+   T_CLUSTERIDX,
+   T_INSTANCE_FREQUENCY,
+   T_INSTANCES_CLUSTER_K,    
+   T_FEATURE_SUM
+   > *aiopartlinkstats_part
+   )
+  {
+    if ( this->_partlinkstats_part != NULL )
+      delete _partlinkstats_part;
+
+    _partlinkstats_part = aiopartlinkstats_part;
+    aiopartlinkstats_part = NULL;      
+  }
+
+  
   inline void setOptimalityCBGA(OptimalityCBGA aiooptimalitycbga_a)
   { 
     this->_opf_optimalityCBGA = aiooptimalitycbga_a;
@@ -434,6 +466,23 @@ protected:
 	
 }; /*END class ChromosomeCBGA*/
 
+template <typename T_FEATURE,  //TYPE GENE
+	  typename T_CLUSTERIDX,
+	  typename T_INSTANCE_FREQUENCY,
+	  typename T_INSTANCES_CLUSTER_K,
+	  typename T_FEATURE_SUM,
+	  typename T_REAL
+	  >
+using ChromCodeBook =
+   class ChromosomeCBGA
+	 <T_FEATURE,  
+	   T_CLUSTERIDX,
+	   T_INSTANCE_FREQUENCY,
+	   T_INSTANCES_CLUSTER_K,
+	   T_FEATURE_SUM,
+	   T_REAL>;    
+
+  
 } /*END namespace gaencode*/
 
 
