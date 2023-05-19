@@ -9,7 +9,7 @@
  */
 #ifndef __LINE_SPLIT_HPP
 #define __LINE_SPLIT_HPP
-
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -70,7 +70,7 @@ public:
     char   *lpc_selectColumns;
     uintidx luintidx_limInf;
     uintidx luintidx_limSup;
-    char   ls_selectColumns[ aistr_selectColumns.length() + 2];
+    char*  ls_selectColumns = new char[aistr_selectColumns.length() + 2];  // to fix error at compile time
   
     using namespace std;
     istringstream   liss_stringstream;
@@ -103,6 +103,7 @@ public:
 	lpc_readItem = strtok(NULL, ",");
       }	
     } /*IF !NULL*/
+    delete[] ls_selectColumns;  // to liberate memory
   }
 
   uintidx split(std::string& str) 
