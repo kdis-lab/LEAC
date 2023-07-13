@@ -1,7 +1,17 @@
 # LEAC - Library Evolutionary Algorithms for Clustering <img align="right" width="100" height="100" src="leac_logo.png">
 
-Library Evolutionary Algorithms for Clustering (**LEAC**) is a library for the implementation
-of evolutionary and genetic algorithms to solve the problem of *partition clustering*.
+* [What is LEAC library?](https://github.com/kdis-lab/LEAC/blob/master/README.md#what-is-leac-library)
+* [Repository description](https://github.com/kdis-lab/LEAC/blob/master/README.md#repository-description)
+* [Getting the library](https://github.com/kdis-lab/LEAC/blob/master/README.md#getting-the-library)
+* [Tutorials and documentation](https://github.com/kdis-lab/LEAC/blob/master/README.md#tutorials-and-documentation)
+* [Methods included](https://github.com/kdis-lab/LEAC/blob/master/README.md#methods-included)
+* [LEAC library data format](https://github.com/kdis-lab/LEAC/blob/master/README.md#leac-library-data-format)
+* [Citation](https://github.com/kdis-lab/LEAC/blob/master/README.md#citation)
+* [License](https://github.com/kdis-lab/LEAC/blob/master/README.md#license)
+* [Reporting bugs](https://github.com/kdis-lab/LEAC/blob/master/README.md#reporting-bugs)
+
+## What is LEAC library?
+Library Evolutionary Algorithms for Clustering (**LEAC**) is a library for the implementation of evolutionary and genetic algorithms to solve the problem of *partition clustering*.
 The tools is free and open source, under the GNU General Public
 [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html) 
 [\[License file\]](../../LICENSE),
@@ -29,6 +39,16 @@ versions it is intended to port to other architectures and
 increase the number of genetic operators implemented with
 these software layers
 
+## Repository description
+
+
+## Getting the library
+
+
+## Tutorials and documentation
+
+
+## Methods included
 LEAC also includes several implementations of evolutionary algorithms for
 partitional clustering which are based on state-of-art of evolutionary
 proposals in this area:
@@ -92,4 +112,16 @@ proposals in this area:
 	  <td> <a href="http://dx.doi.org/10.1016/S0031-3203(00)00005-4">clustering_vksubclusterbinary</a> 
 	</tr>
     </table>
+
+## MIML library data format
+
+
+## Citation
+
+## License
+
+
+## Reporting bugs
+Feel free to open an [issue](https://github.com/kdis-lab/LEAC/issues) at Github if anything is not working as expected. Merge request are also encouraged, it will be carefully reviewed and merged if everything is all right.
+
 
