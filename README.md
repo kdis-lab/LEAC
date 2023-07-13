@@ -10,7 +10,6 @@
 * [License](https://github.com/kdis-lab/LEAC/blob/master/README.md#license)
 * [Reporting bugs](https://github.com/kdis-lab/LEAC/blob/master/README.md#reporting-bugs)
 
-![](../master/leac_cluster.svg)
 
 ## What is LEAC library?
 Library Evolutionary Algorithms for Clustering (**LEAC**) is a library of genetic algorithms to solve the problem of *partition clustering*. It includes 22 classification genetic algorithms for solving partitional clustering. These are considered the state-of-the-art of mono-objective genetic algorithms in the area.
