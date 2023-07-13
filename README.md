@@ -10,42 +10,24 @@
 * [License](https://github.com/kdis-lab/LEAC/blob/master/README.md#license)
 * [Reporting bugs](https://github.com/kdis-lab/LEAC/blob/master/README.md#reporting-bugs)
 
-## What is LEAC library?
-Library Evolutionary Algorithms for Clustering (**LEAC**) is a library for the implementation of evolutionary and genetic algorithms to solve the problem of *partition clustering*.
-The tools is free and open source, under the GNU General Public
-[GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html) 
-[\[License file\]](../../LICENSE),
-for Windows&reg;, GNU/Linux&reg; and Mac OS X&reg;.
-For more details see <a href="https://github.com/kdis-lab/leac/tree/master/leac-userManual.pdf">user
-manual</a> and <a href="https://hbrobles.github.io/APILeac/index.html">API</a> or locally, the API can be found in the 'docs' directory
-
-Clustering is useful in several exploratory *pattern-analysis*,
-*grouping*, *decision-making*, and *machine-learning situations*,
-including *data mining*, *document retrieval*, *image segmentation*,
-and *pattern classification* <a href="http://doi.acm.org/10.1145/331499.331504">Jain et al</a>.
-
 ![](../master/leac_cluster.svg)
 
-LEAC is built in C ++ with the current standards of C++11, C++14.
-Take advantage of the STL library, through the use of 
-data structures and algorithms, for example,
-Numerics library of Pseudo-random number generation which is 
-fundamental in the genetic and evolutionary algorithms.
-An additional feature that LEAC has is a low-level software layer
-based on Streaming SIMD Extensions (SSE) and in the 
-[OpenBLAS](http://www.openblas.net) library ,in order to
-increase performance. For now only for Linux x86_64, for future
-versions it is intended to port to other architectures and
-increase the number of genetic operators implemented with
-these software layers
+## What is LEAC library?
+Library Evolutionary Algorithms for Clustering (**LEAC**) is a library of genetic algorithms to solve the problem of *partition clustering*. It includes 22 classification genetic algorithms for solving partitional clustering. These are considered the state-of-the-art of mono-objective genetic algorithms in the area.
+
+LEAC is built in C ++ with the current standards of C++11, C++14. Take advantage of the STL library, through the use of  data structures and algorithms, for example, Numerics library of Pseudo-random number generation which is  fundamental in the genetic and evolutionary algorithms.
+An additional feature that LEAC has is a low-level software layer based on Streaming SIMD Extensions (SSE) and in the  [OpenBLAS](http://www.openblas.net) library ,in order to increase performance. For now only for Linux x86_64, for future versions it is intended to port to other architectures and increase the number of genetic operators implemented with these software layers.
 
 ## Repository description
 
+In this Github repository, you can find the following folders:
 
 ## Getting the library
 
 
 ## Tutorials and documentation
+For more details see <a href="https://github.com/kdis-lab/leac/tree/master/leac-userManual.pdf">user
+manual</a> and <a href="https://hbrobles.github.io/APILeac/index.html">API</a> or locally, the API can be found in the 'docs' directory
 
 
 ## Methods included
@@ -113,13 +95,19 @@ proposals in this area:
 	</tr>
     </table>
 
-## MIML library data format
+## LEAC library data format
+
+The format of data is based on the Weka's format.
 
 
 ## Citation
 
+Robles-Berumen, H., Zafra, A., Fardoun, H. M., & Ventura, S. (2019). LEAC: An efficient library for clustering with evolutionary algorithms. *Knowledge-Based Systems*, *179*, 117-119. https://doi.org/10.1016/j.knosys.2019.05.008
+
 ## License
 
+The tools is free and open source, under the GNU General Public [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html) 
+[\[License file\]](../../LICENSE), for Windows&reg;, GNU/Linux&reg; and Mac OS X&reg;.
 
 ## Reporting bugs
 Feel free to open an [issue](https://github.com/kdis-lab/LEAC/issues) at Github if anything is not working as expected. Merge request are also encouraged, it will be carefully reviewed and merged if everything is all right.
