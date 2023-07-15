@@ -14,12 +14,21 @@
 ## What is LEAC library?
 Library Evolutionary Algorithms for Clustering (**LEAC**) is a library of genetic algorithms to solve the problem of *partition clustering*. It includes 22 classification genetic algorithms for solving partitional clustering. These are considered the state-of-the-art of mono-objective genetic algorithms in the area.
 
+LEAC is a modular library which make easier to develop new evolutionary algorithm proposals for solving the partitional clustering. Besides including the most representative proposals of Evolutionary Algorithms for partitional clustering. LEAC allows you to implement easily new evolutionary algorithm proposals for clustering using the classes developed in the library. Thus, new algorithms can use the diversity of proposed strategies, procedures and genetic operators included in the library to evolve the population according to the flowchart of these algorithms.
+
 LEAC is built in C ++ with the current standards of C++11, C++14. Take advantage of the STL library, through the use of  data structures and algorithms, for example, Numerics library of Pseudo-random number generation which is  fundamental in the genetic and evolutionary algorithms.
 An additional feature that LEAC has is a low-level software layer based on Streaming SIMD Extensions (SSE) and in the  [OpenBLAS](http://www.openblas.net) library ,in order to increase performance. For now only for Linux x86_64, for future versions it is intended to port to other architectures and increase the number of genetic operators implemented with these software layers.
 
-## Repository description
+## LEAC description
 
-In this Github repository, you can find the following folders:
+LEAC library is based on a layered software architecture composed of four layers: algorithms, EA, Clustering and Performance. Each layer consists of a set of related packets as shown in the image.
+<img width="686" alt="image" src="https://github.com/kdis-lab/LEAC/assets/37608799/8171595c-595e-4199-9765-03f7d0e019f7">
+
+* Algorithm: It contains final implementations of several evolutionary algorithms for clustering.
+* EA: It contains several packets with operators and strategies to configure EAs, such as: encoding criteria, initialization methods, selection methods, crossover and mutation operators and updating and replacement strategies.
+* Clustering: It contains several packets with specific clustering operators, such as, supervised and unsupervised performance measures and clustering operators based on centroids, crispmatrix or medoids.
+* Performance: It consists of low-level programmed functions under the current CPU architectures.
+
 
 ## Getting the library
 
