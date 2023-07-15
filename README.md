@@ -1,11 +1,11 @@
 # LEAC - Library Evolutionary Algorithms for Clustering <img align="right" width="100" height="100" src="leac_logo.png">
 
 * [What is LEAC library?](https://github.com/kdis-lab/LEAC/blob/master/README.md#what-is-leac-library)
-* [Repository description](https://github.com/kdis-lab/LEAC/blob/master/README.md#repository-description)
+* [Library description](https://github.com/kdis-lab/LEAC/blob/master/README.md#repository-description)
 * [Getting the library](https://github.com/kdis-lab/LEAC/blob/master/README.md#getting-the-library)
 * [Tutorials and documentation](https://github.com/kdis-lab/LEAC/blob/master/README.md#tutorials-and-documentation)
 * [Methods included](https://github.com/kdis-lab/LEAC/blob/master/README.md#methods-included)
-* [LEAC library data format](https://github.com/kdis-lab/LEAC/blob/master/README.md#leac-library-data-format)
+* [Library data format](https://github.com/kdis-lab/LEAC/blob/master/README.md#leac-library-data-format)
 * [Citation](https://github.com/kdis-lab/LEAC/blob/master/README.md#citation)
 * [License](https://github.com/kdis-lab/LEAC/blob/master/README.md#license)
 * [Reporting bugs](https://github.com/kdis-lab/LEAC/blob/master/README.md#reporting-bugs)
@@ -18,7 +18,7 @@ LEAC is a modular library that facilitates the development of new proposals for 
 
 LEAC is built in C ++ with the current standards of C++11, C++14. Take advantage of the STL library, through the use of data structures and algorithms, for example, the Numerics library of Pseudo-random number generation which is fundamental in the genetic and evolutionary algorithms. An additional feature that LEAC has is a low-level software layer based on Streaming SIMD Extensions (SSE) and in the  [OpenBLAS](http://www.openblas.net) library, in order to increase performance. For now, only for Linux x86_64, for future versions, it is intended to port to other architectures and increase the number of genetic operators implemented with these software layers.
 
-## LEAC description
+## Library description
 
 LEAC library is based on a layered software architecture composed of four layers: algorithms, EA, Clustering, and Performance. Each layer consists of a set of related packets as shown in the image.
 <img width="686" alt="image" src="https://github.com/kdis-lab/LEAC/assets/37608799/8171595c-595e-4199-9765-03f7d0e019f7">
@@ -55,7 +55,7 @@ according to the use of fixed or variable number initial of clusters. Concretely
 * Proposals that discover the number of clusters: [CGA](http://dl.acm.org/citation.cfm?id=1293920.1293922), [GGA_S](http://dx.doi.org/10.1016/j.eswa.2012.02.149), [GGA_DB](http://dx.doi.org/10.1016/j.eswa.2012.02.149), [EAC](http://dx.doi.org/10.1016/j.ins.2005.07.015), [FEAC_SS](http://dx.doi.org/10.1109/CEC.2006.1688522), [FEAC_RI](http://dx.doi.org/10.1109/CEC.2006.1688522), [GCUK](http://dx.doi.org/10.1016/S0031-3203(01)00108-X), [VGA](http://dx.doi.org/10.1109/5326.923275), [TGCA](http://dx.doi.org/10.1016/j.neucom.2011.11.001), [GA_C](http://dx.doi.org/10.1109/ICEC.1994.350046) and [Clustering](http://dx.doi.org/10.1016/S0031-3203(00)00005-4). 
 
 
-## LEAC library data format
+## Library data format
 
 The format of arff data based on the [Weka's format](https://www.cs.waikato.ac.nz/ml/weka/arff.html)
 
