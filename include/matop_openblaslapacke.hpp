@@ -314,7 +314,7 @@ inverse(mat::MatrixRow<double>& aiomatrix_a)
 #endif //__VERBOSE_YES
   
   
-  delete[] IPIV;
+  delete [] IPIV;
 
   return INFO;
 }
