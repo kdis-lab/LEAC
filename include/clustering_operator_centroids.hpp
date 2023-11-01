@@ -1356,6 +1356,7 @@ kmeansoperator
 }
 
 
+
 /*! \fn std::pair<bool,T_DIST> reassignCluster(ds::PartitionLinkedStats<T_FEATURE,T_CLUSTERIDX,T_INSTANCE_FREQUENCY,T_INSTANCES_CLUSTER_K, T_FEATURE_SUM> &aoipartlinkstats_partition, const mat::MatrixBase<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_DIST,T_FEATURE>  &aifunc2p_dist)
     \brief Change each instance to the nearest cluster
     \details
@@ -1462,10 +1463,11 @@ reassignCluster
     
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc
-	      << ": OUT(" << geiinparam_verbose << ')'
-	      << " validPartitioning  =  "  << lob_validPartitioning
-              << ", distortionDistance =  "  << lort_distortionDist << '\n';
+    std::cout
+      << lpc_labelFunc
+      << ": OUT(" << geiinparam_verbose << ')'
+      << " validPartitioning  =  "  << lob_validPartitioning
+      << ", distortionDistance =  "  << lort_distortionDist << '\n';
     
     std::ostringstream lostrstream_labelPartition;
     lostrstream_labelPartition << lpc_labelFunc << ":aoipartlinkstats_partition";
@@ -1482,7 +1484,6 @@ reassignCluster
 } /*END reassignCluster
    */
   
-
 /*! \fn void reassignCluster(ds::PartitionLinkedStats<T_FEATURE,T_CLUSTERIDX,T_INSTANCE_FREQUENCY,T_INSTANCES_CLUSTER_K,T_FEATURE_SUM> &aoipartlinkstats_partition, const mat::MatrixBase<T_FEATURE> &aimatrixt_centroids, T_CLUSTERIDX *aiarraycidx_newIndex, uintidx aiui_countNewIndex, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_DIST,T_FEATURE> &aifunc2p_dist)
     \brief Reassign cluster
     \details Reassign cluster based on a local search. Returns if the partition is valid and the distance distortion metric
@@ -1521,24 +1522,32 @@ void reassignCluster
   const char* lpc_labelFunc = "clusteringop::reassignCluster";
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc
-	      << ":  IN(" << geiinparam_verbose << ")\n"
-	      << "(output PartitionLinkedStats: aoipartlinkstats_partition["
-	      << &aoipartlinkstats_partition << "]\n";
+    std::cout
+      << lpc_labelFunc
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "(output PartitionLinkedStats: aoipartlinkstats_partition["
+      << &aoipartlinkstats_partition << "]\n";
     std::ostringstream lostrstream_labelPartition;
-    lostrstream_labelPartition << lpc_labelFunc << ":aoipartlinkstats_partition";
-    aoipartlinkstats_partition.print(std::cout,lostrstream_labelPartition.str().c_str(),',');
-    std::cout << '\n';
-    std::cout << " input  mat::MatrixBase<T_FEATURE>: aimatrixt_centroids[" 
-	      <<  &aimatrixt_centroids << "]\n"
-	      << " input  T_CLUSTERIDX*: aiarraycidx_newIndex[" << aiarraycidx_newIndex << "]\n"
-	      << " input  uintidx: aiui_countNewIndex = " << aiui_countNewIndex << '\n'
-	      << " input  aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
-              << " input const aiiterator_instlast[" << &aiiterator_instlast << "]\n"
-	      << " input  dist::Dist<T_DIST,T_FEATURE> &aifunc2p_dist[" 
-	      << &aifunc2p_dist << "]\n"
-	      << ")"
-	      << std::endl;
+    lostrstream_labelPartition
+      << lpc_labelFunc << ":aoipartlinkstats_partition";
+    aoipartlinkstats_partition.print
+      (std::cout,lostrstream_labelPartition.str().c_str(),
+       ','
+       );
+    std::cout
+      << '\n';
+    std::cout
+      << " input  mat::MatrixBase<T_FEATURE>: aimatrixt_centroids[" 
+      <<  &aimatrixt_centroids << "]\n"
+      << " input  T_CLUSTERIDX*: aiarraycidx_newIndex["
+      << aiarraycidx_newIndex << "]\n"
+      << " input  uintidx: aiui_countNewIndex = " << aiui_countNewIndex << '\n'
+      << " input  aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
+      << " input const aiiterator_instlast[" << &aiiterator_instlast << "]\n"
+      << " input  dist::Dist<T_DIST,T_FEATURE> &aifunc2p_dist[" 
+      << &aifunc2p_dist << "]\n"
+      << ")"
+      << std::endl;
   }
 #endif /*__VERBOSE_YES*/
   
@@ -1556,7 +1565,8 @@ void reassignCluster
       
     T_DIST  lrt_olddist = 
       aifunc2p_dist
-      (aimatrixt_centroids.getRow(aoipartlinkstats_partition.getMemberShip(lui_idxInsti)),
+      (aimatrixt_centroids.getRow
+       (aoipartlinkstats_partition.getMemberShip(lui_idxInsti)),
        literinstfo_iInstance->getFeatures(),
        literinstfo_iInstance->getNumDimensions()
        );
@@ -1565,7 +1575,8 @@ void reassignCluster
 
     //Check if the instance is in the changing cluster
     for ( uintidx lui_j = 0; lui_j < aiui_countNewIndex; lui_j++)
-      if ( aoipartlinkstats_partition.getMemberShip(lui_idxInsti) == aiarraycidx_newIndex[lui_j] ) {
+      if ( aoipartlinkstats_partition.getMemberShip(lui_idxInsti)
+	   == aiarraycidx_newIndex[lui_j] ) {
 	 
 	lb_changeInstMemberShip = true;
 	break;
@@ -1630,6 +1641,604 @@ void reassignCluster
 } /*END reassignCluster */
 
 
+
+/*! \fn T_DIST updateCentroidsSqrtN(T_CLUSTERIDX &aocidx_numClusterNull, T_CLUSTERIDX* aoarray_idxInstance, mat::MatrixRow<T_FEATURE> &aiomatrixt_centroids, mat::MatrixRow<T_FEATURE_SUM> &aomatrixt_sumInstancesCluster, std::vector<T_INSTANCES_CLUSTER_K> &aovectort_numInstancesInClusterK, const std::unordered_set<uintidx> &aiunordset_iuiCluster, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_DIST,T_FEATURE>  &aifunc2p_dist)
+  
+  \brief updateCentroidsSqrtN use by GASGO
+  \cite RoblesBerumen:Zafra:Ventura:GAclusteringVarK:GASGO:2023  
+ */
+template < typename INPUT_ITERATOR, 
+	   typename T_FEATURE,
+	   typename T_FEATURE_SUM,
+	   typename T_INSTANCES_CLUSTER_K,  //0, 1, .., N
+	   typename T_CLUSTERIDX,    //-1, 0, 1, .., K
+	   typename T_DIST
+	   >
+T_DIST
+updateCentroidsSqrtN
+(T_CLUSTERIDX                        &aocidx_numClusterNull,
+ T_CLUSTERIDX*                      aoarray_idxInstance,
+ mat::MatrixRow<T_FEATURE>           &aiomatrixt_centroids, /*Mean for each cluster*/
+ mat::MatrixRow<T_FEATURE_SUM>       &aomatrixt_sumInstancesCluster,
+ std::vector<T_INSTANCES_CLUSTER_K>  &aovectort_numInstancesInClusterK,
+ const std::unordered_set<uintidx>   &aiunordset_iuiCluster,
+ INPUT_ITERATOR                      aiiterator_instfirst,
+ const INPUT_ITERATOR                aiiterator_instlast,
+ const dist::Dist<T_DIST,T_FEATURE>  &aifunc2p_dist
+)       
+{
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "clusteringop::updateCentroidsSqrtN";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "\t(output mat::MatrixRow<T_FEATURE>: aimatrixt_centroids[" 
+      << &aiomatrixt_centroids << ']'
+      << "\n\t input aiiterator_instfirst[" << *aiiterator_instfirst << ']'
+      << "\n\t input aiiterator_instlast[" <<  *aiiterator_instlast << ']'
+      << "\n\t input  dist::Dist<T_DIST,T_FEATURE> &aifunc2p_dist[" 
+      << &aifunc2p_dist << ']'
+      << "\n\t)"
+      << std::endl;
+  }
+#endif /*__VERBOSE_YES*/
+ 
+  T_DIST  lT_distMinCentInst;
+  T_DIST  lT_sumDistMinCentInst = 0;
+ 
+  const T_FEATURE lT_alpha = T_FEATURE(1);
+  const uintidx  lui_numInstancesSqrt = 
+    uintidx((T_DIST)std::distance(aiiterator_instfirst,aiiterator_instlast) / std::sqrt((T_DIST)std::distance(aiiterator_instfirst,aiiterator_instlast)) );
+ 
+  uintidx  lui_count = 0;
+  
+  for (; aiiterator_instfirst != aiiterator_instlast; ++aiiterator_instfirst) {
+    
+    T_FEATURE* linst_inter =
+      ((data::Instance<T_FEATURE>*) *aiiterator_instfirst)->getFeatures();
+
+    T_CLUSTERIDX lmgidx_j = 
+      nearest::NN
+      <T_CLUSTERIDX,T_FEATURE,T_DIST>
+      (lT_distMinCentInst,
+       aiomatrixt_centroids,
+       linst_inter,
+       aifunc2p_dist
+       );
+
+    aoarray_idxInstance[lui_count]  = lmgidx_j; 
+    aovectort_numInstancesInClusterK[lmgidx_j]++;
+    T_FEATURE_SUM   *larrarrowt_sumInstancesCluster = 
+      aomatrixt_sumInstancesCluster.getRow(lmgidx_j);
+    interfacesse::axpy
+      (larrarrowt_sumInstancesCluster,
+       lT_alpha,
+       linst_inter,
+       data::Instance<T_FEATURE>::getNumDimensions()
+       );
+    lT_sumDistMinCentInst += lT_distMinCentInst;
+
+    ++lui_count;
+    if ( (lui_count % lui_numInstancesSqrt) == 0  ) {
+
+      for (auto lui_cluster = aiunordset_iuiCluster.begin();
+	   lui_cluster != aiunordset_iuiCluster.end(); ++lui_cluster ) {
+
+	if ( aovectort_numInstancesInClusterK[*lui_cluster] != 0) {
+	  stats::meanVector
+	    (aiomatrixt_centroids.getRow(*lui_cluster),
+	     aovectort_numInstancesInClusterK[*lui_cluster],
+	     aomatrixt_sumInstancesCluster.getRow(*lui_cluster),
+	     *lui_cluster
+	     );
+	}
+      }
+	            
+    }
+    
+  }
+   
+  clusteringop::meanCentroids
+    (aocidx_numClusterNull,
+     aiomatrixt_centroids,
+     aomatrixt_sumInstancesCluster,
+     aovectort_numInstancesInClusterK 
+     ); 
+
+#ifdef __VERBOSE_YES
+    if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+      std::cout << lpc_labelFunc
+		<< ": OUT(" << geiinparam_verbose << ')'
+		<< "lT_sumDistMinCentInst: " << lT_sumDistMinCentInst
+		<< std::endl;
+    }
+    --geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
+
+    return lT_sumDistMinCentInst;
+}
+
+
+/*! \fn std::pair<bool,T_DIST> reassignCluster(ds::PartitionLinkedStats<T_FEATURE,T_CLUSTERIDX,T_INSTANCE_FREQUENCY,T_INSTANCES_CLUSTER_K, T_FEATURE_SUM> &aoipartlinkstats_partition, const mat::MatrixBase<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_DIST,T_FEATURE>  &aifunc2p_dist)
+    \brief Change each instance to the nearest cluster
+    \details
+    \param aoipartlinkstats_partition a ds::PartitionLinkedStats for specifying cluster membership
+    \param aimatrixt_centroids a mat::MatrixBase with the centroids of each cluster
+    \param aiiterator_instfirst a input iterator of the instances
+    \param aiiterator_instlast a const input iterator of the instances
+    \param aifunc2p_dist an object of type dist::Dist to calculate distances
+*/
+template < typename T_FEATURE,
+           typename T_CLUSTERIDX, //-1, 0, 1, .., K
+	   typename T_INSTANCE_FREQUENCY,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_FEATURE_SUM,
+	   typename T_DIST,
+	   typename INPUT_ITERATOR
+	   >
+std::pair<bool,T_DIST>
+reassignCluster
+(ds::PartitionLinkedStats
+ <T_FEATURE,
+  T_CLUSTERIDX,
+  T_INSTANCE_FREQUENCY,
+  T_INSTANCES_CLUSTER_K,
+ T_FEATURE_SUM>                      &aoipartlinkstats_partition,
+ T_CLUSTERIDX                        *aiarraymcidx_idxMemberShip,
+ const mat::MatrixResizableRow
+ <T_FEATURE,
+ T_INSTANCES_CLUSTER_K>              &aimatrixt_centroids,
+ INPUT_ITERATOR                      aiiterator_instfirst,
+ const INPUT_ITERATOR                aiiterator_instlast,
+ const dist::Dist<T_DIST,T_FEATURE>  &aifunc2p_dist
+ )
+{
+  bool    lob_validPartitioning = false;
+  T_DIST  lort_distortionDist   = 0.0;
+  
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "clusteringop::reassignCluster";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc 
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "(output PartitionLinkedStats: aoipartlinkstats_partition["
+      << &aoipartlinkstats_partition << "]\n";
+
+    std::ostringstream lostrstream_labelPartition;
+    lostrstream_labelPartition << lpc_labelFunc << ":aoipartlinkstats_partition";
+    aoipartlinkstats_partition.print
+      (std::cout,lostrstream_labelPartition.str().c_str(),
+       ',');
+    std::cout
+      << '\n';
+    std::cout
+      << " input  mat::MatrixBase<T_FEATURE>: aimatrixt_centroids[" 
+      <<  &aimatrixt_centroids << "]\n"
+      << " input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
+      << " input const aiiterator_instlast[" << &aiiterator_instlast << "]\n"
+      << " input  dist::Dist<T_DIST,T_FEATURE> &aifunc2p_dist[" 
+      << &aifunc2p_dist << "]\n"
+      << ')'
+      << std::endl;
+  }
+#endif //__VERBOSE_YES
+    
+  uintidx lidxinstT_i = 0;
+
+  T_DIST                lrt_distMinCentInst;
+  T_INSTANCES_CLUSTER_K lit_totalInstFreq = 0;
+  
+  for (; aiiterator_instfirst != aiiterator_instlast; ++aiiterator_instfirst) {
+    
+       data::InstanceFreq
+	 <T_FEATURE,
+	  T_INSTANCE_FREQUENCY> *liter_instFreq =
+	 (data::InstanceFreq<T_FEATURE,T_INSTANCE_FREQUENCY>*)
+	 *aiiterator_instfirst;
+	 
+       T_CLUSTERIDX lmgidx_j =
+	 aiarraymcidx_idxMemberShip[lidxinstT_i];
+
+       lrt_distMinCentInst =
+       aifunc2p_dist
+       (aimatrixt_centroids.getRow(lmgidx_j),
+	liter_instFreq->getFeatures(),
+	aimatrixt_centroids.getNumColumns()
+	);
+       
+       if ( lmgidx_j != aoipartlinkstats_partition.getMemberShip(lidxinstT_i) ) {
+	 
+	 aoipartlinkstats_partition.changeMemberShip
+	   (lmgidx_j,
+	    lidxinstT_i,
+	    liter_instFreq->getFeatures(),
+	    liter_instFreq->getFrequency()
+	    );
+	 
+       } 
+       ++lidxinstT_i;
+       lit_totalInstFreq += liter_instFreq->getFrequency();
+       lort_distortionDist += lrt_distMinCentInst * liter_instFreq->getFrequency();
+	 
+     }
+     
+  /*Check is valid parttition*/
+  lob_validPartitioning =
+    ( aoipartlinkstats_partition.numClusterEmpty() == 0 );
+
+  lort_distortionDist /=
+    ( (T_DIST)  lit_totalInstFreq * data::Instance<T_FEATURE>::getNumDimensions() );
+    
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+	      << ": OUT(" << geiinparam_verbose << ')'
+	      << " validPartitioning  =  "  << lob_validPartitioning
+              << ", distortionDistance =  "  << lort_distortionDist << '\n';
+    
+    std::ostringstream lostrstream_labelPartition;
+    lostrstream_labelPartition << lpc_labelFunc << ":aoipartlinkstats_partition";
+    aoipartlinkstats_partition.print
+      (std::cout,lostrstream_labelPartition.str().c_str(),
+       ','
+       );
+    
+    std::cout << '\n'
+	      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif //__VERBOSE_YES
+
+  return std::make_pair(lob_validPartitioning,lort_distortionDist);
+    
+} /*END reassignCluster
+   */
+
+/*! \fn uintidx reassignCluster(T_DIST &aot_SSE, T_CLUSTERIDX *aioarraycidx_memberShip, T_CLUSTERIDX *aioarraycidx_memberShipOld, std::vector<T_INSTANCES_CLUSTER_K> &aovectort_numInstancesInClusterK, const mat::MatrixRow<T_FEATURE> &aimatrixt_centroids, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_DIST,T_FEATURE> &aifunc2p_dist)
+  \brief reassignCluster use by GASGO
+  \cite RoblesBerumen:Zafra:Ventura:GAclusteringVarK:GASGO:2023  
+ */
+template < typename T_FEATURE,
+	   typename T_CLUSTERIDX, //-1, 0, 1, .., K
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_DIST, 
+	   typename INPUT_ITERATOR
+	   >
+uintidx 
+reassignCluster
+(T_DIST                             &aot_SSE,
+ T_CLUSTERIDX                       *aioarraycidx_memberShip,
+ T_CLUSTERIDX                       *aioarraycidx_memberShipOld,
+ std::vector<T_INSTANCES_CLUSTER_K> &aovectort_numInstancesInClusterK,
+ const mat::MatrixRow<T_FEATURE>    &aimatrixt_centroids,
+ INPUT_ITERATOR                     aiiterator_instfirst,
+ const INPUT_ITERATOR               aiiterator_instlast,
+ const dist::Dist<T_DIST,T_FEATURE> &aifunc2p_dist
+ ) 
+{
+  uintidx      louintidx_threshold = 0; 
+  T_DIST       lT_distMinCentInst;
+  aot_SSE  = 0.0;
+  
+#ifdef __VERBOSE_YES
+  const uintidx  lui_numInstances =
+    uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
+  const char* lpc_labelFunc = "clusteringop::reassignCluster";
+  const T_CLUSTERIDX  *lioarraycidx_memberShipDebug = aioarraycidx_memberShip;
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "\t(output T_CLUSTERIDX*: aioarraycidx_memberShip[" 
+      << aioarraycidx_memberShip << "]\n"
+      << "\t input  mat::MatrixRow<T_CENTROIDS>&: aimatrixt_centroids["
+      << &aimatrixt_centroids << "]\n"
+      << "input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
+      << "input const aiiterator_instlast[" << *aiiterator_instlast << "]\n"
+      << "\t input  aifunc2p_dista\n"
+      << "\t)\n";
+  }
+#endif //__VERBOSE_YES 
+
+  std::vector<T_DIST> lvec_radiusClusterK(aimatrixt_centroids.getNumRows(),0.0);
+  interfacesse::copya
+    (aovectort_numInstancesInClusterK.data(),
+     T_INSTANCES_CLUSTER_K(0),
+     aimatrixt_centroids.getNumRows()
+     );
+  
+  for (; aiiterator_instfirst != aiiterator_instlast;
+       aiiterator_instfirst++,
+	 aioarraycidx_memberShip++, aioarraycidx_memberShipOld++ )
+    {
+      data::Instance<T_FEATURE>* linst_inter =
+	(data::Instance<T_FEATURE>*) *aiiterator_instfirst;
+      if ( *aioarraycidx_memberShip  != *aioarraycidx_memberShipOld ) {
+	T_CLUSTERIDX lmgidx_j = 
+	  nearest::NN
+	  <T_CLUSTERIDX,T_FEATURE,T_DIST>
+	  (lT_distMinCentInst,
+	   aimatrixt_centroids,
+	   linst_inter->getFeatures(),
+	   aifunc2p_dist
+	   );
+	*aioarraycidx_memberShipOld = *aioarraycidx_memberShip;
+	*aioarraycidx_memberShip = lmgidx_j;
+	++louintidx_threshold;
+	if ( lvec_radiusClusterK[lmgidx_j] < lT_distMinCentInst ) {
+	  lvec_radiusClusterK[lmgidx_j] = lT_distMinCentInst;
+	}
+      }
+      else {
+	//CALCULATE ONLY DIST
+	lT_distMinCentInst = 
+	  aifunc2p_dist
+	  (aimatrixt_centroids.getRow(*aioarraycidx_memberShip),
+	   linst_inter->getFeatures(),
+	   aimatrixt_centroids.getNumColumns()
+	   );
+      
+	if ( (0.6 * lvec_radiusClusterK[*aioarraycidx_memberShip]) < lT_distMinCentInst ) { //GOOD 
+	  T_CLUSTERIDX lmgidx_j = 
+	    nearest::NN
+	    <T_CLUSTERIDX,T_FEATURE,T_DIST>
+	    (lT_distMinCentInst,
+	     aimatrixt_centroids,
+	     linst_inter->getFeatures(),
+	     aifunc2p_dist
+	     );
+	  *aioarraycidx_memberShipOld = *aioarraycidx_memberShip;
+	  *aioarraycidx_memberShip = lmgidx_j;
+	  ++louintidx_threshold;
+	  if ( lvec_radiusClusterK[lmgidx_j] < lT_distMinCentInst ) {
+	    lvec_radiusClusterK[lmgidx_j] = lT_distMinCentInst;
+	  }
+	}	
+      }
+      aot_SSE  += lT_distMinCentInst;
+      aovectort_numInstancesInClusterK[*aioarraycidx_memberShip]++;
+      
+    } //END FOR
+
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+      << ": OUT(" << geiinparam_verbose << ")\n";
+    std::cout << "louintidx_threshold = " << louintidx_threshold 
+	      << '\n';
+
+    std::ostringstream lostrstream_labelMemberShip;
+    lostrstream_labelMemberShip << "<MEMBERCLUSTER:" << lpc_labelFunc;
+    inout::containerprint
+      (lioarraycidx_memberShipDebug,
+       lioarraycidx_memberShipDebug + lui_numInstances,
+       std::cout,
+       lostrstream_labelMemberShip.str().c_str(),
+       ','
+       );
+    std::cout << std::endl;
+ 
+  }
+  --geiinparam_verbose;
+#endif //__VERBOSE_YES
+
+  return louintidx_threshold; 
+} /*reassignCluster*/
+
+
+/*! \fn T_CLUSTERIDX kmeansAlreadyInitResample(T_DIST &aot_SSE, mat::MatrixRow<T_FEATURE> &aiomat_centroids, mat::MatrixRow<T_FEATURE_SUM> &aomatrixt_sumInstancesCluster,T_CLUSTERIDX *aoarraymcidx_idxMemberShip, std::vector<T_INSTANCES_CLUSTER_K> &aovecinstk_numInstInClusterK, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_DIST,T_FEATURE> &aifunc2p_dist, const uintidx aiui_numMaxIter = 100, const uintidx aiui_numThreshold = 0)
+  \brief kmeansAlreadyInitResample use by GASGO
+  \cite RoblesBerumen:Zafra:Ventura:GAclusteringVarK:GASGO:2023  
+ */
+template <typename T_CLUSTERIDX, //-1, 0, 1, .., K
+	  typename T_FEATURE,
+	  typename T_FEATURE_SUM,
+	  typename T_INSTANCES_CLUSTER_K,
+	  typename T_DIST,
+	  typename INPUT_ITERATOR
+	  >
+T_CLUSTERIDX
+kmeansAlreadyInitResample
+(T_DIST                             &aot_SSE,
+ mat::MatrixRow<T_FEATURE>          &aiomat_centroids,
+ mat::MatrixRow<T_FEATURE_SUM>      &aomatrixt_sumInstancesCluster,
+ T_CLUSTERIDX                       *aoarraymcidx_idxMemberShip,
+ std::vector<T_INSTANCES_CLUSTER_K> &aovecinstk_numInstInClusterK,
+ INPUT_ITERATOR                     aiiterator_instfirst, //DATA
+ const INPUT_ITERATOR               aiiterator_instlast,
+ const dist::Dist<T_DIST,T_FEATURE> &aifunc2p_dist,
+ const uintidx                      aiui_numMaxIter   = 100,
+ const uintidx                      aiui_numThreshold = 0
+ )
+{
+#ifdef __VERBOSE_YES
+  uintidx      lui_countClusterNull = 0;
+  const char* lpc_labelFunc = "clusteringop::kmeansAlreadyInitResample";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc 
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "(inout mat::MatrixRow<T_FEATURE> &aiomat_centroids["
+      << &aiomat_centroids << "]\n"
+      << "input aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
+      << "input const aiiterator_instlast[" << *aiiterator_instlast << "]\n"
+      << "input numclusterK = " << aiomat_centroids.getNumRows() << '\n'
+      << "input aiui_numMaxIter = " << aiui_numMaxIter << '\n'
+      << "input aiui_numThreshold = " << aiui_numThreshold << '\n'
+      << "input dist::Dist<T_DIST,T_FEATURE>  &aifunc2p_dist["
+      << &aifunc2p_dist << "]\n"
+      << ")\n";
+  }
+#endif /*__VERBOSE_YES*/
+
+  const uintidx  lui_numInstances =
+    uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast));
+  std::uniform_int_distribution<uintidx>
+    luniformdis_uiidxInstances0n(0,lui_numInstances-1);
+  const T_CLUSTERIDX lcidx_numClusterK =
+    (T_CLUSTERIDX) aiomat_centroids.getNumRows();
+  std::vector<T_CLUSTERIDX>   lvecmcidx_idxMemberShipOld
+    (lui_numInstances,lcidx_numClusterK); //INITIALIZE K DIFERENT
+  
+  T_CLUSTERIDX lomcidx_numClusterNull;
+  uintidx      lui_countThreshold = 0;
+  uintidx      lui_countIteration = 1;
+
+  interfacesse::copya
+    (aoarraymcidx_idxMemberShip,
+     T_CLUSTERIDX(NEARESTCENTROID_UNKNOWN),
+     lui_numInstances
+     );
+ 
+  lui_countThreshold = 
+    reassignCluster 
+    (aot_SSE,
+     aoarraymcidx_idxMemberShip,
+     lvecmcidx_idxMemberShipOld.data(),
+     aovecinstk_numInstInClusterK,
+     aiomat_centroids,
+     aiiterator_instfirst,
+     aiiterator_instlast,
+     aifunc2p_dist
+     );
+
+  //RESAMPLES FOR NULL CLUSTER
+  std::unordered_set<uintidx> lunorderedset_randIdxIns;
+  
+  for ( T_CLUSTERIDX lcidx_j = 0; lcidx_j < lcidx_numClusterK; lcidx_j++) {     
+    if ( aovecinstk_numInstInClusterK[lcidx_j] == 0) {
+
+#ifdef __VERBOSE_YES
+      ++lui_countClusterNull;
+#endif /*__VERBOSE_YES*/
+	    
+      T_FEATURE* lmrT_centroids = aiomat_centroids.getRow(lcidx_j);
+   
+      uintidx   lui_idxInsRand =
+	prob::getRandSetUnlike
+	(lunorderedset_randIdxIns,
+	 [&]() -> uintidx
+	 {
+	   return luniformdis_uiidxInstances0n(gmt19937_eng); 
+	 }   
+	 );
+      lunorderedset_randIdxIns.insert(lui_idxInsRand);
+
+      data::Instance<T_FEATURE>* liter_iInstance =
+	*std::next(aiiterator_instfirst,lui_idxInsRand);
+      interfacesse::copy
+	(lmrT_centroids,
+	 liter_iInstance->getFeatures(),
+	 data::Instance<T_FEATURE>::getNumDimensions()
+	 );
+      aovecinstk_numInstInClusterK[lcidx_j]  = 1;
+      aoarraymcidx_idxMemberShip[lui_idxInsRand] = lcidx_j;
+      lui_countThreshold++;
+    }
+  }
+  
+  //PRECONDITION: CENTERS MUST BE INITIALIZED
+  do { //Do kmeans
+
+    ++lui_countIteration;
+    
+     partition::PartitionLabel
+    <T_CLUSTERIDX>
+    lpartition_labelvector
+    (aoarraymcidx_idxMemberShip,
+     uintidx(std::distance(aiiterator_instfirst,aiiterator_instlast)),
+     T_CLUSTERIDX(aiomat_centroids.getNumRows())
+     );
+    
+    lomcidx_numClusterNull =
+      clusteringop::getCentroids
+      (aiomat_centroids,
+       aomatrixt_sumInstancesCluster,
+       aovecinstk_numInstInClusterK,
+       lpartition_labelvector,
+       aiiterator_instfirst,
+       aiiterator_instlast
+       );
+
+    lui_countThreshold = 
+      reassignCluster 
+      (aot_SSE,
+       aoarraymcidx_idxMemberShip,
+       lvecmcidx_idxMemberShipOld.data(),
+       aovecinstk_numInstInClusterK,
+       aiomat_centroids,
+       aiiterator_instfirst,
+       aiiterator_instlast,
+       aifunc2p_dist
+       );
+      
+    //RESAMPLES FOR NULL CLUSTER
+    lunorderedset_randIdxIns.clear();
+    for ( T_CLUSTERIDX lcidx_j = 0; lcidx_j < lcidx_numClusterK; lcidx_j++) {     
+      if ( aovecinstk_numInstInClusterK[lcidx_j] == 0) {
+	
+#ifdef __VERBOSE_YES
+	++lui_countClusterNull;
+#endif /*__VERBOSE_YES*/
+	
+	T_FEATURE* lmrT_centroids = aiomat_centroids.getRow(lcidx_j);
+	uintidx   lui_idxInsRand =
+	  prob::getRandSetUnlike
+	  (lunorderedset_randIdxIns,
+	   [&]() -> uintidx
+	   {
+	     return luniformdis_uiidxInstances0n(gmt19937_eng); 
+	   }   
+	   );
+	lunorderedset_randIdxIns.insert(lui_idxInsRand);
+
+	data::Instance<T_FEATURE>* liter_iInstance =
+	  *std::next(aiiterator_instfirst,lui_idxInsRand);
+	interfacesse::copy
+	  (lmrT_centroids,
+	   liter_iInstance->getFeatures(),
+	   data::Instance<T_FEATURE>::getNumDimensions()
+	   );
+	aovecinstk_numInstInClusterK[lcidx_j] = 1;
+	aoarraymcidx_idxMemberShip[lui_idxInsRand] = lcidx_j;
+	lui_countThreshold++;
+      }
+    }   
+    //IN PRINCIPLE IT SHOULD BE ZERO lomcidx_numClusterNull = 0;
+
+  } while ( ( lui_countThreshold > aiui_numThreshold ) &&  
+	    ( lui_countIteration < aiui_numMaxIter )
+	    );
+  
+
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+      << ": OUT(" << geiinparam_verbose << ")\n";
+    std::cout
+      << "lui_countClusterNull = " << lui_countClusterNull << '\n'
+      << "lomcidx_numClusterNull = " << lomcidx_numClusterNull << '\n'
+      << "lui_countThreshold = " << lui_countThreshold << '\n'
+      << "lui_countIteration = " << lui_countIteration << '\n'
+      << "kmeansSampleaot_SSE = " << aot_SSE;
+    std::cout << std::endl;
+  }
+  --geiinparam_verbose;
+#endif /*__VERBOSE_YES*/
+
+  return lomcidx_numClusterNull;
+  
+}
+
 /*! \fn void  joinPartition (ds::PartitionLinkedStats<T_FEATURE,T_CLUSTERIDX,T_INSTANCE_FREQUENCY,T_INSTANCES_CLUSTER_K,T_FEATURE_SUM> &aoipartlinkstats_partition, const T_CLUSTERIDX aicidx_partitionTo, const T_CLUSTERIDX aicidx_partitionFrom, const T_CLUSTERIDX aicidx_numClusterK, const INPUT_ITERATOR aiiterator_instfirst)
     \brief Join partition
     \details
@@ -1661,24 +2270,31 @@ void  joinPartition
   const char* lpc_labelFunc = "clusteringop::joinPartition";
   ++geiinparam_verbose;
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc
-	      << ":  IN(" << geiinparam_verbose << ")\n";
+    std::cout
+      << lpc_labelFunc
+      << ":  IN(" << geiinparam_verbose << ")\n";
     std::ostringstream lostrstream_labelPartition;
     lostrstream_labelPartition << lpc_labelFunc << ":aoipartlinkstats_partition";
-    aoipartlinkstats_partition.print(std::cout,lostrstream_labelPartition.str().c_str(),',');
-    std::cout << '\n';
-    std::cout << "aicidx_partitionFrom: " << aicidx_partitionFrom
-	      << "\taicidx_partitionTo: " <<  aicidx_partitionTo
-	      << "\ninput const aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
-	      << ')'
-	      << std::endl;
+    aoipartlinkstats_partition.print
+      (std::cout,lostrstream_labelPartition.str().c_str(),
+       ','
+       );
+    std::cout
+      << '\n';
+    std::cout
+      << "aicidx_partitionFrom: " << aicidx_partitionFrom
+      << "\taicidx_partitionTo: " <<  aicidx_partitionTo
+      << "\ninput const aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
+      << ')'
+      << std::endl;
   }
 #endif //__VERBOSE_YES
   
   ds::IteratorPartitionLinked <T_CLUSTERIDX>
     literpart_j(&aoipartlinkstats_partition);
    
-  for ( literpart_j.begin(aicidx_partitionFrom); literpart_j.end(); literpart_j.next() ) {
+  for ( literpart_j.begin(aicidx_partitionFrom);
+	literpart_j.end(); literpart_j.next() ) {
     
     data::InstanceFreq<T_FEATURE,T_INSTANCE_FREQUENCY>* lptinstfo_changeInstance = 
       (data::InstanceFreq<T_FEATURE,T_INSTANCE_FREQUENCY>*)
@@ -1698,15 +2314,16 @@ void  joinPartition
  
   aoipartlinkstats_partition.joinCluster(aicidx_partitionFrom,aicidx_partitionTo);
 
-  const T_CLUSTERIDX  lcidx_numClusterK =  aoipartlinkstats_partition.getNumPartitions() -1;
+  const T_CLUSTERIDX  lcidx_numClusterK =
+    aoipartlinkstats_partition.getNumPartitions() -1;
   
   if ( aicidx_partitionFrom != (lcidx_numClusterK) ) {
  
     while ( aoipartlinkstats_partition.getFirstInstClusterK(lcidx_numClusterK)
 	    != UINTIDX_NIL )
       {
-
-	data::InstanceFreq<T_FEATURE,T_INSTANCE_FREQUENCY>* lptinstfo_changeInstance =
+	data::InstanceFreq<T_FEATURE,T_INSTANCE_FREQUENCY>*
+	  lptinstfo_changeInstance =
 	  (data::InstanceFreq<T_FEATURE,T_INSTANCE_FREQUENCY>*)
 	  *std::next
 	  (aiiterator_instfirst,
@@ -1727,11 +2344,17 @@ void  joinPartition
 
 #ifdef __VERBOSE_YES
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc
-	      << ": OUT(" << geiinparam_verbose << ")\n";
+    std::cout
+      << lpc_labelFunc
+      << ": OUT(" << geiinparam_verbose << ")\n";
     std::ostringstream lostrstream_labelPartition;
-    lostrstream_labelPartition << lpc_labelFunc << ":aoipartlinkstats_partition";
-    aoipartlinkstats_partition.print(std::cout,lostrstream_labelPartition.str().c_str(),',');
+    lostrstream_labelPartition
+      << lpc_labelFunc
+      << ":aoipartlinkstats_partition";
+    aoipartlinkstats_partition.print
+      (std::cout,lostrstream_labelPartition.str().c_str(),
+       ','
+       );
     std::cout << std::endl;  
   }
   --geiinparam_verbose;
@@ -2165,6 +2788,8 @@ void pnnFast
   --geiinparam_verbose;
 #endif /*__VERBOSE_YES*/
 }
+
+
 
 } /*END namespace clusteringop*/
   

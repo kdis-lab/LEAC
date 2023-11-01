@@ -3341,6 +3341,164 @@ silhouette
 }
 
 
+/*! \fn T_METRIC silhouette(mat::MatrixTriang<T_METRIC> &aimatrixtriagt_dissimilarity, ds::PartitionLinkedStats<T_FEATURE,T_CLUSTERIDX,T_INSTANCE_FREQUENCY,T_INSTANCES_CLUSTER_K,T_FEATURE_SUM> &aipartlinknuminst_memberShip)
+  \brief Silhouette \cite Alves:etal:GAclusteringLabelKVar:FEAC:2006 
+  \details Calculate the average of Silhouette for the \f$x_i\f$ instances
+  \f[
+  s(x_i)=\frac{b(x_i)-a(x_i)}{\max\left\{a(x_i),b(x_i)\right\} }
+  \f]
+  \param aimatrixtriagt_dissimilarity a triangular matrix with distances between instances
+  \param aipartlinknuminst_memberShip a clusters partition in a ds::PartitionLinkedNumInst data structure
+
+  \note Reduces the complexity of \f$O(d \cdot n^2)\f$ to \f$O(n^2)\f$, for data set d large better performance, used by GASGO
+*/
+template < typename T_FEATURE,
+           typename T_CLUSTERIDX,
+	   typename T_INSTANCE_FREQUENCY,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_FEATURE_SUM,
+	   typename T_METRIC
+	   >
+T_METRIC
+silhouette
+(mat::MatrixTriang<T_METRIC> &aimatrixtriagt_dissimilarity,
+ ds::PartitionLinkedStats
+ <T_FEATURE,T_CLUSTERIDX,
+ T_INSTANCE_FREQUENCY,
+ T_INSTANCES_CLUSTER_K,
+ T_FEATURE_SUM>              &aipartlinknuminst_memberShip
+ ) 
+{
+  const T_CLUSTERIDX lcidx_numClusterK =
+    aipartlinknuminst_memberShip.getNumPartitions();
+  const std::vector<T_INSTANCES_CLUSTER_K>  &lvectorit_numInstClusterK =
+    aipartlinknuminst_memberShip.getNumInstancesClusterK(); 
+  const T_CLUSTERIDX lcidx_numNullCluster =
+    (T_CLUSTERIDX)
+    std::count_if
+    (lvectorit_numInstClusterK.begin(),
+     lvectorit_numInstClusterK.end(),
+     [] (const T_INSTANCES_CLUSTER_K aiit_num)
+     {
+       return aiit_num == T_INSTANCES_CLUSTER_K(0);
+     }
+     );
+  
+#ifdef __VERBOSE_YES
+  const char* lpc_labelFunc = "um::silhouette";
+  ++geiinparam_verbose;
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+      << ":  IN(" << geiinparam_verbose << ")\n"
+      << "(input  PartitionLinked&: aipartlinknuminst_memberShip[" 
+      << &aipartlinknuminst_memberShip << "]\n"
+      << "lvectorit_numInstClusterK[" << &lvectorit_numInstClusterK << "]\n"; 
+    inout::containerprint
+      (lvectorit_numInstClusterK.begin(),
+       lvectorit_numInstClusterK.end(),
+       std::cout,
+       lpc_labelFunc,
+       ','
+       );
+   
+    std::cout
+      << "lcidx_numClusterK =  " << lcidx_numClusterK
+      << "\nlcidx_numNullCluster =  " << lcidx_numNullCluster 
+      << "\n)"
+      << std::endl;
+  }
+#endif //__VERBOSE_YES
+   
+  T_METRIC  lort_silhouette = measuare_undefSilhouette(T_METRIC);
+  
+  ds::IteratorPartitionLinked <T_CLUSTERIDX>
+    literpart_i(&aipartlinknuminst_memberShip);
+  ds::IteratorPartitionLinked <T_CLUSTERIDX>
+    literpart_ip(&aipartlinknuminst_memberShip);
+
+  if ( (lcidx_numClusterK - lcidx_numNullCluster) > 1)  {
+    
+    T_METRIC lrt_sumSilhouette = T_METRIC(0.0);
+
+    for ( T_CLUSTERIDX lcidx_Ck = 0; lcidx_Ck < lcidx_numClusterK; lcidx_Ck++) { 
+      
+      if ( lvectorit_numInstClusterK.at(lcidx_Ck) > 1 ) {
+	  
+	for ( literpart_i.begin(lcidx_Ck); literpart_i.end(); literpart_i.next() ) {
+      
+	  T_METRIC lt_sumai = T_METRIC(0);
+	  
+	  for ( literpart_ip.begin(lcidx_Ck); literpart_ip.end(); literpart_ip.next() ) {
+	   
+	    lt_sumai +=
+	      aimatrixtriagt_dissimilarity
+	      (literpart_i.getValue(),
+	       literpart_ip.getValue()
+	       );
+	 
+	  }
+	  T_METRIC lt_ai = lt_sumai / T_METRIC(lvectorit_numInstClusterK.at(lcidx_Ck) - 1);
+
+	  T_METRIC lt_bi = std::numeric_limits<T_METRIC>::max();  
+	  for ( T_CLUSTERIDX lcidx_Ckp = 0; lcidx_Ckp < lcidx_numClusterK; lcidx_Ckp++) {
+	    if ( lcidx_Ck != lcidx_Ckp ) {
+	      T_METRIC lt_sumbi = T_METRIC(0);
+	      for ( literpart_ip.begin(lcidx_Ckp); literpart_ip.end(); literpart_ip.next() ) {
+		
+		lt_sumbi +=
+		  aimatrixtriagt_dissimilarity
+		  (literpart_i.getValue(),
+		   literpart_ip.getValue()
+		   );
+	      }
+	      T_METRIC lt_diC = lt_sumbi / T_METRIC(lvectorit_numInstClusterK.at(lcidx_Ckp));
+	      if ( lt_diC < lt_bi ) lt_bi = lt_diC;
+	    }
+	  }
+
+	  T_METRIC lt_max =  std::max(lt_ai,lt_bi);
+
+#ifdef __VERBOSE_YES
+	  if ( geiinparam_verbose < 0 &&  geiinparam_verbose <= geiinparam_verboseMax ) {
+	    std::cout
+	      << lpc_labelFunc << ": i = " << literpart_i.getValue()
+	      << " a " <<  lt_ai
+	      << " b " << lt_bi
+	      << std::endl;
+	  }
+#endif //__VERBOSE_YES
+ 
+	  lrt_sumSilhouette += (lt_max == 0.0)?0.0:(lt_bi - lt_ai)/ lt_max;
+	  
+	} //For Object_i
+
+	lort_silhouette =
+	  lrt_sumSilhouette  /
+	  (T_METRIC) aipartlinknuminst_memberShip.getNumInstances();
+	
+      }  
+
+    } // For all cluster
+
+  }
+  
+#ifdef __VERBOSE_YES
+  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
+    std::cout
+      << lpc_labelFunc
+      << ": OUT(" << geiinparam_verbose << ") "
+      << "T_METRIC lort_silhouette = "   << lort_silhouette
+      << std::endl;
+  }
+  --geiinparam_verbose;
+#endif //__VERBOSE_YES
+
+  return lort_silhouette;
+  
+}
+
+
 /*! \fn T_METRIC silhouette (INPUT_ITERATOR aiiterator_instfirst, ds::PartitionLinkedNumInst<T_CLUSTERIDX,T_INSTANCES_CLUSTER_K> &aipartlinknuminst_memberShip, const dist::Dist<T_METRIC,T_FEATURE> &aifunc2p_dist)
   \brief Silhouette \cite Kaufman:Rousseeuw:Book:ClusterAnalysis:1990
   \details Calculate the average of Silhouette for the instances
