@@ -224,6 +224,7 @@ inparamclustering_usage
 ) 
 #endif /* __INPARAM_PCPMFK__ */
 
+
 #ifdef __INPARAM_PCPMVK__
 template<typename T_CLUSTERIDX,
          typename T_REAL,
@@ -242,6 +243,28 @@ inparamclustering_usage
  T_INSTANCES_CLUSTER_K>                &aoipc_inParamClustering
  )
 #endif /*__INPARAM_PCPMVK__
+	*/
+    
+#ifdef __INPARAM_PCPMFREQVK__
+template<typename T_CLUSTERIDX,
+         typename T_REAL,
+         typename T_FEATURE,         
+	 typename T_FEATURE_SUM,
+	 typename T_INSTANCES_CLUSTER_K,
+	 typename T_INSTANCE_FREQUENCY
+	 > 
+void 
+inparamclustering_usage
+(char                                  *argv0, 
+ InParamPcPmFreqVk
+ <T_CLUSTERIDX,
+ T_REAL,
+ T_FEATURE,
+ T_FEATURE_SUM,
+ T_INSTANCES_CLUSTER_K,
+ T_INSTANCE_FREQUENCY>                &aoipc_inParamClustering
+ )
+#endif /*__INPARAM_PCPMFREQVK__
 	*/
 
 #ifdef __INPARAM_GAPROTOTYPESFK__
@@ -853,14 +876,10 @@ template<typename T_CLUSTERIDX,
 	    << aoipc_inParamClustering.getRTreeCapacity() << "]\n";
   std::cout << "      --tree-leaf-capacity[=NUMBER]    tree leaf capacity [NUMBER=" 
 	    << aoipc_inParamClustering.getRTreeleafCapacity() << "]\n";
-  
-
 #endif /*__INPARAM_DBSCAN__*/
 
-
-
+  
 #ifdef __INPARAM_PCPMFK__
-
   std::cout << "      --number-clusters[=NUMBER]\n"
 	    << "                              number of clusters [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterK() << "]\n";
@@ -882,8 +901,8 @@ template<typename T_CLUSTERIDX,
 	    << "                                [NUMBER="
 	    << aoipc_inParamClustering.getProbMutation()
 	    << "]\n";
-#endif /*__INPARAM_PCPMFK__*/
-
+#endif /*__INPARAM_PCPMFK__
+	*/
 
 #ifdef __INPARAM_GACDUAL__
   std::cout << "      --number-clusters[=NUMBER]\n"
@@ -1091,8 +1110,8 @@ template<typename T_CLUSTERIDX,
 #endif /*__INPARAM_GENWOCHGVK__*/
 
 
-  
-#ifdef __INPARAM_PCPMVK__
+#if defined(__INPARAM_PCPMVK__) ||	\
+  defined(__INPARAM_PCPMFREQVK__)
   std::cout << "      --k-minimum[=NUMBER]    minimum number of clusters per search\n"
 	    << "                                [NUMBER=" 
 	    << aoipc_inParamClustering.getNumClusterKMinimum() << "]\n";
@@ -1119,8 +1138,9 @@ template<typename T_CLUSTERIDX,
 	    << "                                interval [0, 0.5] [NUMBER="
 	    << aoipc_inParamClustering.getProbMutation()
 	    << "]\n";
-#endif /*__INPARAM_PCPMVK__*/
-
+#endif /*__INPARAM_PCPMVK__
+         __INPARAM_PCPMFREQVK__
+	*/
 
 #ifdef __INPARAM_GAPROTOTYPESFK__
   std::cout << "      --number-clusters[=NUMBER]\n"
@@ -1791,6 +1811,7 @@ inparamclustering_getParameter
 #endif /*__INPARAM_TGCA__
 	*/
 
+
 #ifdef  __INPARAM_PCPMVK__
   template<typename T_CLUSTERIDX,
            typename T_REAL,
@@ -1810,7 +1831,32 @@ inparamclustering_getParameter
    int                                     argc, 
    char                                    **argv
    )  
-#endif /*__INPARAM_PCPMVK__*/
+#endif /*__INPARAM_PCPMVK__
+	*/
+
+  
+#ifdef  __INPARAM_PCPMFREQVK__
+  template<typename T_CLUSTERIDX,
+           typename T_REAL,
+           typename T_FEATURE,         
+	   typename T_FEATURE_SUM,
+	   typename T_INSTANCES_CLUSTER_K,
+	   typename T_INSTANCE_FREQUENCY
+          > 
+  void 
+  inparamclustering_getParameter
+  (InParamPcPmFreqVk
+   <T_CLUSTERIDX,
+   T_REAL,
+   T_FEATURE,         
+   T_FEATURE_SUM,
+   T_INSTANCES_CLUSTER_K,
+   T_INSTANCE_FREQUENCY 
+   >                                       &aoipc_inParamClustering,
+   int                                     argc, 
+   char                                    **argv
+   )  
+#endif /*__INPARAM_PCPMFREQVK__*/
 
 
 #ifdef __INPARAM_FEAC__
@@ -1992,7 +2038,9 @@ inparamclustering_getParameter
     {"number-clusters", "iterations", "epsilon", "weighting-exponent", (char *) NULL };
 #endif /*__INPARAM_FCM__*/
 
-#ifdef __INPARAM_PCPMVK__
+  
+#if defined(__INPARAM_PCPMVK__) || \
+  defined(__INPARAM_PCPMFREQVK__)
     const char   *las_optPcPmVk[] = 
     {"k-minimum",
      "k-maximum",
@@ -2002,11 +2050,12 @@ inparamclustering_getParameter
      "generations", 
      (char *) NULL
     };
-#endif /*__INPARAM_PCPMVK__*/
+#endif /*__INPARAM_PCPMVK__
+	 __INPARAM_PCPMFREQVK__
+       */
 
   
 #ifdef __INPARAM_PCPMFK__
-
   const char   *lastr_inParamPcPmFk[] = 
     {"number-clusters",
      "population-size", 
@@ -2372,15 +2421,17 @@ inparamclustering_getParameter
       {"alpha",                   required_argument, 0, 0},
 #endif /*__INPARAM_GAPROTOTYPESFK__*/
       
-#ifdef __INPARAM_PCPMVK__
+#if defined(__INPARAM_PCPMVK__) || \
+  defined(__INPARAM_PCPMFREQVK__)
       {"k-minimum",               required_argument, 0, 0},
       {"k-maximum",               required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
       {"crossover-probability",   required_argument, 0, 0},
       {"mutation-probability",    required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
-#endif /*__INPARAM_PCPMVK__*/
-
+#endif /*__INPARAM_PCPMVK__
+	 __INPARAM_PCPMFREQVK__
+       */
 
 #ifdef __INPARAM_WITHOUTPCPMVK__
       {"k-minimum",               required_argument, 0, 0},
@@ -2438,14 +2489,17 @@ inparamclustering_getParameter
       {"notchangestop",           required_argument, 0, 0},
 #endif /*__INPARAM_GENWOCHGVK__*/
 
-#ifdef __INPARAM_PCPMVK__
+#if defined(__INPARAM_PCPMVK__) || \
+  defined(__INPARAM_PCPMFREQVK__)
       {"k-minimum",               required_argument, 0, 0},
       {"k-maximum",               required_argument, 0, 0},
       {"population-size",         required_argument, 0, 0},
       {"crossover-probability",   required_argument, 0, 0},
       {"mutation-probability",    required_argument, 0, 0},
       {"generations",             required_argument, 0, 0},
-#endif /*__INPARAM_PCPMVK__*/
+#endif /*__INPARAM_PCPMVK__
+	 __INPARAM_PCPMFREQVK__
+       */
 
 #ifdef __INPARAM_FEAC__
       {"k-minimum",               required_argument, 0, 0},
@@ -3417,7 +3471,8 @@ inparamclustering_getParameter
 #endif /*__INPARAM_GAPROTOTYPESFK__*/
 
 
-#ifdef __INPARAM_PCPMVK__
+#if defined(__INPARAM_PCPMVK__) || \
+  defined(__INPARAM_PCPMFREQVK__)
       else if ( strcmp
 	   (long_options[option_index].name,
 	    las_optPcPmVk[0] ) == 0 ) 
@@ -3491,7 +3546,9 @@ inparamclustering_getParameter
 	   las_optPcPmVk
 	   );
       }
-#endif  /*__INPARAM_PCPMVK__*/
+#endif /*__INPARAM_PCPMVK__
+	 __INPARAM_PCPMFREQVK__
+       */
 
 
 #ifdef __INPARAM_WITHOUTPCPMVK__
