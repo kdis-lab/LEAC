@@ -553,6 +553,73 @@ muhlenbeinMutation
   }				
 }
 
+/*! \fn void muhlenbeinMutation(T_REAL &aiort_geneToChange, const T_REAL airt_feact_ai, const T_REAL airt_feact_bi, const COMMON_IDOMAIN aiit_currentIteration, const COMMON_IDOMAIN aiit_maxIteration, const T_REAL airt_xi1 = 20, const T_REAL airt_xi2 = 8
+ )
+  \brief Muhlenbein mutation
+  \details
+  \param T_REAL               &aiort_geneToChange, 
+  \param const T_REAL         airt_feact_ai, //lower range limit 
+  \param const T_REAL         airt_feact_bi, //upper range limit 
+  \param const COMMON_IDOMAIN aiit_currentIteration,
+  \param const COMMON_IDOMAIN aiit_maxIteration,
+  \param const T_REAL         airt_xi1 = 20,
+  \param const T_REAL         airt_xi2 = 8
+*/
+template <typename T_REAL> 
+void
+muhlenbeinMutation
+(T_REAL               &aiort_geneToChange,    //aiochromstr_toGeneMutate,
+ const T_REAL         airt_feact_ai, //lower range limit 
+ const T_REAL         airt_feact_bi, //upper range limit 
+ const COMMON_IDOMAIN aiit_currentIteration,
+ const COMMON_IDOMAIN aiit_maxIteration,
+ const T_REAL         airt_xi1 = 20,
+ const T_REAL         airt_xi2 = 8
+ )
+{
+  static std::uniform_real_distribution<T_REAL> uniformdis_real01(0, 1);
+  // 0    1    2      3     4         5         6         7
+  // static T_REAL larray_pow2[]
+  //   = { 1.0, 0.5, 0.25, 0.125, 6.25e-2, 3.125e-2, 1.5625e-2, 7.8125e-3,
+  // 	// 8             9           10            11          12
+  // 	3.90625e-3, 1.953125e-3, 9.765625e-4, 4.8828125e-4, 2.44140625e-4,
+  // 	// 13        14         15
+  // 	1.220703125e-4, 6.103515625e-5, 3.0517578125e-5};
+  
+  //const T_REAL lrt_rangi = 0.1*(airt_feact_bi-airt_feact_ai);
+  const T_REAL lrt_rangi = airt_feact_bi-airt_feact_ai;
+  //T_REAL aiort_geneToChange =  aiochromstr_toMutate.getString();
+  //const T_REAL *aiort_geneToChange_end(aiort_geneToChange + aiochromstr_toMutate.getStringSize());
+
+  //while ( aiort_geneToChange  != aiort_geneToChange_end ) {
+  const T_REAL lr_a = airt_xi1 * (T_REAL)aiit_currentIteration/ (T_REAL) aiit_maxIteration;
+  const T_REAL lr_b = lr_a +  airt_xi2; 
+  
+  T_REAL lrt_gamma = 0.0;
+  //for ( uintidx lui_i = 0; lui_i < 16; lui_i++){
+  for ( T_REAL lri_k = lr_a+1; lri_k < lr_b; lri_k += 1.0){
+    //T_REAL lrt_alpha =  (uniformdis_real01(gmt19937_eng) <= 0.0625)?1.0:0.0;
+    T_REAL lr_p = (lri_k - lr_a) / ( 2.0 * airt_xi2); 
+    T_REAL lrt_alpha =  (uniformdis_real01(gmt19937_eng) <= lr_p)?1.0:0.0;
+    if ( lrt_alpha > 0.0 )
+      lrt_gamma += std::pow(2.0,-lri_k);
+  }
+
+  T_REAL lrt_sign =  (uniformdis_real01(gmt19937_eng) < 0.5)?-1.0:1.0;
+
+  
+  aiort_geneToChange +=  lrt_sign * lrt_rangi * lrt_gamma;
+
+  aiort_geneToChange = (lrt_sign > 0.0)?std::round(aiort_geneToChange):std::floor(aiort_geneToChange);
+
+  if ( aiort_geneToChange < airt_feact_ai )
+    aiort_geneToChange = airt_feact_ai;
+
+  if ( aiort_geneToChange > airt_feact_bi )
+    aiort_geneToChange = airt_feact_bi;
+  
+}
+
   
 } /*END namespace garealop*/
 
