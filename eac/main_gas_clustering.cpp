@@ -151,47 +151,12 @@
 #include "gaclustering_vktreebinary.hpp"
 #endif /*ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003*/
 
-#ifdef __ALG_GAMIX__
-#include "datatype_instance_real.hpp"
-#include "ga_mix.hpp"
-#endif /*__ALG_GAMIX__*/
 
-#ifdef __ALG_GAMIX_SORT__
+#ifdef __ALG_GASGO_2023__
 #include "datatype_instance_real.hpp"
-#include "ga_mix_sort.hpp"
-#define DATATYPE_INSTANCEIDX uintidx
-#endif /*__ALG_GAMIX_SORT__*/
+#include "gasgo_vkcentroid.hpp"
+#endif /*__ALG_GASGO_2023__*/
 
-#ifdef __ALG_GADUAL_SORTFITNESSGENES__
-#include "datatype_instance_real.hpp"
-#include "gadual_sortfitnessgenes.hpp"
-#define DATATYPE_INSTANCEIDX uintidx
-#endif /*__ALG_GADUAL_SORTFITNESSGENES__*/
-
-#ifdef __ALG_GAMIX_SIMPLE__
-#include "datatype_instance_real.hpp"
-#include "gamixsimple_fkcentroid.hpp"
-#define DATATYPE_INSTANCEIDX uintidx
-#endif /*__ALG_GAMIX_SIMPLE__*/
-
-#ifdef __ALG_GAMIXGAGR__
-#include "datatype_instance_real.hpp"
-#include "gamixgagr_fkcentroid.hpp"
-//#define DATATYPE_INSTANCEIDX uintidx
-#endif /*__ALG_GAMIXGAGR__*/
-
-#ifdef __ALG_GAMIXGAGR_CFARTHEST__
-#include "datatype_instance_real.hpp"
-#include "gamixgagrcfarthest_fkcentroid.hpp"
-//#define DATATYPE_INSTANCEIDX uintidx
-#endif /*__ALG_GAMIXGAGR_CFARTHEST__*/
-
-
-#ifdef __ALG_GAMIXSQRTN_SIMPLE__
-#include "datatype_instance_real.hpp"
-#include "gamixsimplesqrtn_fkcentroid.hpp"
-#define DATATYPE_INSTANCEIDX uintidx
-#endif /*__ALG_GAMIXSQRTN_SIMPLE__*/
 
 #include <leac.hpp>
 #include "inparamclustering_getparameter.hpp"
@@ -726,8 +691,117 @@ int main(int argc, char **argv)
     <DATATYPE_REAL,
      DATATYPE_CLUSTERIDX>      loop_outParamGAC(inout::DBindex);
 #endif /*ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002*/
-  
 
+
+#ifdef __ALG_GASGO_2023__
+  /*INPUT: PARAMETER
+   */
+  inout::InParamPcPmFreqVk
+    <DATATYPE_CLUSTERIDX,
+     DATATYPE_REAL,
+     DATATYPE_FEATURE,         
+     DATATYPE_FEATURE_SUM,
+     DATATYPE_INSTANCES_CLUSTER_K,
+     DATATYPE_INSTANCE_FREQUENCY
+     > 
+    linparam_ClusteringGA
+#if defined(__FITNESS_VRC__)
+  (
+   "GASGO",
+   "Robles-Berumen and Zafra and Ventura 2023", 
+   inout::CENTROIDS,
+   INPARAMCLUSTERING_DISTANCE_EUCLIDEAN_SQ
+   );
+#endif //__FITNESS_VRC__)
+
+#if defined(__FITNESS_DB_INDEX__)     
+  (
+   "GASGO_DB",
+   "Robles-Berumen and Zafra and Ventura 2023", 
+   inout::CENTROIDS,
+   INPARAMCLUSTERING_DISTANCE_EUCLIDEAN
+   );
+#endif //__FITNESS_DB_INDEX__
+
+#if defined(__FITNESS_SIMPLIFIED_SILHOUETTE__)     
+  (
+   "GASGO_SS",
+   "Robles-Berumen and Zafra and Ventura 2023", 
+   inout::CENTROIDS,
+   INPARAMCLUSTERING_DISTANCE_EUCLIDEAN
+   );
+#endif //__FITNESS_SIMPLIFIED_SILHOUETTE__
+
+#if defined(__FITNESS_SILHOUETTE__)     
+  (
+   "GASGO_S",
+   "Robles-Berumen and Zafra and Ventura 2023", 
+   inout::CENTROIDS,
+   INPARAMCLUSTERING_DISTANCE_EUCLIDEAN
+   );
+#endif //__FITNESS_SILHOUETTE__
+
+#if defined(__FITNESS_WB_INDEX__)     
+  (
+   "GASGO_WB",
+   "Robles-Berumen and Zafra and Ventura 2023", 
+   inout::CENTROIDS,
+   INPARAMCLUSTERING_DISTANCE_EUCLIDEAN_SQ
+   );
+#endif //__FITNESS_WB_INDEX__
+  
+#if defined(__FITNESS_INDEX_I__)     
+  (
+   "GASGO_I",
+   "Robles-Berumen and Zafra and Ventura 2023", 
+   inout::CENTROIDS,
+   INPARAMCLUSTERING_DISTANCE_EUCLIDEAN
+   );
+#endif //__FITNESS_INDEX_I__
+  
+  linparam_ClusteringGA.setNumMaxGenerations(300); 
+  linparam_ClusteringGA.setSizePopulation(50);  
+  linparam_ClusteringGA.setProbCrossover(-1.0);  
+  linparam_ClusteringGA.setProbMutation(-1.0); 
+
+  linparam_ClusteringGA.setNumClusterKMinimum(2);   
+  linparam_ClusteringGA.setNumClusterKMaximum(INPARAMCLUSTERING_DEFAULT_CLUSTERK_UNDEFINED);    
+
+  /*OUT
+   */
+       
+
+  inout::OutParamGAC
+    <DATATYPE_REAL,
+     DATATYPE_CLUSTERIDX>
+    
+#if defined(__FITNESS_VRC__)
+    loop_outParamGAC(inout::VRC);
+#endif //__FITNESS_VRC__)
+
+#if defined(__FITNESS_DB_INDEX__)
+    loop_outParamGAC(inout::DBindex);
+#endif //__FITNESS_DB_INDEX__
+
+#if defined(__FITNESS_SIMPLIFIED_SILHOUETTE__)
+    loop_outParamGAC(inout::SSilhouette);
+#endif //__FITNESS_SIMPLIFIED_SILHOUETTE__
+
+#if defined(__FITNESS_SILHOUETTE__)
+    loop_outParamGAC(inout::Silhouette);
+#endif //__FITNESS_SILHOUETTE__
+
+#if defined(__FITNESS_WB_INDEX__)     
+   loop_outParamGAC(inout::WBIndex);
+#endif //__FITNESS_WB_INDEX__
+    
+#if defined(__FITNESS_INDEX_I__)
+  loop_outParamGAC(inout::IndexI);
+#endif //__FITNESS_INDEX_I__
+  
+#endif /*__ALG_GASGO_2023__*/  
+
+  
 #ifdef ALG_GA_CLUSTERING_VKTREEBINARY_CASILLAS_GONZALEZ_MARTINEZ_2003
   /*INPUT: PARAMETER
    */
@@ -1856,63 +1930,6 @@ int main(int argc, char **argv)
 
 #endif /*ALG_GAS_FKCENTROID_MAULIK_BANDYOPADHYAY_2000*/
 
-
-#if defined(__ALG_GAMIX__) ||	\
-  defined(__ALG_GAMIX_SIMPLE__) || \
-  defined(__ALG_GAMIXGAGR__) || \
-  defined(__ALG_GAMIXGAGR_CFARTHEST__) || \
-  defined(__ALG_GAMIXSQRTN_SIMPLE__) || \
-  defined(__ALG_GAMIX_SORT__) || \
-  defined(__ALG_GADUAL_SORTFITNESSGENES__)
-
-
-      auto lchrom_best =
-	eac::gamix
-	(loop_outParamGAC,
-	linparam_ClusteringGA,
-	lpairvec_dataset.first.begin(),
-	lpairvec_dataset.first.end(),
-	*pfunct2p_distAlg
-	);
-
-      //std::cout << "LLEGUE AL MAIN" << std::endl;
-
-      mat::MatrixRow<DATATYPE_FEATURE> lomatrixrowt_centroids(lchrom_best.getCentroids());
-
-      auto lpartition_clusters = 
-	partition::makePartition
-	(lomatrixrowt_centroids,
-	lpairvec_dataset.first.begin(),
-	lpairvec_dataset.first.end(),
-	DATATYPE_CLUSTERIDX(lomatrixrowt_centroids.getNumRows()),
-	*pfunct2p_distAlg
-	);
-
-      mat::MatrixRow<DATATYPE_FEATURE> 
-	lomatrixrowt_medoids
-	( (uintidx) linparam_ClusteringGA.getNumClusterK(),
-	  data::Instance<DATATYPE_FEATURE>::getNumDimensions()
-	  );
-
-      clusteringop::initialize
-	(lomatrixrowt_medoids,
-	 lpairvec_dataset.first.begin(),
-	 lchrom_best.begin()
-	 );
-
-      std::pair<DATATYPE_REAL,bool> lpair_sedmedoid =
-	um::SSE
-	(lomatrixrowt_medoids,
-	  lpairvec_dataset.first.begin(),
-	  lpairvec_dataset.first.end(),
-	  *pfunct2p_distEuclidean
-	  );
-
-	 loop_outParamGAC.setMedoidSED(lpair_sedmedoid.first);
-
-	 //std::cout << "VOY A LAS METRICAS" << std::endl;
-
-#endif /*__ALG_GAMIX__*/
     
       /*\cite{Bandyopadhyay:Maulik:GAclustering:KGA:2002}
        */
@@ -2193,6 +2210,34 @@ int main(int argc, char **argv)
 	 );
 #endif /*ALG_GCUK_VKCENTROID_BANDYOPADHYAY_AND_MAULIK_2002*/
 
+#ifdef __ALG_GASGO_2023__
+      
+      auto lchrom_best =
+	eac::gasgo_vkcentroid
+	(loop_outParamGAC,
+	 linparam_ClusteringGA,
+	 lpairvec_dataset.first.begin(),
+	 lpairvec_dataset.first.end(),
+	 *pfunct2p_distAlg
+	 );
+
+      mat::MatrixRow<DATATYPE_FEATURE> lomatrixrowt_centroids
+	(lchrom_best.getCodeBook().getNumRows(),
+	 data::Instance<DATATYPE_FEATURE>::getNumDimensions(),
+	 lchrom_best.getCodeBook().toArray()
+	 );
+
+
+      partition::PartitionLabel
+	<DATATYPE_CLUSTERIDX>
+	lpartition_clusters
+	(lchrom_best.getPartition().getMembersShip(),
+	 (uintidx) lpairvec_dataset.first.size(),
+	 DATATYPE_CLUSTERIDX(lomatrixrowt_centroids.getNumRows())
+	 );
+       
+#endif /*__ALG_GASGO_2023__*/
+      
     
 #ifdef ALG_TGCA_VKCENTROID_HE_AND_TAN_2012
 

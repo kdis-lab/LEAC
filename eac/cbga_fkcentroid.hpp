@@ -47,407 +47,8 @@
 */
 namespace eac {
 
-#define GACLUSTERING_CBGA_SELECMETH_ROULETTE 0
-#define GACLUSTERING_CBGA_SELECMETH_ELITIST1 1
-#define GACLUSTERING_CBGA_SELECMETH_ELITIST2 2
-#define GACLUSTERING_CBGA_SELECMETH_ZIGZAG   3
 
-#define GACLUSTERING_CBGA_SELECMETH {"roulette", "elitist1", "elitist2", "zigzag", (char *) NULL }
-
-template <typename T_FEATURE,
-	  typename T_CLUSTERIDX,
-	  typename T_INSTANCE_FREQUENCY,
-	  typename T_INSTANCES_CLUSTER_K,
-	  typename T_FEATURE_SUM,
-	  typename T_REAL,
-	  typename INPUT_ITERATOR
-	  >
-void 
-iterateGLAAux
-(gaencode::ChromosomeCBGA
- <T_FEATURE,
- T_CLUSTERIDX,
- T_INSTANCE_FREQUENCY,
- T_INSTANCES_CLUSTER_K,
- T_FEATURE_SUM, 
- T_REAL>                            &aochrom_cbga,
- INPUT_ITERATOR                     aiiterator_instfirst,
-
-
- const INPUT_ITERATOR               aiiterator_instlast,
- const int                          aii_numIteration, 
- const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist
- );
-
-
-/*! \fn uintidx getCrossSetSizeAux (const int aii_opSelectMethod, const uintidx aist_populationSize)
-   \brief  Cross size 
-   \details Calculate the amount of chromosomes to crossover
-   \return an integer number with the number of individuals to cross
-   \param aii_opSelectMethod ￼type of selected method: GACLUSTERING_CBGA_SELECMETH_ROULETTE, GACLUSTERING_CBGA_SELECMETH_ELITIST1, GACLUSTERING_CBGA_SELECMETH_ZIGZAG or GACLUSTERING_CBGA_SELECMETH_ELITIST2
-   \param aist_populationSize an integer with the size of the population
-*/
-uintidx
-getCrossSetSizeAux
-(const int     aii_opSelectMethod, 
- const uintidx aist_populationSize
- )
-{
-  uintidx lost_crossSetSize = 0;
-
-  switch( aii_opSelectMethod ) {
-  case GACLUSTERING_CBGA_SELECMETH_ROULETTE:
-    lost_crossSetSize = aist_populationSize;
-    break;
-  case GACLUSTERING_CBGA_SELECMETH_ELITIST1:
-  case GACLUSTERING_CBGA_SELECMETH_ZIGZAG:
-    lost_crossSetSize=1; 
-    while ( (lost_crossSetSize*(lost_crossSetSize-1)/2) < aist_populationSize ) 
-      lost_crossSetSize++;
-    break;
-  case GACLUSTERING_CBGA_SELECMETH_ELITIST2:
-    lost_crossSetSize=1; 
-    while ( (lost_crossSetSize*(lost_crossSetSize+1)/2) < aist_populationSize ) 
-      lost_crossSetSize++;
-    break;
-  default:
-    break;
-  }
-
-  return lost_crossSetSize;
-
-}
-
-/*! \fn uintidx getSurvivorsAux (int aii_opSelectMethod, uintidx aist_populationSize)  
-   \brief   Get survivors 
-   \details Calculate the number of selected individuals in an elitist manner
-   \param aii_opSelectMethod type of selected method
-   \param aist_populationSize an integer with the size of the population
-*/
-uintidx
-getSurvivorsAux
-(int     aii_opSelectMethod, 
- uintidx aist_populationSize
- )
-{
-  uintidx lost_survivors = 0;
-
-  switch( aii_opSelectMethod ) {
-  case GACLUSTERING_CBGA_SELECMETH_ROULETTE:
-    lost_survivors = 1;
-    break;
-  case GACLUSTERING_CBGA_SELECMETH_ELITIST1:
-  case GACLUSTERING_CBGA_SELECMETH_ZIGZAG:
-    lost_survivors = 1;
-    break;
-  case GACLUSTERING_CBGA_SELECMETH_ELITIST2:
-    lost_survivors = 1; 
-    while ( (lost_survivors*(lost_survivors+1)/2) < aist_populationSize ) 
-      lost_survivors++;
-    break;
-  default:
-    break;
-  }
-
-  return lost_survivors;
-}
-
-
-/*! \fn void changeOptimalityAux (gaencode::ChromosomeCBGA<T_FEATURE,T_CLUSTERIDX, T_INSTANCE_FREQUENCY, T_INSTANCES_CLUSTER_K, T_FEATURE_SUM, T_REAL> &aochrom_cbga, gaencode::OptimalityCBGA aiooptimalitycbga_a, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE>  &aifunc2p_dist)
-  \brief Change optimality 
-  \details Does a local search depending on the status of the chromosome
-  \param aochrom_cbga a chromosome of type gaencode::ChromosomeCBGA
-  \param aiooptimalitycbga_a gaencode::OptimalityCBGA
-  \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
-  \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
-  \param aifunc2p_dist an object of type dist::Dist to calculate distance
-*/
-template <typename T_FEATURE,
-	  typename T_CLUSTERIDX,
-	  typename T_INSTANCE_FREQUENCY,
-	  typename T_INSTANCES_CLUSTER_K,
-	  typename T_FEATURE_SUM, 
-	  typename T_REAL,
-	  typename INPUT_ITERATOR
-	  >
-void 
-changeOptimalityAux
-(gaencode::ChromosomeCBGA
- <T_FEATURE, 
- T_CLUSTERIDX,
- T_INSTANCE_FREQUENCY,
- T_INSTANCES_CLUSTER_K,
- T_FEATURE_SUM,
- T_REAL>                             &aochrom_cbga,
- gaencode::OptimalityCBGA            aiooptimalitycbga_a,
- INPUT_ITERATOR                      aiiterator_instfirst,
- const INPUT_ITERATOR                aiiterator_instlast,
- const dist::Dist<T_REAL,T_FEATURE>  &aifunc2p_dist
- )
-{
-#ifdef __VERBOSE_YES
-  const char   *las_optimalityCBGA[] = OPTIMALITY_CBGA_STRING;
-
-  ++geiinparam_verbose;
-  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << "eac::changeOptimalityAux:  IN"
-	      << '(' << geiinparam_verbose << ")\n"
-	      << "(output gaencode::ChromosomeCBGA: aochrom_cbga["
-	      << &aochrom_cbga << "]\n"
-	      << " input gaencode::ChromosomeCBGA.optimalityCBGA = " 
-	      <<  las_optimalityCBGA[ aochrom_cbga.getOptimalityCBGA() ] <<  '\n'
-	      << " input  OptimalityCBGA:  aiooptimalitycbga_a = " 
-	      << las_optimalityCBGA[ aiooptimalitycbga_a ] << '\n'
-              << " input  aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
-	      << " input const aiiterator_instlast[" << &aiiterator_instlast << "]\n"
-	      << " input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
-      	      << &aifunc2p_dist << "]\n"
-	      << "\t)"
-	      << std::endl;
-  }
-#endif /*__VERBOSE_YES*/
-
-  if ((aochrom_cbga.getOptimalityCBGA() != aiooptimalitycbga_a) ||
-      (aochrom_cbga.getOptimalityCBGA() != gaencode::OPT_BOTH) 
-      )  {
-
-    switch ( aiooptimalitycbga_a )
-      {
-      case gaencode::OPT_NONE:
-	break;
-      case gaencode::OPT_CB:
-	{
-	  aochrom_cbga.optimalCodebook();
-	  aochrom_cbga.setOptimalityCBGA( gaencode::OPT_CB );
-	  break;
-	}
-      case gaencode::OPT_PA:
-	{
-	  clusteringop::reassignCluster
-	    (aochrom_cbga.getPartition(),
-	     aochrom_cbga.getCodeBook(),
-	     aiiterator_instfirst,
-             aiiterator_instlast,
-	     aifunc2p_dist 
-	     );
-	  
-	  aochrom_cbga.setOptimalityCBGA( gaencode::OPT_PA );
-	  break;
-	}
-      case gaencode::OPT_BOTH:
-	{ 
-	  iterateGLAAux
-	    (aochrom_cbga,
-	     aiiterator_instfirst,
-             aiiterator_instlast,
-	     GENETICOPCLUSTER_MAX_GLA,
-	     aifunc2p_dist
-	     );	
-	  aochrom_cbga.setOptimalityCBGA( gaencode::OPT_BOTH );
-	  break;
-	}
-      }
-  }
-#ifdef __VERBOSE_YES
-  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << "eac::changeOptimalityAux: OUT"
-	      << '(' << geiinparam_verbose << ")\n"
-	      << "\t input  OptimalityCBGA:  aiooptimalitycbga_a = " 
-	      << las_optimalityCBGA[ aochrom_cbga.getOptimalityCBGA() ] << '\n';
-	
-  }
-  --geiinparam_verbose;
-#endif /*__VERBOSE_YES*/
-  
-}
-
-/*! \fn void iterateGLAAux (gaencode::ChromosomeCBGA<T_FEATURE,T_CLUSTERIDX,T_INSTANCE_FREQUENCY,T_INSTANCES_FREQUENCY_SUM,T_INSTANCES_CLUSTER_K,T_FEATURE_SUM,T_REAL> &aochromfr_chromosome, INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const int aii_numIteration, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
-  \brief iterateGLAAux 
-  \details
-  \param aochromfr_chromosome a gaencode::ChromosomeCBGA
-  \param aiiterator_instfirst an InputIterator to the initial positions of the sequence of instances
-  \param aiiterator_instlast an InputIterator to the final positions of the sequence of instances
-  \param aii_numIteration
-  \param aifunc2p_dist an object of type dist::Dist to calculate distance
-*/
-template <typename T_FEATURE, 
-	  typename T_CLUSTERIDX,
-	  typename T_INSTANCE_FREQUENCY,
-	  typename T_INSTANCES_CLUSTER_K,
-	  typename T_FEATURE_SUM,
-	  typename T_REAL,
-          typename INPUT_ITERATOR	  
-	  >
-void 
-iterateGLAAux
-(gaencode::ChromosomeCBGA
- <T_FEATURE,
- T_CLUSTERIDX,
- T_INSTANCE_FREQUENCY,
- T_INSTANCES_CLUSTER_K,
- T_FEATURE_SUM, 
- T_REAL>                            &aochrom_cbga,
- INPUT_ITERATOR                     aiiterator_instfirst,
- const INPUT_ITERATOR               aiiterator_instlast,
- const int                          aii_numIteration, 
- const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist
- )
-{
-  int           li_round = 0;
-  T_CLUSTERIDX  *lcidx_newindices;   
-  uintidx       lst_countNewIndex = 1; 
-
-
-#ifdef __VERBOSE_YES
-  const char   *las_optimalityCBGA[] = OPTIMALITY_CBGA_STRING;
-
-  const char* lpc_labelFunc = "eac::iterateGLA";
-  ++geiinparam_verbose;
-  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc
-	      << ":  IN(" << geiinparam_verbose << ")\n"
-  	      << "(output gaencode::ChromosomeCBGA: aochrom_cbga["
-	      << &aochrom_cbga << "]\n"
-	      << " input ChromosomeCBGA.optimalityCBGA = " 
-	      <<  las_optimalityCBGA[ aochrom_cbga.getOptimalityCBGA() ] <<  '\n'
-	      << " input  aiiterator_instfirst[" << *aiiterator_instfirst << "]\n"
-              << " input const aiiterator_instlast[" << &aiiterator_instlast << "]\n"
-	      << " input  int: aii_numIteration: " << aii_numIteration << '\n'
-	      << " input  dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist[" 
-      	      << &aifunc2p_dist << "]\n"
-	      << "\t)"
-	      << std::endl;
-  }
-#endif /*__VERBOSE_YES*/
-  
-  if (aii_numIteration < 1) {
-
-#ifdef __VERBOSE_YES
-    if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-      std::cout << "eac::iterateGLA: OUT (aii_numIteration < 1)\n"
-		<< "li_round: " << li_round 
-		<< "\taii_numIteration: " << aii_numIteration  
-		<< "\tlst_countNewIndex: " << lst_countNewIndex
-		<< '\n'
-		<< "\toutput gaencode::ChromosomeCBGA: aochrom_cbga["
-		<< &aochrom_cbga << "]\n";
-    }
-    return;
-#endif /*__VERBOSE_YES*/
-
-  }
-  
-  switch ( aochrom_cbga.getOptimalityCBGA() )
-    {
-    case gaencode::OPT_NONE: /* start by generating an optimal partitioning */
-    case gaencode::OPT_CB:
-      {
-	changeOptimalityAux
-	  (aochrom_cbga, 
-	   gaencode::OPT_PA,
-	   aiiterator_instfirst,
-	   aiiterator_instlast,
-	   aifunc2p_dist
-	   );
-	
-	iterateGLAAux
-	  (aochrom_cbga,
-	   aiiterator_instfirst,
-	   aiiterator_instlast,
-	   aii_numIteration-1,
-	   aifunc2p_dist
-	   );
-	
-	changeOptimalityAux
-	  (aochrom_cbga, 
-	   gaencode::OPT_CB, 
-	   aiiterator_instfirst,
-	   aiiterator_instlast, 
-	   aifunc2p_dist
-	   );
-	
-	clusteringop::fillEmptyPartitions
-	  (aochrom_cbga.getPartition(),
-	   aochrom_cbga.getCodeBook(),
-	   aiiterator_instfirst,
-	   aiiterator_instlast,
-	   aifunc2p_dist
-	   );
-	
-	break;
-      }
-    case gaencode::OPT_PA: //K-MEAN
-      {  
-	lcidx_newindices = 
-	  new T_CLUSTERIDX[aochrom_cbga.getCodeBook().getNumRows()];
-	li_round = 0;
-	while ( (li_round < aii_numIteration)  && (lst_countNewIndex > 0) ) {
-	  
-	  mat::MatrixResizableRow<T_FEATURE,T_INSTANCES_CLUSTER_K>
-	    lmT_codeBook(aochrom_cbga.getCodeBook());
-
-	  T_CLUSTERIDX lcidx_numClusterNull; 
-	  
-	  clusteringop::meanCentroids
-	    (lcidx_numClusterNull,
-	     aochrom_cbga.getCodeBook(),
-	     aochrom_cbga.getPartition().getSumInstancesClusterK(),
-	     aochrom_cbga.getPartition().getNumInstancesClusterK()
-	     );
-	  
-	  clusteringop::fillEmptyPartitions
-	    (aochrom_cbga.getPartition(),
-	     aochrom_cbga.getCodeBook(),
-	     aiiterator_instfirst,
-	     aiiterator_instlast,
-	     aifunc2p_dist
-	     );
-	  
-	  aochrom_cbga.checkChangedCodeVectors
-	    (lcidx_newindices,
-	     &lst_countNewIndex,
-	     lmT_codeBook 
-	     );
-	  
-	  clusteringop::reassignCluster
-	    (aochrom_cbga.getPartition(),
-	     aochrom_cbga.getCodeBook(),
-	     lcidx_newindices,
-	     lst_countNewIndex,
-	     aiiterator_instfirst,
-	     aiiterator_instlast,
-	     aifunc2p_dist
-	     );
-	  
-	  li_round++;
-	  
-	} /*END WHILE*/
-	delete[] lcidx_newindices;
-	
-	break;
-      }
-    case gaencode::OPT_BOTH:
-      break;
-    }
-
-#ifdef __VERBOSE_YES
-  if ( geiinparam_verbose <= geiinparam_verboseMax ) {
-    std::cout << lpc_labelFunc
-	      << ": OUT(" << geiinparam_verbose << ")\n"
-	      << "\tli_round: " << li_round 
-	      << "\taii_numIteration: " << aii_numIteration  
-	      << "\tlst_countNewIndex: " << lst_countNewIndex
-	      << " gaencode::ChromosomeCBGA.optimalityCBGA = " 
-	      <<  las_optimalityCBGA[ aochrom_cbga.getOptimalityCBGA() ] <<  '\n';
-    aochrom_cbga.print(std::cout,lpc_labelFunc,',',';');
-  }
-  --geiinparam_verbose;
-#endif /*__VERBOSE_YES*/
-
-}
-
-
-/*! \fn gaencode::ChromosomeCBGA <T_FEATURE, T_CLUSTERIDX, T_INSTANCE_FREQUENCY, _INSTANCES_CLUSTER_K, T_FEATURE_SUM, T_REAL>  cbga_fkcentroid (inout::OutParamGAC<T_REAL,T_CLUSTERIDX> &aoop_outParamGAC, const inout::InParamCBGA<T_CLUSTERIDX,T_REAL,T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K, T_INSTANCE_FREQUENCY> &aiinParam_CBGA, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
+/*! \fn gaencode::ChromCodeBook <T_FEATURE, T_CLUSTERIDX, T_INSTANCE_FREQUENCY, _INSTANCES_CLUSTER_K, T_FEATURE_SUM, T_REAL>  cbga_fkcentroid (inout::OutParamGAC<T_REAL,T_CLUSTERIDX> &aoop_outParamGAC, const inout::InParamCBGA<T_CLUSTERIDX,T_REAL,T_FEATURE, T_FEATURE_SUM, T_INSTANCES_CLUSTER_K, T_INSTANCE_FREQUENCY> &aiinParam_CBGA, const INPUT_ITERATOR aiiterator_instfirst, const INPUT_ITERATOR aiiterator_instlast, const dist::Dist<T_REAL,T_FEATURE> &aifunc2p_dist)
   \brief CBGA \cite Franti:etal:GAclustering:gafranti:1997
   \details Implementation of the CBGA algorithm based on \cite Franti:etal:GAclustering:gafranti:1997.  
   \returns A partition of a data set, encoded on a chromosome where each gene is the coordinate of a centroid or a codebook.
@@ -465,7 +66,7 @@ template < typename T_FEATURE,
 	   typename T_CLUSTERIDX, //-1, 0, 1, .., K
 	   typename INPUT_ITERATOR
 	   >
-gaencode::ChromosomeCBGA
+gaencode::ChromCodeBook
 <T_FEATURE,
  T_CLUSTERIDX,
  T_INSTANCE_FREQUENCY,
@@ -503,7 +104,7 @@ cbga_fkcentroid
   
   /*VARIABLE NEED FOR POPULATION AND MATINGPOOL GENETIC*/
   std::vector   
-    <gaencode::ChromosomeCBGA
+    <gaencode::ChromCodeBook
      <T_FEATURE,
       T_CLUSTERIDX, //-1, 0, 1, .., K
       T_INSTANCE_FREQUENCY,
@@ -513,7 +114,7 @@ cbga_fkcentroid
     lvectorchromcbga_populationNew;
   
   std::vector   
-    <gaencode::ChromosomeCBGA
+    <gaencode::ChromCodeBook
      <T_FEATURE,
       T_CLUSTERIDX, //-1, 0, 1, .., K
       T_INSTANCE_FREQUENCY,
@@ -522,7 +123,7 @@ cbga_fkcentroid
       T_REAL>* >                           
     lvectorchromcbga_populationOld;
   
-  gaencode::ChromosomeCBGA 
+  gaencode::ChromCodeBook 
     <T_FEATURE,
      T_CLUSTERIDX,
      T_INSTANCE_FREQUENCY,
@@ -537,12 +138,12 @@ cbga_fkcentroid
      );
 
   uintidx luintidx_crossSetSize = 
-    getCrossSetSizeAux
+    gaclusteringop::getCrossSetSizeAux
     (aiinParam_CBGA.getOpSelectMethod(),
      aiinParam_CBGA.getSizePopulation()
      );
   uintidx luintidx_survivors = 
-    getSurvivorsAux
+    gaclusteringop::getSurvivorsAux
     (aiinParam_CBGA.getOpSelectMethod(),
      aiinParam_CBGA.getSizePopulation()
      );
@@ -559,7 +160,7 @@ cbga_fkcentroid
   if ( geiinparam_verbose <= geiinparam_verboseMax ) {
     std::cout << lpc_labelAlgGA
 	      << ":  IN(" << geiinparam_verbose << ")\n"
-              << "\t(output gaencode::ChromosomeCBGA: lochromcbga_best[" 
+              << "\t(output gaencode::ChromCodeBook: lochromcbga_best[" 
 	      << &lochromcbga_best << "]\n"
 	      << "\t output inout::OutParamGAC&: aoop_outParamGAC[" 
 	      << &aoop_outParamGAC << "]\n"
@@ -667,7 +268,7 @@ cbga_fkcentroid
       {
       
 	lvectorchromcbga_populationNew.push_back
-	  (new gaencode::ChromosomeCBGA
+	  (new gaencode::ChromCodeBook
 	   <T_FEATURE,
 	   T_CLUSTERIDX, //-1, 0, 1, .., K
 	   T_INSTANCE_FREQUENCY,
@@ -692,7 +293,7 @@ cbga_fkcentroid
 	 luintidx_i++) 
       {
 	lvectorchromcbga_populationOld.push_back
-	  (new gaencode::ChromosomeCBGA
+	  (new gaencode::ChromCodeBook
 	   <T_FEATURE,
 	   T_CLUSTERIDX, //-1, 0, 1, .., K
 	   T_INSTANCE_FREQUENCY,
@@ -840,7 +441,7 @@ cbga_fkcentroid
         //TEST CALCULATE METRIC----------------------------------------------------------
 	
 	std::cout << geverbosepc_labelstep
-		  << ":gaencode::ChromosomeCBGA"  << ":id[" << geverboseui_idproc
+		  << ":gaencode::ChromCodeBook"  << ":id[" << geverboseui_idproc
 		  << ':' << literchrom_cbga << ']'
 		  << ":objetive function: " << literchrom_cbga->getObjetiveFunc()
 		  << " :lrt_distortion: " << lrt_distortion
@@ -1004,7 +605,7 @@ cbga_fkcentroid
 	  }
 	 
 	  if ( aiinParam_CBGA.getNumGLAIterations() > 0 )  { 
-	    iterateGLAAux
+	    gaclusteringop::iterateGLAAux
 	      (*(*literchrom_cbgaNew),
 	       aiiterator_instfirst,
 	       aiiterator_instlast,
@@ -1191,7 +792,7 @@ cbga_fkcentroid
 	     (T_REAL) data::Instance<T_FEATURE>::getNumDimensions());
 	  //TEST CALCULATE METRIC-----------------------------------------------
 	  std::cout << geverbosepc_labelstep
-		    << ":gaencode::ChromosomeCBGA"
+		    << ":gaencode::ChromCodeBook"
 		    << ":id[" << geverboseui_idproc << ':'
 		    << literchrom_cbga << ']'
 		    << ":objetive function: " << literchrom_cbga->getObjetiveFunc()
@@ -1237,7 +838,7 @@ cbga_fkcentroid
     ++geiinparam_verbose;
     if ( geiinparam_verbose <= geiinparam_verboseMax ) {
       std::cout << "END ITERATION: " << llfh_listFuntionHist.getDomainUpperBound()
-		<< ":gaencode::ChromosomeCBGA"  << ":id[" << geverboseui_idproc
+		<< ":gaencode::ChromCodeBook"  << ":id[" << geverboseui_idproc
 		<< ':' << lvectorchromcbga_populationNew.at(0) << ']'
 		<< ":objetive function: " << lvectorchromcbga_populationNew.at(0)->getObjetiveFunc()
 		<< std::endl;
