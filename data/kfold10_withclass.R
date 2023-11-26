@@ -9,7 +9,7 @@
 #  * \copyright <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license
 #  */
 #  Use:
-#       Rscript  --vanilla kfold10_withclass.R iris_z5.data 
+#       Rscript  --vanilla kfold10_withclass.R iris_z5.dat 
 #
 #
 #!/usr/bin/env Rscript
